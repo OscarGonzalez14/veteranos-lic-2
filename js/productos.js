@@ -1,0 +1,168 @@
+function initProd(){
+  dtTemplateProductos("aros_creados","listar_aros",0)
+}
+
+
+function guardar_aros(){
+  let marcas = document.getElementById("marca_aros").value;
+  let marca = marcas.toString();
+  let modelo = document.getElementById("modelo_aro").value;
+  let color = document.getElementById("color_aro").value;
+  let material = document.getElementById("materiales_aro").value;
+
+  $.ajax({
+    url:"../ajax/productos.php?op=crear_aro",
+    method:"POST",
+    cache:false,
+    data :{marca:marca,modelo:modelo,color:color,material:material},
+    dataType:"json",
+    success:function(data){
+      if(data.msj=="ok"){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Aro creado existosamente',
+          showConfirmButton: true,
+          timer: 9500
+        });
+        $("#nuevo_aro").modal("hide");
+        $("#aros_creados").DataTable().ajax.reload();
+      }else{
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'Aro ya existe',
+          showConfirmButton: true,
+          timer: 9500
+        });
+      return false;
+      }
+    }
+});   
+
+}
+
+function dtTemplateProductos(table,route,...Args){
+    
+  tabla = $('#'+table).DataTable({      
+    "aProcessing": true,//Activamos el procesamiento del datatables
+    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+    dom: 'frtip',//Definimos los elementos del control de tabla
+   /*  buttons: [     
+      'excelHtml5',
+    ], */
+
+    "ajax":{
+      url:"../ajax/productos.php?op="+ route,
+      type : "POST",
+      data: {Args:Args},
+      dataType : "json",
+       
+      error: function(e){
+      console.log(e.responseText);
+    },      
+  },
+
+    "bDestroy": true,
+    "responsive": true,
+    "bInfo":true,
+    "iDisplayLength": 2000,//Por cada 10 registros hace una paginación
+      "order": [[ 0, "asc" ]],//Ordenar (columna,orden)
+      "language": { 
+      "sProcessing":     "Procesando...",       
+      "sLengthMenu":     "Mostrar _MENU_ registros",       
+      "sZeroRecords":    "No se encontraron resultados",       
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",       
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",       
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",       
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",    
+      "sInfoPostFix":    "",       
+      "sSearch":         "Buscar:",       
+      "sUrl":            "",       
+      "sInfoThousands":  ",",       
+      "sLoadingRecords": "Cargando...",       
+      "oPaginate": {       
+          "sFirst":    "Primero",       
+          "sLast":     "Último",       
+          "sNext":     "Siguiente",       
+          "sPrevious": "Anterior"       
+      },   
+      "oAria": {       
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",       
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"   
+      }}, //cerrando language
+  });
+
+   
+}
+var aros_enviar_sucursal = [];
+function agregarAroListaBod(id_aro){
+  $.ajax({
+    url:"../ajax/productos.php?op=buscar_data_aro_id",
+    method:"POST",
+    data:{id_aro:id_aro},
+    cache: false,
+    dataType:"json", 
+    success:function(data){
+
+      let indice = aros_enviar_sucursal.findIndex((objeto, indice, aros_enviar_sucursal) =>{
+        return objeto.id_aro == Number(data.id_aro)
+      });
+
+      if(indice>=0){
+       let cant = aros_enviar_sucursal[indice].cantidad;
+       let n_cant = parseInt(cant)+1
+       aros_enviar_sucursal[indice].cantidad=n_cant 
+      }else{
+        let aro = {
+           id_aro,
+           modelo:data.modelo,
+           marca:data.marca,
+           color:data.color,
+           material:data.material,
+           cantidad : 1
+        }
+        aros_enviar_sucursal.push(aro);
+      }
+      listarArosBodega();
+    }
+  });//fin ajax
+}
+
+function listarArosBodega(){
+  $("#aros-enviar-bodega").html('');
+  let filas = "";
+  let length_array = parseInt(aros_enviar_sucursal.length)-1;
+  for(let i=length_array;i>=0;i--){
+
+    filas = filas + 
+    "<tr id='item_t"+i+"'>"+   
+    "<td>"+aros_enviar_sucursal[i].marca+"</td>"+
+    "<td>"+aros_enviar_sucursal[i].modelo+"</td>"+
+    "<td>"+aros_enviar_sucursal[i].color+"</td>"+
+    "<td>"+aros_enviar_sucursal[i].material+"</td>"+
+    "<td ><input type='text' class='form-control next-input' id=itemdist"+i+" value="+aros_enviar_sucursal[i].cantidad+" onkeyup='validaCantidadDist(this.id,event, this, "+(i)+");' style='height:25px'></td>"+    
+    "<td>"+"<button type='button'  class='btn btn-sm bg-light' onClick='eliminarItemAro("+i+")'><i class='fa fa-times-circle' aria-hidden='true' style='color:red'></i></button>"+"</td>"+
+    "</tr>";
+    
+  }
+
+  $("#aros-enviar-bodega").html(filas);
+  let sumaros = aros_enviar_sucursal.map(item => item.cantidad).reduce((prev, curr) => prev + curr, 0);
+  $("#count-aros").html(sumaros+" aros");
+}
+
+function eliminarItemAro(idx){
+    $("#item_t" + idx).remove();
+    aros_enviar_sucursal.splice(idx, 1);
+    let sumaros = aros_enviar_sucursal.map(item => item.cantidad).reduce((prev, curr) => prev + curr, 0);
+    $("#count-aros").html(sumaros+" aros");
+    listarArosBodega()
+}
+
+
+initProd()
+
+
+
+
