@@ -112,6 +112,30 @@ case 'buscar_data_aro_id':
    ///fin mensaje error
 break;
 
+case 'enviar_aros';
+$correlativo = $productos->getCorrelativoIngreso();
+    
+    if(is_array($correlativo)==true and count($correlativo)>0){
+        foreach($correlativo as $c){
+          $num_corr = $c["n_ingreso"];               
+        }
+        $corr = substr($num_corr,2,20);
+        $correlativoi = "I-".((int)$corr +(int)1);
+    }else{
+      $correlativoi = "I-1";
+    }
+
+    $validaCorrelativo = $productos->comprobarExisteCorrelativo($correlativoi);
+    if (is_array($validaCorrelativo)==true and count($validaCorrelativo)==0 ){
+    $productos->registrarIngreso($correlativoi);
+    }else{
+    $msj = ["msj"=>'Error'];
+     echo json_encode($msj);
+    }
+     
+   break;
+
+
 
 
 }

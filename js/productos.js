@@ -148,9 +148,9 @@ function listarArosBodega(){
   }
 
   $("#aros-enviar-bodega").html(filas);
-  let sumaros = aros_enviar_sucursal.map(item => item.cantidad).reduce((prev, curr) => prev + curr, 0);
-  $("#count-aros").html(sumaros+" aros");
-}
+    let sumaros = aros_enviar_sucursal.map(item => item.cantidad).reduce((prev, curr) => prev + curr, 0);
+    $("#count-aros").html(sumaros+" aros seleccionados");
+  }
 
 function eliminarItemAro(idx){
     $("#item_t" + idx).remove();
@@ -160,7 +160,64 @@ function eliminarItemAro(idx){
     listarArosBodega()
 }
 
+const btn_bodega = document.getElementById("btn-env-suc");
+btn_bodega.addEventListener("click", () => {
+  $("#bodega-sucursal").val(null).trigger('change');
+  if(aros_enviar_sucursal.length==0){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'error',
+      title: 'Sin aros para enviar',
+      showConfirmButton: true,
+      timer: 2000
+    });
+  }else{
+    $("#modal-envios-bodega").modal();
+  }
+});
 
+function enviarArosSucursal(){
+  let sucursal_arr = document.getElementById("bodega-sucursal").value;
+  let sucursal = sucursal_arr.toString();
+  if(sucursal==""){
+    Swal.fire({position: 'top-center',icon: 'error',title: 'Seleccionar sucursal',showConfirmButton: true,timer: 2000 });
+    return false;
+  }
+  let id_usuario = document.getElementById("id_usuario").value;
+  $.ajax({
+    url:"../ajax/productos.php?op=enviar_aros",
+    method:"POST",
+    data:{'arrayAros':JSON.stringify(aros_enviar_sucursal),'sucursal':sucursal,'id_usuario':id_usuario},
+    cache: false,
+    dataType:"json", 
+    success:function(data){
+      if(data.msj=="OkInsert"){
+        $("#modal-envios-bodega").modal("hide");
+        aros_enviar_sucursal=[];
+        document.getElementById("aros-enviar-bodega").innerHTML="";
+        $("#count-aros").html("");
+        $("#bodega-sucursal").val(null).trigger('change');
+        Swal.fire({position: 'top-center',icon: 'success',title: 'Ingreso a bodega Exitoso',showConfirmButton: true,timer: 2000 });
+        detalleIngresoBodegas(data.correlativo)
+      }
+    }
+  });//fin ajax
+}
+
+function  detalleIngresoBodegas(correlativo){
+  var form = document.createElement("form");
+  form.target = "print_popup";
+  form.method = "POST";
+  form.action = "detalle_ingreso_pdf.php";
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "n_ingreso";
+  input.value = correlativo;
+  form.appendChild(input);
+  document.body.appendChild(form)
+  form.submit();
+  document.body.removeChild(form);
+}
 initProd()
 
 
