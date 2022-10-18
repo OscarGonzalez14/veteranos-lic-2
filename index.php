@@ -101,8 +101,7 @@
         <img src="dist/img/inabve.jpg" alt="" class="img-responsive log" width="150" height="145" align="center" style="margin-top: 15px !important">
         <img src="dist/img/logo_avplus.jpg" alt="" class="img-responsive log" width="150" height="80" align="center" style="margin-top: 50px !important">
       </div>
-      <form method="post" style=" margin-top:10px">
-        
+      <form method="post" style=" margin-top:10px">        
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Usuario" style="border: 1px solid #001a34" name="usuario">
           <div class="input-group-append">

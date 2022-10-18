@@ -141,7 +141,7 @@ function listarArosBodega(){
     "<td>"+aros_enviar_sucursal[i].modelo+"</td>"+
     "<td>"+aros_enviar_sucursal[i].color+"</td>"+
     "<td>"+aros_enviar_sucursal[i].material+"</td>"+
-    "<td ><input type='text' class='form-control next-input' id=itemdist"+i+" value="+aros_enviar_sucursal[i].cantidad+" onkeyup='validaCantidadDist(this.id,event, this, "+(i)+");' style='height:25px'></td>"+    
+    "<td ><input type='number' class='form-control next-input' id=itemdist"+i+" value="+aros_enviar_sucursal[i].cantidad+" onkeyup='setCantidadAro(event, this, "+(i)+");' onClick='setCantidadAro(event, this, "+(i)+");' style='height:25px'></td>"+    
     "<td>"+"<button type='button'  class='btn btn-sm bg-light' onClick='eliminarItemAro("+i+")'><i class='fa fa-times-circle' aria-hidden='true' style='color:red'></i></button>"+"</td>"+
     "</tr>";
     
@@ -151,6 +151,12 @@ function listarArosBodega(){
     let sumaros = aros_enviar_sucursal.map(item => item.cantidad).reduce((prev, curr) => prev + curr, 0);
     $("#count-aros").html(sumaros+" aros seleccionados");
   }
+
+  function setCantidadAro(event, obj, idx){
+    event.preventDefault();
+    aros_enviar_sucursal[idx].cantidad = parseInt(obj.value);
+  }
+
 
 function eliminarItemAro(idx){
     $("#item_t" + idx).remove();
@@ -218,6 +224,14 @@ function  detalleIngresoBodegas(correlativo){
   form.submit();
   document.body.removeChild(form);
 }
+
+const btn_bodega_stock = document.getElementById("btn-bodegas");
+btn_bodega_stock.addEventListener("click", () => {
+  $("#modal-stock-consumos").modal();
+});
+
+
+
 initProd()
 
 

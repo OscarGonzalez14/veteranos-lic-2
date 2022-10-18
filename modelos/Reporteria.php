@@ -54,6 +54,25 @@ public function get_pacientes_citados($fecha){
   $sql->execute();
   return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 }
+public function datosIngresoBodega($correlativo){
+  $conectar= parent::conexion();
+  parent::set_names();
+  $sql = "SELECT u.nombres,i.fecha,i.hora,i.bodega from ingreso_aros as i INNER join usuarios as u on u.id_usuario=i.id_usuario where i.n_ingreso=?;";
+  $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$correlativo);
+  $sql->execute();
+  return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function detalle_ingresoBodega($id_ingreso){
+  $conectar= parent::conexion();
+  parent::set_names();
+  $sql = "SELECT a.modelo,a.marca,a.color,a.material,i.cantidad from aros as a INNER JOIN detalle_ingreso_aros as i on a.id_aro=i.id_aro where i.n_ingreso=? order by material DESC;";
+  $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$id_ingreso);
+  $sql->execute();
+  return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 }///FIN DE LA CLASE
