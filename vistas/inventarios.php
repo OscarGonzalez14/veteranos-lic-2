@@ -14,7 +14,6 @@ $categoria_usuario = $_SESSION["categoria"];
  $ordenes = new Ordenes();
  //$suc = $ordenes->get_opticas();
  require_once('../modales/nueva_orden_lab.php');
-
  require_once('../modales/aros_en_orden.php');
 
  ?>
@@ -264,7 +263,7 @@ $categoria_usuario = $_SESSION["categoria"];
 </div>
   <?php
 require_once('../modales/nuevo_aro.php');
-//require_once('../modales/nueva_marca.php');
+require_once('../modales/nueva_marca.php');
 ?>
   <!-- /.content-wrapper -->
   <footer class="main-footer">

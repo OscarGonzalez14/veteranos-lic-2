@@ -32,11 +32,15 @@
    </div>
   
 
-    <div class="form-group col-md-3 select2-purple">
+    <!--<div class="form-group col-md-3 select2-purple">
        <label for="sel1">Seleccione marca:</label>
       <select class="form-control select2" name="" id="marca_aros" multiple="multiple" data-dropdown-css-class="select2-purple" clear_i>
       <option value="AND VAS">AND VAS</option>
       </select>
+    </div>-->
+    <div class="form-group col-md-3 select2-purple">
+       <label for="sel1">Seleccione marca:</label>
+      <select class="form-control select2" name="" id="marca_aros" multiple="multiple" data-dropdown-css-class="select2-purple" clear_i></select>
     </div>
     
     <div class="form-group col-md-3">

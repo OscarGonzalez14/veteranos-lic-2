@@ -32,10 +32,10 @@ switch ($_GET["op"]){
 	break;
 
 	case 'crear_aro':
-    $validate = $productos->valida_existe_aro($_POST["modelo"],$_POST["color"],$_POST["marca"]);
+    $validate = $productos->valida_existe_aro($_POST["modelo"],$_POST["color"],$_POST["marca_aro"]);
 
     if(is_array($validate)==true and count($validate)==0){
-      $productos->crear_aro($_POST["marca"],$_POST["modelo"],$_POST["color"],$_POST["material"]);
+      $productos->crear_aro($_POST["marca_aro"],$_POST["modelo"],$_POST["color"],$_POST["material"]);
       
     }else{
       echo json_encode($msj=["msj"=>"error"]);
@@ -135,6 +135,50 @@ $correlativo = $productos->getCorrelativoIngreso();
      
    break;
 
+//GENERAR MARCAS PARA LOS PRODUCTOS
+case 'guardar_marca':
+     $datos=$productos->valida_existencia_marca($_POST["nom_marca"]);
+     if(is_array($datos)==true and count($datos)==0){
+      $productos->registrar_marca($_POST["nom_marca"]);
+      $messages[]="ok";
+       }else{
+        $errors[]="error";
+  }
+  if (isset($messages)){
+     ?>
+       <?php
+         foreach ($messages as $message) {
+             echo json_encode($message);
+           }
+         ?>
+   <?php
+ }
+    //mensaje error
+      if (isset($errors)){
+
+   ?>
+
+         <?php
+           foreach ($errors as $error) {
+               echo json_encode($error);
+             }
+           ?>
+   <?php
+   }
+  //fin mensaje error
+    break;
+
+    case "get_marcas":
+    $datos= $productos->get_marcas();  
+    $data= Array();
+
+    foreach($datos as $row){
+      $sub_array = $row["marca"];
+      array_push($data,$sub_array);
+    }
+
+    echo json_encode($data);
+    break;
 
 
 
