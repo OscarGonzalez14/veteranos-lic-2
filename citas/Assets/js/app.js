@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             frm.reset();
                 console.log(info.date)
                 let hoy = new Date();
-                hoy.setHours(0,0,0,0);;
+                hoy.setHours(0,0,0,0);
                 console.log(hoy);
                
                 if (info.date >= hoy) {
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     myModal.show();
                     document.getElementById("fecha-cita").value=info.dateStr;
                     document.getElementById('titulo').textContent = 'Registrar Cita - '+info.dateStr;
+                    gethorasDisponibles(info.dateStr);
                 } else {
                     Swal.fire(
                         'Fecha invalida!!',
@@ -230,6 +231,11 @@ $(function () {
     $("#munic_pac").select2({
     maximumSelectionLength: 1
     });
+
+    $('#hora').select2()
+    $("#hora").select2({
+    maximumSelectionLength: 1
+    });
   })
 
 
@@ -285,4 +291,27 @@ $(function () {
     });
 
      
+}
+
+function gethorasDisponibles(fecha){
+    let disp = ['9:00 AM','9:15 AM','9:30 AM','9:45 AM','10:00 AM','10:15 AM','10:30 AM'];
+
+    $.ajax({
+        url:"../ajax/citados.php?op=get_horas_select",
+        method:"POST",
+        data:{fecha:fecha},
+        cache: false,
+        dataType:"json",
+        success:function(horas){
+          let tam_array = horas.length;
+          if(tam_array==0){
+            $("#hora").empty();
+            $("#hora").select2({ data: disp})
+          }else{
+            let diff = disp.filter(d => !horas.includes(d));
+            $("#hora").empty();
+            $("#hora").select2({ data: diff})
+          }
+        }
+      });///fin ajax
 }

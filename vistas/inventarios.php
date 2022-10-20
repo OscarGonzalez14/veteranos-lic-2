@@ -152,7 +152,8 @@ $categoria_usuario = $_SESSION["categoria"];
               <option value="San Vicente Centro">San Vicente Centro</option>
               <option value="San Vicente">San Vicente</option>
               <option value="Gotera">Gotera</option>
-              <option value="San Miguel">San Miguel</option>     
+              <option value="San Miguel">San Miguel</option>
+              <option value="Usulutan">Usulutan</option>     
 
             </select> 
           </div>

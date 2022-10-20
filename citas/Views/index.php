@@ -10,7 +10,7 @@ require_once("modales/listarCitas.php");
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Eventos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Citas</title>
     
     <link rel="stylesheet" href="<?php echo base_url; ?>Assets/css/main.min.css">
 </head>
@@ -60,12 +60,12 @@ require_once("modales/listarCitas.php");
                         </div>
 
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="ocupacion-pac">Ocupación</label>
                             <input id="ocupacion-pac" type="text" class="form-control" name="ocupacion-pac">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                         <label for="usuario-lente">Genero</label>
                         <select class="form-control" id="genero-pac" name="genero-pac">
                             <option>Seleccionar...</option>
@@ -73,16 +73,7 @@ require_once("modales/listarCitas.php");
                             <option>Femenino</option>
                         </select>
                         </div>
-
-                        <div class="col-md-3">
-                        <label for="usuario-lente">Usuario Lente</label>
-                        <select class="form-control" id="usuario-lente" name="usuario-lente">
-                            <option>Seleccionar...</option>
-                            <option>Si</option>
-                            <option>No</option>
-                        </select>
-                        </div>
-                        
+                       
                         <div class="col-md-2">
                             <label for="dui">Sector</label>
                             <select class="form-control" id="sector-pac" name="sector-pac">
@@ -126,14 +117,17 @@ require_once("modales/listarCitas.php");
                             <input class="form-control" id="fecha-cita" type="date" name="fecha-cita" readonly>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4 select2-primary">
                             <label for="hora" >Hora</label>
-                            <input class="form-control" id="hora" type="text" name="hora">
+                            <select class="select2 form-control clear_input" id="hora" name="hora" multiple="multiple" data-placeholder="Seleccionar hora" data-dropdown-css-class="select2-primary" style="width: 100%;height: ">
+                            <option value="0">Seleccione hora...</option>
+                            </select> 
                         </div>
 
                         <div class="col-md-4">
                             <label for="start">Sucursal</label>
                             <select class="form-control" id="sucursal-cita" name="sucursal-cita">
+                                <option value="0">Seleccionar sucursal</option>
                                 <option value="Metrocentro">Metrocentro</option>
                                 <option value="Cascadas">Cascadas</option>
                                 <option value="Santa Ana">Santa Ana</option>
@@ -152,6 +146,8 @@ require_once("modales/listarCitas.php");
                         <input type="hidden" id="start">
                         </div>
                     </div>
+                    
+                    <input type="hidden" id="usuario-lente" name="usuario-lente" value="0">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger btn-block" id="btnEliminar">Eliminar</button>
                         <button type="submit" class="btn btn-dark btn-block" id="btnAccion">Guardar</button>

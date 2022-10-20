@@ -51,7 +51,7 @@
             <i class="nav-icon fas fa-file"></i>
             <p>Citas</p><i class="fas fa-angle-left right"></i>
           </a>
-          
+
           <ul class="nav nav-treeview">
           <li class="nav-item">
             <a href="index.php" class="nav-link">
@@ -60,7 +60,7 @@
               </a>
           </li>
           <li class="nav-item">
-            <a href="reporte-citas.php" class="nav-link">
+            <a href="reporte_citas.php" class="nav-link">
               <i class="far fa-circle nav-icon text-success"></i>
                 <p>Reporte citas</p>
               </a>
@@ -76,19 +76,6 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a href='lenses.php'class="nav-link" style="color: white">
-              <i class="nav-icon fab fa-tripadvisor"></i>
-              <p>Lenses</p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href='orders.php'class="nav-link" style="color: white">
-              <i class="nav-icon fas fa-glasses"></i>
-              <p>Aros</p>
-            </a>
-          </li>
           <?php } ?>
           <?php if($cat_usuario==1 or $cat_usuario==4){ ?>
           <li class="nav-item">

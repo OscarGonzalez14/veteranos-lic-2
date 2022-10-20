@@ -73,7 +73,8 @@ $sucursales = '
 	<option value="San Vicente">San Vicente</option>
 	<option value="Gotera">Gotera</option>
 	<option value="San Miguel">San Miguel</option>
-	<option value=""></option>
+	<option value="Usulutan">Usulutan</option>
+
 ';
 
 

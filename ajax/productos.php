@@ -174,6 +174,21 @@ $correlativo = $productos->getCorrelativoIngreso();
 
       break;
 
+    case 'cargar_marca':
+      
+      $data = $productos->getMarcas();
+      $marcas = array();
+       foreach($data as $m){
+          $marca = $m["marca"];
+          array_push($marcas,$marca);
+       }
+
+       echo json_encode($marcas);
+
+      break;
+
+
+
 
 
 

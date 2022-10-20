@@ -4,7 +4,7 @@ function buscarCitado(){
 }
 
 function dtTemplateCitas(table,route,...Args){
-    
+    console.log(Args)
     tabla = $('#'+table).DataTable({      
       "aProcessing": true,//Activamos el procesamiento del datatables
       "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -17,8 +17,7 @@ function dtTemplateCitas(table,route,...Args){
         url:"../ajax/citados.php?op="+ route,
         type : "POST",
         data: {Args:Args},
-        dataType : "json",
-         
+        dataType : "json",         
         error: function(e){
         console.log(e.responseText);
       },      
@@ -78,4 +77,12 @@ function getCitados(id_cita){
             $("#modal_citados").modal('hide');
         }
     });      
+}
+
+function getcitadosAtendidos(){
+  let tipo_rep = document.getElementById("tipo_rep").value;
+  let sucursal = document.getElementById("suc-rep-citas").value;
+  let desde = document.getElementById("desde").value;
+  let hasta = document.getElementById("hasta").value;
+  dtTemplateCitas("data-citados-atend","get_citados_atend",tipo_rep,sucursal,desde,hasta)
 }

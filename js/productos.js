@@ -1,5 +1,6 @@
 function initProd(){
-  dtTemplateProductos("aros_creados","listar_aros",0)
+  dtTemplateProductos("aros_creados","listar_aros",0);
+  cargar_marcas();
 }
 
 
@@ -9,6 +10,17 @@ function guardar_aros(){
   let modelo = document.getElementById("modelo_aro").value;
   let color = document.getElementById("color_aro").value;
   let material = document.getElementById("materiales_aro").value;
+
+  if( marca=="" || modelo=="" || color=="" || material==""){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'error',
+      title: 'Existen campos vacios',
+      showConfirmButton: true,
+      timer: 9500
+    });
+  return false;
+  }
 
   $.ajax({
     url:"../ajax/productos.php?op=crear_aro",
@@ -153,8 +165,12 @@ function listarArosBodega(){
   }
 
   function setCantidadAro(event, obj, idx){
+
     event.preventDefault();
     aros_enviar_sucursal[idx].cantidad = parseInt(obj.value);
+    let sumaros = aros_enviar_sucursal.map(item => item.cantidad).reduce((prev, curr) => prev + curr, 0);
+    $("#count-aros").html(sumaros+" aros seleccionados");
+
   }
 
 
@@ -257,6 +273,20 @@ function registrarMarca(){
 
 }
 
+function cargar_marcas(){
+  $.ajax({
+    url:"../ajax/productos.php?op=cargar_marca",
+    method:"POST",
+    //data:{marca:marca},
+    cache: false,
+    dataType:"json",
+    success:function(marcas){
+      $("#marca_aros").empty();
+      $("#marca_aros").select2({ data: marcas})
+    }
+  });///fin ajax
+}
+ 
 
 initProd()
 

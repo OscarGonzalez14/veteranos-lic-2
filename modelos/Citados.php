@@ -49,4 +49,24 @@ class Citados extends Conectar{
         
     }
 
+    public function getHorasSelect($fecha){
+        $conectar=parent::conexion();
+        parent::set_names();
+        $sql2 = "SELECT hora FROM `citas` where fecha = ?;";
+        $sql2=$conectar->prepare($sql2);
+        $sql2->bindValue(1,$fecha);
+        $sql2->execute();
+        return  $resultado=$sql2->fetchAll(PDO::FETCH_ASSOC);
+   }
+
+   public function getCitadosAtendAll($fecha){
+    $conectar=parent::conexion();
+    parent::set_names();
+    $sql2 = "select * FROM `citas` where fecha = ? order by sucursal DESC;";
+    $sql2=$conectar->prepare($sql2);
+    $sql2->bindValue(1,$fecha);
+    $sql2->execute();
+    return  $resultado=$sql2->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }////Fin de la clase

@@ -83,4 +83,60 @@ switch ($_GET["op"]){
 
         break;
 
+        case 'get_horas_select':
+            
+            $data = $citas->getHorasSelect($_POST["fecha"]);
+            $horas = array();
+            foreach($data as $m){
+                $hora = $m["hora"];
+                array_push($horas,$hora);
+             }
+      
+             echo json_encode($horas);
+
+            break;
+
+        case 'get_citados_atend':
+
+            
+            $args = $_POST["Args"];
+            $tipo = $args[0];
+            $sucursal = $args[1];
+            $desde = $args[2];
+            $hasta = $args[3];
+
+            if($sucursal=="All"){
+                $datos = $citas->getCitadosAtendAll($desde);
+            }
+
+            $data = Array();
+
+            foreach($datos as $c){
+
+                if($c["estado"]=="0"){
+                    $estado="Pendiente";
+                }elseif($c["estado"]=="1"){
+                    $estado="Evaluado";
+                }
+
+                $sub_array = array();
+                $sub_array[] = $c["sucursal"]; 
+                $sub_array[] = $c["paciente"]; 
+                $sub_array[] = $c["dui"];
+                $sub_array[] = date("d-m-Y",strtotime($c["fecha"]))." ".$c["hora"];
+                $sub_array[] = $c["sector"];
+                $sub_array[] = $c["estado"];
+                $data[] = $sub_array;
+            }
+    
+            $results = array(
+            "sEcho"=>1, //Información para el datatables
+            "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+            "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+            "aaData"=>$data);
+
+            echo json_encode($results);
+
+            break;
+
 }

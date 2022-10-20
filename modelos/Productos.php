@@ -187,5 +187,16 @@
 
      }
 
+     public function getMarcas(){
+          $conectar=parent::conexion();
+          parent::set_names();
+          $sql2 = "select marca from marcas";
+          $sql2=$conectar->prepare($sql2);
+          $sql2->execute();
+          return  $resultado=$sql2->fetchAll(PDO::FETCH_ASSOC);
+     }
+
+
+
 
 }//Fin de la clase
