@@ -66,16 +66,15 @@ function getCitados(id_cita){
         data :{id_cita:id_cita},
         dataType:"json",
         success:function(data){
-            document.getElementById("paciente").value=data.paciente;
-            document.getElementById("dui_pac").value=data.dui;
-            document.getElementById("edad_pac").value=data.edad;
-            document.getElementById("telef_pac").value=data.telefono;
-            document.getElementById("usuario_pac").value=data.usuario_lente;
-            document.getElementById("ocupacion_pac").value=data.ocupacion;
-            document.getElementById("instit").value=data.sector;
-            document.getElementById("genero_pac").value=data.genero;
-            document.getElementById("departamento_pac").value=data.depto;
-            document.getElementById("munic_pac_data").value=data.municipio;
+            document.getElementById("paciente").innerHTML=data.paciente;
+            document.getElementById("dui_pac").innerHTML=data.dui;
+            document.getElementById("edad_pac").innerHTML=data.edad;
+            document.getElementById("telef_pac").innerHTML=data.telefono;
+            document.getElementById("ocupacion_pac").innerHTML=data.ocupacion;
+            document.getElementById("instit").innerHTML=data.sector;
+            document.getElementById("genero_pac").innerHTML=data.genero;
+            document.getElementById("departamento_pac").innerHTML=data.depto;
+            document.getElementById("munic_pac_data").innerHTML=data.municipio;
             $("#modal_citados").modal('hide');
         }
     });      

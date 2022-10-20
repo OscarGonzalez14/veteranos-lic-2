@@ -14,7 +14,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LENTI</title>
+  <title>INABVE-AVPLUS</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -60,7 +60,7 @@
   }
 
   function error_log(){
-    toastr.error('Usuario o contraseña incorrectos!!')
+    toastr.error('Verificar que sus credenciales posean los permisos para iniciar sesión!!')
   }
 
 </script>
@@ -84,15 +84,11 @@
         </script>
       <?php
     break;
+    }
 
+  }
+  ?>
 
-
-             }
-
-         }
-
-
-            ?>
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card log log-div">
@@ -118,6 +114,14 @@
               <span class="fas fa-lock"></span>
             </div>
           </div>
+        </div>
+
+        <div class="input-group mb-3">
+        <select class="form-control" name="sucursal-user">
+          <?php 
+          echo $sucursales;
+          ?>
+        </select>
         </div>
       <div class="form-group">
         <input type="hidden" name="enviar" class="form-control" value="si">       

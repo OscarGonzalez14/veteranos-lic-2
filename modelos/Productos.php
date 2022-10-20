@@ -159,5 +159,33 @@
 
      }
 
+     public function getStockArosBodega($sucursal){
+          $conectar=parent::conexion();
+          parent::set_names();
+          $sql = "select s.bodega,s.stock,a.modelo,a.marca,a.color,a.material from stock_aros as s INNER join aros as a on a.id_aro=s.id_aro where s.bodega=?;";
+          $sql=$conectar->prepare($sql);
+          $sql->bindValue(1,$sucursal);
+          $sql->execute();
+          return $resultado=$sql->fetchAll();  
+     }
+
+     public function registrarMarca($marca){
+
+          $conectar=parent::conexion();
+          parent::set_names();
+          $sql = "insert into marcas values(null,?)";
+          $sql=$conectar->prepare($sql);
+          $sql->bindValue(1,$marca);
+          $sql->execute();
+
+          $sql2 = "select marca from marcas";
+          $sql2=$conectar->prepare($sql2);
+          $sql2->execute();
+         return  $resultado=$sql2->fetchAll(PDO::FETCH_ASSOC); 
+
+
+
+     }
+
 
 }//Fin de la clase

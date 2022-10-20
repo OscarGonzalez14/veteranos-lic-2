@@ -44,6 +44,7 @@ $categoria_usuario = $_SESSION["categoria"];
       <input type="hidden" name="categoria" id="get_categoria" value="<?php echo $_SESSION["categoria"];?>"/>
       <div style="border-top: 0px">      
       </div>
+      <br>
       <button class="btn btn-outline-primary btn-sm btn-flat" data-toggle="modal" data-target="#nueva_orden_lab" onClick='get_numero_orden();' id="order_new"><i class="fa fa-glasses" style="margin-top: 2px"> Crear Orden</i></button>
       <div class="row">
          <div class="col-sm-2"></div>

@@ -24,7 +24,7 @@
       <div class="modal-body">
   <div class="form-row" autocomplete="on">
     <div class="form-group  col-md-6">
-      <button class="btn btn-sm btn-outline-success btn-flat" style="margin:solid black 1px" data-toggle="modal" data-target="#newMarca" onClick="limpiar_input();"><i class="fas fa-plus-square"></i> Crear Marca</button>
+      <button class="btn btn-sm btn-outline-success btn-flat" style="margin:solid black 1px" data-toggle="modal" data-target="#new-marca" ><i class="fas fa-plus-square"></i> Crear Marca</button>
     </div>
     
    <div class="form-group col-md-6">
@@ -35,7 +35,7 @@
     <div class="form-group col-md-3 select2-purple">
        <label for="sel1">Seleccione marca:</label>
       <select class="form-control select2" name="" id="marca_aros" multiple="multiple" data-dropdown-css-class="select2-purple" clear_i>
-      <option value="AND VAS">AND VAS</option>
+
       </select>
     </div>
     

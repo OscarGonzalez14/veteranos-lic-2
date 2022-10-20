@@ -135,6 +135,45 @@ $correlativo = $productos->getCorrelativoIngreso();
      
    break;
 
+   case 'get_existencia_bodegas':
+     $args = $_POST["Args"];         
+     $stock = $productos->getStockArosBodega($args[0]);     
+     $data = Array();
+
+     foreach($stock as $row){
+         $sub_array = array();
+         $sub_array[] = $row["marca"]; 
+         $sub_array[] = $row["modelo"]; 
+         $sub_array[] = $row["color"];
+         $sub_array[] = $row["material"];
+         $sub_array[] = $row["stock"];
+         $data[] = $sub_array;
+     }
+
+     $results = array(
+     "sEcho"=>1, //Información para el datatables
+     "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+     "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+     "aaData"=>$data);
+
+     echo json_encode($results);
+
+    break;
+
+    case 'crear_marca':
+       $data = $productos->registrarMarca($_POST["marca"]);
+
+       $marcas = array();
+
+       foreach($data as $m){
+          $marca = $m["marca"];
+          array_push($marcas,$marca);
+       }
+
+       echo json_encode($marcas);
+
+      break;
+
 
 
 

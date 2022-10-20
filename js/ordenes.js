@@ -1309,7 +1309,7 @@ function init(){
    document.getElementById("desde_table").value = null;
    document.getElementById("hasta_table").value = null;
  }
- 
+
  function clear_input_date_clas(){
    document.getElementById("desde_clasif").value = null;
    document.getElementById("hasta_clasif").value = null;
@@ -1714,8 +1714,41 @@ function init(){
   form.submit();
   document.body.removeChild(form);
  }
+
+ $(document).ready(function(){
+  $("#patologias-ord").change(function () {         
+    $("#patologias-ord option:selected").each(function () {
+      patologia = $(this).val();
+      if(patologia=="No"){
+        document.getElementById("photo").disabled = true;
+        document.getElementById("photo").checked=false;
+      }else if(patologia != "No"){
+        document.getElementById("photo").disabled = false;
+        document.getElementById("photo").checked=false;
+      }else if(patologia==""){
+        document.getElementById("photo").disabled = false;
+        document.getElementById("photo").checked=false;
+      }
+               
+    });
+  })
+});
  
- 
+function validaAltoIndice(){
+  let esfera_od = document.getElementById("odesferasf").value;
+  let cilindros_od = document.getElementById("odcilindrosf").value;
+
+  let esferas_oi = document.getElementById("oiesferasf").value;
+  let cilindros_oi = document.getElementById("oicilindrosf").value;
+
+  if(esfera_od > 4 || cilindros_od > 4 || esferas_oi > 4 || cilindros_oi > 4 || esfera_od < -4 || cilindros_od < -4 || esferas_oi < -4 || cilindros_oi < -4){
+    document.getElementById("alto-indice").checked=true;
+    document.getElementById("alto-indice").disabled = true;
+    document.getElementById("label-index").style.color = "green";
+  }else{
+    document.getElementById("alto-indice").checked=false;
+  }
+} 
  
  init();
  

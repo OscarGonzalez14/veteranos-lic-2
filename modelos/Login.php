@@ -11,16 +11,18 @@ public function login_users(){
 //********VALIDACIONES  DE ACCESO*****************
   $password = $_POST["pass"];
   $usuario = $_POST["usuario"];
+  $sucursal = $_POST["sucursal-user"];
 
   if(empty($usuario) or empty($password)){
       header("Location:index.php?m=2");
       exit();
     }else { 
       
-    $sql= "select * from usuarios where usuario=? and pass=?";
+    $sql= "select * from usuarios where usuario=? and pass=? and sucursal=?";
         $sql=$conectar->prepare($sql);
         $sql->bindValue(1, $usuario);
         $sql->bindValue(2, $password);
+        $sql->bindValue(3, $sucursal);
         $sql->execute();
         $resultado = $sql->fetch();
 
@@ -28,6 +30,7 @@ public function login_users(){
         $_SESSION["id_usuario"] = $resultado["id_usuario"];           
         $_SESSION["usuario"] = $resultado["usuario"];
         $_SESSION["categoria"] = $resultado["categoria"];
+        $_SESSION["sucursal"] = $resultado["sucursal"];
        
       header("Location:vistas/home.php");
       exit();

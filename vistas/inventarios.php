@@ -183,7 +183,7 @@ $categoria_usuario = $_SESSION["categoria"];
       <!-- Modal body -->
       <div class="modal-body">
       <div class="row">
-          <div class="col-md-6" style="max-height: 200px">
+          <div class="col-md-6" style="">
             <div class="card card-default">
               <div class="card-header">
                 <label for="bodega-existencia">Existencias</label>
@@ -196,7 +196,7 @@ $categoria_usuario = $_SESSION["categoria"];
               <!-- /.card-header -->
               <div class="card-body" style="margin: 0px !important; padding: 2px">
 
-              <table width="100%" class="table-bordered table-hover"  id="aros_creados" data-order='[[ 0, "desc" ]]'>
+              <table width="100%" class="table-bordered table-hover"  id="aros_existencia_bd" data-order='[[ 0, "desc" ]]'>
               <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 13px;text-align: center" class='bg-info'>
                 <tr>
                 <th style="width:23%">Marca</th>
@@ -208,7 +208,7 @@ $categoria_usuario = $_SESSION["categoria"];
               </thead>
               <tbody style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;">                                  
               </tbody>
-        </table>
+              </table>
   
               </div>
               <!-- /.card-body -->
@@ -222,13 +222,28 @@ $categoria_usuario = $_SESSION["categoria"];
               <div class="card-header">
                 <h5 style="font-size:16px;margin:5px"><b>CONSUMOS</b></h5>
                 <div class="form-check-inline">
-                  <label class="form-check-label">Material
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio">Material
                   </label>
                 </div>
                 <div class="form-check-inline">
-                  <label class="form-check-label">Marca
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio">Marca
                   </label>
-              </div>
+                </div>
+
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio">Mes
+                  </label>
+                </div>
+
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="optradio">Rango
+                  </label>
+                </div>
+
               </div>
               
               <!-- /.card-header -->
@@ -254,8 +269,10 @@ $categoria_usuario = $_SESSION["categoria"];
             <!-- /.card -->
           </div>
           <!-- /.COLUMNA DE INGRESOS A BODEGA -->
-</div>
+     </div>
       </div>
+
+
 
       
 
@@ -266,6 +283,29 @@ $categoria_usuario = $_SESSION["categoria"];
 require_once('../modales/nuevo_aro.php');
 //require_once('../modales/nueva_marca.php');
 ?>
+
+<!-- The Modal -->
+<div class="modal fade" id="new-marca"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h4 class="modal-title">Crear marca</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <input type="text" id="nuevaMarca" class="form-control">
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" onClick="registrarMarca()">Guardar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>2021 Lenti || <b>Version</b> 1.0</strong>
@@ -275,6 +315,7 @@ require_once('../modales/nuevo_aro.php');
     </div>
   </footer>
 </div>
+
 
 
 <!-- ./wrapper -->

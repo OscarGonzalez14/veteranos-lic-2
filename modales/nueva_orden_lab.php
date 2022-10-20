@@ -7,85 +7,70 @@
       <div class="modal fade" id="nueva_orden_lab" style="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable" style="max-width: 95%">
           <div class="modal-content">
-            <div class="modal-header bg-dark">
-              <h4 class="modal-title" style="font-size: 15px">ORDEN&nbsp;&nbsp;<span id="correlativo_op"></span></h4>
+            <div class="modal-header bg-dark" style="padding: 5px;">
+              <h4 class="modal-title" style="font-size: 15px"><button class="btn btn-xs btn-dark" onClick="buscarCitado()"><i class="fas fa-search"></i></button><span id="correlativo_op"></span><h5 style="text-align: center; font-size:14px" class="modal-title w-100 text-center">NUEVA ORDEN</h5>  </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body"><!--START MODAL BODY-->  
-             
-             <div class="row">
-               <div class="col-sm-5">
-               <label for="" class="etiqueta">Paciente</label>
-               <div class="input-group">
-                <input type="text" class="form-control clear_orden_i oblig" id="paciente" readonly>
-                <div class="input-group-append" onClick="buscarCitado()">
-                  <span class="input-group-text bg-success"><i class="fas fa-search"> </i></span>
-                </div>
-                </div>
-               </div>
-               <div class="col-sm-3">
-                 <label for="" class="etiqueta">DUI</label>
-                <input type="text" class="form-control clear_orden_i oblig" id="dui_pac" readonly>
-               </div>
+            <div class="modal-body"><!--START MODAL BODY--> 
+            <table width="100%" class="table-bordered" style="text-align:center; text-transform:uppercase;font-size:11px">
+            <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: #073763">
+              <tr>
+                <th  style="width:40%">PACIENTE</th>
+                <th  style="width:15%">DUI</th>
+                <th  style="width:10%">EDAD</th>
+                <th  style="width:20%">TELEFONO</th>
+                <th  style="width:15%">GENERO</th>
+              </tr>
+            </thead>
+            <tr>
+              <td id="paciente"  style="width:40%"></td>
+              <td id="dui_pac" style="width:15%"></td>
+              <td id="edad_pac" style="width:10%"></td>
+              <td id="telef_pac" style="width:20%"></td>
+              <td id="genero_pac" style="width:15%"></td>
+            </tr>
+            </table>
 
-              <div class="col-sm-2">
-                 <label for="" class="etiqueta">Edad</label>
-                <input type="search" class="form-control clear_orden_i oblig" id="edad_pac" readonly>
-               </div>
+            <table width="100%" class="table-bordered" style="text-align:center;text-transform:uppercase;font-size:11px">
+            <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: #073763">
+              <tr>
+                <th  style="width:20%">OCUPACIÓN</th>
+                <th  style="width:20%">SECTOR</th>
+                <th  style="width:25%">DEPARTAMENTO</th>
+                <th  style="width:35%">MUNICIPIO</th>
+              </tr>
+            </thead>
+            <tr>
+              <td id="ocupacion_pac"  style="width:20%"></td>
+              <td id="instit" style="width:20%"></td>
+              <td id="departamento_pac" style="width:25%"></td>
+              <td id="munic_pac_data" style="width:35%"></td>
 
-              <div class="col-sm-2">
-                 <label for="" class="etiqueta">Telef.</label>
-                 <input type="text" class="form-control clear_orden_i oblig" id="telef_pac" readonly>
-              </div>
+            </tr>
+            </table>
+            <div class="row">
 
-              <div class="col-sm-3">
-                 <label for="" class="etiqueta">Usuario lente</label>
-                  <select class="form-control oblig" id="usuario_pac" readonly>
-                    <option value="">Seleccionar ...</option>
-                    <option value="No">No</option>
-                    <option value="Si">Si</option>
+              <div class="col-sm-3" style="margin-top:3px;">
+
+                 <select class="form-control oblig" id="patologias-ord" style="border: 1px solid orange" name="usuario">
+                  <option value="">Seleccionar patologias...</option>
+                  <option value="No">No</option>
+                  <option value="Cataratas">Cataratas</option>
+                  <option value="Pterigión">Pterigión</option>
+                  <option value="Retinopatía">Retinopatía</option>
+                  <option value="Glaucoma">Glaucoma</option>
                 </select>
+
                </div>
 
-                <div class="col-sm-2">
-                 <label for="" class="etiqueta">Genero</label>
-                 <select class="form-control oblig" id="genero_pac" readonly>
-                  <option value="">Seleccionar ...</option>
-                  <option value="M">Masculino</option>
-                  <option value="F">Femenino</option>
-                </select>
-               </div>
-
-              <div class="col-sm-5">
-                 <label for="" class="etiqueta">Ocupación</label>
-                <input type="text" class="form-control clear_orden_i oblig" id="ocupacion_pac" readonly>
-               </div>
-
-               <div class="col-sm-2">
-                 <label for="" class="etiqueta">Sector</label>
-                 <input type="text" class="form-control clear_orden_i oblig" id="instit" readonly>
-               </div>
-
-              <div class="col-sm-5">
-                 <label for="" class="etiqueta">Departamento</label>
-                <input type="text" class="form-control clear_orden_i oblig" id="departamento_pac" readonly>
-              </div>
-              <div class="col-sm-7">
-                 <label for="" class="etiqueta">Municipio</label>
-                <input type="text" class="form-control clear_orden_i oblig" id="munic_pac_data" readonly>
-              </div>
-
-             </div>
-            <div class="eight"style="align-items: center">
-            <div >
-              <strong><h1 style="color:#034f84">TIPO LENTE</h1></strong>
-              <div class="row">
-                  <div class="col-sm-4" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
+               <div class="col-sm-5" style="margin-top:3px;background:#f8f8f8">
+               <div class="row">
+               <div class="col-sm-4" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input chk_element" type="radio" id="VisionSencilla" value="Visión Sencilla" name="tipo_lente">
-                      <label class="form-check-label" for="inlineCheckbox2" id="lentevs">Visión Sencilla</label>
+                      <label class="form-check-label" for="inlineCheckbox2" id="lentevs">VS</label>
                     </div>
                   </div>
                   <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
@@ -100,8 +85,33 @@
                       <label class="form-check-label" for="inlineCheckbox2" id="lentemulti">Progresive</label>
                     </div>
                   </div>
-              </div>
+               </div>  
+             </div>
+
+             <div class="col-sm-4" style="margin-top:3px;background:#E3EFF9">
+               <div class="row">
+               <div class="col-sm-4" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input chk_element" type="radio" id="blanco" value="Blanco" name="colors">
+                      <label class="form-check-label" for="inlineCheckbox2" id="lentevs">Blanco</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input chk_element" type="radio" id="photo" value="Photocromatico" name="colors">
+                      <label class="form-check-label" for="inlineCheckbox2" id="lentebf">Photocroma</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input chl_element" type="radio" id="alto-indice" value="Progresive" name="indice" disabled="disabled">
+                      <label class="form-check-label" for="alto-indice" id="label-index">Alto indice</label>
+                    </div>
+                  </div>
+               </div>  
+             </div>
             </div>
+
             <!--################ RX final + medidas #############-->
             <div class="eight">
               <strong><h1 style="color: #034f84">GRADUACIÓN(Rx Final)</h1></strong>
@@ -174,7 +184,7 @@
 
                   <div class="col-md-6">
                     <label for="" class="etiqueta">OD</label>
-                      <input type="text" class="form-control clear_orden_i oblig" placeholder="mm" id="odlente">
+                      <input type="text" class="form-control clear_orden_i oblig" placeholder="mm" id="odlente" onClick=" validaAltoIndice()" onkeyup=" validaAltoIndice()">
                   </div>
 
                 <div class="col-md-6">

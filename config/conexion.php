@@ -58,20 +58,22 @@ class conexionLenti{
 }
 
 $sucursales = '
-<option value="Metrocentro">Metrocentro</option>
-<option value="Cascadas">Cascadas</option>
-<option value="Santa Ana">Santa Ana</option>
-<option value="Chalatenango">Chalatenango</option>
-<option value="Ahuachapan">Ahuachapan</option>
-<option value="Sonsonate">Sonsonate</option>
-<option value="Ciudad Arce">Ciudad Arce</option>                                   
-<option value="Opico">Opico</option>
-<option value="Apopa">Apopa</option>
-<option value="San Vicente Centro">San Vicente Centro</option>
-<option value="San Vicente">San Vicente</option>
-<option value="Gotera">Gotera</option>
-<option value="San Miguel">San Miguel</option>
-
+	<option value="0">Seleccionar sucursal</option>
+	<option value="inabve">INABVE</option>
+	<option value="Metrocentro">Metrocentro</option>
+	<option value="Cascadas">Cascadas</option>
+	<option value="Santa Ana">Santa Ana</option>
+	<option value="Chalatenango">Chalatenango</option>
+	<option value="Ahuachapan">Ahuachapan</option>
+	<option value="Sonsonate">Sonsonate</option>
+	<option value="Ciudad Arce">Ciudad Arce</option>                                   
+	<option value="Opico">Opico</option>
+	<option value="Apopa">Apopa</option>
+	<option value="San Vicente Centro">San Vicente Centro</option>
+	<option value="San Vicente">San Vicente</option>
+	<option value="Gotera">Gotera</option>
+	<option value="San Miguel">San Miguel</option>
+	<option value=""></option>
 ';
 
 

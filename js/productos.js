@@ -47,10 +47,10 @@ function dtTemplateProductos(table,route,...Args){
   tabla = $('#'+table).DataTable({      
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
-    dom: 'frtip',//Definimos los elementos del control de tabla
-   /*  buttons: [     
+    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+    buttons: [     
       'excelHtml5',
-    ], */
+    ],
 
     "ajax":{
       url:"../ajax/productos.php?op="+ route,
@@ -230,6 +230,32 @@ btn_bodega_stock.addEventListener("click", () => {
   $("#modal-stock-consumos").modal();
 });
 
+$(document).ready(function(){
+  $("#bodega-existencia").change(function () {         
+    $("#bodega-existencia option:selected").each(function () {
+      bodega = $(this).val();
+      dtTemplateProductos("aros_existencia_bd","get_existencia_bodegas",bodega);         
+    });
+  })
+});
+
+
+function registrarMarca(){
+  let marca = document.getElementById("nuevaMarca").value;
+  $.ajax({
+    url:"../ajax/productos.php?op=crear_marca",
+    method:"POST",
+    data:{marca:marca},
+    cache: false,
+    dataType:"json",
+    success:function(marcas){
+      $("#new-marca").modal("hide");
+      $("#marca_aros").empty();
+      $("#marca_aros").select2({ data: marcas})
+    }
+  });///fin ajax
+
+}
 
 
 initProd()
