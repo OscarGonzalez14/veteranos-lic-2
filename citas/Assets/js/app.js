@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             getCitadosSucursal(sucursal,fecha);
         },
-        eventDrop: function (info) {
+/*  eventDrop: function (info) {
             const start = info.event.startStr;
             const id = info.event.id;
             const url = base_url + 'Home/drag';
@@ -78,9 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             }
-        }
+        } */
 
-    });
+    }); 
     calendar.render();
     frm.addEventListener('submit', function (e) {
         e.preventDefault();

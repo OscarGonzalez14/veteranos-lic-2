@@ -25,16 +25,16 @@ require_once("../vistas/links_plugin.php");
   <?php require_once('Views/side_bar.php')?>
   <div class="content-wrapper">
 	  <div class="callout callout-info">
-        <h5 align="center" style="margin:0px"><i class="fas fa-file" style="color:green"></i> <strong>REPORTES CITAS</strong></h5>
-
-      <div class="row" style="margin-5px">
+        <h5 align="center" style="margin:0px;font-family: Helvetica, Arial, sans-serif;font-size: 16px"><i class="fas fa-file" style="color:green"></i> <strong>REPORTERIA DE CITAS</strong></h5>
+<br>
+      <div class="row" style="margin-5px; font-family: Helvetica, Arial, sans-serif;font-size: 12px">
         <div class="col-sm-3">
             <div class="form-group">
-            <label for="sel1">Tipo Reporte</label>
-            <select class="form-control" id="tipo_rep">
-              <option>Seleccionar...</option>
-              <option>Citas</option>
-              <option>Atendidos</option>
+              <label for="sel1">Tipo Reporte</label>
+              <select class="form-control" id="tipo_rep">
+                <option>Seleccionar...</option>
+                <option>Citas</option>
+                <option>Atendidos</option>
             </select>
           </div>
       </div>
@@ -43,7 +43,6 @@ require_once("../vistas/links_plugin.php");
       <div class="form-group">
             <label for="sel1">Sucursal</label>
             <select class="form-control" id="suc-rep-citas">
-              <option value="All">Seleccionar todas..</option>
               <?php echo $sucursales;?>
             </select>
           </div>
@@ -61,7 +60,7 @@ require_once("../vistas/links_plugin.php");
 
       <div class="col-sm-1 form-group">
       <label for="sel1">Filtrar</label>
-      <button class="btn btn-info btn-block" onClick="getcitadosAtendidos()"><i class="fas fa-filter"></i></button>
+      <button class="btn btn-md btn-info btn-block" onClick="getcitadosAtendidos()" style="margin-top:4px"><i class="fas fa-filter"></i></button>
       </div>
 
     </div>

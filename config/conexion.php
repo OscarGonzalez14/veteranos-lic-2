@@ -60,6 +60,7 @@ class conexionLenti{
 $sucursales = '
 	<option value="0">Seleccionar sucursal</option>
 	<option value="inabve">INABVE</option>
+	<option value="Valencia">Valencia</option>
 	<option value="Metrocentro">Metrocentro</option>
 	<option value="Cascadas">Cascadas</option>
 	<option value="Santa Ana">Santa Ana</option>

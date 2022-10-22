@@ -67,7 +67,7 @@ switch ($_GET["op"]){
                 $sub_array[] = $c["paciente"]; 
                 $sub_array[] = $c["dui"]; 
                 $sub_array[] = $c["sector"];
-                $sub_array[] = $c["fecha"];
+                $sub_array[] = date("d-m-Y",strtotime($c["fecha"]));
                 $sub_array[] = $c["sucursal"];
                 $sub_array[] = $c["estado"];
                 $data[] = $sub_array;
@@ -105,7 +105,7 @@ switch ($_GET["op"]){
             $desde = $args[2];
             $hasta = $args[3];
 
-            if($sucursal=="All"){
+            if($sucursal=="0"){
                 $datos = $citas->getCitadosAtendAll($desde);
             }
 
@@ -125,7 +125,7 @@ switch ($_GET["op"]){
                 $sub_array[] = $c["dui"];
                 $sub_array[] = date("d-m-Y",strtotime($c["fecha"]))." ".$c["hora"];
                 $sub_array[] = $c["sector"];
-                $sub_array[] = $c["estado"];
+                $sub_array[] = $estado;
                 $data[] = $sub_array;
             }
     

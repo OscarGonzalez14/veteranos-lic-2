@@ -140,6 +140,7 @@ $categoria_usuario = $_SESSION["categoria"];
         <div class="col-sm-9 select2-purple">
           <label for="" class="etiqueta">Bodega-Sucursal </label>
             <select class="select2 form-control clear_input" id="bodega-sucursal" name="departamento_pac" multiple="multiple" data-placeholder="Seleccionar Sucursal" data-dropdown-css-class="select2-purple" style="width: 100%;height: ">
+            <option value="Valencia">MetroValenciacentro</option>
             <option value="Metrocentro">Metrocentro</option>
               <option value="Cascadas">Cascadas</option>
               <option value="Santa Ana">Santa Ana</option>

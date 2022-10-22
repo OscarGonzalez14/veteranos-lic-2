@@ -8,13 +8,14 @@
         <div class="modal-dialog modal-xl modal-dialog-scrollable" style="max-width: 95%">
           <div class="modal-content">
             <div class="modal-header bg-dark" style="padding: 5px;">
-              <h4 class="modal-title" style="font-size: 15px"><button class="btn btn-xs btn-dark" onClick="buscarCitado()"><i class="fas fa-search"></i></button><span id="correlativo_op"></span><h5 style="text-align: center; font-size:14px" class="modal-title w-100 text-center">NUEVA ORDEN</h5>  </h4>
+              <h4 class="modal-title w-200 text-rigth" style="font-size: 15px"><span id="correlativo_op"></span><h5 style="text-align: center; font-size:14px" class="modal-title w-100 text-center">NUEVA ORDEN</h5>  </h4>
+              <button class="btn btn-xs btn-success" onClick="buscarCitado()"><i class="fas fa-search fa-2x"></i></button>&nbsp;&nbsp;
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body"><!--START MODAL BODY--> 
-            <table width="100%" class="table-bordered" style="text-align:center; text-transform:uppercase;font-size:11px">
+            <table width="100%" class="table-bordered" style="text-align:center; text-transform:uppercase;font-size:13px">
             <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: #073763">
               <tr>
                 <th  style="width:40%">PACIENTE</th>
@@ -33,7 +34,7 @@
             </tr>
             </table>
 
-            <table width="100%" class="table-bordered" style="text-align:center;text-transform:uppercase;font-size:11px">
+            <table width="100%" class="table-bordered" style="text-align:center;text-transform:uppercase;font-size:13px">
             <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: #073763">
               <tr>
                 <th  style="width:20%">OCUPACIÓN</th>
@@ -70,19 +71,19 @@
                <div class="col-sm-4" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input chk_element" type="radio" id="VisionSencilla" value="Visión Sencilla" name="tipo_lente">
-                      <label class="form-check-label" for="inlineCheckbox2" id="lentevs">VS</label>
+                      <label class="form-check-label" for="VisionSencilla" id="lentevs">VS</label>
                     </div>
                   </div>
                   <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input chk_element" type="radio" id="Flaptop" value="Flaptop" name="tipo_lente">
-                      <label class="form-check-label" for="inlineCheckbox2" id="lentebf">Flaptop</label>
+                      <label class="form-check-label" for="Flaptop" id="lentebf">Flaptop</label>
                     </div>
                   </div>
                   <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input chl_element" type="radio" id="Progresive" value="Progresive" name="tipo_lente">
-                      <label class="form-check-label" for="inlineCheckbox2" id="lentemulti">Progresive</label>
+                      <label class="form-check-label" for="Progresive" id="lentemulti">Progresive</label>
                     </div>
                   </div>
                </div>  

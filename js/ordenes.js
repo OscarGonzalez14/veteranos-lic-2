@@ -1743,10 +1743,12 @@ function validaAltoIndice(){
 
   if(esfera_od > 4 || cilindros_od > 4 || esferas_oi > 4 || cilindros_oi > 4 || esfera_od < -4 || cilindros_od < -4 || esferas_oi < -4 || cilindros_oi < -4){
     document.getElementById("alto-indice").checked=true;
-    document.getElementById("alto-indice").disabled = true;
+    document.getElementById("alto-indice").disabled = false;
     document.getElementById("label-index").style.color = "green";
   }else{
     document.getElementById("alto-indice").checked=false;
+    document.getElementById("alto-indice").disabled = false;
+    document.getElementById("label-index").style.color = "gray";
   }
 } 
  

@@ -17,7 +17,10 @@ $categoria_usuario = $_SESSION["categoria"];
  require_once('../modales/aros_en_orden.php');
  require_once('../modales/modal_rectificaciones.php');
  require_once('../modales/estadisticas.php');
-  require_once('../modales/modal_citas.php');
+ require_once('../modales/modal_citas.php');
+
+ date_default_timezone_set('America/El_Salvador');
+ $hoy = date("Y-m-d");
 
  ?>
 <style>
@@ -108,6 +111,7 @@ $categoria_usuario = $_SESSION["categoria"];
       </div>
     </div>
   </div>
+  <input type="hidden" id="fecha_act" value="<?php echo $hoy;?>">
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>2021 Lenti || <b>Version</b> 1.0</strong>

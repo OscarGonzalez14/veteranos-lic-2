@@ -1,4 +1,6 @@
 function buscarCitado(){
+    let fecha = document.getElementById("fecha_act").value;
+    console.log(fecha)
     $("#modal_citados").modal();
     dtTemplateCitas("datatable_citados","listar_pacientes_citados","")
 }

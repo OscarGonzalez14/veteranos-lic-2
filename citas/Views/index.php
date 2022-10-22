@@ -10,7 +10,7 @@ require_once("modales/listarCitas.php");
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Citas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Citas</title>
     
     <link rel="stylesheet" href="<?php echo base_url; ?>Assets/css/main.min.css">
 </head>
@@ -77,10 +77,10 @@ require_once("modales/listarCitas.php");
                         <div class="col-md-2">
                             <label for="dui">Sector</label>
                             <select class="form-control" id="sector-pac" name="sector-pac">
-                            <option>Seleccionar...</option>
-                            <option>FAES</option>
-                            <option>FMLN</option>
-                            <option>BENEFICIARIO</option>
+                            <option option="0">Seleccionar...</option>
+                            <option option="FAES">FAES</option>
+                            <option option="FMLN">FMLN</option>
+                            <option option="CONYUGE">CONYUGE</option>
                         </select>
                         </div>
                         

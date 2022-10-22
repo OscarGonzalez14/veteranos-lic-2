@@ -35,8 +35,8 @@ if(isset($_SESSION["usuario"])){
     <section class="content">
       <b><h5 style="text-transform: uppercase;text-align: center;font-size: 25px;font-family: Helvetica, Arial, sans-serif;" >BIENVENID@: &nbsp;<?php echo $_SESSION["usuario"]." - ".$_SESSION["sucursal"];?></h5></b>
       <div style="margin-top:0px;">        
-      <img src="../dist/img/inabve.jpg" alt="" class="img-responsive log" width="650" height="475" align="center" style="margin-top: 15px !important">
-      <img src="../dist/img/logo_avplus.jpg" alt="" class="img-responsive log" width="650" height="350" align="center" >
+      <img src="../dist/img/inabve.jpg" alt="" class="img-responsive log" width="400" height="275" align="center" style="margin-top: 15px !important">
+      <img src="../dist/img/logo_avplus.jpg" alt="" class="img-responsive log" width="400" height="200" align="center" >
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
