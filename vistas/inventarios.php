@@ -188,7 +188,7 @@ $categoria_usuario = $_SESSION["categoria"];
           <div class="col-md-6" style="">
             <div class="card card-default">
               <div class="card-header">
-                <label for="bodega-existencia">Existencias</label>
+                <label for="bodega-existencia">Existencias&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-file-pdf" style="color:red;cursor:pointer" onClick="printStockSucursal()"></i></label>
                 <select class="form-control" id="bodega-existencia">
                   <?php 
                   echo $sucursales;

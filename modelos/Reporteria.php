@@ -75,6 +75,16 @@ public function detalle_ingresoBodega($id_ingreso){
   return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function stockSucursales($bodega){
+  $conectar= parent::conexion();
+  parent::set_names();
+  $sql = "SELECT a.modelo,a.marca,a.color,a.material,s.stock from aros as a INNER JOIN stock_aros as s on a.id_aro=s.id_aro where s.bodega=? order by material DESC";
+  $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$bodega);
+  $sql->execute();
+  return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 }///FIN DE LA CLASE
 

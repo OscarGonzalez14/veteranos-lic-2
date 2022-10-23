@@ -311,6 +311,34 @@ function selectAroOrden(id_aro){
   });///fin ajax
 }
 
+function printStockSucursal(){
+  let sucursal = document.getElementById("bodega-existencia").value;
+  if(sucursal=="0"){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'error',
+      title: 'Seleccionar bodega',
+      showConfirmButton: true,
+      timer: 2500
+    });
+  return false;
+  }else{
+    var form = document.createElement("form");
+    form.target = "print_popup";
+    form.method = "POST";
+    form.action = "stock_sucursal_pdf.php";
+
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "suc-bodega";
+    input.value = sucursal;
+    form.appendChild(input);
+    document.body.appendChild(form)
+    form.submit();
+    document.body.removeChild(form);
+  }
+}
+
 initProd()
 
 
