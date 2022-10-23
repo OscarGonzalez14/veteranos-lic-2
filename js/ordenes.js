@@ -118,7 +118,7 @@ function init(){
  function guardar_orden(parametro='saveEdit'){ 
    
    let categoria_lente = "";
-   //let categoria_lente = $("#categoria_lente").val();
+
    let validate = $("#validate").val();
    if (validate=="1") {
      categoria_lente = $("#categoria_lente").val();
@@ -126,24 +126,17 @@ function init(){
      categoria_lente = "*";
    }
  
-   let genero = $("#genero_pac").val();
+   let genero = $("#genero_pac").html();
    let correlativo_op = $("#correlativo_op").html();
-   let paciente = $("#paciente").val();  
+   let paciente = $("#paciente").html();  
    let fecha_creacion = $("#fecha_creacion").val();
    let od_pupilar = $("#od_pupilar").val();
    let oipupilar = $("#oipupilar").val();
    let odlente = $("#odlente").val();
    let oilente = $("#oilente").val();
-   let marca_aro_orden = $("#marca_aro_orden").val();
-   let modelo_aro_orden = $("#modelo_aro_orden").val();
-   let horizontal_aro_orden = $("#horizontal_aro_orden").val();
-   let vertical_aro_orden = $("#vertical_aro_orden").val();
-   let puente_aro_orden = $("#puente_aro_orden").val();
    let id_usuario = $("#id_usuario").val();
    let observaciones_orden = $("#observaciones_orden").val();
-   let dui = $("#dui_pac").val();
-   let color_varilla = $("#color_varilla").val();
-   let color_frente = $("#color_frente").val();
+   let dui = $("#dui_pac").html();
    let tipo_lente = $("input[type='radio'][name='tipo_lente']:checked").val();
  
    if (tipo_lente===undefined) {
@@ -156,7 +149,16 @@ function init(){
        });
      return false;
    }
- 
+   
+   let alto_indice = $("input[type='radio'][name='indice']:checked").val();
+   if (alto_indice==undefined) {
+    var indice = "No";
+   }else{
+    var indice = "Si";
+   }
+   console.log(alto_indice)
+   let color = $("input[type='radio'][name='colors']:checked").val();
+
    let od_esferas = $("#odesferasf").val();
    let od_cilindros = $("#odcilindrosf").val();
    let od_eje = $("#odejesf").val();
@@ -165,31 +167,23 @@ function init(){
    let oi_cilindros = $("#oicilindrosf").val();
    let oi_eje = $("#oiejesf").val();
    let oi_adicion = $("#oiadicionf").val();
-   let imagen = $("#img_ord").val();
-   let edad = $("#edad_pac").val();
-   let usuario = $("#usuario_pac").val();
- 
-   let ocupacion = $("#ocupacion_pac").val();
+   let edad = $("#edad_pac").html();
+   let ocupacion = $("#ocupacion_pac").html();
    let avsc = $("#avsc").val();
    let avfinal = $("#avfinal").val();
    let avsc_oi = $("#avsc_oi").val();
    let avfinal_oi= $("#avfinal_oi").val();
-   let telefono = $("#telef_pac").val();
+   let telefono = $("#telef_pac").html();
    let user = $("#user_act").val();
-   let depto =  $("#departamento_pac").val();
-   let municipio = $("#munic_pac_data").val();
-   let instit = $("#instit").val();
+   let depto =  $("#departamento_pac").html();
+   let municipio = $("#munic_pac_data").html();
+   let instit = $("#instit").html();
+   let patologias = $("#patologias-ord").val();
+   let id_cita = $("#id_cita_ord").val();
+   let id_aro = $("#id_aro").val();
+
    let campos_orden = document.getElementsByClassName('oblig');
-   if (modelo_aro_orden == "") {
-      Swal.fire({
-         position: 'top-center',
-         icon: 'error',
-         title: 'Debe especificar el modelo de aro',
-         showConfirmButton: true,
-         timer: 9500
-       });
-     return false;
-   }
+  
    if(id_usuario != 1 && parametro != 'Rectificacion'){
    for (let i = 0; i<campos_orden.length; i++) {
     if(campos_orden[i].value=="") {
@@ -216,15 +210,9 @@ function init(){
    $.ajax({
      url:"../ajax/ordenes.php?op=registrar_orden",
      method:"POST",
-     data:{correlativo_op:correlativo_op,paciente:paciente,fecha_creacion:fecha_creacion,od_pupilar:od_pupilar,
-     oipupilar:oipupilar,odlente:odlente,oilente:oilente,marca_aro_orden:marca_aro_orden,modelo_aro_orden:modelo_aro_orden,
-     horizontal_aro_orden:horizontal_aro_orden,vertical_aro_orden:vertical_aro_orden,puente_aro_orden:puente_aro_orden,
-     id_usuario:id_usuario,observaciones_orden:observaciones_orden,dui:dui,od_esferas:od_esferas,od_cilindros:od_cilindros,
-     od_eje:od_eje,od_adicion:od_adicion,oi_esferas:oi_esferas,oi_cilindros:oi_cilindros,oi_eje:oi_eje,oi_adicion:oi_adicion,
-     tipo_lente:tipo_lente,color_varilla:color_varilla,color_frente:color_frente,imagen:imagen,validate:validate,categoria_lente:categoria_lente,
-     edad:edad,usuario:usuario,ocupacion:ocupacion,avsc:avsc,avfinal:avfinal,avsc_oi:avsc_oi,avfinal_oi:avfinal_oi,telefono:telefono,genero:genero,user:user,depto:depto,municipio:municipio,instit:instit},
+     data:{paciente:paciente,fecha_creacion:fecha_creacion,od_pupilar:od_pupilar,oipupilar:oipupilar,odlente:odlente,oilente:oilente,id_aro:id_aro,id_usuario:id_usuario,observaciones_orden:observaciones_orden,dui:dui,od_esferas:od_esferas,od_cilindros:od_cilindros,od_eje:od_eje,od_adicion:od_adicion,oi_esferas:oi_esferas,oi_cilindros:oi_cilindros,oi_eje:oi_eje,oi_adicion:oi_adicion,tipo_lente:tipo_lente,validate:validate,categoria_lente:categoria_lente,edad:edad,ocupacion:ocupacion,avsc:avsc,avfinal:avfinal,avsc_oi:avsc_oi,avfinal_oi:avfinal_oi,telefono:telefono,genero:genero,user:user,depto:depto,municipio:municipio,instit:instit,patologias:patologias,color:color,indice:indice,id_cita:id_cita},
      cache: false,
-     dataType:"json",
+    // dataType:"json",
     
      success:function(data){
      console.log(data)
@@ -1699,14 +1687,32 @@ function init(){
  
   function getPacientesCitados(){
   let fecha = document.getElementById('desde_orders').value;
+  let sucursal = document.getElementById('sucursal').value;
+  if(fecha==""){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'error',
+      title: 'Seleccionar fecha',
+      showConfirmButton: true,
+      timer: 1500
+    });
+    return false;
+  }
   let form = document.createElement("form");
   form.target = "print_blank";
   form.method = "POST";
   form.action = "imprimir_citas_pdf.php";
-  let input = document.createElement("input");
+
+  var input = document.createElement("input");
   input.type = "hidden";
   input.name = "fecha-cita";
   input.value = fecha;
+  form.appendChild(input);
+
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "sucursal";
+  input.value = sucursal;
   form.appendChild(input);
 
 

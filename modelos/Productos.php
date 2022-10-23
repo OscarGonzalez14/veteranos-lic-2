@@ -162,7 +162,7 @@
      public function getStockArosBodega($sucursal){
           $conectar=parent::conexion();
           parent::set_names();
-          $sql = "select s.bodega,s.stock,a.modelo,a.marca,a.color,a.material from stock_aros as s INNER join aros as a on a.id_aro=s.id_aro where s.bodega=?;";
+          $sql = "select s.bodega,s.stock,a.modelo,a.id_aro,a.marca,a.color,a.material from stock_aros as s INNER join aros as a on a.id_aro=s.id_aro where s.bodega=? and s.stock>0;";
           $sql=$conectar->prepare($sql);
           $sql->bindValue(1,$sucursal);
           $sql->execute();

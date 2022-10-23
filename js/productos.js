@@ -287,6 +287,29 @@ function cargar_marcas(){
   });///fin ajax
 }
  
+function buscarAro(){
+  let sucursal = $("#sucursal").val()
+  $("#aros_orden").modal();
+  dtTemplateProductos("datatable_aros_ordenes","seleccionar_aro_orden",sucursal)
+}
+
+function selectAroOrden(id_aro){
+  $.ajax({
+    url:"../ajax/productos.php?op=buscar_data_aro_id",
+    method:"POST",
+    data:{id_aro:id_aro},
+    cache: false,
+    dataType:"json",
+    success:function(data){
+      document.getElementById("modelo_aro_orden").value=data.modelo;
+      document.getElementById("id_aro").value=data.id_aro;
+      document.getElementById("marca_aro_orden").value=data.marca;
+      document.getElementById("color_aro_orden").value=data.color;
+      document.getElementById("material_aro_orden").value=data.material;
+      $("#aros_orden").modal("hide");
+    }
+  });///fin ajax
+}
 
 initProd()
 

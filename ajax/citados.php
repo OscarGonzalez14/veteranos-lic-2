@@ -33,6 +33,7 @@ switch ($_GET["op"]){
     case 'get_data_cita':
 
         $data = $citas->getDataCitaId($_POST["id_cita"]);
+        
         foreach ($data as $row) {
             $output["paciente"] = $row["paciente"];
             $output["dui"] = $row["dui"];
@@ -43,7 +44,8 @@ switch ($_GET["op"]){
             $output["sector"] = $row["sector"];
             $output["genero"] = $row["genero"];
             $output["depto"] = $row["depto"];
-            $output["municipio"] = $row["municipio"];  
+            $output["municipio"] = $row["municipio"];
+            $output["id_cita"] = $row["id_cita"];  
         }
         echo json_encode($output);
 

@@ -18,8 +18,8 @@
            <thead class="style_th bg-dark" style="background:#034f84;color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center">
             <th style="width: 22%">Modelo</th>
             <th style="width: 22%">Marca</th>
-            <th style="width: 22%">Varillas</th>
-            <th style="width: 22%">Frente</th>
+            <th style="width: 22%">Color</th>
+            <th style="width: 22%">Material</th>
             <th style="width: 12%">Seleccionar</th>
            </thead>
            <tbody style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center"> </tbody>

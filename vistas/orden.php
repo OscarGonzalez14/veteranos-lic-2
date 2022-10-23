@@ -45,6 +45,7 @@ $categoria_usuario = $_SESSION["categoria"];
       <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_usuario"];?>"/>
       <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["usuario"];?>"/>
       <input type="hidden" name="categoria" id="get_categoria" value="<?php echo $_SESSION["categoria"];?>"/>
+      <input type="hidden" name="sucursal" id="sucursal" value="<?php echo $_SESSION["sucursal"];?>"/>
       <div style="border-top: 0px">      
       </div>
       <br>
@@ -63,7 +64,7 @@ $categoria_usuario = $_SESSION["categoria"];
         <div class="col-sm-3">
           <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_estadisticas" onClick>
             <i class="fas fa-chart-pie"></i> Estadisticas</button>
-          <button class="btn btn-info btn-sm" data-toggle="modal" data-target="" onClick='getPacientesCitados()'>
+          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="" onClick='getPacientesCitados()'>
             <i class="fas fa-file-pdf"></i> Citas</button>
           </div>
        </div>

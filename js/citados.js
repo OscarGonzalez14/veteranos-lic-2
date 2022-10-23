@@ -76,6 +76,7 @@ function getCitados(id_cita){
             document.getElementById("genero_pac").innerHTML=data.genero;
             document.getElementById("departamento_pac").innerHTML=data.depto;
             document.getElementById("munic_pac_data").innerHTML=data.municipio;
+            document.getElementById("id_cita_ord").value=data.id_cita;
             $("#modal_citados").modal('hide');
         }
     });      

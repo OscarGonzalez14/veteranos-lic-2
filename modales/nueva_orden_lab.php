@@ -16,7 +16,7 @@
             </div>
             <div class="modal-body"><!--START MODAL BODY--> 
             <table width="100%" class="table-bordered" style="text-align:center; text-transform:uppercase;font-size:13px">
-            <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: #073763">
+            <thead style="color:black;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: 	#F0F0F0">
               <tr>
                 <th  style="width:40%">PACIENTE</th>
                 <th  style="width:15%">DUI</th>
@@ -35,7 +35,7 @@
             </table>
 
             <table width="100%" class="table-bordered" style="text-align:center;text-transform:uppercase;font-size:13px">
-            <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: #073763">
+            <thead style="color:black;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background:#F0F0F0">
               <tr>
                 <th  style="width:20%">OCUPACIÓN</th>
                 <th  style="width:20%">SECTOR</th>
@@ -229,7 +229,7 @@
 
             </div>
           <div class="row">
-          <div class="col-sm-9">
+          <div class="col-sm-12">
           <div class="eight">
             <h1>ARO</h1>
 
@@ -248,49 +248,31 @@
               </div>
 
              </div>
-           </div>
+            </div>
 
-
+            <input type="hidden" id="id_aro">
               <div class="form-group col-sm-3">
-                <label for="" class="etiqueta">Marca <span style="color:blue">(Opc.)</span></label>
+                <label for="" class="etiqueta">Marca </label>
                 <input type="text" class="form-control clear_orden_i" id="marca_aro_orden">
               </div>
 
 
-              <div class="form-group col-sm-2">
-                <label for="" class="etiqueta">Horizontal <span style="color:blue">(Opc.)</span></label>
-                <input type="text" class="form-control clear_orden_i" id="horizontal_aro_orden">
+              <div class="form-group col-sm-3">
+                <label for="" class="etiqueta">Color <span style="color:blue"></span></label>
+                <input type="text" class="form-control clear_orden_i" id="color_aro_orden">
               </div>
 
-              <div class="form-group col-sm-2">
-                  <label for="" class="etiqueta">Vertical <span style="color:blue">(Opc.)</span></label>
-                  <input type="text" class="form-control clear_orden_i" id="vertical_aro_orden">
+              <div class="form-group col-sm-3">
+                  <label for="" class="etiqueta">Material <span style="color:blue"></span></label>
+                  <input type="text" class="form-control clear_orden_i" id="material_aro_orden">
               </div>       
 
-              <div class="form-group col-sm-2">
-                  <label for="" class="etiqueta">Puente <span style="color:blue">(Opc.)</span></label>
-                  <input type="text" class="form-control clear_orden_i" id="puente_aro_orden">
-              </div>
 
              </div>   
               </div>
             </div>
 
-            <div class="col-sm-3">
-            <div class="eight">
-            <h1>COLOR ARO</h1>
-            <div class="form-row align-items-center row" style="margin: 4px">
-              <div class="form-group col-sm-6">
-                <label for="" class="etiqueta">Varillas <span style="color:blue">(Opc.)</span></label>
-                <input type="text" class="form-control clear_orden_i" id="color_varilla" placeholder="color varillas">
-              </div>
-              <div class="form-group col-sm-6">
-                <label for="" class="etiqueta">Frente <span style="color:blue">(Opc.)</span></label>
-                <input type="text" class="form-control clear_orden_i" id="color_frente" placeholder="color frente">
-              </div>
-            </div>
-          </div>
-          </div>
+
 
           </div><!--Fin Div Aros row-->
          
@@ -314,21 +296,12 @@
                 <td colspan="25" class="ord_1" style="width:25%">Usuario</td>
                 <td colspan="25" class="ord_1" style="width:25%">Acción</td>
                 <td colspan="35" class="ord_1" style="width:35%">Observaciones</td>
-              </tr>
-             
+              </tr>             
               <tbody id="hist_orden_detalles" class="ord_2" style="text-align: center;font-size: 13px;"></tbody>
             </table>
           </div> 
-           <input type="hidden" id="user_act" value="<?php echo $_SESSION["usuario"];?>">
-          <div class="form-group justify-content-between" style="margin: 4px; display: flex;justify-content: space-between;">
 
-            <button type="button" class="btn btn-dark" style="margin: 5px;" id="btn_rectificar" data-toggle="modal" data-target="#rectificacionesModal" data-index-number="12314Os"><i class="fas fa-wrench"></i> &nbsp;Rectificar</button>
-
-            <button type="button" class="btn pull-rigth" onClick='guardar_orden();' id="order_create_edit" style="margin: 5px;background: #073763;color: white"><i class="fas fa-save"></i> Guardar</button>
-
-          </div> 
-
-          <section class="input-group" id="enviar_a">                   
+          <section class="input-group" id="">                   
           <div class="form-group col-sm-6">
             <select class="custom-select" id="categoria_lente" aria-label="Example select with button addon">
               <option value="0" selected>Seleccionar opcion...</option>
@@ -339,21 +312,27 @@
 
           <div class="form-group col-sm-6">
           <div class="input-group">
-          <select class="custom-select" id="destino_orden_lente" aria-label="Example select with button addon">
+          <select class="custom-select" id="" aria-label="Example select with button addon">
             <option value="0" selected>Enviar a...</option>
-            <option value="Jenny">Jenny</option>
-            <option value="Divel">Divel</option>
-            <option value="Lomed">Lomed</option>
-            <option value="Lenti">Lenti</option>
-            <option value="Arce">Arce</option>
+            <option value="Jenny">Lenti 1</option>
+            <option value="Divel">Lenti 2</option>
+            <option value="Divel">LOMED</option>
           </select>
-          <div class="input-group-append">
-            <button class="btn btn-info" type="button" onClick='sendEdit()'>Enviar</button>
-          </div>
         </div>
           </div>
 
           </section>
+          <input type="hidden" id="id_cita_ord">
+           <input type="hidden" id="user_act" value="<?php echo $_SESSION["usuario"];?>">
+          <div class="form-group justify-content-between" style="margin: 4px; display: flex;justify-content: space-between;">
+
+          <button type="button" class="btn btn-dark" style="margin: 5px;" id="btn_rectificar" data-toggle="modal" data-target="#rectificacionesModal" data-index-number="12314Os"><i class="fas fa-wrench"></i> &nbsp;Rectificar</button>
+
+            <button type="button" class="btn pull-rigth" onClick='guardar_orden();' id="order_create_edit" style="margin: 5px;background: #073763;color: white"><i class="fas fa-save"></i> Guardar</button>
+
+          </div> 
+
+
           </div>
           <!-- /.modal-content -->
         </div>

@@ -188,7 +188,31 @@ $correlativo = $productos->getCorrelativoIngreso();
       break;
 
 
+      case "seleccionar_aro_orden":
+        $sucursal = $_POST["Args"][0];
+        $datos=$productos->getStockArosBodega($sucursal);
+        //Vamos a declarar un array
+        $data= Array();
+        foreach($datos as $row){
+        $sub_array = array(); 
+        $sub_array[] = $row["modelo"];
+        $sub_array[] = $row["marca"];
+        $sub_array[] = $row["color"];
+        $sub_array[] = $row["material"];
+        $sub_array[] = "<i class='fas fa-plus-circle fa-2x' onClick='selectAroOrden(".$row["id_aro"].")'></i>";
+        $data[] = $sub_array;
+    }
 
+ // print_r($_POST);
+
+    $results = array(
+      "sEcho"=>1, //Información para el datatables
+      "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+      "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+      "aaData"=>$data);
+    echo json_encode($results);
+
+break;
 
 
 
