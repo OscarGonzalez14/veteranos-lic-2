@@ -113,6 +113,7 @@ $dateTime= date("d-m-Y H:i:s");
     <th>CANTIDAD</th>
   </tr>  
   <?php
+  $sum = 0;
   foreach ($data as $value) { ?>
     <tr> 
      <td><?php echo $value["modelo"]; ?></td>
@@ -122,7 +123,9 @@ $dateTime= date("d-m-Y H:i:s");
      <td><?php echo $value["cantidad"]; ?></td>
     </tr> 
 
-  <?php } ?>  
+  <?php 
+    $sum = $sum + $value["cantidad"];
+} ?>  
   </table>
 </body>
 </html>

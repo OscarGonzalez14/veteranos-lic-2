@@ -15,6 +15,7 @@
               </button>
             </div>
             <div class="modal-body"><!--START MODAL BODY--> 
+            <div class="shadow-sm ">
             <table width="100%" class="table-bordered" style="text-align:center; text-transform:uppercase;font-size:13px">
             <thead style="color:black;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: 	#F0F0F0">
               <tr>
@@ -51,11 +52,15 @@
 
             </tr>
             </table>
+          </div>
             <div class="row">
+            <div class="col-sm-3 bg-info" style="font-size:12px; text-align:center;">PATOLOGIAS</div>
+            <div class="col-sm-4 bg-primary" style="font-size:12px; text-align:center;">TRATAMIENTOS</div>
+            <div class="col-sm-5 bg-dark" style="font-size:12px; text-align:center;">TIPO LENTE</div>
 
               <div class="col-sm-3" style="margin-top:3px;">
 
-                 <select class="form-control oblig" id="patologias-ord" style="border: 1px solid orange" name="usuario">
+                 <select class="form-control oblig" id="patologias-ord" style="border: 1px solid green" name="usuario">
                   <option value="">Seleccionar patologias...</option>
                   <option value="No">No</option>
                   <option value="Cataratas">Cataratas</option>
@@ -66,7 +71,30 @@
 
                </div>
 
-               <div class="col-sm-5" style="margin-top:3px;background:#f8f8f8">
+             <div class="col-sm-4" style="margin-top:3px;background:#E3EFF9">
+               <div class="row">
+               <div class="col-sm-4" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input chk_element" type="radio" id="blanco" value="Blanco" name="colors">
+                      <label class="form-check-label" for="blanco" id="lentevs">Blanco</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input chk_element" type="radio" id="photo" value="Photocromatico" name="colors">
+                      <label class="form-check-label" for="photo" id="lentebf">Photocroma</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input chl_element" type="radio" id="alto-indice" value="Progresive" name="indice" disabled="disabled">
+                      <label class="form-check-label" for="alto-indice" id="label-index">Alto indice</label>
+                    </div>
+                  </div>
+               </div>  
+             </div>
+
+             <div class="col-sm-5" style="margin-top:3px;background:#f8f8f8">
                <div class="row">
                <div class="col-sm-4" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
                     <div class="form-check form-check-inline">
@@ -84,29 +112,6 @@
                     <div class="form-check form-check-inline">
                       <input class="form-check-input chl_element" type="radio" id="Progresive" value="Progresive" name="tipo_lente">
                       <label class="form-check-label" for="Progresive" id="lentemulti">Progresive</label>
-                    </div>
-                  </div>
-               </div>  
-             </div>
-
-             <div class="col-sm-4" style="margin-top:3px;background:#E3EFF9">
-               <div class="row">
-               <div class="col-sm-4" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input chk_element" type="radio" id="blanco" value="Blanco" name="colors">
-                      <label class="form-check-label" for="inlineCheckbox2" id="lentevs">Blanco</label>
-                    </div>
-                  </div>
-                  <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input chk_element" type="radio" id="photo" value="Photocromatico" name="colors">
-                      <label class="form-check-label" for="inlineCheckbox2" id="lentebf">Photocroma</label>
-                    </div>
-                  </div>
-                  <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input chl_element" type="radio" id="alto-indice" value="Progresive" name="indice" disabled="disabled">
-                      <label class="form-check-label" for="alto-indice" id="label-index">Alto indice</label>
                     </div>
                   </div>
                </div>  
