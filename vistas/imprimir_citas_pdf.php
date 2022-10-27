@@ -66,8 +66,8 @@ $data = $citas->get_pacientes_citados($_POST["fecha-cita"],$sucursal);
 
 <html>
 <div id="watermark">
-             <img src="../dist/img/Logo_Gobierno.jpg" width="700" height="700"/>
-            </div>
+<img src="../dist/img/Logo_Gobierno.jpg" width="700" height="700"/>
+</div>
 
 <table style="width: 100%;margin-top:2px" width="100%">
 <td width="25%" style="width:10%;margin:0px">
@@ -78,13 +78,13 @@ $data = $citas->get_pacientes_citados($_POST["fecha-cita"],$sucursal);
 <table style="width:100%">
   <br>
   <tr>
-    <td  style="text-align: center;margin-top: 0px;font-size:12px;font-family: Helvetica, Arial, sans-serif;"><b>CITAS DE PACIENTES - INAVBE</b></td>
+    <td  style="text-align: center;margin-top: 0px;font-size:18px;font-family: Helvetica, Arial, sans-serif;"><b>CITAS DE PACIENTES - INAVBE</b></td>
   </tr>
   <tr>
-    <td  style="text-align:center;margin-top:0px;font-size:12px;font-family: Helvetica, Arial, sans-serif;"><b>FECHA: <?php echo date("d-m-Y",strtotime($fecha_cita)); ?></b></td>
+    <td  style="text-align:center;margin-top:0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>FECHA: <?php echo date("d-m-Y",strtotime($fecha_cita)); ?></b></td>
   </tr>
   <tr>
-    <td  style="text-align:center;margin-top:0px;font-size:12px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><b>SUCURSAL: <?php echo $sucursal?> </b></td>
+    <td  style="text-align:center;margin-top:0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><u><b>SUCURSAL: <?php echo $sucursal?> </u></b></td>
   </tr>
 </table>
 </td>
@@ -103,25 +103,23 @@ $data = $citas->get_pacientes_citados($_POST["fecha-cita"],$sucursal);
 <table width="100%" id="tabla_reporte_citas" data-order='[[ 0, "desc" ]]' style="margin: 3px">        
  <tr>
    <th colspan="5" style="width:5%">#</th>
-   <th colspan="30" style="width:30%">Nombre</th>
    <th colspan="10" style="width:10%">DUI</th>
-   <th colspan="10" style="width:10%">Teléfono</th>
-   <th colspan="10" style="width:10%">Fecha</th>
+   <th colspan="10" style="width:10%">Teléfono</th>   
+   <th colspan="40" style="width:40%">Nombre</th>
    <th colspan="20" style="width:20%">Firma</th>
    <th colspan="15" style="width:15%">Observaciones</th>
  </tr>
- <tbody class="style_th">
+ <tbody class="style_th" style="font-size:11px">
  <?php
   $i=1;
   foreach ($data as $value) { ?>
     <tr> 
-     <td colspan="5" style="padding:7px;width:5%"><?php echo $i;?></td>
-     <td colspan="30" style="padding:7px;width:30%"><?php echo $value["paciente"]; ?></td>
-     <td colspan="10" style="padding:7px;width:10%"><?php echo $value["dui"]; ?></td>
-     <td colspan="10" style="padding:7px;width:10%"><?php echo $value["telefono"]; ?></td>
-     <td colspan="10" style="padding:7px;width:10%"><?php echo $value["fecha"]; ?></td>
-     <td colspan="20" style="padding:7px;width:20%"></td>
-     <td colspan="15" style="padding:7px;width:15%"></td>
+     <td colspan="5" style="padding:3px;width:5%;padding:10px"><?php echo $i;?></td>
+     <td colspan="10" style="padding:3px;width:10%"><?php echo $value["dui"]; ?></td>
+     <td colspan="10" style="padding:3px;width:10%"><?php echo $value["telefono"]; ?></td>
+     <td colspan="40" style="padding:3px;width:40%"><?php echo $value["paciente"]; ?></td>
+     <td colspan="20" style="padding:3px;width:20%"></td>
+     <td colspan="15" style="padding:3px;width:15%"></td>
     </tr> 
 
   <?php $i++; } ?>  
@@ -135,7 +133,6 @@ $salida_html = ob_get_contents();
 ob_end_clean();
 $dompdf = new Dompdf();
 $dompdf->loadHtml($salida_html);
-
 // (Optional) Setup the paper size and orientation
 $dompdf->setPaper('letter', 'portrait');
 

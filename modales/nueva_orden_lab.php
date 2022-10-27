@@ -54,7 +54,7 @@
             </table>
           </div>
             <div class="row">
-            <div class="col-sm-3 bg-info" style="font-size:12px; text-align:center;">PATOLOGIAS</div>
+            <div class="col-sm-3 bg-light" style="font-size:12px; text-align:center;">PATOLOGIAS</div>
             <div class="col-sm-4 bg-primary" style="font-size:12px; text-align:center;">TRATAMIENTOS</div>
             <div class="col-sm-5 bg-dark" style="font-size:12px; text-align:center;">TIPO LENTE</div>
 

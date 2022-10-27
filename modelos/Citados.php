@@ -14,6 +14,16 @@ class Citados extends Conectar{
         return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);        
     }
 
+    public function listar_citados_pend(){
+	    $conectar=parent::conexion();
+        parent::set_names();
+
+        $sql = "select * from citas where estado='0';";
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);        
+    }
+
     public function getDataCitaId($id_cita){
 	    $conectar=parent::conexion();
         parent::set_names();

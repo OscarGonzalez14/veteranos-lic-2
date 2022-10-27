@@ -28,7 +28,7 @@ function dtTemplateCitas(table,route,...Args){
       "bDestroy": true,
       "responsive": true,
       "bInfo":true,
-      "iDisplayLength": 2000,//Por cada 10 registros hace una paginación
+      "iDisplayLength": 25,//Por cada 10 registros hace una paginación
         "order": [[ 0, "asc" ]],//Ordenar (columna,orden)
         "language": { 
         "sProcessing":     "Procesando...",       
@@ -88,4 +88,31 @@ function getcitadosAtendidos(){
   let desde = document.getElementById("desde").value;
   let hasta = document.getElementById("hasta").value;
   dtTemplateCitas("data-citados-atend","get_citados_atend",tipo_rep,sucursal,desde,hasta)
+}
+
+function showModalGestion(){
+  console.log("showModal");
+  $("#gestion-citas").modal();
+  dtTemplateCitas("data-gest-citas","get_citados_pend","0")
+}
+
+function editarCita(id_cita){
+
+  $.ajax({
+    url:"../ajax/citados.php?op=get_data_cita",
+    method:"POST",
+    cache:false,
+    data :{id_cita:id_cita},
+    dataType:"json",
+    success:function(data){
+      $("#myModal").modal();
+      document.getElementById("fecha-cita").readOnly = false;
+      document.getElementById("btnEdit").style.display="block";
+      document.getElementById("btnAccion").style.display="none";
+      document.getElementById("paciente-vet").value=data.paciente
+      document.getElementById("dui-vet").value=data.dui
+      
+    }
+});
+
 }

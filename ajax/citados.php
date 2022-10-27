@@ -29,6 +29,29 @@ switch ($_GET["op"]){
           echo json_encode($results);
 
         break;
+
+        case 'get_citados_pend':
+
+            $citados = $citas->listar_citados_pend();
+            $data = Array();
+            foreach($citados as $c){
+                $sub_array = array();
+                $sub_array[] = $c["paciente"]; 
+                $sub_array[] = $c["dui"]; 
+                $sub_array[] = $c["sector"];
+                $sub_array[] = "<button class='btn btn-outline-success btn-xs' onClick='editarCita(".$c["id_cita"].")'><i class='fas fa-edit'></i></button>";
+                $sub_array[] = "<button class='btn btn-outline-danger btn-xs'><i class='fas fa-trash ' onClick='getCitados(".$c["id_cita"].")'></i></button>"; 
+                $data[] = $sub_array;
+            }
+    
+            $results = array(
+                "sEcho"=>1, //Información para el datatables
+                "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+                "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+                "aaData"=>$data);
+              echo json_encode($results);
+    
+            break; 
     
     case 'get_data_cita':
 
@@ -45,6 +68,7 @@ switch ($_GET["op"]){
             $output["genero"] = $row["genero"];
             $output["depto"] = $row["depto"];
             $output["municipio"] = $row["municipio"];
+            $output["fecha"] = $row["fecha"];
             $output["id_cita"] = $row["id_cita"];  
         }
         echo json_encode($output);
@@ -71,7 +95,7 @@ switch ($_GET["op"]){
                 $sub_array[] = $c["sector"];
                 $sub_array[] = date("d-m-Y",strtotime($c["fecha"]));
                 $sub_array[] = $c["sucursal"];
-                $sub_array[] = $c["estado"];
+                $sub_array[] = $estado;
                 $data[] = $sub_array;
             }
     

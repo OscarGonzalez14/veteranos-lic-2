@@ -97,7 +97,7 @@ $dateTime= date("d-m-Y H:i:s");
 
 </table>
 
-	<table width="100%" id="pacientes" style="margin-top: 0px">
+<table width="100%" id="pacientes" style="margin-top: 0px">
     <tr>
     <th>MODELO</th>
     <th>MARCA</th>

@@ -27,10 +27,11 @@ class Home extends Controller
                 $municipio = $_POST["munic_pac"];
                 $hora = $_POST["hora"];
                 $sucursal = $_POST["sucursal-cita"];
+                $user_login = $_POST["id_usuario_vet"];
                 if ($id == '') {
-                    $data = $this->model->registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$sucursal);
+                    $data = $this->model->registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$user_login);
                     if ($data == 'ok') {
-                        $msg = array('msg' => 'Cita registrada', 'estado' => true, 'tipo' => 'success');
+                        $msg = array('msg' => 'Cita ingresada', 'estado' => true, 'tipo' => 'success');
                     }else{
                         $msg = array('msg' => 'Error al Registrar', 'estado' => false, 'tipo' => 'danger');
                     }

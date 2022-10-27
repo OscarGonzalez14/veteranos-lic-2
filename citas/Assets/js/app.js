@@ -22,13 +22,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(hoy);
                
                 if (info.date >= hoy) {
-                    eliminar.classList.add('d-none');
+                    //eliminar.classList.add('d-none');
+                    document.getElementById("btnEdit").style.display="none";
+                    document.getElementById("btnAccion").style.display="block";
                     document.getElementById('start').value = info.dateStr;
                     document.getElementById('id').value = '';
                     document.getElementById('btnAccion').textContent = 'Registrar';
                     myModal.show();
                     document.getElementById("fecha-cita").value=info.dateStr;
-                    document.getElementById('titulo').textContent = 'Registrar Cita - '+info.dateStr;
+                    document.getElementById('titulo').textContent = 'Registrar Cita';
+                    $('#munic_pac').val('1'); // Select the option with a value of '1'
+                    $('#munic_pac').trigger('change');
+                    $('#departamento_pac').val('1'); // Select the option with a value of '1'
+                    $('#departamento_pac').trigger('change');
+
                     gethorasDisponibles(info.dateStr);
                 } else {
                     Swal.fire(
@@ -50,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('btnAccion').textContent = 'Modificar';
             document.getElementById('titulo').textContent = 'Actualizar Evento';
             eliminar.classList.remove('d-none');
-
             getCitadosSucursal(sucursal,fecha);
         },
 /*  eventDrop: function (info) {
@@ -88,13 +94,17 @@ document.addEventListener('DOMContentLoaded', function () {
         let dui = document.getElementById('dui-vet').value;
         let fecha = document.getElementById('fecha-cita').value;
         let sucursal = document.getElementById('sucursal-cita').value;
-        if (paciente == '' || dui == '' || fecha == '' || sucursal=="") {
-             Swal.fire(
-                 'Notificaciones!!',
-                 'Existen campos obligatorios vacios',
-                 'warning'
+        let sector = document.getElementById("sector-pac").value;
+        let depto = document.getElementById("sector-pac").value;
+        let municipio = document.getElementById("sector-pac").value;
+        if (paciente == '' || dui == '' || fecha == '' || sucursal=="0" || sector=="0" || depto=="" || municipio=='0') {
+             Swal.fire(                
+                'Notificaciones!!',                
+                'Existen campos obligatorios vacios',
+                'warning'
              )
         } else {
+            
             const url = base_url + 'Home/registrar';
             const http = new XMLHttpRequest();
             http.open("POST", url, true);
@@ -103,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(this.responseText);
                     const res = JSON.parse(this.responseText);
+
                      Swal.fire(
                          'Notificacion',
                          res.msg,

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <?php
 require_once("../config/conexion.php");
-if(isset($_SESSION["usuario"])){
+if(isset($_SESSION["user"])){
 require_once("../vistas/links_plugin.php");
 require_once("modales/listarCitas.php");
 ?>
@@ -23,9 +23,45 @@ require_once("modales/listarCitas.php");
   <!-- Main Sidebar Container -->
   <?php require_once('side_bar.php')?>
   <div class="content-wrapper">
+    <button class="btn btn-outline-primary btn-xs" style="margin-left:25px"><i class="fas fa-calendar"></i> Citas diarias</button>
+    <button class="btn btn-outline-dark btn-xs" style="margin-left:25px" onClick="showModalGestion()"><i class="fas fa-cog"></i> Gestion de citas</button>
     <div class="container">
         <div id="calendar"></div>
     </div>
+
+        <!--MODAL GESTION CITAS -->
+
+<div class="modal" id="gestion-citas">
+  <div class="modal-dialog" style="max-width:55%">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header bg-primary" style="padding:10px;">
+        <h4 class="modal-title  w-100 text-center position-absolute" style="font-size:16px">GESTIONAR CITAS</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <table class="table-bordered table-hover" width="100%" id="data-gest-citas" style="font-family: Helvetica, Arial, sans-serif;font-size: 12px;text-align: center">
+
+        <thead style="color:white;" class='bg-dark'>
+            <tr>
+                <th style="width:40%">Paciente</th>
+                <th style="width:20%">DUI</th>
+                <th style="width:20%">Sector</th>
+                <th style="width:10%">Editar</th>
+                <th style="width:10%">Eliminar</th>
+            </tr>
+        </thead>
+
+        </table>
+      </div>
+
+
+    </div>
+  </div>
+</div>
  
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
         <div class="modal-dialog" style="max-width:80%">
@@ -146,17 +182,21 @@ require_once("modales/listarCitas.php");
                         <input type="hidden" id="start">
                         </div>
                     </div>
-                    
+                    <input type="hidden" id="id_usuario_vet" name="id_usuario_vet" value="<?php echo $_SESSION["id_user"]?>">
                     <input type="hidden" id="usuario-lente" name="usuario-lente" value="0">
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-block" id="btnEliminar">Eliminar</button>
                         <button type="submit" class="btn btn-dark btn-block" id="btnAccion">Guardar</button>
+                        <button class="btn btn-block btn-outline-info btn-flat" id="btnEdit" style="display:none"><i class="fas fa-edit"></i> EDITAR</button>
                     </div>
                 </form>
 
             </div>
         </div>
     </div>
+
+
+
+
 </div>
 </div>
 <?php 
@@ -170,6 +210,22 @@ require_once("../vistas/links_js.php");
     </script>
    
     <script src="<?php echo base_url; ?>Assets/js/app.js"></script>
+    <script src='../js/cleave.js'></script>
+    <script src='../js/citados.js'></script>
+    <script>
+        let telefono = new Cleave('#telefono-pac', {
+        delimiter: '-',
+        blocks: [4,4],
+        uppercase: true
+        });
+    
+        let dui = new Cleave('#dui-vet', {
+        delimiter: '-',
+        blocks: [8,1],
+        uppercase: true
+        });
+    </script>
+
 </body>
 
 </html>

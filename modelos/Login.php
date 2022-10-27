@@ -24,13 +24,13 @@ public function login_users(){
         $sql->bindValue(2, $password);
         $sql->bindValue(3, $sucursal);
         $sql->execute();
-        $resultado = $sql->fetch();
+        $results = $sql->fetch();
 
-    if(is_array($resultado) and count($resultado)>0){
-        $_SESSION["id_usuario"] = $resultado["id_usuario"];           
-        $_SESSION["usuario"] = $resultado["usuario"];
-        $_SESSION["categoria"] = $resultado["categoria"];
-        $_SESSION["sucursal"] = $resultado["sucursal"];
+    if(is_array($results) and count($results)>0){
+        $_SESSION["id_user"] = $results["id_usuario"];           
+        $_SESSION["user"] = $results["usuario"];
+        $_SESSION["categoria"] = $results["categoria"];
+        $_SESSION["sucursal"] = $results["sucursal"];
        
       header("Location:vistas/home.php");
       exit();

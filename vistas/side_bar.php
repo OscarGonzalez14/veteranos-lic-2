@@ -118,6 +118,13 @@
           </li>
           <?php } ?>
 
+          <li class="nav-item">
+                <a href="j.php" class="nav-link">
+                  <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Reporteria Admin.</p>
+                </a>
+              </li>
+
         </ul>
           
       </nav>
