@@ -17,13 +17,13 @@
             </a>
             <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="orden.php" class="nav-link">
+              <a href="../vistas/orden.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-info"></i>
                   <p>Ordenes</p>
                 </a>
             </li>
             <li class="nav-item">
-              <a href="ordenes_recibidas_veteranos.php" class="nav-link">
+              <a href="../vistas/ordenes_recibidas_veteranos.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-success"></i>
                   <p>Gestionar ordenes</p>
                 </a>
@@ -39,59 +39,43 @@
 
           <?php if($cat_usuario==1 or $cat_usuario==3){ ?>
           <li class="nav-item">
-            <a href='inventarios.php' class="nav-link" style="color: white">
+            <a href='../vistas/inventarios.php' class="nav-link" style="color: white">
               <i class="nav-icon fas fa-file"></i>
               <p>Inventarios</p>
             </a>
           </li>
           <?php } ?>
 
-
-          <?php if($cat_usuario==1 or $cat_usuario==3){ ?>
           <li class="nav-item">
-            <a href='../citas/index.php' class="nav-link" style="color: white">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Citas</p><i class="fas fa-angle-left right"></i>
-            </a>
+          <a href='index.php'class="nav-link" style="color: white">
+            <i class="nav-icon fas fa-file"></i>
+            <p>Citas</p><i class="fas fa-angle-left right"></i>
+          </a>
 
           <ul class="nav nav-treeview">
           <li class="nav-item">
-              <a href="../print-citas/index.php" class="nav-link">
-                <i class="far fa-circle nav-icon text-success"></i>
-                  <p>Citas Diarias</p>
-                </a>
-              </li>
-            <li class="nav-item">
-              <a href="rectificaciones.php" class="nav-link">
-                <i class="far fa-circle nav-icon text-danger"></i>
-                  <p>Rectificaciones</p>
-                </a>
-              </li>
-          </ul>
+            <a href="index.php" class="nav-link">
+              <i class="far fa-circle nav-icon text-info"></i>
+                <p>Citas</p>
+              </a>
           </li>
-          <?php } ?>
-
-          <?php if($cat_usuario==1){ ?>
           <li class="nav-item">
-            <a href='envios_ord.php' class="nav-link" style="color: white">
+            <a href="reporte_citas.php" class="nav-link">
+              <i class="far fa-circle nav-icon text-success"></i>
+                <p>Reporte citas</p>
+              </a>
+            </li>
+          </ul>  
+          </li>
+
+        <?php if($cat_usuario==1){ ?>
+          <li class="nav-item">
+            <a href='../vistas/envios_ord.php' class="nav-link" style="color: white">
               <i class="nav-icon  fas fa-exchange-alt"></i>
               <p>Gestionar Lentes</p>
             </a>
           </li>
 
-          <li class="nav-item">
-            <a href='lenses.php'class="nav-link" style="color: white">
-              <i class="nav-icon fab fa-tripadvisor"></i>
-              <p>Lenses</p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href='orders.php'class="nav-link" style="color: white">
-              <i class="nav-icon fas fa-glasses"></i>
-              <p>Aros</p>
-            </a>
-          </li>
           <?php } ?>
           <?php if($cat_usuario==1 or $cat_usuario==4){ ?>
           <li class="nav-item">
@@ -133,13 +117,6 @@
           </li>
           <?php } ?>
 
-          <li class="nav-item">
-                <a href="j.php" class="nav-link">
-                  <i class="far fa-circle nav-icon text-success"></i>
-                  <p>Reporteria Admin.</p>
-                </a>
-              </li>
-
         </ul>
           
       </nav>
@@ -147,4 +124,7 @@
     </div>
     <!-- /.sidebar -->
     <input type="hidden" id="categoria-usuer-hist" value="<?php echo $_SESSION["categoria"];?>">
+    <script>
+    var permisos = <?php echo json_encode($_SESSION["permisos"])?>;
+  </script>
   </aside>

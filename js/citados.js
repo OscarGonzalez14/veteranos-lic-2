@@ -169,3 +169,22 @@ function editarCitaSendData(){
   
 }
 
+//**********CALENDARIO IMPRIMIR CITAS********** */
+let calendarCitas = document.getElementById('calendario-citas');
+
+document.addEventListener('DOMContentLoaded', function () {
+  calendarcits = new FullCalendar.Calendar(calendarCitas, {
+    timeZone: 'local',
+    initialView: 'dayGridMonth',
+    locale: 'es',
+    headerToolbar: {
+        left: 'prev next today',
+        center: 'title',
+        right: 'dayGridMonth timeGridWeek listWeek'
+    },
+
+  });
+
+  calendarcits.render();
+});
+
