@@ -97,6 +97,8 @@ function showModalGestion(){
 }
 
 function editarCita(id_cita){
+ 
+ let permiso_edita_cita = permisos.includes('3'); 
 
   $.ajax({
     url:"../ajax/citados.php?op=get_data_cita",
@@ -108,11 +110,62 @@ function editarCita(id_cita){
       $("#myModal").modal();
       document.getElementById("fecha-cita").readOnly = false;
       document.getElementById("btnEdit").style.display="block";
-      document.getElementById("btnAccion").style.display="none";
+      document.getElementById("btnAccion").style.display="none";      
+      document.getElementById("sucursal-cita").value=data.sucursal;
+      document.getElementById("fecha-cita").value=data.fecha;
+      document.getElementById("telefono-pac").value=data.telefono;
+      document.getElementById("edad-pac").value=data.edad;
+      document.getElementById("genero-pac").value=data.genero;
+      document.getElementById("ocupacion-pac").value=data.ocupacion;
+      document.getElementById("sector-pac").value=data.sector;
+      $("#departamento_pac").val(data.depto).trigger('change');
+      $("#munic_pac").val(data.municipio).trigger('change');
       document.getElementById("paciente-vet").value=data.paciente
-      document.getElementById("dui-vet").value=data.dui
+      document.getElementById("dui-vet").value=data.dui;
+      //let id_user = document.getElementById("id_usuario_vet").value;
+      if(permiso_edita_cita==false) {
+        document.getElementById("paciente-vet").readOnly = true;
+        document.getElementById("dui-vet").readOnly = true;
+        document.getElementById("telefono-pac").readOnly = true;
+        document.getElementById("edad-pac").readOnly = true;
+        document.getElementById("ocupacion-pac").readOnly = true;
+        document.getElementById("genero-pac").disabled = true;
+        document.getElementById("sector-pac").disabled = true;
+        document.getElementById("munic_pac").disabled = true;
+        document.getElementById("departamento_pac").disabled = true;
+      }
       
     }
 });
 
 }
+
+function editarCitaSendData(){
+
+  let paciente = document.getElementById('paciente-vet').value;
+  let dui = document.getElementById('dui-vet').value;
+  let fecha = document.getElementById('fecha-cita').value;
+  let sucursal = document.getElementById('sucursal-cita').value;
+  let sector = document.getElementById("sector-pac").value;
+  let depto = document.getElementById("sector-pac").value;
+  let municipio = document.getElementById("sector-pac").value;
+  let hora = "-";
+  let telefono = document.getElementById("telefono-pac").value;
+  let edad = document.getElementById("edad-pac").value;
+  let ocupacion = document.getElementById("ocupacion-pac").value;
+  let genero = document.getElementById("genero-pac").value;
+
+  $.ajax({
+    url:"../ajax/citados.php?op=editar_cita",
+    method:"POST",
+    data:{paciente:paciente,dui:dui,fecha:fecha,sucursal:sucursal,sector:sector,depto:depto,municipio:municipio,hora:hora,telefono:telefono,edad:edad,ocupacion:ocupacion,genero:genero},
+    cache: false,
+    dataType:"json",
+    success:function(data){
+      console.log(data)
+      //$("#aros_orden").modal("hide");
+    }
+  });///fin ajax
+  
+}
+

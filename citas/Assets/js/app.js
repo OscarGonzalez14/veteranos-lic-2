@@ -2,6 +2,7 @@ let calendarEl = document.getElementById('calendar');
 let frm = document.getElementById('formulario');
 let eliminar = document.getElementById('btnEliminar');
 let myModal = new bootstrap.Modal(document.getElementById('myModal'));
+let sucursal = document.getElementById("sucs").value;
 document.addEventListener('DOMContentLoaded', function () {
     calendar = new FullCalendar.Calendar(calendarEl, {
         timeZone: 'local',
@@ -12,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             right: 'dayGridMonth timeGridWeek listWeek'
         },
-        events: base_url + 'Home/listar',
+        
+        events: base_url + 'Home/listar?filtro='+ sucursal,
         editable: true,
         dateClick: function (info) {
             frm.reset();
@@ -22,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(hoy);
                
                 if (info.date >= hoy) {
-                    //eliminar.classList.add('d-none');
                     document.getElementById("btnEdit").style.display="none";
                     document.getElementById("btnAccion").style.display="block";
                     document.getElementById('start').value = info.dateStr;
                     document.getElementById('id').value = '';
+                    document.getElementById("fecha-cita").readOnly = true;
                     document.getElementById('btnAccion').textContent = 'Registrar';
                     myModal.show();
                     document.getElementById("fecha-cita").value=info.dateStr;
@@ -50,43 +52,16 @@ document.addEventListener('DOMContentLoaded', function () {
         eventClick: function (info) {
             let sucursal = info.event.title;
             let fecha = info.event.startStr;
-            console.log(sucursal,fecha)
+            
             document.getElementById('id').value = info.event.id;
-            /*document.getElementById('title').value = info.event.title;*/
             document.getElementById('start').value = info.event.startStr;
             document.getElementById('btnAccion').textContent = 'Modificar';
             document.getElementById('titulo').textContent = 'Actualizar Evento';
-            eliminar.classList.remove('d-none');
+
             getCitadosSucursal(sucursal,fecha);
         },
-/*  eventDrop: function (info) {
-            const start = info.event.startStr;
-            const id = info.event.id;
-            const url = base_url + 'Home/drag';
-            const http = new XMLHttpRequest();
-            const formDta = new FormData();
-            formDta.append('start', start);
-            formDta.append('id', id);
-            http.open("POST", url, true);
-            http.send(formDta);
-            http.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log(this.responseText);
-                    const res = JSON.parse(this.responseText);
-                     Swal.fire(
-                         'Avisos?',
-                         res.msg,
-                         res.tipo
-                     )
-                    if (res.estado) {
-                        myModal.hide();
-                        calendar.refetchEvents();
-                    }
-                }
-            }
-        } */
-
     }); 
+
     calendar.render();
     frm.addEventListener('submit', function (e) {
         e.preventDefault();

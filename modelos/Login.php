@@ -3,6 +3,15 @@
 require_once("config/conexion.php");
 
 class Login extends Conectar{
+
+  public function listar_permisos_por_usuario($id_usuario){
+    $conectar=parent::conexion();
+    $sql="select * from usuario_permiso where id_usuario=?";
+    $sql=$conectar->prepare($sql);
+    $sql->bindValue(1, $id_usuario);
+    $sql->execute();
+    return $resultado=$sql->fetchAll();
+ }
   
 public function login_users(){
   $conectar=parent::conexion();
@@ -31,6 +40,14 @@ public function login_users(){
         $_SESSION["user"] = $results["usuario"];
         $_SESSION["categoria"] = $results["categoria"];
         $_SESSION["sucursal"] = $results["sucursal"];
+
+        $marcados = $this->listar_permisos_por_usuario($results["id_usuario"]);
+        print_r($marcados);
+        $valores=array();
+        foreach($marcados as $row){
+          $valores[]= $row["id_permiso"];
+        }
+        $_SESSION['permisos'] = $valores;
        
       header("Location:vistas/home.php");
       exit();

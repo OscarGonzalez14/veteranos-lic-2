@@ -69,6 +69,7 @@ switch ($_GET["op"]){
             $output["depto"] = $row["depto"];
             $output["municipio"] = $row["municipio"];
             $output["fecha"] = $row["fecha"];
+            $output["sucursal"] = $row["sucursal"];
             $output["id_cita"] = $row["id_cita"];  
         }
         echo json_encode($output);

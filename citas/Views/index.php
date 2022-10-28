@@ -21,13 +21,15 @@ require_once("modales/listarCitas.php");
 <!-- top-bar -->
   <?php require_once('../vistas/top_menu.php')?>
   <!-- Main Sidebar Container -->
-  <?php require_once('side_bar.php')?>
+  <?php require_once('side_bar.php'); ?>
   <div class="content-wrapper">
+    <input type="text" value="Gotera" id="sucs">
     <button class="btn btn-outline-primary btn-xs" style="margin-left:25px"><i class="fas fa-calendar"></i> Citas diarias</button>
     <button class="btn btn-outline-dark btn-xs" style="margin-left:25px" onClick="showModalGestion()"><i class="fas fa-cog"></i> Gestion de citas</button>
     <div class="container">
         <div id="calendar"></div>
     </div>
+
 
         <!--MODAL GESTION CITAS -->
 
@@ -74,6 +76,38 @@ require_once("modales/listarCitas.php");
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id">
                         <div class="row">
+
+                        <div class="col-md-4">
+                            <label for="start">Fecha</label>
+                            <input class="form-control" id="fecha-cita" type="date" name="fecha-cita" readonly>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="start">Sucursal</label>
+                            <select class="form-control" id="sucursal-cita" name="sucursal-cita">
+                                <option value="0">Seleccionar sucursal</option>
+                                <option value="Metrocentro">Metrocentro</option>
+                                <option value="Cascadas">Cascadas</option>
+                                <option value="Santa Ana">Santa Ana</option>
+                                <option value="Chalatenango">Chalatenango</option>
+                                <option value="Ahuachapan">Ahuachapan</option>
+                                <option value="Sonsonate">Sonsonate</option>
+                                <option value="Ciudad Arce">Ciudad Arce</option>                                   
+                                <option value="Opico">Opico</option>
+                                <option value="Apopa">Apopa</option>
+                                <option value="San Vicente Centro">San Vicente Centro</option>
+                                <option value="San Vicente">San Vicente</option>
+                                <option value="Gotera">Gotera</option>
+                                <option value="San Miguel">San Miguel</option>
+                            </select>
+                        </div>                  
+
+                        <div class="col-md-4 select2-primary">
+                            <label for="hora" >Hora</label>
+                            <select class="select2 form-control clear_input" id="hora" name="hora" multiple="multiple" data-placeholder="Seleccionar hora" data-dropdown-css-class="select2-primary" style="width: 100%;height: ">
+                            <option value="0">Seleccione hora...</option>
+                            </select> 
+                        </div>
 
                         <div class="col-md-6">
                             <label for="title">Paciente</label>
@@ -148,37 +182,6 @@ require_once("modales/listarCitas.php");
                             </select>               
                        </div>
 
-                        <div class="col-md-4">
-                            <label for="start">Fecha</label>
-                            <input class="form-control" id="fecha-cita" type="date" name="fecha-cita" readonly>
-                        </div>
-
-                        <div class="col-md-4 select2-primary">
-                            <label for="hora" >Hora</label>
-                            <select class="select2 form-control clear_input" id="hora" name="hora" multiple="multiple" data-placeholder="Seleccionar hora" data-dropdown-css-class="select2-primary" style="width: 100%;height: ">
-                            <option value="0">Seleccione hora...</option>
-                            </select> 
-                        </div>
-
-                        <div class="col-md-4">
-                            <label for="start">Sucursal</label>
-                            <select class="form-control" id="sucursal-cita" name="sucursal-cita">
-                                <option value="0">Seleccionar sucursal</option>
-                                <option value="Metrocentro">Metrocentro</option>
-                                <option value="Cascadas">Cascadas</option>
-                                <option value="Santa Ana">Santa Ana</option>
-                                <option value="Chalatenango">Chalatenango</option>
-                                <option value="Ahuachapan">Ahuachapan</option>
-                                <option value="Sonsonate">Sonsonate</option>
-                                <option value="Ciudad Arce">Ciudad Arce</option>                                   
-                                <option value="Opico">Opico</option>
-                                <option value="Apopa">Apopa</option>
-                                <option value="San Vicente Centro">San Vicente Centro</option>
-                                <option value="San Vicente">San Vicente</option>
-                                <option value="Gotera">Gotera</option>
-                                <option value="San Miguel">San Miguel</option>
-                            </select>
-                        </div>
                         <input type="hidden" id="start">
                         </div>
                     </div>
@@ -186,10 +189,10 @@ require_once("modales/listarCitas.php");
                     <input type="hidden" id="usuario-lente" name="usuario-lente" value="0">
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-dark btn-block" id="btnAccion">Guardar</button>
-                        <button class="btn btn-block btn-outline-info btn-flat" id="btnEdit" style="display:none"><i class="fas fa-edit"></i> EDITAR</button>
+                       
                     </div>
                 </form>
-
+                <button class="btn btn-outline-info btn-flat" id="btnEdit" style="display:none;" onClick="editarCitaSendData()"><i class="fas fa-edit"></i> EDITAR</button>
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ class HomeModel extends Query{
     }
     public function registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$user_login){
        // $user_login="6547";
-        $color="#750000";
+        $color="#C85250";
         $estado="0";
         date_default_timezone_set('America/El_Salvador');
         $hoy_reg = date("Y-m-d");
@@ -22,8 +22,10 @@ class HomeModel extends Query{
         }
         return $res;
     }
-    public function getEventos(){
-        $sql = "SELECT id_cita as id,concat(count(paciente),'-', sucursal) as title,fecha as start, color FROM citas where estado='0' group by fecha,sucursal;";
+    public function getEventos($sucursal){
+        $sql = "SELECT id_cita as id,concat(count(paciente),'-', sucursal) as title,fecha as start, color FROM citas where estado='0' AND sucursal = '$sucursal' group by fecha,sucursal;";
+        $array = array($sucursal);
+        $this->save($sql,$array);
         return $this->selectAll($sql);
     }
     public function modificar($title, $inicio, $color, $id)
