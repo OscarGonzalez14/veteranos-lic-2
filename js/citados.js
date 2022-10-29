@@ -169,22 +169,48 @@ function editarCitaSendData(){
   
 }
 
-//**********CALENDARIO IMPRIMIR CITAS********** */
-let calendarCitas = document.getElementById('calendario-citas');
+function imprimirCitados(){
+  let fecha = document.getElementById("fecha_print").value;
+  let sucursal = document.getElementById("sucursal_print").value;
+  let form = document.createElement("form");
+  form.target = "print_blank";
+  form.method = "POST";
+  form.action = "../vistas/imprimir_citas_pdf.php";
 
-document.addEventListener('DOMContentLoaded', function () {
-  calendarcits = new FullCalendar.Calendar(calendarCitas, {
-    timeZone: 'local',
-    initialView: 'dayGridMonth',
-    locale: 'es',
-    headerToolbar: {
-        left: 'prev next today',
-        center: 'title',
-        right: 'dayGridMonth timeGridWeek listWeek'
-    },
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "fecha-cita";
+  input.value = fecha;
+  form.appendChild(input);
 
-  });
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "sucursal";
+  input.value = sucursal;
+  form.appendChild(input);
 
-  calendarcits.render();
-});
+
+  document.body.appendChild(form);//"width=600,height=500"
+  form.submit();
+  document.body.removeChild(form);
+
+}
+
+function imprimirCitadosAll(){
+  let fecha = document.getElementById("fecha_print").value;
+  let form = document.createElement("form");
+  form.target = "print_blank";
+  form.method = "POST";
+  form.action = "../vistas/listar_citas_all.php";
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "fecha-cita";
+  input.value = fecha;
+  form.appendChild(input);
+
+  document.body.appendChild(form);//"width=600,height=500"
+  form.submit();
+  document.body.removeChild(form);
+
+}
 

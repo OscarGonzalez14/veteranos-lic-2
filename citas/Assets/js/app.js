@@ -2,7 +2,7 @@ let calendarEl = document.getElementById('calendar');
 let frm = document.getElementById('formulario');
 let eliminar = document.getElementById('btnEliminar');
 let myModal = new bootstrap.Modal(document.getElementById('myModal'));
-let sucursal = document.getElementById("sucs").value;
+//let sucursal = document.getElementById("sucs").value;
 document.addEventListener('DOMContentLoaded', function () {
     calendar = new FullCalendar.Calendar(calendarEl, {
         timeZone: 'local',
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             right: 'dayGridMonth timeGridWeek listWeek'
         },
-        
-        events: base_url + 'Home/listar?filtro='+ sucursal,
+        events: base_url + 'Home/listar',
+        //events: base_url + 'Home/listar?filtro='+ sucursal,
         editable: true,
         dateClick: function (info) {
             frm.reset();

@@ -1,8 +1,5 @@
-let calendarEl = document.getElementById('calendar');
-let frm = document.getElementById('formulario');
-let eliminar = document.getElementById('btnEliminar');
-let myModal = new bootstrap.Modal(document.getElementById('myModal'));
-//let sucursal = document.getElementById("sucs").value;
+let calendarEl = document.getElementById('calendario-citas');
+sucursal = document.getElementById("sucs").value;
 document.addEventListener('DOMContentLoaded', function () {
     calendar = new FullCalendar.Calendar(calendarEl, {
         timeZone: 'local',
@@ -14,128 +11,21 @@ document.addEventListener('DOMContentLoaded', function () {
             right: 'dayGridMonth timeGridWeek listWeek'
         },
         
-       // events: base_url + 'Home/listar?filtro='+ sucursal,
-       events: base_url + 'Home/listar',
+        events: base_url + 'Home/listar?filtro='+ sucursal+'&categoria='+cat_user,
         editable: true,
-        dateClick: function (info) {
-            frm.reset();
-                console.log(info.date)
-                let hoy = new Date();
-                hoy.setHours(0,0,0,0);
-                console.log(hoy);
-               
-                if (info.date >= hoy) {
-                    document.getElementById("btnEdit").style.display="none";
-                    document.getElementById("btnAccion").style.display="block";
-                    document.getElementById('start').value = info.dateStr;
-                    document.getElementById('id').value = '';
-                    document.getElementById("fecha-cita").readOnly = true;
-                    document.getElementById('btnAccion').textContent = 'Registrar';
-                    myModal.show();
-                    document.getElementById("fecha-cita").value=info.dateStr;
-                    document.getElementById('titulo').textContent = 'Registrar Cita';
-                    $('#munic_pac').val('1'); // Select the option with a value of '1'
-                    $('#munic_pac').trigger('change');
-                    $('#departamento_pac').val('1'); // Select the option with a value of '1'
-                    $('#departamento_pac').trigger('change');
-
-                    gethorasDisponibles(info.dateStr);
-                } else {
-                    Swal.fire(
-                        'Fecha invalida!!',
-                        'Fecha menor que hoy',
-                        'warning'
-                    )
-                }               
+        dateClick: function (info) {                 
+        getCitadosSucursal(sucursal,info.dateStr);    
                       
         },
 
         eventClick: function (info) {
-            let sucursal = info.event.title;
             let fecha = info.event.startStr;
-            
-            document.getElementById('id').value = info.event.id;
-            document.getElementById('start').value = info.event.startStr;
-            document.getElementById('btnAccion').textContent = 'Modificar';
-            document.getElementById('titulo').textContent = 'Actualizar Evento';
-
             getCitadosSucursal(sucursal,fecha);
         },
     }); 
 
-    calendar.render();
-    frm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        let paciente = document.getElementById('paciente-vet').value;
-        let dui = document.getElementById('dui-vet').value;
-        let fecha = document.getElementById('fecha-cita').value;
-        let sucursal = document.getElementById('sucursal-cita').value;
-        let sector = document.getElementById("sector-pac").value;
-        let depto = document.getElementById("sector-pac").value;
-        let municipio = document.getElementById("sector-pac").value;
-        if (paciente == '' || dui == '' || fecha == '' || sucursal=="0" || sector=="0" || depto=="" || municipio=='0') {
-             Swal.fire(                
-                'Notificaciones!!',                
-                'Existen campos obligatorios vacios',
-                'warning'
-             )
-        } else {
-            
-            const url = base_url + 'Home/registrar';
-            const http = new XMLHttpRequest();
-            http.open("POST", url, true);
-            http.send(new FormData(frm));
-            http.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log(this.responseText);
-                    const res = JSON.parse(this.responseText);
+    calendar.render();   
 
-                     Swal.fire(
-                         'Notificacion',
-                         res.msg,
-                         res.tipo
-                     )
-                    if (res.estado) {
-                        myModal.hide();
-                        calendar.refetchEvents();
-                    }
-                }
-            }
-        }
-    });
-    eliminar.addEventListener('click', function () {
-        myModal.hide();
-        Swal.fire({
-            title: 'Advertencia?',
-            text: "Esta seguro de eliminar!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const url = base_url + 'Home/eliminar/' + document.getElementById('id').value;
-                const http = new XMLHttpRequest();
-                http.open("GET", url, true);
-                http.send();
-                http.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        console.log(this.responseText);
-                        const res = JSON.parse(this.responseText);
-                        Swal.fire(
-                            'Avisos?',
-                            res.msg,
-                            res.tipo
-                        )
-                        if (res.estado) {
-                            calendar.refetchEvents();
-                        }
-                    }
-                }
-            }
-        })
-    });
 });
 
 
@@ -228,8 +118,10 @@ $(function () {
 
 
   function  getCitadosSucursal(sucursal,fecha){
-    $("#listarCitas").modal()
-    tabla = $('#datatable_citas_suc').DataTable({      
+    $("#listarCitasPrint").modal();
+    document.getElementById("fecha_print").value=fecha;
+    document.getElementById("sucursal_print").value=sucursal;
+    tabla = $('#datatable_citas_print').DataTable({      
       "aProcessing": true,//Activamos el procesamiento del datatables
       "aServerSide": true,//Paginación y filtrado realizados por el servidor
       dom: 'frtip',//Definimos los elementos del control de tabla
@@ -238,7 +130,7 @@ $(function () {
       ],
   
       "ajax":{
-        url:"../ajax/citados.php?op=get_citados_sucursal",
+        url:"../ajax/citados.php?op=get_citados_sucursal_print",
         type : "POST",
         data: {sucursal:sucursal,fecha:fecha},
         dataType : "json",         

@@ -51,7 +51,7 @@ class Home extends Controller
     }
     public function listar(){
         
-        $data = $this->model->getEventos($_GET["filtro"]);
+        $data = $this->model->getEventos();
         echo json_encode($data);
         die();
     }

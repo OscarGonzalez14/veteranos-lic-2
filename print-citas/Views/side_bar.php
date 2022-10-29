@@ -37,7 +37,7 @@
             </ul>  
             </li>
 
-          <?php if($cat_usuario==1 or $cat_usuario==3){ ?>
+          <?php if($cat_usuario=="Admin" or $cat_usuario==3){ ?>
           <li class="nav-item">
             <a href='../vistas/inventarios.php' class="nav-link" style="color: white">
               <i class="nav-icon fas fa-file"></i>
@@ -125,6 +125,6 @@
     <!-- /.sidebar -->
     <input type="hidden" id="categoria-usuer-hist" value="<?php echo $_SESSION["categoria"];?>">
     <script>
-    var permisos = <?php echo json_encode($_SESSION["permisos"])?>;
+    var cat_user = <?php echo json_encode($_SESSION["categoria"])?>;
   </script>
   </aside>

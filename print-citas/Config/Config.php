@@ -1,5 +1,5 @@
 <?php
-/*const base_url = "https://avplustuoptica.com/licitacion2/citas/;
+/*const base_url = "https://avplustuoptica.com/licitacion2/print-citas/;
 const host = "localhost";
 const user = "u579024306_vets";
 const pass = "Veteranos_2022";

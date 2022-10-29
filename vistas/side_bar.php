@@ -37,7 +37,7 @@
             </ul>  
             </li>
 
-          <?php if($cat_usuario==1 or $cat_usuario==3){ ?>
+          <?php if($cat_usuario=="Admin"){ ?>
           <li class="nav-item">
             <a href='inventarios.php' class="nav-link" style="color: white">
               <i class="nav-icon fas fa-file"></i>
@@ -47,24 +47,33 @@
           <?php } ?>
 
 
-          <?php if($cat_usuario==1 or $cat_usuario==3){ ?>
+          <?php if($cat_usuario=="Admin" or $cat_usuario=='suc' or $_SESSION["citas_callcenter"]==1){ ?>
           <li class="nav-item">
-            <a href='../citas/index.php' class="nav-link" style="color: white">
+            <a href='#' class="nav-link" style="color: white">
               <i class="nav-icon fas fa-file"></i>
               <p>Citas</p><i class="fas fa-angle-left right"></i>
             </a>
 
           <ul class="nav nav-treeview">
+          <?php if($_SESSION["citas_callcenter"]==1){ ?>
+          <li class="nav-item">
+              <a href="../citas/index.php" class="nav-link">
+                <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Citas</p>
+                </a>
+          <?php }?>
+          <?php if($_SESSION["citas_sucursal"]==1){ ?>
           <li class="nav-item">
               <a href="../print-citas/index.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-success"></i>
                   <p>Citas Diarias</p>
                 </a>
               </li>
+          <?php }?>    
             <li class="nav-item">
               <a href="rectificaciones.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-danger"></i>
-                  <p>Rectificaciones</p>
+                  <p>Reporteria Citas</p>
                 </a>
               </li>
           </ul>

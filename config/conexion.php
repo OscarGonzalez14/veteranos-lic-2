@@ -56,7 +56,7 @@ class conexionLenti{
 		return "localhost/veteranos/";
 	}
 }
-
+$sucursales_array = ["Valencia","Metrocentro","Cascadas","Santa Ana","Chalatenango","Ahuachapan","Sonsonate","Ciudad Arce","Opico","Apopa","San Vicente Centro","San Vicente","Gotera","San Miguel","Usulutan"];
 $sucursales = '
 	<option value="0">Seleccionar sucursal...</option>
 	<option value="inabve">INABVE</option>
@@ -77,6 +77,5 @@ $sucursales = '
 	<option value="Usulutan">Usulutan</option>
 
 ';
-
 
 ?>

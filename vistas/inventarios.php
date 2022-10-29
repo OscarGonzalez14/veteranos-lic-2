@@ -1,6 +1,6 @@
 <?php 
 require_once("../config/conexion.php");
-if(isset($_SESSION["usuario"])){
+if(isset($_SESSION["user"])){
 $categoria_usuario = $_SESSION["categoria"];
 ?>
 <!DOCTYPE html>
@@ -166,7 +166,7 @@ $categoria_usuario = $_SESSION["categoria"];
           </div>      
         </div>   
         
-       <input type="hidden" value="<?php echo $_SESSION['id_usuario']?>" id="id_usuario">
+       <input type="hidden" value="<?php echo $_SESSION['id_user']?>" id="id_usuario">
       </div>
     </div>
   </div>
