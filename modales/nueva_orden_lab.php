@@ -328,7 +328,7 @@
 
           </section>
           <input type="hidden" id="id_cita_ord">
-           <input type="hidden" id="user_act" value="<?php echo $_SESSION["usuario"];?>">
+           <input type="hidden" id="user_act" value="<?php echo $_SESSION["user"];?>">
           <div class="form-group justify-content-between" style="margin: 4px; display: flex;justify-content: space-between;">
 
           <button type="button" class="btn btn-dark" style="margin: 5px;" id="btn_rectificar" data-toggle="modal" data-target="#rectificacionesModal" data-index-number="12314Os"><i class="fas fa-wrench"></i> &nbsp;Rectificar</button>

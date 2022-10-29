@@ -1,5 +1,5 @@
 function init(){
-  document.getElementById("enviar_a").style.display = "none";
+ // document.getElementById("enviar_a").style.display = "none";
   listar_ordenes_digitadas('0');
   listar_ordenes_enviar();
   get_numero_orden();

@@ -4,27 +4,7 @@ require_once("../config/conexion.php");
 
   class Ordenes extends Conectar{
 
-    public function get_opticas(){
-      $conectar=parent::conexion();
-      parent::set_names();
-      $sql="select id_optica,nombre from optica;";
-      $sql=$conectar->prepare($sql);
-      $sql->execute();
-      return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-    }
 
-    ///////////GET SUCURSALES ///////////
-    public function get_sucursales_optica($id_optica){
-      $conectar=parent::conexion();
-      parent::set_names();
-      $sql="select id_sucursal,direccion from sucursal_optica where id_optica=?;";
-      $sql=$conectar->prepare($sql);
-      $sql->bindValue(1,$id_optica);
-      $sql->execute();
-      return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    //////////////////  GET CODIGO DE ORDEN ////////////////////////
 
     public function get_correlativo_orden($fecha){
     $conectar = parent::conexion();

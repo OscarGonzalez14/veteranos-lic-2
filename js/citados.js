@@ -122,6 +122,8 @@ function editarCita(id_cita){
       $("#munic_pac").val(data.municipio).trigger('change');
       document.getElementById("paciente-vet").value=data.paciente
       document.getElementById("dui-vet").value=data.dui;
+      document.getElementById("id_citado").value=id_cita;
+
       //let id_user = document.getElementById("id_usuario_vet").value;
       if(permiso_edita_cita==false) {
         document.getElementById("paciente-vet").readOnly = true;
@@ -141,7 +143,7 @@ function editarCita(id_cita){
 }
 
 function editarCitaSendData(){
-
+  let id_cita= document.getElementById('id_citado').value;
   let paciente = document.getElementById('paciente-vet').value;
   let dui = document.getElementById('dui-vet').value;
   let fecha = document.getElementById('fecha-cita').value;
@@ -158,12 +160,14 @@ function editarCitaSendData(){
   $.ajax({
     url:"../ajax/citados.php?op=editar_cita",
     method:"POST",
-    data:{paciente:paciente,dui:dui,fecha:fecha,sucursal:sucursal,sector:sector,depto:depto,municipio:municipio,hora:hora,telefono:telefono,edad:edad,ocupacion:ocupacion,genero:genero},
+    data:{paciente:paciente,dui:dui,fecha:fecha,sucursal:sucursal,sector:sector,depto:depto,municipio:municipio,hora:hora,telefono:telefono,edad:edad,ocupacion:ocupacion,genero:genero,id_cita:id_cita},
     cache: false,
     dataType:"json",
     success:function(data){
       console.log(data)
-      //$("#aros_orden").modal("hide");
+      calendar.refetchEvents();
+      $("#myModal").modal('hide')
+      $("#gestion-citas").modal('hide')
     }
   });///fin ajax
   

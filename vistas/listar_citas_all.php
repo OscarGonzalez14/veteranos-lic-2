@@ -12,6 +12,7 @@ date_default_timezone_set('America/El_Salvador');
 
 $citas = new Reporteria();
 $fecha_cita = $_POST["fecha-cita"];
+
 ?>
 
 <!DOCTYPE html>
@@ -66,26 +67,146 @@ $fecha_cita = $_POST["fecha-cita"];
 
 <html>
 <body>
+<div id="watermark">
+<img src="../dist/img/Logo_Gobierno.jpg" width="700" height="700"/>
+</div>
+
+
 
 <?php 
-
+$j=1;
 $tam_array = count($sucursales_array);
+$resumen = array();
+$cont = 0;
 for ($i = 0 ;$i < $tam_array; $i++) {
-  echo $sucursales_array[$i]."<br>";
-}
-/*   foreach ($citados as $key){
-    $sucursal =  $key["sucursal"];
-    $fecha_cita =  $key["fecha"];
-    include '../helpers/plantilla_citados.php';
-  } */
+  $sucursal = $sucursales_array[$i];
+  $data = $citas->get_pacientes_citados($fecha_cita,$sucursal);
+  $tam_data = count($data);
+  if($tam_data>0){
 
+  ?>
+<table style="width: 100%;margin-top:2px" width="100%">
+<td width="25%" style="width:10%;margin:0px">
+  <img src='../dist/img/inabve.jpg' width="90" height="70"/>
+</td>
+  
+<td width="60%" style="width:75%;margin:0px">
+<table style="width:100%">
+  <br>
+  <tr>
+    <td  style="text-align: center;margin-top: 0px;font-size:18px;font-family: Helvetica, Arial, sans-serif;"><b>CITAS DIARIAS  INAVBE-OPTICAS AV PLUS</b></td>
+  </tr>
+  <tr>
+    <td  style="text-align:center;margin-top:0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>FECHA: <?php echo date("d-m-Y",strtotime($fecha_cita)); ?></b></td>
+  </tr>
+  <tr style="text-align:center;margin-top:0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><u><b>SUCURSAL: <?php echo $sucursal?> </u></b></td>
+  </tr>
+</table>
+</td>
+
+<td width="25%" style="width:15%;margin:0px">
+  <img src='../dist/img/logo_avplus.jpg' width="60" height="35" style="margin-top:25px;"></td>
+</table><!--fin tabla-->
+
+
+  <table width="100%" id="tabla_reporte_citas" data-order='[[ 0, "desc" ]]' style="margin-top: 23px" class="tabla_reporte_citas">
+        
+ <tr>
+   <th colspan="5" style="width:5%">#</th>
+   <th colspan="10" style="width:10%">DUI</th>
+   <th colspan="10" style="width:10%">Teléfono</th>   
+   <th colspan="40" style="width:40%">Nombre</th>
+   <th colspan="20" style="width:20%">Estado</th>
+   <th colspan="15" style="width:15%">Observaciones</th>
+ </tr>
+ <?php
+ 
+ foreach($data as $key){
+  if($key["estado"]=="0"){
+    $estado = "Sin evaluar";
+  }elseif($key["estado"]=="0"){
+    $estado = "Paciente atendido";
+  }
+  ?>
+ <tr>
+  <td colspan="5" style="width:5%"><?php echo $j;?></td>
+  <td colspan="10" style="width:10%"><?php echo $key["dui"];?></td>
+  <td colspan="10" style="width:10%"></td>
+  <td colspan="40" style="width:40%"><?php echo $key["paciente"];?></td>
+  <td colspan="20" style="width:20%"><?php echo $estado;?></td>
+  <td colspan="15" style="width:15%"></td>
+ </tr>
+ <?php
+ if($j<count($data)){
+  $j++;
+ }else{
+  $j=1;
+ }
+}?>
+
+</table>
+
+<div style="page-break-after:always;"></div>
+ 
+<?php
+array_push($resumen,array("cantidad"=>count($data),"sucursal"=>$sucursal));
+}
+
+}
 
 ?>
 
+<table style="width: 100%;margin-top:2px" width="100%">
+<td width="25%" style="width:10%;margin:0px">
+  <img src='../dist/img/inabve.jpg' width="90" height="70"/>
+</td>
   
+<td width="60%" style="width:75%;margin:0px">
+<table style="width:100%">
+  <br>
+  <tr>
+    <td  style="text-align: center;margin-top: 0px;font-size:18px;font-family: Helvetica, Arial, sans-serif;"><b> RESUMEN CITAS DIARIAS  INAVBE-OPTICAS AV PLUS</b></td>
+  </tr>
+  <tr>
+    <td  style="text-align:center;margin-top:0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>FECHA: <?php echo date("d-m-Y",strtotime($fecha_cita)); ?></b></td>
+  </tr>
+</table>
+</td>
 
-</body>
-</html>
+<td width="25%" style="width:15%;margin:0px">
+  <img src='../dist/img/logo_avplus.jpg' width="60" height="35" style="margin-top:25px;"></td>
+</table><!--fin tabla-->
+<table width="100%" class="tabla_reporte_citas">
+<tr>
+   <th colspan="5" style="width:5%">#</th>
+   <th colspan="30" style="width:30%">Sucursal</th>
+   <th colspan="20" style="width:20%">Cantidad</th>
+   <th colspan="45" style="width:45%">Observaciones</th>
+ </tr>
+ <?php
+ $h=1;
+ $totales = 0;
+ foreach($resumen as $r){?>
+  <tr>
+  <td colspan="5" style="width:5%"><?php echo $h;?></td>
+  <td colspan="30" style="width:30%"><?php echo $r["sucursal"];?></td>
+  <td colspan="20" style="width:20%"><?php echo $r["cantidad"];?></td>
+  <td colspan="45" style="width:45%"></td>
+
+ </tr>
+  <?php
+$h++;
+$totales=$totales+$r["cantidad"];
+}?>
+  <tr>
+  <td colspan="5" style="width:5%"></td>
+  <td colspan="30" style="width:30%;background:white;font-size:13px"><b>TOTAL CITADOS</b></td>
+  <td colspan="20" style="width:20%;color:blue;background:white;font-size:13px"><b><?php echo $totales;?></b></td>
+  <td colspan="45" style="width:45%"></td>
+
+ </tr>
+</table>
+
 
 <?php
 $salida_html = ob_get_contents();
@@ -101,3 +222,8 @@ $dompdf->render();
 // Output the generated PDF to Browser
 $dompdf->stream('document', array('Attachment'=>'0'));
 ?>
+  
+
+</body>
+</html>
+

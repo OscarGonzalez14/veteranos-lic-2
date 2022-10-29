@@ -202,6 +202,7 @@ require_once("modales/listarCitas.php");
                         <input type="hidden" id="start">
                         </div>
                     </div>
+                    <input type="hidden" id="id_citado">
                     <input type="hidden" id="id_usuario_vet" name="id_usuario_vet" value="<?php echo $_SESSION["id_user"]?>">
                     <input type="hidden" id="usuario-lente" name="usuario-lente" value="0">
                     <div class="modal-footer">

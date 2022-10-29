@@ -1,27 +1,5 @@
 
-<table style="width: 100%;margin-top:2px" width="100%">
-<td width="25%" style="width:10%;margin:0px">
-  <img src='../dist/img/inabve.jpg' width="90" height="70"/>
-</td>
-  
-<td width="60%" style="width:75%;margin:0px">
-<table style="width:100%">
-  <br>
-  <tr>
-    <td  style="text-align: center;margin-top: 0px;font-size:18px;font-family: Helvetica, Arial, sans-serif;"><b>CITAS DE PACIENTES - INAVBE</b></td>
-  </tr>
-  <tr>
-    <td  style="text-align:center;margin-top:0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>FECHA: <?php echo date("d-m-Y",strtotime($fecha_cita)); ?></b></td>
-  </tr>
-  <tr>
-    <td  style="text-align:center;margin-top:0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><u><b>SUCURSAL: <?php echo $sucursal?> </u></b></td>
-  </tr>
-</table>
-</td>
 
-<td width="25%" style="width:15%;margin:0px">
-  <img src='../dist/img/logo_avplus.jpg' width="60" height="35" style="margin-top:25px;"></td>
-</table><!--fin tabla-->
 
 <table width="100%" style="width: 100%;margin-top: 0px i !important " >
   <tr>
@@ -41,7 +19,7 @@
  </tr>
  <tbody class="style_th" style="font-size:11px">
  <?php
- $data = $citas->get_pacientes_citados($fecha_cita,$sucursal);
+ <div style="page-break-after:always;"></div>
   $i=1;
   foreach ($data as $value) { ?>
     <tr> 

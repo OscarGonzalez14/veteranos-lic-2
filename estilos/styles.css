@@ -93,7 +93,7 @@ input[type=submit] {
 }
 
 .input-report{
-  font-family: Helvetica, Arial, sans-serif;"
+  font-family: Helvetica, Arial, sans-serif;
   border: none;
   border-bottom: 2.2px dotted #C8C8C8;
   text-align: left;
@@ -101,7 +101,7 @@ input[type=submit] {
   font-size: 13px;
 }
 
-   #tabla_reporte_citas {
+   .tabla_reporte_citas {
       font-family: Arial, Helvetica, sans-serif;
       border-collapse: collapse;
       width: 100%;
@@ -110,16 +110,16 @@ input[type=submit] {
       text-transform: uppercase;
     }
 
-    #tabla_reporte_citas td, #tabla_reporte_citas th {
+    .tabla_reporte_citas td, .tabla_reporte_citas th {
       border: 1px solid #ddd;
       padding: 3px;
     }
 
-    #tabla_reporte_citas tr:nth-child(even){background-color: #f2f2f2;}
+    .tabla_reporte_citas tr:nth-child(even){background-color: #f2f2f2;}
 
-    #tabla_reporte_citas tr:hover {background-color: #ddd;}
+    .tabla_reporte_citas tr:hover {background-color: #ddd;}
 
-  #tabla_reporte_citas th {
+  .tabla_reporte_citas th {
       padding-top: 3px;
       padding-bottom: 3px;
       text-align: center;

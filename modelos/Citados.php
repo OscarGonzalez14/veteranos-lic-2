@@ -91,4 +91,19 @@ class Citados extends Conectar{
     return  $resultado=$sql2->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+public function updateCitas(){
+    $conectar=parent::conexion();
+    parent::set_names();
+    $sql = "update citas set paciente=?,dui=?,fecha=? where id_cita=?";
+    $sql=$conectar->prepare($sql);
+    $sql->bindValue(1,$_POST["paciente"]);
+    $sql->bindValue(2,$_POST["dui"]);
+    $sql->bindValue(3,$_POST["fecha"]);
+    $sql->bindValue(4,$_POST["id_cita"]);
+    $sql->execute();
+
+    echo json_encode(["msj"=>"OLK"]);
+
+}
 }////Fin de la clase

@@ -201,4 +201,8 @@ switch ($_GET["op"]){
 
             break;
 
+            case 'editar_cita';
+              $citas->updateCitas();
+            break;
+
 }
