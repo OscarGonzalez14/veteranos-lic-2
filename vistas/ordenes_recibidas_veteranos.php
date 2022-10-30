@@ -1,6 +1,6 @@
 <?php 
 require_once("../config/conexion.php");
-if(isset($_SESSION["usuario"])){
+if(isset($_SESSION["user"])){
 $categoria_usuario = $_SESSION["categoria"];
 date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
 ?>
@@ -12,8 +12,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
   <title>Home</title>
 <?php require_once("links_plugin.php"); 
     require_once('../modelos/Ordenes.php');
-    $ordenes = new Ordenes();
-    $suc = $ordenes->get_opticas();
+
     require_once('../modales/modal_acciones_veteranos.php');
     require_once('../modales/nueva_orden_lab.php');
     require_once('../modales/aros_en_orden.php');
@@ -55,12 +54,11 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
            <th>ID</th>
            <th>Fecha rec.</th>
            <th># Orden</th>
-           <th>Recibido por</th>
            <th>Paciente</th>
            <th>DUI</th>
            <th>Tipo lente</th>
-           <th>Ubicación</th>
            <th>Detalles</th>
+           <th>Imp. acta</th>
          </thead>
          <tbody class="style_th"></tbody>
        </table>

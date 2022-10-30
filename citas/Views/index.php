@@ -21,12 +21,13 @@ require_once("modales/listarCitas.php");
 <!-- top-bar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color:#343a40;color: white">
     <!-- Left navbar links -->
+    
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button" style="color:white"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
-
+    <h5 style="text-align:center;">AGENDAR CITAS</h5>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 

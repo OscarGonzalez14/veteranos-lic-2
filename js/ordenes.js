@@ -181,6 +181,7 @@ function init(){
    let patologias = $("#patologias-ord").val();
    let id_cita = $("#id_cita_ord").val();
    let id_aro = $("#id_aro").val();
+   let sucursal = $("#sucursal").val();
 
    let campos_orden = document.getElementsByClassName('oblig');
   
@@ -210,7 +211,7 @@ function init(){
    $.ajax({
      url:"../ajax/ordenes.php?op=registrar_orden",
      method:"POST",
-     data:{paciente:paciente,fecha_creacion:fecha_creacion,od_pupilar:od_pupilar,oipupilar:oipupilar,odlente:odlente,oilente:oilente,id_aro:id_aro,id_usuario:id_usuario,observaciones_orden:observaciones_orden,dui:dui,od_esferas:od_esferas,od_cilindros:od_cilindros,od_eje:od_eje,od_adicion:od_adicion,oi_esferas:oi_esferas,oi_cilindros:oi_cilindros,oi_eje:oi_eje,oi_adicion:oi_adicion,tipo_lente:tipo_lente,validate:validate,categoria_lente:categoria_lente,edad:edad,ocupacion:ocupacion,avsc:avsc,avfinal:avfinal,avsc_oi:avsc_oi,avfinal_oi:avfinal_oi,telefono:telefono,genero:genero,user:user,depto:depto,municipio:municipio,instit:instit,patologias:patologias,color:color,indice:indice,id_cita:id_cita},
+     data:{paciente:paciente,fecha_creacion:fecha_creacion,od_pupilar:od_pupilar,oipupilar:oipupilar,odlente:odlente,oilente:oilente,id_aro:id_aro,id_usuario:id_usuario,observaciones_orden:observaciones_orden,dui:dui,od_esferas:od_esferas,od_cilindros:od_cilindros,od_eje:od_eje,od_adicion:od_adicion,oi_esferas:oi_esferas,oi_cilindros:oi_cilindros,oi_eje:oi_eje,oi_adicion:oi_adicion,tipo_lente:tipo_lente,validate:validate,categoria_lente:categoria_lente,edad:edad,ocupacion:ocupacion,avsc:avsc,avfinal:avfinal,avsc_oi:avsc_oi,avfinal_oi:avfinal_oi,telefono:telefono,genero:genero,user:user,depto:depto,municipio:municipio,instit:instit,patologias:patologias,color:color,indice:indice,id_cita:id_cita,sucursal:sucursal},
      cache: false,
     // dataType:"json",
     
@@ -507,7 +508,10 @@ function init(){
  
    let inicio = $("#desde_orders").val();
    let hasta = $("#hasta_orders").val();
- 
+   let listado_general = names_permisos.includes('listado_general_citas');
+   let sucursal =  $("#sucursal").val();
+   let permiso_listar=''; listado_general  ? permiso_listar='Ok' : permiso_listar='Not';
+    
    tabla_ordenes= $('#datatable_ordenes').DataTable({      
      "aProcessing": true,//Activamos el procesamiento del datatables
      "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -520,7 +524,7 @@ function init(){
        url:"../ajax/ordenes.php?op=get_ordenes_dig",
        type : "POST",
        //dataType : "json",
-       data:{inicio:inicio,hasta:hasta,filter:filter},           
+       data:{inicio:inicio,hasta:hasta,filter:filter,sucursal:sucursal,permiso_listar:permiso_listar},           
        error: function(e){
        console.log(e.responseText);
      },           
@@ -1756,7 +1760,29 @@ function validaAltoIndice(){
     document.getElementById("alto-indice").disabled = false;
     document.getElementById("label-index").style.color = "gray";
   }
-} 
+}
+
+function imprimirActa(codigo,paciente){
+  let form = document.createElement("form");
+  form.target = "print_blank";
+  form.method = "POST";
+  form.action = "imprimir_acta.php";
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "codigo";
+  input.value = codigo;
+  form.appendChild(input);
+
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "paciente";
+  input.value = paciente;
+  form.appendChild(input);
+
+  document.body.appendChild(form);//"width=600,height=500"
+  form.submit();
+  document.body.removeChild(form);
+}
  
  init();
  

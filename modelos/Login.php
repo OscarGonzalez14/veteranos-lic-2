@@ -6,7 +6,7 @@ class Login extends Conectar{
 
   public function listar_permisos_por_usuario($id_usuario){
     $conectar=parent::conexion();
-    $sql="select * from usuario_permiso where id_usuario=?";
+    $sql="select p.id_permiso,p.nombre from permisos as p INNER join usuario_permiso as u on p.id_permiso=u.id_usuario_permiso where u.id_usuario=?;";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1, $id_usuario);
     $sql->execute();
@@ -46,8 +46,10 @@ public function login_users(){
         $valores=array();
         foreach($marcados as $row){
           $valores[]= $row["id_permiso"];
+          $names_permisos[]=$row["nombre"];
         }
         $_SESSION['permisos'] = $valores;
+        $_SESSION['names_permisos'] = $names_permisos;
         in_array(4,$valores)?$_SESSION['citas_callcenter']=1:$_SESSION['citas_callcenter']=0;
         in_array(5,$valores)?$_SESSION['citas_sucursal']=1:$_SESSION['citas_sucursal']=0;
       

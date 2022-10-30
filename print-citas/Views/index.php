@@ -25,7 +25,7 @@ require_once("modales/listarCitasPrint.php");
         <a class="nav-link" data-widget="pushmenu" href="#" role="button" style="color:white"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
-
+    <h5>IMPRIMIR CITAS DIARIAS</h5>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 

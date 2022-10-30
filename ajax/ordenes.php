@@ -51,7 +51,7 @@ case 'registrar_orden':
     $datos = $ordenes->validar_correlativo_orden($nuevo_correlativo);
     if(is_array($datos) and count($datos)==0){ 
         for ($x = 0; $x < 1; $x++) {      
-    $ordenes->registrar_orden($nuevo_correlativo,$_POST['paciente'],$_POST['od_pupilar'],$_POST['oipupilar'],$_POST["odlente"],$_POST["oilente"],$_POST['id_aro'],$_POST["id_usuario"],$_POST["observaciones_orden"],$_POST["dui"],$_POST["od_esferas"],$_POST["od_cilindros"],$_POST["od_eje"],$_POST["od_adicion"],$_POST["oi_esferas"],$_POST["oi_cilindros"],$_POST["oi_eje"],$_POST["oi_adicion"],$_POST["tipo_lente"],$_POST["edad"],$_POST["ocupacion"],$_POST["avsc"],$_POST["avfinal"],$_POST["avsc_oi"],$_POST["avfinal_oi"],$_POST["telefono"],$_POST["genero"],$_POST["user"],$_POST["depto"],$_POST["municipio"],$_POST["instit"],$_POST["patologias"],$_POST["color"],$_POST["indice"],$_POST["id_cita"]);
+    $ordenes->registrar_orden($nuevo_correlativo,$_POST['paciente'],$_POST['od_pupilar'],$_POST['oipupilar'],$_POST["odlente"],$_POST["oilente"],$_POST['id_aro'],$_POST["id_usuario"],$_POST["observaciones_orden"],$_POST["dui"],$_POST["od_esferas"],$_POST["od_cilindros"],$_POST["od_eje"],$_POST["od_adicion"],$_POST["oi_esferas"],$_POST["oi_cilindros"],$_POST["oi_eje"],$_POST["oi_adicion"],$_POST["tipo_lente"],$_POST["edad"],$_POST["ocupacion"],$_POST["avsc"],$_POST["avfinal"],$_POST["avsc_oi"],$_POST["avfinal_oi"],$_POST["telefono"],$_POST["genero"],$_POST["user"],$_POST["depto"],$_POST["municipio"],$_POST["instit"],$_POST["patologias"],$_POST["color"],$_POST["indice"],$_POST["id_cita"],$_POST["sucursal"]);
     $mensaje='exito'; 
   }}else{
     $mensaje ="existe";
@@ -85,15 +85,17 @@ case "get_correlativo_orden":
 case 'get_ordenes':
   $datos = $ordenes->get_ordenes();
   $data = Array();
+    $about = "about:blank";
+    $print = "print_popup";
+    $ancho = "width=600,height=500";
   foreach ($datos as $row) { 
   $sub_array = array();
 
   $sub_array[] = $row["id_orden"];
-  $sub_array[] = date("d-m-Y",strtotime($row["fecha"]));
+  $sub_array[] = $row["codigo"];
   $sub_array[] = strtoupper($row["paciente"]);
   $sub_array[] = $row["dui"];
-  $sub_array[] = $row["telefono"];
-  $sub_array[] = $row["tipo_lente"];
+  $sub_array[] = date("d-m-Y",strtotime($row["fecha"]));
   $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="verEditar(\''.$row["codigo"].'\',\''.$row["paciente"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';  
   $sub_array[] = '<button type="button"  class="btn btn-xs bg-light" onClick="eliminarBeneficiario(\''.$row["codigo"].'\')"><i class="fa fa-trash" aria-hidden="true" style="color:red"></i></button>';               
                                                 
@@ -111,11 +113,9 @@ case 'get_ordenes':
 case 'get_ordenes_dig':
   
   $data = Array();
-  if ($_POST["filter"] == 1) {
-    $datos = $ordenes->get_ordenes_filter_date($_POST["inicio"],$_POST["hasta"]);
-  }elseif($_POST["filter"]==0){
-    $datos = $ordenes->get_ordenes();
-  }
+  
+  $datos = $ordenes->get_ordenes($_POST["sucursal"],$_POST["permiso_listar"]);
+  
 
   foreach ($datos as $row) { 
   $sub_array = array();
@@ -138,6 +138,7 @@ case 'get_ordenes_dig':
       "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
       "aaData"=>$data);
     echo json_encode($results);
+   // echo $_POST["permiso_listar"];
   break;
 
   case 'get_data_orden':

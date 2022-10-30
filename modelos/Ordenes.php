@@ -42,7 +42,7 @@ require_once("../config/conexion.php");
     barcode('../codigos/' . $codigo . '.png', $codigo, 50, 'horizontal', 'code128', true);
   }
   /////////////   REGISTRAR ORDEN ///////////////////////////////
-  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita){
+  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal){
 
     $conectar = parent::conexion();
     date_default_timezone_set('America/El_Salvador'); 
@@ -53,7 +53,7 @@ require_once("../config/conexion.php");
     $laboratorio = "";
     $estado_aro = '0';
     $dest_aro = '0';
-    $sql = "insert into orden_lab values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,null,?,?,?,?);";
+    $sql = "insert into orden_lab values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,null,?,?,?,?,?);";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $correlativo_op);
     $sql->bindValue(2, $paciente);
@@ -87,6 +87,7 @@ require_once("../config/conexion.php");
     $sql->bindValue(30, $indice);
     $sql->bindValue(31, $patologias);
     $sql->bindValue(32, $id_cita);
+    $sql->bindValue(33, $sucursal);
     $sql->execute();
     
     print_r($_POST);
@@ -210,12 +211,23 @@ public function editar_orden($correlativo_op,$paciente,$fecha_creacion,$od_pupil
   
 }
 
-  public function get_ordenes(){
+  public function get_ordenes($sucursal,$permisos){
     $conectar= parent::conexion();
-    $sql= "select*from orden_lab order by id_orden DESC;";
-    $sql=$conectar->prepare($sql);
-    $sql->execute();
-    return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    if($permisos=="Ok"){
+      $sql= "select*from orden_lab order by id_orden DESC;";
+      $sql=$conectar->prepare($sql);
+      $sql->execute();
+      return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+    }else{
+      $sql= "select*from orden_lab where sucursal=? order by id_orden DESC;";
+      $sql=$conectar->prepare($sql);
+      $sql->bindValue(1, $sucursal);
+      $sql->execute();
+      return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+    
   }
 
   public function get_ordenes_filter_date($inicio,$fin){

@@ -7,11 +7,11 @@
     </a>
      <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+       
 
-          <li class="nav-item">
-            <a href='orden.php'class="nav-link" style="color: white">
+      <li class="nav-item">
+            <a href='../vistas/orden.php'class="nav-link" style="color: white">
               <i class="nav-icon fas fa-file"></i>
               <p>Ordenes</p><i class="fas fa-angle-left right"></i>
             </a>
@@ -35,38 +35,41 @@
                 </a>
               </li>
             </ul>  
-            </li>
-
-          <?php if($cat_usuario=="Admin" or $cat_usuario==3){ ?>
-          <li class="nav-item">
-            <a href='../vistas/inventarios.php' class="nav-link" style="color: white">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Inventarios</p>
-            </a>
           </li>
-          <?php } ?>
 
+
+          <?php if($cat_usuario=="Admin" or $cat_usuario=='suc' or $_SESSION["citas_callcenter"]==1){ ?>
           <li class="nav-item">
-          <a href='index.php'class="nav-link" style="color: white">
-            <i class="nav-icon fas fa-file"></i>
-            <p>Citas</p><i class="fas fa-angle-left right"></i>
-          </a>
+            <a href='#' class="nav-link" style="color: white">
+              <i class="nav-icon fas fa-file"></i>
+              <p>Citas</p><i class="fas fa-angle-left right"></i>
+            </a>
 
           <ul class="nav nav-treeview">
+          <?php if($_SESSION["citas_callcenter"]==1){ ?>
           <li class="nav-item">
-            <a href="index.php" class="nav-link">
-              <i class="far fa-circle nav-icon text-info"></i>
-                <p>Citas</p>
-              </a>
-          </li>
+              <a href="../citas/index.php" class="nav-link">
+                <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Agendar citas</p>
+                </a>
+          <?php }?>
+          <?php if($_SESSION["citas_sucursal"]==1){ ?>
           <li class="nav-item">
-            <a href="reporte_citas.php" class="nav-link">
-              <i class="far fa-circle nav-icon text-success"></i>
-                <p>Reporte citas</p>
-              </a>
-            </li>
-          </ul>  
+              <a href="../print-citas/index.php" class="nav-link">
+                <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Citas Diarias</p>
+                </a>
+              </li>
+          <?php }?>    
+            <li class="nav-item">
+              <a href="rectificaciones.php" class="nav-link">
+                <i class="far fa-circle nav-icon text-danger"></i>
+                  <p>Reporteria Citas</p>
+                </a>
+              </li>
+          </ul>
           </li>
+          <?php } ?>
 
         <?php if($cat_usuario==1){ ?>
           <li class="nav-item">

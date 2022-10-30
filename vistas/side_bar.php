@@ -2,6 +2,9 @@
  $cat_usuario = $_SESSION["categoria"];
  require_once('../modales/modal_det_rectificaciones.php');
  ?>
+ <script>
+  var names_permisos  = <?php echo json_encode($_SESSION["names_permisos"])?>;
+ </script>
  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a class="brand-link">
     </a>
@@ -59,7 +62,7 @@
           <li class="nav-item">
               <a href="../citas/index.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-success"></i>
-                  <p>Citas</p>
+                  <p>Agendar citas</p>
                 </a>
           <?php }?>
           <?php if($_SESSION["citas_sucursal"]==1){ ?>

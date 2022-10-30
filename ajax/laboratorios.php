@@ -234,13 +234,11 @@ $datos = $ordenes->get_rango_fechas_ordenes($_POST["inicio"],$_POST["hasta"],$_P
     $sub_array[] = $row["id_detalle_accion"];
     $sub_array[] = date("d-m-Y",strtotime($row["fecha"]))." ".$row["hora"];
     $sub_array[] = $row["codigo_orden"];
-    $sub_array[] = $row["usuario"];
     $sub_array[] = $row["paciente"];
     $sub_array[] = $row["dui"];
     $sub_array[] = $row["tipo_lente"];
-    $sub_array[] = $row["ubicacion"];
-    $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="verEditar(\''.$row["codigo_orden"].'\',\''.$row["paciente"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';  
-    //$sub_array[] = '<i class="fas fa-image fa-2x" aria-hidden="true" style="color:blue" onClick="verImg(\''.$row["img"].'\',\''.$row["codigo"].'\',\''.$row["paciente"].'\')">';               
+    $sub_array[] = '<button type="button"  class="btn btn-block bg-light" onClick="verEditar(\''.$row["codigo_orden"].'\',\''.$row["paciente"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';  
+    $sub_array[] = '<button type="button"  class="btn btn-block bg-light" onClick="imprimirActa(\''.$row["codigo_orden"].'\',\''.$row["paciente"].'\')"><i class="fa fa-file-pdf" aria-hidden="true" style="color:red"></i></button>';               
                                           
     $data[] = $sub_array;
     }

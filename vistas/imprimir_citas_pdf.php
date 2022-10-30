@@ -100,7 +100,7 @@ $data = $citas->get_pacientes_citados($_POST["fecha-cita"],$sucursal);
     <td colspan="37" style="width: 37%;text-align: left;"><input type="text" class="input-report" value="Sello: "></td>    
   </tr>
 
-<table width="100%" id="tabla_reporte_citas" data-order='[[ 0, "desc" ]]' style="margin: 3px">        
+<table width="100%" id="tabla_reporte_citas" data-order='[[ 0, "desc" ]]' style="margin: 3px"  class="tabla_reporte_citas">        
  <tr>
    <th colspan="5" style="width:5%">#</th>
    <th colspan="10" style="width:10%">DUI</th>
