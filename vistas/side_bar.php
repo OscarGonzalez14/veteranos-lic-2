@@ -65,14 +65,14 @@
                   <p>Agendar citas</p>
                 </a>
           <?php }?>
-          <?php if($_SESSION["citas_sucursal"]==1){ ?>
+      <?php if($_SESSION["citas_diarias"]==1){ ?>
           <li class="nav-item">
               <a href="../print-citas/index.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-success"></i>
                   <p>Citas Diarias</p>
                 </a>
               </li>
-          <?php }?>    
+            <?php }?>
             <li class="nav-item">
               <a href="rectificaciones.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-danger"></i>

@@ -126,5 +126,6 @@
     <input type="hidden" id="categoria-usuer-hist" value="<?php echo $_SESSION["categoria"];?>">
     <script>
     var permisos = <?php echo json_encode($_SESSION["permisos"])?>;
+    console.log(permisos)
   </script>
   </aside>

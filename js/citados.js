@@ -135,6 +135,16 @@ function editarCita(id_cita){
         document.getElementById("sector-pac").disabled = true;
         document.getElementById("munic_pac").disabled = true;
         document.getElementById("departamento_pac").disabled = true;
+      }else{
+        document.getElementById("paciente-vet").readOnly = false;
+        document.getElementById("dui-vet").readOnly = false;
+        document.getElementById("telefono-pac").readOnly = false;
+        document.getElementById("edad-pac").readOnly = false;
+        document.getElementById("ocupacion-pac").readOnly = false;
+        document.getElementById("genero-pac").disabled = false;
+        document.getElementById("sector-pac").disabled = false;
+        document.getElementById("munic_pac").disabled = false;
+        document.getElementById("departamento_pac").disabled = false;
       }
       
     }

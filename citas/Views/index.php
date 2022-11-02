@@ -104,6 +104,7 @@ require_once("modales/listarCitas.php");
                             <label for="start">Sucursal</label>
                             <select class="form-control" id="sucursal-cita" name="sucursal-cita">
                                 <option value="0">Seleccionar sucursal</option>
+                                <option value="Valencia">Valencia</option>
                                 <option value="Metrocentro">Metrocentro</option>
                                 <option value="Cascadas">Cascadas</option>
                                 <option value="Santa Ana">Santa Ana</option>
@@ -117,6 +118,7 @@ require_once("modales/listarCitas.php");
                                 <option value="San Vicente">San Vicente</option>
                                 <option value="Gotera">Gotera</option>
                                 <option value="San Miguel">San Miguel</option>
+                                <option value="Usulutan">Usulutan</option>
                             </select>
                         </div>                  
 

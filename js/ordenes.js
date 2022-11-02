@@ -511,7 +511,7 @@ function init(){
    let listado_general = names_permisos.includes('listado_general_citas');
    let sucursal =  $("#sucursal").val();
    let permiso_listar=''; listado_general  ? permiso_listar='Ok' : permiso_listar='Not';
-    
+   console.log(names_permisos)
    tabla_ordenes= $('#datatable_ordenes').DataTable({      
      "aProcessing": true,//Activamos el procesamiento del datatables
      "aServerSide": true,//Paginación y filtrado realizados por el servidor

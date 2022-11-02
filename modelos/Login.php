@@ -6,7 +6,7 @@ class Login extends Conectar{
 
   public function listar_permisos_por_usuario($id_usuario){
     $conectar=parent::conexion();
-    $sql="select p.id_permiso,p.nombre from permisos as p INNER join usuario_permiso as u on p.id_permiso=u.id_usuario_permiso where u.id_usuario=?;";
+    $sql="select u.id_permiso,p.nombre,u.id_usuario from permisos as p INNER join usuario_permiso as u on p.id_permiso=u.id_permiso where u.id_usuario=?;";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1, $id_usuario);
     $sql->execute();
@@ -50,8 +50,11 @@ public function login_users(){
         }
         $_SESSION['permisos'] = $valores;
         $_SESSION['names_permisos'] = $names_permisos;
-        in_array(4,$valores)?$_SESSION['citas_callcenter']=1:$_SESSION['citas_callcenter']=0;
+        //in_array(4,$valores)?$_SESSION['citas_callcenter']=1:$_SESSION['citas_callcenter']=0;
         in_array(5,$valores)?$_SESSION['citas_sucursal']=1:$_SESSION['citas_sucursal']=0;
+
+        in_array('citas_callcenter',$names_permisos)?$_SESSION['citas_callcenter']=1:$_SESSION['citas_callcenter']=0;
+        in_arin_array('citas_diarias',$names_permisos)?$_SESSION['citas_diarias']=1:$_SESSION['citas_diarias']=0;
       
       header("Location:vistas/home.php");
       exit();

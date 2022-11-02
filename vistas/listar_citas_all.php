@@ -54,6 +54,8 @@ $fecha_cita = $_POST["fecha-cita"];
         width: 100%;
         opacity: .20;    
         z-index: -1000;
+        float: center;
+
   }
   hr {
   page-break-after: always;
@@ -68,7 +70,7 @@ $fecha_cita = $_POST["fecha-cita"];
 <html>
 <body>
 <div id="watermark">
-<img src="../dist/img/Logo_Gobierno.jpg" width="700" height="700"/>
+<img src="../dist/img/Logo_Gobierno.jpg" width="600" height="700" >
 </div>
 
 
@@ -86,11 +88,11 @@ for ($i = 0 ;$i < $tam_array; $i++) {
 
   ?>
 <table style="width: 100%;margin-top:2px" width="100%">
-<td width="25%" style="width:10%;margin:0px">
-  <img src='../dist/img/inabve.jpg' width="90" height="70"/>
+<td width="15%" style="width:15%;margin:0px">
+  <img src='../dist/img/inabve.jpg' width="120" height="90"/>
 </td>
   
-<td width="60%" style="width:75%;margin:0px">
+<td width="70%" style="width:70%;margin:0px">
 <table style="width:100%">
   <br>
   <tr>
@@ -99,13 +101,14 @@ for ($i = 0 ;$i < $tam_array; $i++) {
   <tr>
     <td  style="text-align:center;margin-top:0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>FECHA: <?php echo date("d-m-Y",strtotime($fecha_cita)); ?></b></td>
   </tr>
-  <tr style="text-align:center;margin-top:0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><u><b>SUCURSAL: <?php echo $sucursal?> </u></b></td>
+  <tr style="text-align:center;margin-top:0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><td><u  style="text-align:center;">  <b>SUCURSAL: <?php echo $sucursal?> </u></b></td>
   </tr>
 </table>
 </td>
 
-<td width="25%" style="width:15%;margin:0px">
-  <img src='../dist/img/logo_avplus.jpg' width="60" height="35" style="margin-top:25px;"></td>
+<td style="width:15%;">
+  <img src='../dist/img/logo_avplus.jpg' width="85" height="55" style="margin-top:20px;">
+</td>
 </table><!--fin tabla-->
 
 
@@ -161,7 +164,7 @@ array_push($resumen,array("cantidad"=>count($data),"sucursal"=>$sucursal));
   <img src='../dist/img/inabve.jpg' width="90" height="70"/>
 </td>
   
-<td width="60%" style="width:75%;margin:0px">
+<td width="60%" style="width:60%;margin:0px">
 <table style="width:100%">
   <br>
   <tr>

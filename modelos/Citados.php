@@ -93,14 +93,17 @@ class Citados extends Conectar{
 
 
 public function updateCitas(){
-    $conectar=parent::conexion();
+
+    $conectar=parent::conexion();    
     parent::set_names();
-    $sql = "update citas set paciente=?,dui=?,fecha=? where id_cita=?";
+    
+    $sql = "update citas set paciente=?,dui=?,fecha=?,sucursal=? where id_cita=?";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1,$_POST["paciente"]);
     $sql->bindValue(2,$_POST["dui"]);
     $sql->bindValue(3,$_POST["fecha"]);
-    $sql->bindValue(4,$_POST["id_cita"]);
+    $sql->bindValue(4,$_POST["sucursal"]);
+    $sql->bindValue(5,$_POST["id_cita"]);
     $sql->execute();
 
     echo json_encode(["msj"=>"OLK"]);
