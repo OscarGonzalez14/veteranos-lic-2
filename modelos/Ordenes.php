@@ -42,15 +42,15 @@ require_once("../config/conexion.php");
     barcode('../codigos/' . $codigo . '.png', $codigo, 50, 'horizontal', 'code128', true);
   }
   /////////////   REGISTRAR ORDEN ///////////////////////////////
-  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal){
+  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio){
 
     $conectar = parent::conexion();
     date_default_timezone_set('America/El_Salvador'); 
     $hoy = date("d-m-Y H:i:s");
     $fecha_creacion = date("Y-m-d");
     $estado = 0;
-    $categoria_lente = "-";
-    $laboratorio = "";
+    //$categoria_lente = "-";
+    //$laboratorio = "";
     $estado_aro = '0';
     $dest_aro = '0';
     $sql = "insert into orden_lab values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,null,?,?,?,?,?);";
@@ -118,7 +118,7 @@ require_once("../config/conexion.php");
 
   }
    ////////////////////LISTAR ORDENES///////////////
-public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal){
+public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio){
   $fecha_creacion = date("Y-m-d");
   $hoy = date("d-m-Y H:i:s");
   $conectar = parent::conexion();
@@ -140,6 +140,8 @@ public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$o
 
     fecha_correlativo=?,
     tipo_lente=?,
+    laboratorio=?,
+    categoria=?,
 
     edad=?,
     ocupacion = ?,
@@ -174,27 +176,29 @@ public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$o
   $edit_ord->bindValue(10, $dui);
   $edit_ord->bindValue(11, $hoy);
   $edit_ord->bindValue(12, $tipo_lente);
+  $edit_ord->bindValue(13, $laboratorio);
+  $edit_ord->bindValue(14, $categoria_lente);
 
-  $edit_ord->bindValue(13, $edad);
-  $edit_ord->bindValue(14, $ocupacion);
-  $edit_ord->bindValue(15, $avsc);
-  $edit_ord->bindValue(16, $avfinal);
-  $edit_ord->bindValue(17, $avsc_oi);
-  $edit_ord->bindValue(18, $avfinal_oi);
-  $edit_ord->bindValue(19, $telefono);
-  $edit_ord->bindValue(20, $genero);
-  $edit_ord->bindValue(21, $depto);
-  $edit_ord->bindValue(22, $municipio);
-  $edit_ord->bindValue(23, $instit);
+  $edit_ord->bindValue(15, $edad);
+  $edit_ord->bindValue(16, $ocupacion);
+  $edit_ord->bindValue(17, $avsc);
+  $edit_ord->bindValue(18, $avfinal);
+  $edit_ord->bindValue(19, $avsc_oi);
+  $edit_ord->bindValue(20, $avfinal_oi);
+  $edit_ord->bindValue(21, $telefono);
+  $edit_ord->bindValue(22, $genero);
+  $edit_ord->bindValue(23, $depto);
+  $edit_ord->bindValue(24, $municipio);
+  $edit_ord->bindValue(25, $instit);
 
-  $edit_ord->bindValue(24, $color);
+  $edit_ord->bindValue(26, $color);
   
-  $edit_ord->bindValue(25, $patologias);
+  $edit_ord->bindValue(27, $patologias);
 
-  $edit_ord->bindValue(26, $id_cita);
-  $edit_ord->bindValue(27, $sucursal);
+  $edit_ord->bindValue(28, $id_cita);
+  $edit_ord->bindValue(29, $sucursal);
 
-  $edit_ord->bindValue(28, $correlativo_op);
+  $edit_ord->bindValue(30, $correlativo_op);
 
   $edit_ord->execute();
 

@@ -4,6 +4,11 @@
     color: black;font-family: Helvetica, Arial, sans-serif;font-size: 13px;text-align: center;
   }
 </style>
+<?php 
+
+//$_SESSION['names_permisos']
+
+?>
       <div class="modal fade" id="nueva_orden_lab" style="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable" style="max-width: 95%">
           <div class="modal-content">
@@ -14,7 +19,16 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body"><!--START MODAL BODY--> 
+
+            <div class="modal-body"><!--START MODAL BODY-->
+            
+            <div class="col-sm-12 col-md-4 mb-3">
+            <select name="" id="form_cita_manual" onchange="select_form_cita()" class="form-control">
+                <option value="ingreso_cita">Ingreso por cita</option>
+                <option value="ingreso_manual">Ingreso manual</option>
+            </select>
+            </div> 
+            
             <div class="shadow-sm ">
             <table width="100%" class="table-bordered" style="text-align:center; text-transform:uppercase;font-size:13px">
             <thead style="color:black;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;background: 	#F0F0F0">
@@ -329,6 +343,8 @@
           </section>
           <input type="hidden" id="id_cita_ord">
 
+          <input type="hidden" id="id_aro">
+
           <input type="hidden" id="user_sucursal" value="<?php echo $_SESSION["sucursal"] ?>" >
            <input type="hidden" id="user_act" value="<?php echo $_SESSION["user"];?>">
            <input type="hidden" id="codigo_correlativo">
@@ -350,3 +366,12 @@
 
 </div>
  
+
+<script>
+
+  function select_form_cita(e){
+    const form_cita_manual = document.getElementById('form_cita_manualform_cita_manual').value
+    console.log(form_cita_manual)
+  }
+
+</script>
