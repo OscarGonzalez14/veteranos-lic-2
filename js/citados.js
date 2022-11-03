@@ -1,12 +1,14 @@
 function buscarCitado(){
     let fecha = document.getElementById("fecha_act").value;
-    console.log(fecha)
+    let user_sucursal = document.getElementById('user_sucursal').value;
+    //console.log(fecha)
+    //console.log(user_sucursal)
     $("#modal_citados").modal();
-    dtTemplateCitas("datatable_citados","listar_pacientes_citados","")
+    dtTemplateCitas("datatable_citados","listar_pacientes_citados",user_sucursal)
 }
 
 function dtTemplateCitas(table,route,...Args){
-    console.log(Args)
+    //console.log(Args) //ARGUMENTOS
     tabla = $('#'+table).DataTable({      
       "aProcessing": true,//Activamos el procesamiento del datatables
       "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -18,7 +20,7 @@ function dtTemplateCitas(table,route,...Args){
       "ajax":{
         url:"../ajax/citados.php?op="+ route,
         type : "POST",
-        data: {Args:Args},
+        data: {user_sucursal: Args[0]},
         dataType : "json",         
         error: function(e){
         console.log(e.responseText);

@@ -3,8 +3,10 @@
 require_once("../config/conexion.php");
 //llamada al modelo categoria
 require_once("../modelos/Ordenes.php");
+require_once("../modelos/Citados.php");
 require_once("../modelos/OrdenesLenti.php");
 $ordenes = new Ordenes();
+$citados = new Citados();
 $lentiOrdenes = new ordenesLenti();
 
 switch ($_GET["op"]){
@@ -46,20 +48,23 @@ case 'registrar_orden':
     }
     }else{
       $nuevo_correlativo = $now."1";
+      
     }
       
     $datos = $ordenes->validar_correlativo_orden($nuevo_correlativo);
     if(is_array($datos) and count($datos)==0){ 
         for ($x = 0; $x < 1; $x++) {      
     $ordenes->registrar_orden($nuevo_correlativo,$_POST['paciente'],$_POST['od_pupilar'],$_POST['oipupilar'],$_POST["odlente"],$_POST["oilente"],$_POST['id_aro'],$_POST["id_usuario"],$_POST["observaciones_orden"],$_POST["dui"],$_POST["od_esferas"],$_POST["od_cilindros"],$_POST["od_eje"],$_POST["od_adicion"],$_POST["oi_esferas"],$_POST["oi_cilindros"],$_POST["oi_eje"],$_POST["oi_adicion"],$_POST["tipo_lente"],$_POST["edad"],$_POST["ocupacion"],$_POST["avsc"],$_POST["avfinal"],$_POST["avsc_oi"],$_POST["avfinal_oi"],$_POST["telefono"],$_POST["genero"],$_POST["user"],$_POST["depto"],$_POST["municipio"],$_POST["instit"],$_POST["patologias"],$_POST["color"],$_POST["indice"],$_POST["id_cita"],$_POST["sucursal"]);
-    $mensaje='exito'; 
+    //Update cita table
+    $citados->updateEstadoCita($_POST["id_cita"]);
+    $mensaje="exito"; 
   }}else{
     $mensaje ="existe";
   }
 
     }else{
-    $ordenes->editar_orden($_POST["correlativo_op"],$_POST["paciente"],$_POST["fecha_creacion"],$_POST["od_pupilar"],$_POST["oipupilar"],$_POST["odlente"],$_POST["oilente"],$_POST["marca_aro_orden"],$_POST["modelo_aro_orden"],$_POST["horizontal_aro_orden"],$_POST['vertical_aro_orden'],$_POST['puente_aro_orden'],$_POST["id_usuario"],$_POST["observaciones_orden"],$_POST["dui"],$_POST["od_esferas"],$_POST["od_cilindros"],$_POST["od_eje"],$_POST["od_adicion"],$_POST["oi_esferas"],$_POST["oi_cilindros"],$_POST["oi_eje"],$_POST["oi_adicion"],$_POST["tipo_lente"],$_POST["color_varilla"],$_POST["color_frente"],$_POST["categoria_lente"],$_POST["imagen"],$_POST["edad"],$_POST["usuario"],$_POST["ocupacion"],$_POST["avsc"],$_POST["avfinal"],$_POST["avsc_oi"],$_POST["avfinal_oi"],$_POST["telefono"],$_POST["genero"],$_POST["depto"],$_POST["municipio"],$_POST["instit"]);
-    $mensaje="error";
+      $ordenes->editar_orden($_POST["codigo"],$_POST['paciente'],$_POST['od_pupilar'],$_POST['oipupilar'],$_POST["odlente"],$_POST["oilente"],$_POST['id_aro'],$_POST["id_usuario"],$_POST["observaciones_orden"],$_POST["dui"],$_POST["od_esferas"],$_POST["od_cilindros"],$_POST["od_eje"],$_POST["od_adicion"],$_POST["oi_esferas"],$_POST["oi_cilindros"],$_POST["oi_eje"],$_POST["oi_adicion"],$_POST["tipo_lente"],$_POST["edad"],$_POST["ocupacion"],$_POST["avsc"],$_POST["avfinal"],$_POST["avsc_oi"],$_POST["avfinal_oi"],$_POST["telefono"],$_POST["genero"],$_POST["user"],$_POST["depto"],$_POST["municipio"],$_POST["instit"],$_POST["patologias"],$_POST["color"],$_POST["indice"],$_POST["id_cita"],$_POST["sucursal"]);
+      $mensaje="edit_orden";
   }
     echo json_encode($mensaje);
   break;
@@ -144,54 +149,7 @@ case 'get_ordenes_dig':
   case 'get_data_orden':
 
     $datos=$ordenes->get_data_orden($_POST["codigo"],$_POST["paciente"]);
-      foreach($datos as $row){
-        
-      $output["codigo"] = $row["codigo"];
-      $output["paciente"] = $row["paciente"];
-      $output["fecha"] = $row["fecha"];
-      $output["pupilar_od"] = $row["pupilar_od"];
-      $output["pupilar_oi"] = $row["pupilar_oi"];
-      $output["lente_od"] = $row["lente_od"];
-      $output["lente_oi"] = $row["lente_oi"];
-      $output["marca_aro"] = $row["marca_aro"];
-      $output["modelo_aro"] = $row["modelo_aro"];
-      $output["horizontal_aro"] = $row["horizontal_aro"];
-      $output["vertical_aro"] = $row["vertical_aro"];
-      $output["puente_aro"] = $row["puente_aro"];
-      $output["id_usuario"] = $row["id_usuario"];
-      $output["observaciones"] = $row["observaciones"];
-      $output["dui"] = $row["dui"];
-      $output["estado"] = $row["estado"];        
-      $output["od_esferas"] = $row["od_esferas"];
-      $output["od_cilindros"] = $row["od_cilindros"];
-      $output["od_eje"] = $row["od_eje"];
-      $output["od_adicion"] = $row["od_adicion"];
-      $output["oi_esferas"] = $row["oi_esferas"];
-      $output["oi_cilindros"] = $row["oi_cilindros"];
-      $output["oi_eje"] = $row["oi_eje"];
-      $output["oi_adicion"] = $row["oi_adicion"];
-      $output["tipo_lente"] = $row["tipo_lente"];
-      $output["color_varilla"] = $row["color_varilla"];
-      $output["color_frente"] = $row["color_frente"];
-      $output["img"] = $row["img"];
-      $output['categoria'] = $row['categoria'];
-      $output['laboratorio'] = $row['laboratorio'];
-      $output['edad'] = $row['edad'];
-      $output['usuario_lente'] = $row['usuario_lente'];
-      $output['ocupacion'] = $row['ocupacion'];
-      $output['avsc'] = $row['avsc'];
-      $output['avfinal'] = $row['avfinal'];
-      $output['avsc_oi'] = $row['avsc_oi'];
-      $output['avfinal_oi'] = $row['avfinal_oi'];
-      $output['telefono'] = $row['telefono'];
-      $output['genero'] = $row['genero'];
-      $output['depto'] = $row['depto'];
-      $output['municipio'] = $row['municipio'];   
-      $output['institucion'] = $row['institucion'];     
-    
-      }
-      
-      echo json_encode($output);
+      echo json_encode($datos[0]);
 
     break;
 

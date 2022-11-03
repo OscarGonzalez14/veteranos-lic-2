@@ -317,7 +317,7 @@
 
           <div class="form-group col-sm-6">
           <div class="input-group">
-          <select class="custom-select" id="" aria-label="Example select with button addon">
+          <select class="custom-select" id="laboratorio" aria-label="Example select with button addon">
             <option value="0" selected>Enviar a...</option>
             <option value="Jenny">Lenti 1</option>
             <option value="Divel">Lenti 2</option>
@@ -328,7 +328,10 @@
 
           </section>
           <input type="hidden" id="id_cita_ord">
+
+          <input type="hidden" id="user_sucursal" value="<?php echo $_SESSION["sucursal"] ?>" >
            <input type="hidden" id="user_act" value="<?php echo $_SESSION["user"];?>">
+           <input type="hidden" id="codigo_correlativo">
           <div class="form-group justify-content-between" style="margin: 4px; display: flex;justify-content: space-between;">
 
           <button type="button" class="btn btn-dark" style="margin: 5px;" id="btn_rectificar" data-toggle="modal" data-target="#rectificacionesModal" data-index-number="12314Os"><i class="fas fa-wrench"></i> &nbsp;Rectificar</button>
