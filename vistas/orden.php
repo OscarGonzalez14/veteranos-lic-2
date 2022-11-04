@@ -140,6 +140,10 @@ var telefono = new Cleave('#telef_pac', {
     $(".select2").select2({
     maximumSelectionLength: 1
     });
+
+    $("#departamento_pac").select2({
+    maximumSelectionLength: 1
+    });
   
     $("#munic_pac").select2({
     maximumSelectionLength: 1

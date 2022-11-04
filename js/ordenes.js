@@ -145,6 +145,8 @@ function guardar_orden(parametro = 'saveEdit') {
   let dui = $("#dui_pac").html();
   let tipo_lente = $("input[type='radio'][name='tipo_lente']:checked").val();
 
+  
+
   if (tipo_lente === undefined) {
     Swal.fire({
       position: 'top-center',
@@ -191,9 +193,14 @@ function guardar_orden(parametro = 'saveEdit') {
   let codigo = $("#codigo_correlativo").val()
 
   let campos_orden = document.getElementsByClassName('oblig');
-
+  
   let laboratorio = $("#laboratorio").val()
   categoria_lente = $("#categoria_lente").val()
+  //Si la sucursal es valencia, se deja por default laboratorio y categoria
+  if(laboratorio == undefined && categoria_lente == undefined){
+    laboratorio = "-"
+    categoria_lente = "SC"
+  }
 
   if (id_usuario != 1 && parametro != 'Rectificacion') {
     for (let i = 0; i < campos_orden.length; i++) {
@@ -218,6 +225,22 @@ function guardar_orden(parametro = 'saveEdit') {
   }
 
   $("#nueva_orden_lab").modal('hide');
+
+  //Validacion si es por ingreso manual
+  let valueSelect = $("input[name='estado_form']:checked").val();  
+  if(valueSelect == "ingreso_manual"){
+    paciente = $("#paciente").val()
+    dui = $("#dui_pac").val()
+    edad = $("#edad_pac").val()
+    telefono = $("#telef_pac").val()
+    genero = $("#genero_pac").val()
+    ocupacion = $("#ocupacion_pac").val()
+    depto = $("#departamento_pac").val()
+    municipio = $("#munic_pac_data").val()
+    instit = $("#instit").val()
+  }
+
+
   $.ajax({
     url: "../ajax/ordenes.php?op=registrar_orden",
     method: "POST",
@@ -286,13 +309,13 @@ function alerts(alert) {
 }
 
 function verEditar(codigo, paciente) {
-  console.log("HHHolaaa")
+  //console.log("HHHolaaa")
   $("#validate").val("1");
 
   estado_btn_edit(); // cambia el contenido del boton del modal
 
   let categoria = $("#get_categoria").val();
-  document.getElementById("hist_orden").style.display = "block";
+  //document.getElementById("hist_orden").style.display = "block";
   if (categoria == 'a') {
     let disable_inputs = document.getElementsByClassName('rx_f');
     for (i = 0; i < disable_inputs.length; i++) {
@@ -314,7 +337,7 @@ function verEditar(codigo, paciente) {
     data: { codigo: codigo, paciente: paciente },
     dataType: "json",
     success: function (data) {
-      console.log(data)
+      //console.log(data)
       $("#correlativo_op").html(data.codigo);
       $("#paciente").html(data.paciente);
       $("#dui_pac").html(data.dui);
@@ -347,6 +370,7 @@ function verEditar(codigo, paciente) {
       $("#avfinal").val(data.avfinal);
       $("#avsc_oi").val(data.avsc_oi);
       $("#avfinal_oi").val(data.avfinal_oi);
+
       $("#telef_pac").html(data.telefono);
       $("#genero_pac").html(data.genero);
       $("#departamento_pac").html(data.depto);
