@@ -145,8 +145,6 @@ function guardar_orden(parametro = 'saveEdit') {
   let dui = $("#dui_pac").html();
   let tipo_lente = $("input[type='radio'][name='tipo_lente']:checked").val();
 
-  
-
   if (tipo_lente === undefined) {
     Swal.fire({
       position: 'top-center',
@@ -189,7 +187,7 @@ function guardar_orden(parametro = 'saveEdit') {
   let patologias = $("#patologias-ord").val();
   let id_cita = $("#id_cita_ord").val();
   let id_aro = $("#id_aro").val();
-  let sucursal = $("#sucursal").val();
+  let sucursal = $("#sucursal_optica").val();
   let codigo = $("#codigo_correlativo").val()
 
   let campos_orden = document.getElementsByClassName('oblig');
@@ -235,8 +233,10 @@ function guardar_orden(parametro = 'saveEdit') {
     telefono = $("#telef_pac").val()
     genero = $("#genero_pac").val()
     ocupacion = $("#ocupacion_pac").val()
-    depto = $("#departamento_pac").val()
-    municipio = $("#munic_pac_data").val()
+    departamento = $("#departamento_pac").val()
+    depto = departamento.toString();
+    municipio_array = $("#munic_pac").val()
+    municipio = municipio_array.toString()
     instit = $("#instit").val()
   }
 
@@ -338,9 +338,6 @@ function verEditar(codigo, paciente) {
     dataType: "json",
     success: function (data) {
       //console.log(data)
-      $("#correlativo_op").html(data.codigo);
-      $("#paciente").html(data.paciente);
-      $("#dui_pac").html(data.dui);
       $("#fecha_creacion").val(data.fecha);
       $("#odesferasf").val(data.od_esferas);
       $("#odcilindrosf").val(data.od_cilindros);
@@ -363,25 +360,20 @@ function verEditar(codigo, paciente) {
       $("#color_aro_orden").val(data.color);
       $("#categoria_lente").val(data.categoria);
       $("#destino_orden_lente").val(data.laboratorio);
-      $("#edad_pac").html(data.edad);
+      
       $("#usuario_pac").val(data.usuario_lente);
       $("#ocupacion_pac").html(data.ocupacion);
       $("#avsc").val(data.avsc);
       $("#avfinal").val(data.avfinal);
       $("#avsc_oi").val(data.avsc_oi);
       $("#avfinal_oi").val(data.avfinal_oi);
-
-      $("#telef_pac").html(data.telefono);
-      $("#genero_pac").html(data.genero);
-      $("#departamento_pac").html(data.depto);
-      $("#munic_pac_data").html(data.municipio);
-      $("#instit").html(data.institucion);
       
       $("#patologias-ord").val(data.patologias)
 
       $("#codigo_correlativo").val(data.codigo)
       $("#id_cita_ord").val(data.id_cita)
       $("#id_aro").val(data.id_aro)
+      $("#laboratorio").val(data.laboratorio)
 
       if(data.colorTratamiento == "Blanco"){
         document.getElementById("blanco").checked = true;
@@ -389,7 +381,33 @@ function verEditar(codigo, paciente) {
       if(data.colorTratamiento == "Photocromatico"){
         document.getElementById("photo").checked = true;
       }
+      let valueSelect = $("input[name='estado_form']:checked").val();  
+      //Validation por cita
+      if(valueSelect == "ingreso_cita"){
+        $("#paciente").html(data.paciente);
+        $("#dui_pac").html(data.dui);
+        $("#edad_pac").html(data.edad);
+        $("#correlativo_op").html(data.codigo);
+        $("#telef_pac").html(data.telefono);
+        $("#genero_pac").html(data.genero);
+        $("#departamento_pac").html(data.depto);
+        $("#munic_pac_data").html(data.municipio);
+        $("#instit").html(data.institucion);
+      }
 
+      //Validacion si es por ingreso manual
+      if(valueSelect == "ingreso_manual"){
+        paciente = $("#paciente").val(data.paciente)
+        dui = $("#dui_pac").val(data.dui)
+        edad = $("#edad_pac").val(data.edad)
+        telefono = $("#telef_pac").val(data.telefono)
+        genero = $("#genero_pac").val(data.genero)
+        ocupacion = $("#ocupacion_pac").val(data.ocupacion)
+        depto = $("#depto_pac").html(data.depto)
+        municipio = $("#muni_pac").html(data.municipio)
+        instit = $("#instit").val(data.institucion)
+        $("#sucursal_optica").val(data.sucursal);
+      }
       
 
       let tipo_lente = data.tipo_lente;
@@ -458,7 +476,7 @@ $(document).on('click', '#order_new', function () {
     document.getElementById(id_element).value = "";
   }
 
-  document.getElementById("departamento_pac_data").innerHTML = "";
+  //document.getElementById("departamento_pac_data").innerHTML = "";
   document.getElementById("munic_pac_data").innerHTML = "";
 
   let checkboxs = document.getElementsByClassName("chk_element");
@@ -1713,7 +1731,7 @@ var santaana = ["Candelaria de la Frontera", "Chalchuapa", "Coatepeque", "El Con
 var sonsonate = ["Acajutla", "Armenia", "Caluco", "Cuisnahuat", "Izalco", "Juayúa", "Nahuizalco", "Nahulingo", "Salcoatitán", "San Antonio del Monte", "San Julián", "Santa Catarina Masahuat", "Santa Isabel Ishuatán", "Santo Domingo de Guzmán", "Sonsonate", "Sonzacate"];
 var usulutan = ["Alegría", "Berlín", "California", "Concepción Batres", "El Triunfo", "Ereguayquín", "Estanzuelas", "Jiquilisco", "Jucuapa", "Jucuarán", "Mercedes Umaña", "Nueva Granada", "Ozatlán", "Puerto El Triunfo", "San Agustín", "San Buenaventura", "San Dionisio", "San Francisco Javier", "Santa Elena", "Santa María", "Santiago de María", "Tecapán", "Usulután"];
 function get_municipios(depto) {
-  $("#munic_pac").empty();
+  //$("#munic_pac").empty();
   if (depto == "San Salvador") {
     $("#munic_pac").select2({ data: sansalvador })
   } else if (depto == "La Libertad") {
@@ -1840,6 +1858,16 @@ function imprimirActa(codigo, paciente) {
   form.submit();
   document.body.removeChild(form);
 }
+
+
+//ocultar boton para ingresar cita
+
+const permiso_manual = names_permisos.includes("ingreso_manual")
+
+if(!permiso_manual){
+  document.getElementById('radio_button_orden').style.display = "none"
+}
+
 
 init();
 

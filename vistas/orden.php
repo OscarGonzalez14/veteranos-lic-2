@@ -140,7 +140,7 @@ var telefono = new Cleave('#telef_pac', {
     $(".select2").select2({
     maximumSelectionLength: 1
     });
-
+    //Formulario orden
     $("#departamento_pac").select2({
     maximumSelectionLength: 1
     });

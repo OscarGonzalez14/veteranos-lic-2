@@ -116,6 +116,26 @@ require_once("../config/conexion.php");
     $sql7->bindValue(5, $accion);
     $sql7->execute();
 
+    $sql_aros = "SELECT stock FROM `stock_aros` WHERE id_aro =:id_aro AND bodega = :bodega";
+      //$SQL_UPDAT_STOCK_ARO = "UPDATE stock_aros SET stock_aros.stock=1 WHERE stock_aros.id_aro = 6;";
+    $sql_aros = $conectar->prepare($sql_aros);
+    $sql_aros->bindParam(':id_aro',$id_aro);
+    $sql_aros->bindParam(':bodega',$sucursal);
+    $sql_aros->execute();
+    $resultado = $sql_aros->fetchAll(PDO::FETCH_ASSOC);
+    if($resultado[0]['stock'] > 0){
+      //Actualiza el stock de los aros
+      $stock = $resultado[0]['stock'] - 1;
+      $sql_update_stock = "UPDATE stock_aros SET stock=:stock WHERE id_aro =:id_aro AND bodega = :bodega";
+      $sql_update_stock = $conectar->prepare($sql_update_stock);
+      $sql_update_stock->bindParam(':id_aro',$id_aro);
+      $sql_update_stock->bindParam(':bodega',$sucursal);
+      $sql_update_stock->bindParam(':stock',$stock);
+      $sql_update_stock->execute();
+      return true;
+    }else{
+      return false;
+    }
   }
    ////////////////////LISTAR ORDENES///////////////
 public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio){
@@ -258,7 +278,7 @@ public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$o
   public function get_data_orden($codigo,$paciente){
 
     $conectar = parent::conexion();
-    $sql = "select o.id_orden,o.id_cita,o.genero,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,aros.marca,aros.modelo,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,aros.id_aro,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,aros.color,o.color as colorTratamiento,aros.material,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? and rx.codigo = ? and o.paciente=?;";
+    $sql = "select o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,aros.marca,aros.modelo,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,aros.id_aro,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,aros.color,o.color as colorTratamiento,aros.material,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? or rx.codigo = ? or o.paciente=?;";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1,$codigo);
     $sql->bindValue(2,$codigo);
