@@ -84,7 +84,7 @@ require_once("modales/listarCitas.php");
 </div>
  
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
-        <div class="modal-dialog" style="max-width:80%">
+        <div class="modal-dialog" style="max-width:95%">
             <div class="modal-content">
                 <div class="modal-header bg-dark">
                     <h5 class="modal-title" id="titulo" style="color: white">Registro citas</h5>
@@ -95,39 +95,7 @@ require_once("modales/listarCitas.php");
                         <input type="hidden" id="id" name="id">
                         <div class="row">
 
-                        <div class="col-md-4">
-                            <label for="start">Fecha</label>
-                            <input class="form-control" id="fecha-cita" type="date" name="fecha-cita" readonly>
-                        </div>
 
-                        <div class="col-md-4">
-                            <label for="start">Sucursal</label>
-                            <select class="form-control" id="sucursal-cita" name="sucursal-cita">
-                                <option value="0">Seleccionar sucursal</option>
-                                <option value="Valencia">Valencia</option>
-                                <option value="Metrocentro">Metrocentro</option>
-                                <option value="Cascadas">Cascadas</option>
-                                <option value="Santa Ana">Santa Ana</option>
-                                <option value="Chalatenango">Chalatenango</option>
-                                <option value="Ahuachapan">Ahuachapan</option>
-                                <option value="Sonsonate">Sonsonate</option>
-                                <option value="Ciudad Arce">Ciudad Arce</option>                                   
-                                <option value="Opico">Opico</option>
-                                <option value="Apopa">Apopa</option>
-                                <option value="San Vicente Centro">San Vicente Centro</option>
-                                <option value="San Vicente">San Vicente</option>
-                                <option value="Gotera">Gotera</option>
-                                <option value="San Miguel">San Miguel</option>
-                                <option value="Usulutan">Usulutan</option>
-                            </select>
-                        </div>                  
-
-                        <div class="col-md-4 select2-primary">
-                            <label for="hora" >Hora</label>
-                            <select class="select2 form-control clear_input" id="hora" name="hora" multiple="multiple" data-placeholder="Seleccionar hora" data-dropdown-css-class="select2-primary" style="width: 100%;height: ">
-                            <option value="0">Seleccione hora...</option>
-                            </select> 
-                        </div>
 
                         <div class="col-md-6">
                             <label for="title">Paciente</label>
@@ -150,12 +118,12 @@ require_once("modales/listarCitas.php");
                         </div>
 
 
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <label for="ocupacion-pac">Ocupación</label>
                             <input id="ocupacion-pac" type="text" class="form-control" name="ocupacion-pac">
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                         <label for="usuario-lente">Genero</label>
                         <select class="form-control" id="genero-pac" name="genero-pac">
                             <option>Seleccionar...</option>
@@ -174,7 +142,7 @@ require_once("modales/listarCitas.php");
                         </select>
                         </div>
                         
-                        <div class=" form-group col-sm-4 select2-purple">
+                        <div class=" form-group col-sm-3 select2-purple">
                         <label for="" class="etiqueta">Departamento </label> <span id="departamento_pac_data" style="color: red"></span>
                         <select class="select2 form-control clear_input" id="departamento_pac" name="departamento_pac" multiple="multiple" data-placeholder="Seleccionar Departamento" data-dropdown-css-class="select2-purple" style="width: 100%;height: ">              
                             <option value="0">Seleccione Depto.</option>
@@ -195,12 +163,46 @@ require_once("modales/listarCitas.php");
                         </select>               
                         </div>
 
-                        <div class=" form-group col-sm-6 select2-purple">
+                        <div class=" form-group col-sm-3 select2-purple">
                             <label for="" class="etiqueta">Municipio </label> <span id="munic_pac_data" style="color: red"></span>
                             <select class="select2 form-control clear_input" id="munic_pac" name="munic_pac" multiple="multiple" data-placeholder="Seleccionar Municipio" data-dropdown-css-class="select2-purple" style="width: 100%;height: ">
                                 <option value="0">Seleccione Municipio.</option>
                             </select>               
                        </div>
+
+                       <div class="col-md-2">
+                            <label for="start">Fecha</label>
+                            <input class="form-control" id="fecha-cita" type="date" name="fecha-cita">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="start">Sucursal</label>
+                            <select class="form-control" id="sucursal-cita" name="sucursal-cita">
+                                <option value="0">Seleccionar sucursal</option>
+                                <option value="Valencia">Valencia</option>
+                                <option value="Metrocentro">Metrocentro</option>
+                                <option value="Cascadas">Cascadas</option>
+                                <option value="Santa Ana">Santa Ana</option>
+                                <option value="Chalatenango">Chalatenango</option>
+                                <option value="Ahuachapan">Ahuachapan</option>
+                                <option value="Sonsonate">Sonsonate</option>
+                                <option value="Ciudad Arce">Ciudad Arce</option>                                   
+                                <option value="Opico">Opico</option>
+                                <option value="Apopa">Apopa</option>
+                                <option value="San Vicente Centro">San Vicente Centro</option>
+                                <option value="San Vicente">San Vicente</option>
+                                <option value="Gotera">Gotera</option>
+                                <option value="San Miguel">San Miguel</option>
+                                <option value="Usulutan">Usulutan</option>
+                            </select>
+                        </div>                  
+
+                        <div class="col-md-2 select2-primary">
+                            <label for="hora" >Hora</label>
+                            <select class="select2 form-control clear_input" id="hora" name="hora" multiple="multiple" data-placeholder="Seleccionar hora" data-dropdown-css-class="select2-primary" style="width: 100%;height: ">
+                            <option value="0">Seleccione hora...</option>
+                            </select> 
+                        </div>
 
                         <input type="hidden" id="start">
                         </div>

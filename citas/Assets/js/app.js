@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById("btnAccion").style.display="block";
                     document.getElementById('start').value = info.dateStr;
                     document.getElementById('id').value = '';
-                    document.getElementById("fecha-cita").readOnly = true;
                     document.getElementById('btnAccion').textContent = 'Registrar';
                     myModal.show();
                     document.getElementById("fecha-cita").value=info.dateStr;
@@ -37,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('#munic_pac').trigger('change');
                     $('#departamento_pac').val('1'); // Select the option with a value of '1'
                     $('#departamento_pac').trigger('change');
-
-                    gethorasDisponibles(info.dateStr);
+                    getDisponibilidadSucursales();
+                    //gethorasDisponibles(info.dateStr);
                 } else {
                     Swal.fire(
                         'Fecha invalida!!',

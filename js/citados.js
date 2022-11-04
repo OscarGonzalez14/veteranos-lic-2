@@ -1,8 +1,7 @@
 function buscarCitado(){
-    let fecha = document.getElementById("fecha_act").value;
-    console.log(fecha)
-    $("#modal_citados").modal();
-    dtTemplateCitas("datatable_citados","listar_pacientes_citados","")
+  let fecha = document.getElementById("fecha_act").value;
+  $("#modal_citados").modal();
+  dtTemplateCitas("datatable_citados","listar_pacientes_citados","")
 }
 
 function dtTemplateCitas(table,route,...Args){
@@ -227,4 +226,13 @@ function imprimirCitadosAll(){
   document.body.removeChild(form);
 
 }
+
+function getDisponibilidadSucursales(){
+  const dias = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo']
+  let fecha = document.getElementById("fecha-cita").value;
+  let diaInt = new Date(fecha).getDay();
+  const nombreDia = dias[diaInt];
+  console.log(diaInt ,nombreDia)
+}
+
 
