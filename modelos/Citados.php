@@ -96,7 +96,7 @@ public function updateCitas(){
 
     $conectar=parent::conexion();    
     parent::set_names();
-    
+
     $sql = "update citas set paciente=?,dui=?,fecha=?,sucursal=? where id_cita=?";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1,$_POST["paciente"]);
@@ -108,5 +108,16 @@ public function updateCitas(){
 
     echo json_encode(["msj"=>"OLK"]);
 
+}
+
+public function getDisponibilidadCitas(){
+    $conectar=parent::conexion();    
+    parent::set_names();
+    $sql = "select nombre from sucursales";
+    $sql=$conectar->prepare($sql);
+    $sql->execute();
+    $sucursales=$sql->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($sucursales);
 }
 }////Fin de la clase

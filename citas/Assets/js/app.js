@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('#munic_pac').trigger('change');
                     $('#departamento_pac').val('1'); // Select the option with a value of '1'
                     $('#departamento_pac').trigger('change');
-                    getDisponibilidadSucursales();
+                    getDisponibilidadSucursales(info.dateStr);
                     //gethorasDisponibles(info.dateStr);
                 } else {
                     Swal.fire(

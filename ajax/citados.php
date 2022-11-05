@@ -205,4 +205,9 @@ switch ($_GET["op"]){
               $citas->updateCitas();
             break;
 
+            case 'get_disponilidad_citas':
+                $citas->getDisponibilidadCitas();
+            break;
+
 }
+

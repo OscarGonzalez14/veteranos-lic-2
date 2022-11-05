@@ -97,14 +97,14 @@ Se hace constar la <b>ENTREGA FORMAL </b>, según el detalle siguiente.</p> <br>
     Dicho suministro se entrega de acuerdo con el siguiente detalle: 
 </span><br><br>
 
-<table width="100%" style="width: 100%;margin-top: 30px i !important "  class="tabla_reporte_citas">
+<table width="100%" style="width: 100%;margin-top: 30px !important;"  class="tabla_reporte_citas">
 <tr>
    <th colspan="25" style="width:25%">CANTIDAD</th>
    <th colspan="25" style="width:25%">UNIDAD DE MEDIDA</th>
    <th colspan="50" style="width:50%">DESCRIPCION</th>   
 
  </tr>
- <tr>
+ <tr style="background: none ">
    <td colspan="25" style="width:25%">1</td>
    <td colspan="25" style="width:25%">UNIDAD</td>
    <td colspan="50" style="width:50%">

@@ -179,7 +179,7 @@ require_once("modales/listarCitas.php");
                             <label for="start">Sucursal</label>
                             <select class="form-control" id="sucursal-cita" name="sucursal-cita">
                                 <option value="0">Seleccionar sucursal</option>
-                                <option value="Valencia">Valencia</option>
+                                <option value="Valencia" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">Valencia</option>
                                 <option value="Metrocentro">Metrocentro</option>
                                 <option value="Cascadas">Cascadas</option>
                                 <option value="Santa Ana">Santa Ana</option>

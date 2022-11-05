@@ -227,12 +227,25 @@ function imprimirCitadosAll(){
 
 }
 
-function getDisponibilidadSucursales(){
+function getDisponibilidadSucursales(fecha){
   const dias = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo']
-  let fecha = document.getElementById("fecha-cita").value;
   let diaInt = new Date(fecha).getDay();
   const nombreDia = dias[diaInt];
-  console.log(diaInt ,nombreDia)
+  //console.log(diaInt ,nombreDia)
+  consultarDisponibilidad(fecha);
+}
+
+function consultarDisponibilidad(fecha){
+  $.ajax({
+    url:"../ajax/citados.php?op=get_disponilidad_citas",
+    method:"POST",
+    data:{fecha:fecha},
+    cache: false,
+    dataType:"json",
+    success:function(data){
+      console.log(data)
+    }
+  });///fin ajax
 }
 
 

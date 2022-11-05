@@ -24,5 +24,3 @@ ETYP=1
 EOJ=END OF JOB');
 
 fclose($file_handle);
-
-
