@@ -52,15 +52,13 @@ class Citados extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDataCitadosSucursal($sucursal, $fecha)
+    public function getDataCitadosSucursal($fecha)
     {
         $conectar = parent::conexion();
         parent::set_names();
-        $sucursal = substr($sucursal, 2);
-        $sql = "select * from citas where sucursal=? and fecha=?;";
+        $sql = "select * from citas where fecha=? order by sucursal;";
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1, $sucursal);
-        $sql->bindValue(2, $fecha);
+        $sql->bindValue(1, $fecha);
         $sql->execute();
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -114,16 +112,42 @@ class Citados extends Conectar
 
 }
 
-public function getDisponibilidadCitas(){
+public function getDisponibilidadCitas($fecha){
     $conectar=parent::conexion();    
     parent::set_names();
     $sql = "select nombre from sucursales";
     $sql=$conectar->prepare($sql);
     $sql->execute();
     $sucursales=$sql->fetchAll(PDO::FETCH_ASSOC);
+    $data_disponibilidad = array();
+    foreach($sucursales as $s){
+        
+        $cita = "SELECT count(*) as citados from citas WHERE fecha=? and sucursal=?";
+        $cita=$conectar->prepare($cita);
+        $cita->bindValue(1, $fecha);
+        $cita->bindValue(2, $s["nombre"]);
+        $cita->execute();
+        $total_citas=$cita->fetchAll(PDO::FETCH_ASSOC);
+        $citados =  $total_citas[0]['citados'];
 
-    echo json_encode($sucursales);
+        $cupo = "select cupos,direccion,referencia,optica from sucursales where nombre=?";
+        $cupo=$conectar->prepare($cupo);
+        $cupo->bindValue(1, $s["nombre"]);
+        $cupo->execute();
+        $total_cupos=$cupo->fetchAll(PDO::FETCH_ASSOC);
+        $cupo_disp =  $total_cupos[0]['cupos'];
+        $direccion =  strtoupper($total_cupos[0]['direccion']);
+        $referencia =  strtoupper($total_cupos[0]['referencia']);
+        $optica =  strtoupper($total_cupos[0]['optica']);
 
+
+        $disponibilidad = ($cupo_disp-$citados)."/".$cupo_disp;
+        if($disponibilidad>0){
+            array_push($data_disponibilidad,array("sucursal"=>$s["nombre"],"cupos"=>$disponibilidad,"direccion"=>$direccion,"referencia"=>$referencia,"optica"=>$optica));
+        }
+    }
+
+        echo json_encode($data_disponibilidad);
 
         //echo json_encode(["msj" => "OLK"]);
 }

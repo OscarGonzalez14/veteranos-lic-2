@@ -97,6 +97,45 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
   </footer>
 </div>
 
+<!--modal actas-->
+<div class="modal" id="modal-actas">
+  <div class="modal-dialog" style="max-width: 60%">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header bg-info" style="padding:5px">
+        <h4 class="modal-title w-100 text-center" style="font-size:16px">ENTREGA DE ACTAS</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+       
+        <h5 style="text-align:center;font-size:18px">La siguiente acta será entregada a:</h5>
+          <div class="col-sm-12" style="  display: flex; justify-content: center;align-items: center;">
+            <div class="form-group clearfix" style="margin:6px">
+              <div class="icheck-primary d-inline">
+                <input type="radio" name="receptor-acta" id="ben-acta">
+                <label for="ben-acta">Beneficiario
+                </label>
+              </div>
+              <div class="icheck-success d-inline" style="margin:6px">
+                <input type="radio" name="receptor-acta" id="terc-acta">
+                <label for="terc-acta">Tercero
+                </label>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block"><i class="fas fa-file-pdf"></i> Imprimir</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 <!-- ./wrapper -->
 <?php 
 require_once("links_js.php");

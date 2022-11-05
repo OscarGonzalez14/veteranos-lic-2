@@ -13,6 +13,29 @@ require_once("modales/listarCitas.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Citas</title>
     
     <link rel="stylesheet" href="<?php echo base_url; ?>Assets/css/main.min.css">
+    <style>
+    option.suc-tooltip {
+    position: relative;
+}
+ 
+option.suc-tooltip:hover::after {
+    content: attr(data-title);
+    background-color: #8fbc8f;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 14px;
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1;
+}
+
+    </style>
 </head>
 
 <body>
@@ -70,8 +93,9 @@ require_once("modales/listarCitas.php");
                 <th style="width:40%">Paciente</th>
                 <th style="width:20%">DUI</th>
                 <th style="width:20%">Sector</th>
+                <th style="width:10%">fecha</th>
+                <th style="width:10%">Sucursal</th>
                 <th style="width:10%">Editar</th>
-                <th style="width:10%">Eliminar</th>
             </tr>
         </thead>
 
@@ -99,7 +123,7 @@ require_once("modales/listarCitas.php");
 
                         <div class="col-md-6">
                             <label for="title">Paciente</label>
-                            <input id="paciente-vet" type="text" class="form-control" name="paciente-vet">
+                            <input id="paciente-vet" type="text" class="form-control inp-citas" name="paciente-vet">
                         </div>
 
                         <div class="col-md-3">
@@ -114,18 +138,18 @@ require_once("modales/listarCitas.php");
 
                         <div class="col-md-2">
                             <label for="dui">Edad</label>
-                            <input id="edad-pac" type="text" class="form-control" name="edad-pac">
+                            <input id="edad-pac" type="number" class="form-control" name="edad-pac" min="1" max="115">
                         </div>
 
 
                         <div class="col-md-5">
                             <label for="ocupacion-pac">Ocupación</label>
-                            <input id="ocupacion-pac" type="text" class="form-control" name="ocupacion-pac">
+                            <input id="ocupacion-pac" type="text" class="form-control inp-citas" name="ocupacion-pac">
                         </div>
 
                         <div class="col-md-3">
                         <label for="usuario-lente">Genero</label>
-                        <select class="form-control" id="genero-pac" name="genero-pac">
+                        <select class="form-control inp-citas" id="genero-pac" name="genero-pac">
                             <option>Seleccionar...</option>
                             <option>Masculino</option>
                             <option>Femenino</option>
@@ -170,31 +194,15 @@ require_once("modales/listarCitas.php");
                             </select>               
                        </div>
 
-                       <div class="col-md-2">
-                            <label for="start">Fecha</label>
-                            <input class="form-control" id="fecha-cita" type="date" name="fecha-cita">
-                        </div>
-
                         <div class="col-md-2">
                             <label for="start">Sucursal</label>
-                            <select class="form-control" id="sucursal-cita" name="sucursal-cita">
+                            <select class="form-control suc-tooltip" id="sucursal-cita" name="sucursal-cita">
                                 <option value="0">Seleccionar sucursal</option>
-                                <option value="Valencia" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">Valencia</option>
-                                <option value="Metrocentro">Metrocentro</option>
-                                <option value="Cascadas">Cascadas</option>
-                                <option value="Santa Ana">Santa Ana</option>
-                                <option value="Chalatenango">Chalatenango</option>
-                                <option value="Ahuachapan">Ahuachapan</option>
-                                <option value="Sonsonate">Sonsonate</option>
-                                <option value="Ciudad Arce">Ciudad Arce</option>                                   
-                                <option value="Opico">Opico</option>
-                                <option value="Apopa">Apopa</option>
-                                <option value="San Vicente Centro">San Vicente Centro</option>
-                                <option value="San Vicente">San Vicente</option>
-                                <option value="Gotera">Gotera</option>
-                                <option value="San Miguel">San Miguel</option>
-                                <option value="Usulutan">Usulutan</option>
                             </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="start">Fecha</label>
+                            <input class="form-control" id="fecha-cita" type="date" name="fecha-cita" onchange="consultarDisponibilidad(this.value)">
                         </div>                  
 
                         <div class="col-md-2 select2-primary">

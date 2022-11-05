@@ -39,8 +39,9 @@ switch ($_GET["op"]){
                 $sub_array[] = $c["paciente"]; 
                 $sub_array[] = $c["dui"]; 
                 $sub_array[] = $c["sector"];
+                $sub_array[] = $c["fecha"];
+                $sub_array[] = $c["sucursal"];
                 $sub_array[] = "<button class='btn btn-outline-success btn-xs' onClick='editarCita(".$c["id_cita"].")'><i class='fas fa-edit'></i></button>";
-                $sub_array[] = "<button class='btn btn-outline-danger btn-xs'><i class='fas fa-trash ' onClick='getCitados(".$c["id_cita"].")'></i></button>"; 
                 $data[] = $sub_array;
             }
     
@@ -78,7 +79,7 @@ switch ($_GET["op"]){
 
         case 'get_citados_sucursal':
 
-            $citados = $citas->getDataCitadosSucursal($_POST["sucursal"],$_POST["fecha"]);
+            $citados = $citas->getDataCitadosSucursal($_POST["fecha"]);
 
             $data = Array();
 
@@ -206,7 +207,7 @@ switch ($_GET["op"]){
             break;
 
             case 'get_disponilidad_citas':
-                $citas->getDisponibilidadCitas();
+                $citas->getDisponibilidadCitas($_POST["fecha"]);
             break;
 
 }

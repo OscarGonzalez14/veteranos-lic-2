@@ -1,3 +1,7 @@
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 let calendarEl = document.getElementById('calendar');
 let frm = document.getElementById('formulario');
 let eliminar = document.getElementById('btnEliminar');
@@ -24,6 +28,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(hoy);
                
                 if (info.date >= hoy) {
+
+                  document.getElementById("paciente-vet").readOnly = false;
+                  document.getElementById("dui-vet").readOnly = false;
+                  document.getElementById("telefono-pac").readOnly = false;
+                  document.getElementById("edad-pac").readOnly = false;
+                  document.getElementById("ocupacion-pac").readOnly = false;
+                  document.getElementById("genero-pac").disabled = false;
+                  document.getElementById("sector-pac").disabled = false;
+                  document.getElementById("munic_pac").disabled = false;
+                  document.getElementById("departamento_pac").disabled = false;
                     document.getElementById("btnEdit").style.display="none";
                     document.getElementById("btnAccion").style.display="block";
                     document.getElementById('start').value = info.dateStr;
@@ -37,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('#departamento_pac').val('1'); // Select the option with a value of '1'
                     $('#departamento_pac').trigger('change');
                     getDisponibilidadSucursales(info.dateStr);
-                    //gethorasDisponibles(info.dateStr);
+                    gethorasDisponibles(info.dateStr);
                 } else {
                     Swal.fire(
                         'Fecha invalida!!',
@@ -57,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('btnAccion').textContent = 'Modificar';
             document.getElementById('titulo').textContent = 'Actualizar Evento';
 
-            getCitadosSucursal(sucursal,fecha);
+            getCitadosSucursal(fecha);
         },
     }); 
 
@@ -225,7 +239,7 @@ $(function () {
 
 
 
-  function  getCitadosSucursal(sucursal,fecha){
+  function  getCitadosSucursal(fecha){
     $("#listarCitas").modal()
     tabla = $('#datatable_citas_suc').DataTable({      
       "aProcessing": true,//Activamos el procesamiento del datatables
@@ -238,7 +252,7 @@ $(function () {
       "ajax":{
         url:"../ajax/citados.php?op=get_citados_sucursal",
         type : "POST",
-        data: {sucursal:sucursal,fecha:fecha},
+        data: {fecha:fecha},
         dataType : "json",         
         error: function(e){
         console.log(e.responseText);
@@ -288,6 +302,7 @@ function gethorasDisponibles(fecha){
         cache: false,
         dataType:"json",
         success:function(horas){
+          
           let tam_array = horas.length;
           if(tam_array==0){
             $("#hora").empty();
@@ -300,3 +315,7 @@ function gethorasDisponibles(fecha){
         }
       });///fin ajax
 }
+
+$(".inp-citas").keyup(function(){
+  $(this).val($(this).val().toUpperCase());
+});

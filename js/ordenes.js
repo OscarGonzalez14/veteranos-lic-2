@@ -1837,6 +1837,10 @@ function validaAltoIndice() {
   }
 }
 
+function modalImprimirActa(codigo,paciente){
+  $("#modal-actas").modal()
+}
+
 function imprimirActa(codigo, paciente) {
   let form = document.createElement("form");
   form.target = "print_blank";
