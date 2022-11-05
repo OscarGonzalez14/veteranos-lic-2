@@ -10,7 +10,7 @@ switch ($_GET["op"]){
 
     case 'listar_pacientes_citados':
 
-        $citados = $citas->listar_pacientes_citados();
+        $citados = $citas->listar_pacientes_citados($_POST['user_sucursal']);
         $data = Array();
         foreach($citados as $c){
             $sub_array = array();
