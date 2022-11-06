@@ -71,8 +71,7 @@ option.suc-tooltip:hover::after {
         <div id="calendar"></div>
     </div>
 
-
-        <!--MODAL GESTION CITAS -->
+ <!--MODAL GESTION CITAS -->
 
 <div class="modal" id="gestion-citas">
   <div class="modal-dialog" style="max-width:55%">
@@ -118,9 +117,6 @@ option.suc-tooltip:hover::after {
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id">
                         <div class="row">
-
-
-
                         <div class="col-md-6">
                             <label for="title">Paciente</label>
                             <input id="paciente-vet" type="text" class="form-control inp-citas" name="paciente-vet">
@@ -165,6 +161,18 @@ option.suc-tooltip:hover::after {
                             <option option="CONYUGE">CONYUGE</option>
                         </select>
                         </div>
+                        <div class="col-sm-12" id="datos-titular" style="display:none">
+                        <div class="col-md-7" id="nombre-tit">
+                            <label for="ocupacion-pac">Veterano/Ex-combatiente titular *</label>
+                            <input id="vet-titular" type="text" class="form-control inp-citas" placeholder="Veterano/Ex-combatiente titular" name="vet-titular">
+                        </div>
+
+                        <div class="col-md-5" id="dui-tit">
+                            <label for="ocupacion-pac"> DUI Veterano/Ex-combatiente titular *</label>
+                            <input id="dui-titular" type="text" class="form-control inp-citas" placeholder="DUI" name="dui-titular">
+                        </div>
+                        </div>
+
                         
                         <div class=" form-group col-sm-3 select2-purple">
                         <label for="" class="etiqueta">Departamento </label> <span id="departamento_pac_data" style="color: red"></span>

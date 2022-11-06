@@ -238,7 +238,7 @@ $datos = $ordenes->get_rango_fechas_ordenes($_POST["inicio"],$_POST["hasta"],$_P
     $sub_array[] = $row["dui"];
     $sub_array[] = $row["tipo_lente"];
     $sub_array[] = '<button type="button"  class="btn btn-block bg-light" onClick="verEditar(\''.$row["codigo_orden"].'\',\''.$row["paciente"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';  
-    $sub_array[] = '<button type="button"  class="btn btn-block bg-light" onClick="modalImprimirActa(\''.$row["codigo_orden"].'\',\''.$row["paciente"].'\')"><i class="fa fa-file-pdf" aria-hidden="true" style="color:red"></i></button>';               
+    $sub_array[] = '<button type="button"  class="btn btn-block bg-light" onClick="modalImprimirActa(\''.$row["codigo_orden"].'\',\''.$row["paciente"].'\')"><i class="fa fa-file-pdf" aria-hidden="true" style="color:red"></i></button>';        
                                           
     $data[] = $sub_array;
     }

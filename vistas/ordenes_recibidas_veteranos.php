@@ -12,7 +12,6 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
   <title>Home</title>
 <?php require_once("links_plugin.php"); 
     require_once('../modelos/Ordenes.php');
-
     require_once('../modales/modal_acciones_veteranos.php');
     require_once('../modales/nueva_orden_lab.php');
     require_once('../modales/aros_en_orden.php');
@@ -38,15 +37,16 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
     <section class="content">
       <div class="container-fluid">
       <input type="hidden" id="correlativo_acc_vet">
-      <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_usuario"];?>"/>
-      <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["usuario"];?>"/>
+      <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_user"];?>"/>
+      <input type="hidden" name="sucursal" id="sucursal" value="<?php echo $_SESSION["sucursal"];?>"/>
+      <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["user"];?>"/>
       <input type="hidden" name="categoria" id="get_categoria" value="<?php echo $_SESSION["categoria"];?>"/>
       <div style="border-top: 0px">
       </div>
 
       <?php include 'ordenes/header_status_veteranos.php'; ?>
 
-        <button class="btn btn-info barcode_actions_vets float-right" data-toggle="modal" data-target="#modal_acciones_veteranos" style="border: solid 1px #1f2e50"><i class="fas fa-download"></i> Recibir</button>
+        <button class="btn btn-info barcode_actions_vets float-right recibe-orden" data-toggle="modal" data-target="#modal_acciones_veteranos" style="border: solid 1px #1f2e50"><i class="fas fa-download"></i> Recibir</button>
         <h5 style="font-size: 16px; text-align: center;font-weight: bold;color: blue">ORDENES RECIBIDAS</h5>
         <table width="100%" class="table-hover table-bordered" id="ordenes_recibidas_veteranos_data"  data-order='[[ 0, "desc" ]]'> 
               
@@ -112,19 +112,24 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
       <div class="modal-body">
        
         <h5 style="text-align:center;font-size:18px">La siguiente acta será entregada a:</h5>
+
           <div class="col-sm-12 shadow-sm" style="  display: flex; justify-content: center;align-items: center;margin:10px">
+
             <div class="form-group clearfix" style="margin:6px">
+
               <div class="icheck-success d-inline">
                 <input type="radio" name="receptor-acta" id="ben-acta" class="chk-recept" value="beneficiario">
                 <label for="ben-acta">Beneficiario
                 </label>
               </div>
+
               <div class="icheck-warning d-inline" style="margin:6px">
                 <input type="radio" name="receptor-acta" id="terc-acta" class="chk-recept" value="tercero">
                 <label for="terc-acta">Tercero
                 </label>
               </div>
             </div>
+
           </div>
           <div class="row " style="display:none" id="receptores-section">
 
@@ -155,6 +160,8 @@ require_once("links_js.php");
 ?>
 <script type="text/javascript" src="../js/laboratorios.js"></script>
 <script type="text/javascript" src="../js/ordenes.js"></script>
+<script type="text/javascript" src="../js/actas.js"></script>
+
 
 </body>
 </html>

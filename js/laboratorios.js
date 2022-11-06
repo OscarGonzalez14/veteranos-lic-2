@@ -655,21 +655,6 @@ function registrarBarcodeOrdenes(){
   var fecha_orden = '';
   var ubicacion_orden = ''
 
-  if(tipo_accion=='recibir_veteranos'){
-    //fecha_orden = $("#fecha_accion_vet").val();
-    ubicacion_orden = $("#ubicacion_veteranos").val();
-    
-    if (ubicacion_orden=='') {
-      Swal.fire({
-        position: 'top-center',
-        icon: 'error',
-        title: 'El campo ubicacion es obligatorio',
-        showConfirmButton: true,
-        timer: 1500
-      });
-      return false;
-    }
-  }
  
   let usuario = $("#usuario").val();
   let correlativo_accion = $("#correlativo_acc_vet").val();
@@ -967,6 +952,11 @@ document.querySelectorAll(".ingresa_ordenes_id").forEach(i => i.addEventListener
   orders = [];
 }));
 
+document.querySelectorAll(".recibe-orden").forEach(i => i.addEventListener("click", e => {
+  document.getElementById("ubicacion").value="N";
+  document.getElementById("ubicacion").style.visibility="hidden";
+}));
+
 
 function buscarGraduacion(){
 let od_esfera = $("#odesferas_search").val();
@@ -1028,6 +1018,5 @@ $(document).on('click', '#busquedas_graduaciones', function(){
     }
 
 });
-
 
 init();

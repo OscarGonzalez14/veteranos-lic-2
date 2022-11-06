@@ -1837,75 +1837,6 @@ function validaAltoIndice() {
   }
 }
 
-function modalImprimirActa(codigo,paciente){
-  $("#modal-actas").modal()
-  document.getElementById("codigo-recep-orden").value=codigo;
-  document.getElementById("pac-recep-orden").value=paciente;
-}
-
-let btn_print = document.getElementById('btn-print-acta')
-
-btn_print.addEventListener("click", function() {
-  let receptor = $("input[type='radio'][name='receptor-acta']:checked").val();
-  let nombre_receptor = document.getElementById('receptor-acta').value;
-  let dui_receptor = document.getElementById('receptor-dui').value;
-  if(receptor==undefined){
-    Swal.fire({position: 'top-center',icon: 'error',title: 'Especificar tipo de receptor',showConfirmButton: true,
-      timer: 1500
-    });
-    return false;
-  }
-  if(receptor=='tercero' && (nombre_receptor=='' || dui_receptor=='')){
-    Swal.fire({position: 'top-center',icon: 'error',title: 'DUI y nombre de receptor son obligatorios',showConfirmButton: true,
-      timer: 1500
-    });
-    return false;
-  }
-  
-  let titular = document.getElementById('pac-recep-orden').value;
-  let codigo_orden = document.getElementById('codigo-recep-orden').value;
-  
-  imprimirActa(nombre_receptor,dui_receptor,titular,codigo_orden,receptor)
-});
-function imprimirActa(nombre_receptor,dui_receptor,paciente,codigo,tipo_receptor) {
-  let form = document.createElement("form");
-  form.target = "blank";
-  form.method = "POST";
-  form.action = "imprimir_acta.php";
-  var input = document.createElement("input");
-  input.type = "hidden";
-  input.name = "codigo";
-  input.value = codigo;
-  form.appendChild(input);
-
-  var input = document.createElement("input");
-  input.type = "hidden";
-  input.name = "paciente";
-  input.value = paciente;
-  form.appendChild(input);
-
-  var input = document.createElement("input");
-  input.type = "hidden";
-  input.name = "receptor";
-  input.value = nombre_receptor;
-  form.appendChild(input);
-
-  var input = document.createElement("input");
-  input.type = "hidden";
-  input.name = "dui-receptor";
-  input.value = dui_receptor;
-  form.appendChild(input);
-
-  var input = document.createElement("input");
-  input.type = "hidden";
-  input.name = "tipo-receptor";
-  input.value = tipo_receptor;
-  form.appendChild(input);
-
-  document.body.appendChild(form);//"width=600,height=500"
-  form.submit();
-  document.body.removeChild(form);
-}
 
 
 //ocultar boton para ingresar cita
@@ -1916,10 +1847,6 @@ if(!permiso_manual){
   document.getElementById('radio_button_orden').style.display = "none"
 }
 
-document.querySelectorAll(".chk-recept").forEach(i => i.addEventListener("click", e => {
-  let receptor = $("input[type='radio'][name='receptor-acta']:checked").val();
-  const receptores_section = document.getElementById("receptores-section");
-  receptor=="tercero" ? receptores_section.style.display="flex" : receptores_section.style.display="none"
-}));
+
 
 init();

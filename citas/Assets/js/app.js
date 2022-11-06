@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(hoy);
                
                 if (info.date >= hoy) {
-
+                  document.getElementById('datos-titular').style.display = "none";
                   document.getElementById("paciente-vet").readOnly = false;
                   document.getElementById("dui-vet").readOnly = false;
                   document.getElementById("telefono-pac").readOnly = false;
@@ -292,8 +292,12 @@ $(function () {
      
 }
 
+
+
 function gethorasDisponibles(fecha){
-    let disp = ['9:00 AM','9:15 AM','9:30 AM','9:45 AM','10:00 AM','10:15 AM','10:30 AM'];
+    let disp = [
+      '8:00 AM','8:10 AM','8:20 AM','8:30 AM','8:40 AM','8:50 AM','9:00 AM','9:10 AM','9:20 AM','9:30 AM','9:40 AM','9:50 AM','10:00 AM','10:10 AM','10:20 AM','10:30 AM','10:40 AM','10:50 AM','11:00 AM','11:10 AM','11:20 AM','11:30 AM','11:40 AM','11:50 AM','12:00 MD'];
+
 
     $.ajax({
         url:"../ajax/citados.php?op=get_horas_select",
@@ -318,4 +322,20 @@ function gethorasDisponibles(fecha){
 
 $(".inp-citas").keyup(function(){
   $(this).val($(this).val().toUpperCase());
+});
+
+
+$(document).ready(function(){
+  $("#sector-pac").change(function () {         
+    $("#sector-pac option:selected").each(function () {
+     let sector = $(this).val();
+      if(sector=="CONYUGE"){        
+        document.getElementById('datos-titular').style.display = "flex";
+      }else{
+        document.getElementById('datos-titular').style.display = "none";
+      }
+      
+                 
+    });
+  })
 });

@@ -15,7 +15,7 @@
            <label>Codigo orden</label>
           <input type="text" class="form-control" id="reg_ingresos_barcode" onchange="getOrdenBarcode()">
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-8" id="ubicacion">
           <label for="">Ubicación</label>
           <input type="text" class="form-control" id="ubicacion_veteranos" placeholder="Ubicación" style="text-transform: uppercase;">
         </div>

@@ -6,23 +6,33 @@ use Dompdf\Options;
 require_once '../dompdf/autoload.inc.php';
 require_once ('../config/conexion.php');
 require_once ('../modelos/Reporteria.php');
+require_once ('../modelos/Ordenes.php');
 date_default_timezone_set('America/El_Salvador'); 
 $hoy = date("d-m-Y");
 $dateTime= date("d-m-Y H:i:s");
 $hora = date("H:i");
 $citas = new Reporteria();
+$orden = new Ordenes();
+
 $codigo=$_POST["codigo"];
 $paciente = $_POST["paciente"];
 $tipo_receptor = $_POST["tipo-receptor"];
 $receptor = $_POST["receptor"];
 $dui_receptor = $_POST["dui-receptor"];
+$id_acta = $_POST["id_acta"];
+$correlativo_suc = $_POST["correlativo_suc"];
 
-echo $codigo."<br>";
-echo $paciente."<br>";
-echo $tipo_receptor."<br>";
-echo $receptor."<br>";
-echo $dui_receptor."<br>";
-exit();
+$data_orden = $orden->get_data_orden($codigo,$paciente);
+$sector = $data_orden[0]["institucion"];
+$dui = $data_orden[0]["dui"];
+$genero = $data_orden[0]["genero"];
+if($sector=="FAES"){
+    $sector = "veterano";
+}elseif($sector=="FMLN"){
+    $sector="ex-combatiente";
+}elseif($sector=="CONYUGE"){
+    $sector = "conyuge";
+}
 ?>
 
 <!DOCTYPE html>
@@ -85,12 +95,12 @@ exit();
 <table style="width:100%">
   <br>
   <tr>
-    <td  style="text-align: center;margin-top: 0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>DEPARTAMENTO DE PROGRAMAS DE SALUD</b></td>
+    <td  style="text-align: center;margin-top: 0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>DEPARTAMENTO DE PROGRAMAS DE SALUD E INSUMOS MEDICOS</b></td>
   </tr>
 
 
   <tr>
-    <td  style="text-align:center;margin-top:0px;font-size:18px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><u><b>ACTA DE ENTREGA  </u></b></td>
+    <td  style="text-align:center;margin-top:0px;font-size:18px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><b>ACTA DE ENTREGA <span style="color:#ee6b6e"> # <?php echo $id_acta?></span> </b></td>
   </tr>
 </table>
 </td>
@@ -98,11 +108,21 @@ exit();
 <td width="25%" style="width:15%;margin:0px">
   <img src='../dist/img/logo_avplus.jpg' width="60" height="35" style="margin-top:25px;"></td>
 </table><!--fin tabla-->
+<?php if($tipo_receptor=="beneficiario"){?>
+<p style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px;line-height: 180%">A las <b><?php echo $hora?></b> horas del <b><?php echo $hoy?> </b> en <span><b>San Salvador, El Salvador</b></span>  se hace la entrega formal a <b><?php echo $paciente;?></b> con DUI: <b><?php echo $dui?></b>, genero <?php echo $genero?> sector <b><?php echo $sector;?></b>.</p> <br>
+<?php }?>
 
-<p style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px;line-height: 180%">A las <b><?php echo $hora?></b> horas del <b><?php echo $hoy?> </b> en <span><b>San Salvador, El Salvador</b></span> <b>REUNIDOS</b> por parte del Instituto de los Beneficios de los Veteranos y Excombatientes,__________________________________________, siendo el receptor <span style="text-transform:uppercase"><b><?php echo $paciente?><b></span>, 
-Se hace constar la <b>ENTREGA FORMAL </b>, según el detalle siguiente.</p> <br>
+<br>
 
-<span style="font-family: Helvetica, Arial, sans-serif;font-size: 13 px;padding: 5px">
+<?php if($tipo_receptor=="tercero"){?>
+
+<?php if($tipo_receptor=="tercero"){?>
+<p style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px;line-height: 180%">A las <b><?php echo $hora?></b> horas del <b><?php echo $hoy?> </b> en <span><b>San Salvador, El Salvador</b></span>  se hace la entrega formal a <b><?php echo $receptor;?></b> con DUI: <b><?php echo $dui_receptor?></b>.<br>
+
+Los lentes de <b><?php echo $paciente;?></b> con DUI: <b><?php echo $dui?></b>, genero <?php echo $genero?> sector <b><?php echo $sector;?></b>.</p> <br>
+<?php }?>
+
+<?php }?>
     Dicho suministro se entrega de acuerdo con el siguiente detalle: 
 </span><br><br>
 
