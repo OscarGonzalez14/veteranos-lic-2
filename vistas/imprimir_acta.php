@@ -13,7 +13,16 @@ $hora = date("H:i");
 $citas = new Reporteria();
 $codigo=$_POST["codigo"];
 $paciente = $_POST["paciente"];
+$tipo_receptor = $_POST["tipo-receptor"];
+$receptor = $_POST["receptor"];
+$dui_receptor = $_POST["dui-receptor"];
 
+echo $codigo."<br>";
+echo $paciente."<br>";
+echo $tipo_receptor."<br>";
+echo $receptor."<br>";
+echo $dui_receptor."<br>";
+exit();
 ?>
 
 <!DOCTYPE html>

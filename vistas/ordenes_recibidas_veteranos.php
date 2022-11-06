@@ -99,7 +99,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
 
 <!--modal actas-->
 <div class="modal" id="modal-actas">
-  <div class="modal-dialog" style="max-width: 60%">
+  <div class="modal-dialog" style="max-width: 70%">
     <div class="modal-content">
 
       <!-- Modal Header -->
@@ -112,25 +112,38 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
       <div class="modal-body">
        
         <h5 style="text-align:center;font-size:18px">La siguiente acta será entregada a:</h5>
-          <div class="col-sm-12" style="  display: flex; justify-content: center;align-items: center;">
+          <div class="col-sm-12 shadow-sm" style="  display: flex; justify-content: center;align-items: center;margin:10px">
             <div class="form-group clearfix" style="margin:6px">
-              <div class="icheck-primary d-inline">
-                <input type="radio" name="receptor-acta" id="ben-acta">
+              <div class="icheck-success d-inline">
+                <input type="radio" name="receptor-acta" id="ben-acta" class="chk-recept" value="beneficiario">
                 <label for="ben-acta">Beneficiario
                 </label>
               </div>
-              <div class="icheck-success d-inline" style="margin:6px">
-                <input type="radio" name="receptor-acta" id="terc-acta">
+              <div class="icheck-warning d-inline" style="margin:6px">
+                <input type="radio" name="receptor-acta" id="terc-acta" class="chk-recept" value="tercero">
                 <label for="terc-acta">Tercero
                 </label>
               </div>
             </div>
           </div>
-      </div>
+          <div class="row " style="display:none" id="receptores-section">
 
+            <div class="col-sm-8">
+            <label for="inputPassword4">Receptor*</label>
+              <input type="text" class="form-control clear_i" id="receptor-acta" name="receptor-acta" placeholder="nombre completo de receptor">
+            </div>
+            <div class="col-sm-4">
+            <label for="inputPassword4">DUI*</label>
+              <input type="text" class="form-control clear_i" id="receptor-dui" name="receptor-dui" placeholder="DUI receptor">
+            </div>
+
+          </div>
+      </div><!-- Fin body modal -->
+       <input type="hidden" id="codigo-recep-orden">
+       <input type="hidden" id="pac-recep-orden">
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-block"><i class="fas fa-file-pdf"></i> Imprimir</button>
+        <button type="button" class="btn btn-primary btn-block" id="btn-print-acta"><i class="fas fa-file-pdf"></i> Imprimir</button>
       </div>
 
     </div>

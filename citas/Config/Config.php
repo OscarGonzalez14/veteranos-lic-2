@@ -1,5 +1,5 @@
 <?php
-/*const base_url = "https://avplustuoptica.com/licitacion2/citas/;
+/*const base_url = "https://avplustuoptica.com/inabve/citas/";
 const host = "localhost";
 const user = "u579024306_vets";
 const pass = "Veteranos_2022";
@@ -12,4 +12,3 @@ const user = "root";
 const pass = "";
 const db = "veteranos";
 const charset = "charset=utf8";
-?>
