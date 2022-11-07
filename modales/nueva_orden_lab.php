@@ -27,15 +27,14 @@
             <div class="modal-body">
               <!--START MODAL BODY-->
               <?php foreach ($_SESSION['names_permisos'] as $permiso) : ?>
-              <?php if ($permiso == "ingreso_manual") : ?>
-              <div class="row mb-2" id="radio_button_orden">
+                <div class="row mb-2" id="radio_button_orden">
+                <?php if ($permiso == "ingreso_manual") : ?>
                 <div class="custom-control custom-switch">
                   <input type="checkbox" onchange="customSwithIngresoManual()" class="custom-control-input" name="customSwitch1" id="customSwitch1">
                   <label class="custom-control-label" for="customSwitch1">Ingreso manual</label>
                 </div>
+                <?php endif; ?>
               </div>
-
-              <?php endif; ?>
               <?php endforeach; ?>
 
               <div class="shadow-sm" id="cita_content">
@@ -98,7 +97,7 @@
                     </div>
 
                     <div class="form-group col-md-3 select2-primary">
-                      <label class="form-check-label">Municipio: <span id="muni_pac" style="color: red;"></span></label>
+                      <label class="form-check-label">Municipio: <span id="muni_pac_label" style="color: red;"></span></label>
                       <select name="" id="munic_pac" class="select2 next-input form-control clear_orden_i" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true" required>
 
                       </select>

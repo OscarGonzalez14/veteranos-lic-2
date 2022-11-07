@@ -249,7 +249,6 @@ function guardar_orden(parametro = 'saveEdit') {
   }else{
     document.getElementById('edad_pac').classList.add('is-valid')
   }
-
   $.ajax({
     url: "../ajax/ordenes.php?op=registrar_orden",
     method: "POST",
@@ -1961,5 +1960,4 @@ const permiso_manual = names_permisos.includes("ingreso_manual")
 if(!permiso_manual){
   document.getElementById('radio_button_orden').style.display = "none"
 }
-
 init();
