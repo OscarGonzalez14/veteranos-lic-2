@@ -311,7 +311,11 @@ function clearInputAndHTML(){
   $("#instit_t").html('');
   //Input de ingreso cita manual
   $("#depto_pac").html('')
-  $("#muni_pac").html('')
+  $("#muni_pac_label").html('')
+
+  $("#departamento_pac").val('');
+  $("#munic_pac").val('')
+
   $("#instit").val('')
   $("#sucursal_optica").val('');
 
@@ -450,7 +454,7 @@ function verEditar(codigo, paciente) {
           genero = $("#genero_pac").val(data.genero)
           ocupacion = $("#ocupacion_pac").val(data.ocupacion)
           depto = $("#depto_pac").html(data.depto)
-          municipio = $("#muni_pac").html(data.municipio)
+          municipio = $("#muni_pac_label").html(data.municipio)
           instit = $("#instit").val(data.institucion)
           $("#sucursal_optica").val(data.sucursal);
         } 

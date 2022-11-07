@@ -78,7 +78,7 @@
                     <div class="form-group col-md-2 select2-purple">
                       <label class="form-check-label">Departamento : <span id="depto_pac" style="color: red;"></span></label>
                       <select class="select2 next-input form-control clear_orden_i select2-hidden-accessible" name="" id="departamento_pac" onchange="get_municipios(this.id)" class="select2 form-control" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true">
-                        <option value='0'>Seleccionar</option>
+                        <option value='0' disabled selected>Seleccionar</option>
                         <option value="San Salvador">San Salvador</option>
                         <option value="La Libertad">La Libertad</option>
                         <option value="Santa Ana">Santa Ana</option>
