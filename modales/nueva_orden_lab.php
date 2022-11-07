@@ -26,16 +26,14 @@
 
             <div class="modal-body">
               <!--START MODAL BODY-->
-              <?php foreach ($_SESSION['names_permisos'] as $permiso) : ?>
+              
                 <div class="row mb-2" id="radio_button_orden">
-                <?php if ($permiso == "ingreso_manual") : ?>
                 <div class="custom-control custom-switch">
                   <input type="checkbox" onchange="customSwithIngresoManual()" class="custom-control-input" name="customSwitch1" id="customSwitch1">
                   <label class="custom-control-label" for="customSwitch1">Ingreso manual</label>
                 </div>
-                <?php endif; ?>
               </div>
-              <?php endforeach; ?>
+             
 
               <div class="shadow-sm" id="cita_content">
 

@@ -521,7 +521,7 @@ $(document).on('click', '#order_new', function () {
   $("#departamento_pac_t").html('');
   $("#munic_pac_data_t").html('');
   $("#instit_t").html('');
-  
+
   $("#validate").val("save");
   $('#munic_pac').val('1'); // Select the option with a value of '1'
   $('#munic_pac').trigger('change');
@@ -1972,9 +1972,14 @@ function imprimirActa(nombre_receptor,dui_receptor,paciente,codigo,tipo_receptor
 
 
 //ocultar boton para ingresar cita
-const permiso_manual = names_permisos.includes("ingreso_manual")
-
+const permiso_manual = names_permisos.includes("ingreso_manual") //return true
 if(!permiso_manual){
-  document.getElementById('radio_button_orden').style.display = "none"
+  document.getElementById('radio_button_orden').style.opacity = "0"
+  document.getElementById('show_form_manual').style.display = "none"
+}else{
+  document.getElementById('customSwitch1').checked = false
+  document.getElementById('btnBuscarCitado').style.opacity = "1"
+  document.getElementById('radio_button_orden').style.opacity = "1"
 }
+
 init();
