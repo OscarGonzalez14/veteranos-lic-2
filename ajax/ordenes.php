@@ -55,8 +55,10 @@ switch ($_GET["op"]) {
         for ($x = 0; $x < 1; $x++) {
           $result = $ordenes->registrar_orden($nuevo_correlativo, $_POST['paciente'], $_POST['od_pupilar'], $_POST['oipupilar'], $_POST["odlente"], $_POST["oilente"], $_POST['id_aro'], $_POST["id_usuario"], $_POST["observaciones_orden"], $_POST["dui"], $_POST["od_esferas"], $_POST["od_cilindros"], $_POST["od_eje"], $_POST["od_adicion"], $_POST["oi_esferas"], $_POST["oi_cilindros"], $_POST["oi_eje"], $_POST["oi_adicion"], $_POST["tipo_lente"], $_POST["edad"], $_POST["ocupacion"], $_POST["avsc"], $_POST["avfinal"], $_POST["avsc_oi"], $_POST["avfinal_oi"], $_POST["telefono"], $_POST["genero"], $_POST["user"], $_POST["depto"], $_POST["municipio"], $_POST["instit"], $_POST["patologias"], $_POST["color"], $_POST["indice"], $_POST["id_cita"], $_POST["sucursal"], $_POST['categoria_lente'], $_POST['laboratorio']);
           //Update cita table
-          if($result){
-            $citados->updateEstadoCita($_POST["id_cita"]);
+          if($_POST["id_cita"] != ""){
+            if($result){
+              $citados->updateEstadoCita($_POST["id_cita"]);
+            }
           }
           $mensaje = "exito";
         }

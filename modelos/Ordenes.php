@@ -172,7 +172,7 @@ public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$o
     color=?,
     patologias=?,
     id_cita=?,
-    sucursal=?
+    sucursal=?*
 
     where codigo = ?;";
 
