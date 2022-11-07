@@ -289,6 +289,10 @@ function cargar_marcas(){
  
 function buscarAro(){
   let sucursal = $("#sucursal").val()
+  if(permiso_manual){
+      sucursal=$("#sucursal_optica").val()
+  }
+
   $("#aros_orden").modal();
   dtTemplateProductos("datatable_aros_ordenes","seleccionar_aro_orden",sucursal)
 }

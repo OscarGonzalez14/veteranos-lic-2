@@ -295,6 +295,7 @@ function guardar_orden(parametro = 'saveEdit') {
 
     }
   });//////FIN AJAX
+  explode();
 }
 
 function clearInputAndHTML(){
