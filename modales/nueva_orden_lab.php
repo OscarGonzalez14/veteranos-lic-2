@@ -500,21 +500,4 @@
               show_form_manual.style.display = "none"
           }
         }
-
-        function select_form_cita(e) {
-
-          if (valueSelect == "ingreso_cita") {
-
-
-          }
-
-          if (valueSelect == "ingreso_manual") {
-
-          }
-
-          /* Para obtener el texto */
-          //var combo = document.getElementById("form_cita_manual");
-          //var selected = combo.options[combo.selectedIndex].text;
-          //alert(selected);
-        }
       </script>
