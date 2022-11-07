@@ -160,7 +160,7 @@ public function getDisponibilidadCitas($fecha){
         $sql->bindParam(':id_cita',$id_cita);
         $sql->execute();
 
-        echo json_encode(["msj" => "OLK"]);
+        //echo json_encode(["msj" => "OLK"]);
     }
 
 }////Fin de la clase

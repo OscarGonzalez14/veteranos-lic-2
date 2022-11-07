@@ -257,7 +257,7 @@ function guardar_orden(parametro = 'saveEdit') {
     dataType:"json",
 
     success: function (data) {
-      console.log(data)
+      console.log("data: " + data)
       if (data == "exito") {
         clearInputAndHTML() //Limpia el html y input
         Swal.fire({
@@ -295,7 +295,7 @@ function guardar_orden(parametro = 'saveEdit') {
 
     }
   });//////FIN AJAX
-  explode();
+  //explode();
 }
 
 function clearInputAndHTML(){

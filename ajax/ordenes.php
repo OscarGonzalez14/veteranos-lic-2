@@ -34,7 +34,6 @@ switch ($_GET["op"]) {
 
   case 'registrar_orden':
 
-
     date_default_timezone_set('America/El_Salvador');
     $now = date("dmY");
     $validate = $_POST["validate"];
@@ -49,7 +48,7 @@ switch ($_GET["op"]) {
       } else {
         $nuevo_correlativo = $now . "1";
       }
-
+      
       $datos = $ordenes->validar_correlativo_orden($nuevo_correlativo);
       if (is_array($datos) and count($datos) == 0) {
         for ($x = 0; $x < 1; $x++) {
@@ -57,7 +56,10 @@ switch ($_GET["op"]) {
           //Update cita table
           if($_POST["id_cita"] != ""){
             if($result){
+              $mensaje = "exito";
+              echo json_encode($mensaje);
               $citados->updateEstadoCita($_POST["id_cita"]);
+              return 1;
             }
           }
           $mensaje = "exito";
