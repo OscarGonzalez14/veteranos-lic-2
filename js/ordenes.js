@@ -510,6 +510,18 @@ function historialOrden(codigo) {
 
 ////////////////OCULTAR ICONOS //////////
 $(document).on('click', '#order_new', function () {
+  //Content vacio a nueva orden
+  $("#paciente_t").html('');
+  $("#dui_pac_t").html('');
+  $("#edad_pac_t").html('');
+  $("#correlativo_op_t").html('');
+  $("#telef_pac_t").html('');
+  $("#genero_pac_t").html('');
+  $("#ocupacion_pac_t").html('');
+  $("#departamento_pac_t").html('');
+  $("#munic_pac_data_t").html('');
+  $("#instit_t").html('');
+  
   $("#validate").val("save");
   $('#munic_pac').val('1'); // Select the option with a value of '1'
   $('#munic_pac').trigger('change');
