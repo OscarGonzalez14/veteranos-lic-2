@@ -109,7 +109,7 @@ if($sector=="FAES"){
   <img src='../dist/img/logo_avplus.jpg' width="60" height="35" style="margin-top:25px;"></td>
 </table><!--fin tabla-->
 <?php if($tipo_receptor=="beneficiario"){?>
-<p style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px;line-height: 180%">A las <b><?php echo $hora?></b> horas del <b><?php echo $hoy?> </b> en <span><b>San Salvador, El Salvador</b></span>  se hace la entrega formal a <b><?php echo $paciente;?></b> con DUI: <b><?php echo $dui?></b>, genero <?php echo $genero?> sector <b><?php echo $sector;?></b>.</p> <br>
+<p style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px;line-height: 180%">A las <b><?php echo $hora?></b> horas del <b><?php echo $hoy?> </b> en <span><b>San Salvador, El Salvador</b></span>  se hace la entrega formal a <b><?php echo $paciente;?></b>,<br> con DUI: <b><?php echo $dui?></b>, genero <?php echo $genero?> sector <b><?php echo $sector;?></b>.</p> <br>
 <?php }?>
 
 <br>
@@ -123,7 +123,7 @@ Los lentes de <b><?php echo $paciente;?></b> con DUI: <b><?php echo $dui?></b>, 
 <?php }?>
 
 <?php }?>
-    Dicho suministro se entrega de acuerdo con el siguiente detalle: 
+    <span style="font-size:14px">Dicho suministro se entrega de acuerdo con el siguiente detalle: 
 </span><br><br>
 
 <table width="100%" style="width: 100%;margin-top: 30px !important;"  class="tabla_reporte_citas">

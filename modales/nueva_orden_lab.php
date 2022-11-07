@@ -1,4 +1,4 @@
-      <style>
+<style>
         .etiqueta {
           color: black;
           font-family: Helvetica, Arial, sans-serif;
@@ -26,112 +26,103 @@
 
             <div class="modal-body">
               <!--START MODAL BODY-->
-
-
-              <div class="row" id="radio_button_orden">
-                <div class="col-sm-4 col-md-2" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input chk_element" onchange="select_form_cita()" type="radio" id="form_cita" value="ingreso_cita" name="estado_form">
-                    <label class="form-check-label" for="form_cita">Ingreso por cita</label>
-                  </div>
+              <?php foreach ($_SESSION['names_permisos'] as $permiso) : ?>
+              <?php if ($permiso == "ingreso_manual") : ?>
+              <div class="row mb-2" id="radio_button_orden">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" onchange="customSwithIngresoManual()" class="custom-control-input" name="customSwitch1" id="customSwitch1">
+                  <label class="custom-control-label" for="customSwitch1">Ingreso manual</label>
                 </div>
-                <?php foreach ($_SESSION['names_permisos'] as $permiso) : ?>
-                  <?php if ($permiso == "ingreso_manual") : ?>
-                    <div class="col-sm-4 col-md-2" style="display:flex;justify-content: center;margin-top:0px;">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input chk_element" onchange="select_form_cita()" type="radio" id="form_manual" value="ingreso_manual" name="estado_form">
-                        <label class="form-check-label" for="form_manual">Ingreso manual</label>
-                      </div>
-                    </div>
-                  <?php endif; ?>
-                <?php endforeach; ?>
               </div>
+
+              <?php endif; ?>
+              <?php endforeach; ?>
 
               <div class="shadow-sm" id="cita_content">
 
                 <div id="show_form_manual">
-                <div class="form-row">
-                  <div class="form-group col-md-3">
-                    <label class="form-check-label">Paciente*</label>
-                    <input type="text" id="paciente" class="form-control oblig clear_orden_i">
-                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-3">
+                      <label class="form-check-label">Paciente*</label>
+                      <input type="text" id="paciente" class="form-control clear_orden_i" required>
+                    </div>
 
-                  <div class="form-group col-md-3">
-                    <label class="form-check-label">DUI*</label>
-                    <input type="text" id="dui_pac" class="form-control oblig clear_orden_i">
-                  </div>
+                    <div class="form-group col-md-3">
+                      <label class="form-check-label">DUI*</label>
+                      <input type="text" id="dui_pac" class="form-control clear_orden_i" required>
+                    </div>
 
-                  <div class="form-group col-md-2">
-                    <label class="form-check-label">Edad*</label>
-                    <input type="number" max="110" min="1" id="edad_pac" class="form-control oblig clear_orden_i">
-                  </div>
+                    <div class="form-group col-md-2">
+                      <label class="form-check-label">Edad*</label>
+                      <input type="number" step="1" max="110" min="1" id="edad_pac" class="form-control clear_orden_i" required>
+                    </div>
 
-                  <div class="form-group col-md-2">
-                    <label class="form-check-label">Telefono*</label>
-                    <input type="text" id="telef_pac" class="form-control oblig clear_orden_i">
-                  </div>
+                    <div class="form-group col-md-2">
+                      <label class="form-check-label">Telefono*</label>
+                      <input type="text" id="telef_pac" class="form-control clear_orden_i" required>
+                    </div>
 
-                  <div class="form-group col-md-2">
-                    <label class="form-check-label">Genero*</label>
-                    <select name="" id="genero_pac" class="form-control clear_orden_i">
-                      <option value="" selected disabled>Selecionar</option>
-                      <option value="Masculino">Masculino</option>
-                      <option value="Femenino">Femenino</option>
-                    </select>
-                  </div>
+                    <div class="form-group col-md-2">
+                      <label class="form-check-label">Genero*</label>
+                      <select name="" id="genero_pac" class="form-control clear_orden_i" required>
+                        <option value="" selected disabled>Selecionar</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                      </select>
+                    </div>
 
-                  <div class="form-group col-md-3">
-                    <label class="form-check-label">Ocupación*</label>
-                    <input type="text" id="ocupacion_pac" class="form-control clear_orden_i">
-                  </div>
+                    <div class="form-group col-md-3">
+                      <label class="form-check-label">Ocupación*</label>
+                      <input type="text" id="ocupacion_pac" class="form-control clear_orden_i" required>
+                    </div>
 
-                  <div class="form-group col-md-2 select2-purple">
-                    <label class="form-check-label">Departamento : <span id="depto_pac" style="color: red;"></span></label>
-                    <select class="select2 next-input form-control clear_orden_i select2-hidden-accessible" name="" id="departamento_pac" onchange="get_municipios(this.id)" class="select2 form-control" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true">
-                      <option value='0'>Seleccionar</option>
-                      <option value="San Salvador">San Salvador</option>
-                      <option value="La Libertad">La Libertad</option>
-                      <option value="Santa Ana">Santa Ana</option>
-                      <option value="San Miguel">San Miguel</option>
-                      <option value="Sonsonate">Sonsonate</option>
-                      <option value="Usulutan">San Salvador</option>
-                      <option value="Ahuachapan">Ahuachapan</option>
-                      <option value="La Union">La Unión</option>
-                      <option value="La Paz">La Paz</option>
-                      <option value="Chalatenango">Chalatenango</option>
-                      <option value="Cuscatlan">Cuscatlan</option>
-                      <option value="Morazan">Morazan</option>
-                      <option value="San Vicente">San Vicente</option>
-                      <option value="Cabanas">Cabanas</option>
-                    </select>
-                  </div>
+                    <div class="form-group col-md-2 select2-purple">
+                      <label class="form-check-label">Departamento : <span id="depto_pac" style="color: red;"></span></label>
+                      <select class="select2 next-input form-control clear_orden_i select2-hidden-accessible" name="" id="departamento_pac" onchange="get_municipios(this.id)" class="select2 form-control" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true">
+                        <option value='0'>Seleccionar</option>
+                        <option value="San Salvador">San Salvador</option>
+                        <option value="La Libertad">La Libertad</option>
+                        <option value="Santa Ana">Santa Ana</option>
+                        <option value="San Miguel">San Miguel</option>
+                        <option value="Sonsonate">Sonsonate</option>
+                        <option value="Usulutan">San Salvador</option>
+                        <option value="Ahuachapan">Ahuachapan</option>
+                        <option value="La Union">La Unión</option>
+                        <option value="La Paz">La Paz</option>
+                        <option value="Chalatenango">Chalatenango</option>
+                        <option value="Cuscatlan">Cuscatlan</option>
+                        <option value="Morazan">Morazan</option>
+                        <option value="San Vicente">San Vicente</option>
+                        <option value="Cabanas">Cabanas</option>
+                      </select>
+                    </div>
 
-                  <div class="form-group col-md-3 select2-primary">
-                    <label class="form-check-label">Municipio: <span id="muni_pac" style="color: red;"></span></label>
-                    <select name="" id="munic_pac" class="select2 next-input form-control clear_orden_i" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true">
-                      
-                    </select>
-                  </div>
+                    <div class="form-group col-md-3 select2-primary">
+                      <label class="form-check-label">Municipio: <span id="muni_pac" style="color: red;"></span></label>
+                      <select name="" id="munic_pac" class="select2 next-input form-control clear_orden_i" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true" required>
 
-                  <div class="form-group col-md-2">
-                    <label class="form-check-label">Institución*</label>
-                    <select name="" id="instit" class="form-control clear_orden_i">
-                      <option value="" selected disabled>Seleccionar</option>
-                      <option value="FAES">FAES</option>
-                      <option value="FMLN">FMLN</option>
-                      <option value="Conyuge">Cónyuge</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-2">
-                    <label class="form-check-label">Sucursales*</label>
-                    <div class="input-group mb-3">
-                    <select class="form-control clear_orden_i" id="sucursal_optica">
-                      <option value="0" selected disabled>Seleccionar sucursal...</option>
-                      <option value="Valencia">Valencia</option>
-                    </select>
+                      </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                      <label class="form-check-label">Sector*</label>
+                      <select name="" id="instit" class="form-control clear_orden_i" required>
+                        <option value="" selected disabled>Seleccionar</option>
+                        <option value="FAES">FAES</option>
+                        <option value="FMLN">FMLN</option>
+                        <option value="CONYUGE">CÓNYUGE</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label class="form-check-label">Sucursales*</label>
+                      <div class="input-group mb-3">
+                        <select class="form-control clear_orden_i" id="sucursal_optica" required>
+                          <option value="0" selected disabled>Seleccionar sucursal...</option>
+                          <option value="Valencia">Valencia</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>
 
                 <div id="tables_cita">
@@ -146,11 +137,11 @@
                       </tr>
                     </thead>
                     <tr>
-                      <td id="paciente" style="width:40%"></td>
-                      <td id="dui_pac" style="width:15%"></td>
-                      <td id="edad_pac" style="width:10%"></td>
-                      <td id="telef_pac" style="width:20%"></td>
-                      <td id="genero_pac" style="width:15%"></td>
+                      <td id="paciente_t" style="width:40%"></td>
+                      <td id="dui_pac_t" style="width:15%"></td>
+                      <td id="edad_pac_t" style="width:10%"></td>
+                      <td id="telef_pac_t" style="width:20%"></td>
+                      <td id="genero_pac_t" style="width:15%"></td>
                     </tr>
                   </table>
 
@@ -164,10 +155,10 @@
                       </tr>
                     </thead>
                     <tr>
-                      <td id="ocupacion_pac" style="width:20%"></td>
-                      <td id="instit" style="width:20%"></td>
-                      <td id="departamento_pac" style="width:25%"></td>
-                      <td id="munic_pac_data" style="width:35%"></td>
+                      <td id="ocupacion_pac_t" style="width:20%"></td>
+                      <td id="instit_t" style="width:20%"></td>
+                      <td id="departamento_pac_t" style="width:25%"></td>
+                      <td id="munic_pac_data_t" style="width:35%"></td>
 
                     </tr>
                   </table>
@@ -209,7 +200,7 @@
                     </div>
                     <div class="col-sm-4" style="display:flex;justify-content: center;margin-top:0px;">
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input chl_element" type="radio" id="alto-indice" value="Progresive" name="indice" disabled="disabled">
+                        <input class="form-check-input chl_element chl_element" type="radio" id="alto-indice" value="Progresive" name="indice" disabled="disabled">
                         <label class="form-check-label" for="alto-indice" id="label-index">Alto indice</label>
                       </div>
                     </div>
@@ -373,12 +364,12 @@
                       <div class="col-sm-3">
                         <label class="etiqueta"> Modelo <span style="color: red">*</span></label>
                         <div class="input-group">
-                          <input type="text" class="form-control clear_orden_i oblig" id="modelo_aro_orden" placeholder="Especificar aro">
+                          <input readonly type="text" class="form-control clear_orden_i oblig" id="modelo_aro_orden" placeholder="Especificar aro">
                           <div class="input-group-append" onClick="buscarAro()" id="buscar_aro">
                             <span class="input-group-text bg-success"><i class="fas fa-search"> </i></span>
                           </div>
 
-                          <div class="input-group-append" data-toggle="modal" data-target="#imagen_aro_orden" id="mostrar_imagen">
+                          <div style="display: none;" class="input-group-append" data-toggle="modal" data-target="#imagen_aro_orden" id="mostrar_imagen">
                             <span class="input-group-text bg-primary"><i class="fas fa-file-image"> </i></span>
                           </div>
 
@@ -388,18 +379,18 @@
                       <input type="hidden" id="id_aro">
                       <div class="form-group col-sm-3">
                         <label for="" class="etiqueta">Marca </label>
-                        <input type="text" class="form-control clear_orden_i" id="marca_aro_orden">
+                        <input readonly type="text" class="form-control clear_orden_i" id="marca_aro_orden">
                       </div>
 
 
                       <div class="form-group col-sm-3">
                         <label for="" class="etiqueta">Color <span style="color:blue"></span></label>
-                        <input type="text" class="form-control clear_orden_i" id="color_aro_orden">
+                        <input readonly type="text" class="form-control clear_orden_i" id="color_aro_orden">
                       </div>
 
                       <div class="form-group col-sm-3">
                         <label for="" class="etiqueta">Material <span style="color:blue"></span></label>
-                        <input type="text" class="form-control clear_orden_i" id="material_aro_orden">
+                        <input readonly type="text" class="form-control clear_orden_i" id="material_aro_orden">
                       </div>
 
 
@@ -489,24 +480,36 @@
       <script>
         document.getElementById('show_form_manual').style.display = "none"; //default oculto
 
-        function select_form_cita(e) {
+        function customSwithIngresoManual(e) {
+          let customSwitch1 = document.querySelector('input[name="customSwitch1"]:checked')
           /* Para obtener el valor */
-          let valueSelect = document.querySelector('input[name="estado_form"]:checked').value
+
           let btnBuscarCitado = document.getElementById('btnBuscarCitado');
 
           let show_form_manual = document.getElementById('show_form_manual');
           let tables_cita = document.getElementById('tables_cita');
           show_form_manual.style.display = "none"
+          if(customSwitch1 != null){
+            if (customSwitch1.value == "on") {
+              btnBuscarCitado.style.display = "none" //oculta el boton buscar paciente
+              tables_cita.style.display = "none";
+              show_form_manual.style.display = "block"
+            }
+          }else {
+              btnBuscarCitado.style.display = "block" //Muestra el boton buscar paciente
+              tables_cita.style.display = "block";
+              show_form_manual.style.display = "none"
+          }
+        }
+
+        function select_form_cita(e) {
+
           if (valueSelect == "ingreso_cita") {
-            btnBuscarCitado.style.display = "block" //Muestra el boton buscar paciente
-            tables_cita.style.display = "block";
-            show_form_manual.style.display = "none"
+
+
           }
 
           if (valueSelect == "ingreso_manual") {
-            btnBuscarCitado.style.display = "none" //Muestra el boton buscar paciente
-            tables_cita.style.display = "none";
-            show_form_manual.style.display = "block"
 
           }
 

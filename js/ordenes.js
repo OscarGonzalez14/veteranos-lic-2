@@ -132,9 +132,9 @@ function guardar_orden(parametro = 'saveEdit') {
     categoria_lente = "*";
   }
 
-  let genero = $("#genero_pac").html();
+  let genero = $("#genero_pac_t").html();
   let correlativo_op = $("#correlativo_op").html();
-  let paciente = $("#paciente").html();
+  let paciente = $("#paciente_t").html();
   let fecha_creacion = $("#fecha_creacion").val();
   let od_pupilar = $("#od_pupilar").val();
   let oipupilar = $("#oipupilar").val();
@@ -142,7 +142,7 @@ function guardar_orden(parametro = 'saveEdit') {
   let oilente = $("#oilente").val();
   let id_usuario = $("#id_usuario").val();
   let observaciones_orden = $("#observaciones_orden").val();
-  let dui = $("#dui_pac").html();
+  let dui = $("#dui_pac_t").html();
   let tipo_lente = $("input[type='radio'][name='tipo_lente']:checked").val();
 
   if (tipo_lente === undefined) {
@@ -173,21 +173,21 @@ function guardar_orden(parametro = 'saveEdit') {
   let oi_cilindros = $("#oicilindrosf").val();
   let oi_eje = $("#oiejesf").val();
   let oi_adicion = $("#oiadicionf").val();
-  let edad = $("#edad_pac").html();
-  let ocupacion = $("#ocupacion_pac").html();
+  let edad = $("#edad_pac_t").html();
+  let ocupacion = $("#ocupacion_pac_t").html();
   let avsc = $("#avsc").val();
   let avfinal = $("#avfinal").val();
   let avsc_oi = $("#avsc_oi").val();
   let avfinal_oi = $("#avfinal_oi").val();
-  let telefono = $("#telef_pac").html();
+  let telefono = $("#telef_pac_t").html();
   let user = $("#user_act").val();
-  let depto = $("#departamento_pac").html();
-  let municipio = $("#munic_pac_data").html();
-  let instit = $("#instit").html();
+  let depto = $("#departamento_pac_t").html();
+  let municipio = $("#munic_pac_data_t").html();
+  let instit = $("#instit_t").html();
   let patologias = $("#patologias-ord").val();
   let id_cita = $("#id_cita_ord").val();
   let id_aro = $("#id_aro").val();
-  let sucursal = $("#sucursal_optica").val();
+  let sucursal = $("#user_sucursal").val();
   let codigo = $("#codigo_correlativo").val()
 
   let campos_orden = document.getElementsByClassName('oblig');
@@ -220,37 +220,47 @@ function guardar_orden(parametro = 'saveEdit') {
 
   if (correlativo_op != "") {
     $("#nueva_orden_lab").modal('hide');
-  }
+  } 
 
-  $("#nueva_orden_lab").modal('hide');
+  //$("#nueva_orden_lab").modal('hide'); //oculta el modal
 
   //Validacion si es por ingreso manual
-  let valueSelect = $("input[name='estado_form']:checked").val();  
-  if(valueSelect == "ingreso_manual"){
-    paciente = $("#paciente").val()
-    dui = $("#dui_pac").val()
-    edad = $("#edad_pac").val()
-    telefono = $("#telef_pac").val()
-    genero = $("#genero_pac").val()
-    ocupacion = $("#ocupacion_pac").val()
-    departamento = $("#departamento_pac").val()
-    depto = departamento.toString();
-    municipio_array = $("#munic_pac").val()
-    municipio = municipio_array.toString()
-    instit = $("#instit").val()
-  }
+  let valueSwitch = $("input[name='customSwitch1']:checked").val();
 
+  if(valueSwitch != null){
+    if(valueSwitch == "on"){
+      paciente = $("#paciente").val()
+      dui = $("#dui_pac").val()
+      edad = $("#edad_pac").val()
+      telefono = $("#telef_pac").val()
+      genero = $("#genero_pac").val()
+      ocupacion = $("#ocupacion_pac").val()
+      departamento = $("#departamento_pac").val()
+      depto = departamento.toString();
+      municipio_array = $("#munic_pac").val()
+      municipio = municipio_array.toString()
+      instit = $("#instit").val()
+      sucursal = $("#sucursal_optica").val();
+    }
+  }
+  if(isNaN(edad) || edad > 120){
+    document.getElementById('edad_pac').classList.add('is-invalid')
+    return false;
+  }else{
+    document.getElementById('edad_pac').classList.add('is-valid')
+  }
 
   $.ajax({
     url: "../ajax/ordenes.php?op=registrar_orden",
     method: "POST",
     data: { codigo:codigo, paciente: paciente, fecha_creacion: fecha_creacion, od_pupilar: od_pupilar, oipupilar: oipupilar, odlente: odlente, oilente: oilente, id_aro: id_aro, id_usuario: id_usuario, observaciones_orden: observaciones_orden, dui: dui, od_esferas: od_esferas, od_cilindros: od_cilindros, od_eje: od_eje, od_adicion: od_adicion, oi_esferas: oi_esferas, oi_cilindros: oi_cilindros, oi_eje: oi_eje, oi_adicion: oi_adicion, tipo_lente: tipo_lente, validate: validate, categoria_lente: categoria_lente, edad: edad, ocupacion: ocupacion, avsc: avsc, avfinal: avfinal, avsc_oi: avsc_oi, avfinal_oi: avfinal_oi, telefono: telefono, genero: genero, user: user, depto: depto, municipio: municipio, instit: instit, patologias: patologias, color: color, indice: indice, id_cita: id_cita, sucursal: sucursal,laboratorio:laboratorio },
     cache: false,
-    // dataType:"json",
+    dataType:"json",
 
     success: function (data) {
       console.log(data)
       if (data == "exito") {
+        clearInputAndHTML() //Limpia el html y input
         Swal.fire({
           position: 'top-center',
           icon: 'success',
@@ -269,7 +279,7 @@ function guardar_orden(parametro = 'saveEdit') {
           timer: 2500
         });
         explode();
-      } else {
+      } else if( data == "edit_orden") {
         Swal.fire({
           position: 'top-center',
           icon: 'info',
@@ -277,17 +287,52 @@ function guardar_orden(parametro = 'saveEdit') {
           showConfirmButton: true,
           timer: 2500
         });
-        $("#nueva_orden_lab").modal('hide');
+        $("#nueva_orden_lab").modal('show');
         $("#data_ordenes_sin_procesar").DataTable().ajax.reload(null, false);
         $("#data_ordenes_env").DataTable().ajax.reload();
         $("#datatable_ordenes").DataTable().ajax.reload();
         //explode();
       }
 
-
     }
   });//////FIN AJAX
+}
 
+function clearInputAndHTML(){
+  $("#paciente_t").html('');
+  $("#dui_pac_t").html('');
+  $("#edad_pac_t").html('');
+  $("#correlativo_op_t").html('');
+  $("#telef_pac_t").html('');
+  $("#genero_pac_t").html('');
+  $("#ocupacion_pac_t").html('');
+  $("#departamento_pac_t").html('');
+  $("#munic_pac_data_t").html('');
+  $("#instit_t").html('');
+  //Input de ingreso cita manual
+  $("#depto_pac").html('')
+  $("#muni_pac").html('')
+  $("#instit").val('')
+  $("#sucursal_optica").val('');
+
+  $("#patologias-ord").val('')
+
+  document.getElementsByClassName("colors").checked = false;
+
+  $("#categoria_lente").val()
+  $("#laboratorio").val()
+  //Momentaneo code
+  let elements = document.getElementsByClassName("clear_orden_i");
+
+  for (i = 0; i < elements.length; i++) {
+    let id_element = elements[i].id;
+    document.getElementById(id_element).value = "";
+  }
+  let checkboxs = document.getElementsByClassName("chk_element");
+  for (j = 0; j < checkboxs.length; j++) {
+    let id_chk = checkboxs[j].id;
+    document.getElementById(id_chk).checked = false;
+  }
 }
 
 //////////ELIMINAR CLASE IS INVALID
@@ -362,7 +407,6 @@ function verEditar(codigo, paciente) {
       $("#destino_orden_lente").val(data.laboratorio);
       
       $("#usuario_pac").val(data.usuario_lente);
-      $("#ocupacion_pac").html(data.ocupacion);
       $("#avsc").val(data.avsc);
       $("#avfinal").val(data.avfinal);
       $("#avsc_oi").val(data.avsc_oi);
@@ -381,32 +425,35 @@ function verEditar(codigo, paciente) {
       if(data.colorTratamiento == "Photocromatico"){
         document.getElementById("photo").checked = true;
       }
-      let valueSelect = $("input[name='estado_form']:checked").val();  
-      //Validation por cita
-      if(valueSelect == "ingreso_cita"){
-        $("#paciente").html(data.paciente);
-        $("#dui_pac").html(data.dui);
-        $("#edad_pac").html(data.edad);
-        $("#correlativo_op").html(data.codigo);
-        $("#telef_pac").html(data.telefono);
-        $("#genero_pac").html(data.genero);
-        $("#departamento_pac").html(data.depto);
-        $("#munic_pac_data").html(data.municipio);
-        $("#instit").html(data.institucion);
-      }
+      let valueSwitch = $("input[name='customSwitch1']:checked").val();
 
-      //Validacion si es por ingreso manual
-      if(valueSelect == "ingreso_manual"){
-        paciente = $("#paciente").val(data.paciente)
-        dui = $("#dui_pac").val(data.dui)
-        edad = $("#edad_pac").val(data.edad)
-        telefono = $("#telef_pac").val(data.telefono)
-        genero = $("#genero_pac").val(data.genero)
-        ocupacion = $("#ocupacion_pac").val(data.ocupacion)
-        depto = $("#depto_pac").html(data.depto)
-        municipio = $("#muni_pac").html(data.municipio)
-        instit = $("#instit").val(data.institucion)
-        $("#sucursal_optica").val(data.sucursal);
+      //Validation por cita
+      if(valueSwitch != "on"){
+        $("#paciente_t").html(data.paciente);
+        $("#dui_pac_t").html(data.dui);
+        $("#edad_pac_t").html(data.edad);
+        $("#correlativo_op_t").html(data.codigo);
+        $("#telef_pac_t").html(data.telefono);
+        $("#genero_pac_t").html(data.genero);
+        $("#ocupacion_pac_t").html(data.ocupacion);
+        $("#departamento_pac_t").html(data.depto);
+        $("#munic_pac_data_t").html(data.municipio);
+        $("#instit_t").html(data.institucion);
+      }
+      if(valueSwitch != null){
+       //Validacion si es por ingreso manual
+        if(valueSwitch == "on"){
+          paciente = $("#paciente").val(data.paciente)
+          dui = $("#dui_pac").val(data.dui)
+          edad = $("#edad_pac").val(data.edad)
+          telefono = $("#telef_pac").val(data.telefono)
+          genero = $("#genero_pac").val(data.genero)
+          ocupacion = $("#ocupacion_pac").val(data.ocupacion)
+          depto = $("#depto_pac").html(data.depto)
+          municipio = $("#muni_pac").html(data.municipio)
+          instit = $("#instit").val(data.institucion)
+          $("#sucursal_optica").val(data.sucursal);
+        } 
       }
       
 
@@ -1837,16 +1884,82 @@ function validaAltoIndice() {
   }
 }
 
+function modalImprimirActa(codigo,paciente){
+  $("#modal-actas").modal()
+  document.getElementById("codigo-recep-orden").value=codigo;
+  document.getElementById("pac-recep-orden").value=paciente;
+}
+
+//let btn_print = document.getElementById('btn-print-acta')
+
+/* btn_print.addEventListener("click", function() {
+  let receptor = $("input[type='radio'][name='receptor-acta']:checked").val();
+  let nombre_receptor = document.getElementById('receptor-acta').value;
+  let dui_receptor = document.getElementById('receptor-dui').value;
+  if(receptor==undefined){
+    Swal.fire({position: 'top-center',icon: 'error',title: 'Especificar tipo de receptor',showConfirmButton: true,
+      timer: 1500
+    });
+    return false;
+  }
+  if(receptor=='tercero' && (nombre_receptor=='' || dui_receptor=='')){
+    Swal.fire({position: 'top-center',icon: 'error',title: 'DUI y nombre de receptor son obligatorios',showConfirmButton: true,
+      timer: 1500
+    });
+    return false;
+  }
+  
+  let titular = document.getElementById('pac-recep-orden').value;
+  let codigo_orden = document.getElementById('codigo-recep-orden').value;
+  
+  imprimirActa(nombre_receptor,dui_receptor,titular,codigo_orden,receptor)
+}); */
+function imprimirActa(nombre_receptor,dui_receptor,paciente,codigo,tipo_receptor) {
+  let form = document.createElement("form");
+  form.target = "blank";
+  form.method = "POST";
+  form.action = "imprimir_acta.php";
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "codigo";
+  input.value = codigo;
+  form.appendChild(input);
+
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "paciente";
+  input.value = paciente;
+  form.appendChild(input);
+
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "receptor";
+  input.value = nombre_receptor;
+  form.appendChild(input);
+
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "dui-receptor";
+  input.value = dui_receptor;
+  form.appendChild(input);
+
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "tipo-receptor";
+  input.value = tipo_receptor;
+  form.appendChild(input);
+
+  document.body.appendChild(form);//"width=600,height=500"
+  form.submit();
+  document.body.removeChild(form);
+}
 
 
 //ocultar boton para ingresar cita
-
 const permiso_manual = names_permisos.includes("ingreso_manual")
 
 if(!permiso_manual){
   document.getElementById('radio_button_orden').style.display = "none"
 }
-
-
 
 init();

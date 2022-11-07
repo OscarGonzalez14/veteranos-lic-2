@@ -62,26 +62,26 @@ function dtTemplateCitas(table,route,...Args){
 
 function getCitados(id_cita){
 
-    $.ajax({
-        url:"../ajax/citados.php?op=get_data_cita",
-        method:"POST",
-        cache:false,
-        data :{id_cita:id_cita},
-        dataType:"json",
-        success:function(data){
-            document.getElementById("paciente").innerHTML=data.paciente;
-            document.getElementById("dui_pac").innerHTML=data.dui;
-            document.getElementById("edad_pac").innerHTML=data.edad;
-            document.getElementById("telef_pac").innerHTML=data.telefono;
-            document.getElementById("ocupacion_pac").innerHTML=data.ocupacion;
-            document.getElementById("instit").innerHTML=data.sector;
-            document.getElementById("genero_pac").innerHTML=data.genero;
-            document.getElementById("departamento_pac").innerHTML=data.depto;
-            document.getElementById("munic_pac_data").innerHTML=data.municipio;
-            document.getElementById("id_cita_ord").value=data.id_cita;
-            $("#modal_citados").modal('hide');
-        }
-    });      
+  $.ajax({
+      url:"../ajax/citados.php?op=get_data_cita",
+      method:"POST",
+      cache:false,
+      data :{id_cita:id_cita},
+      dataType:"json",
+      success:function(data){
+          document.getElementById("paciente_t").textContent=data.paciente;
+          document.getElementById("dui_pac_t").innerHTML=data.dui;
+          document.getElementById("edad_pac_t").innerHTML=data.edad;
+          document.getElementById("telef_pac_t").innerHTML=data.telefono;
+          document.getElementById("ocupacion_pac_t").innerHTML=data.ocupacion;
+          document.getElementById("instit_t").innerHTML=data.sector;
+          document.getElementById("genero_pac_t").innerHTML=data.genero;
+          document.getElementById("departamento_pac_t").innerHTML=data.depto;
+          document.getElementById("munic_pac_data_t").innerHTML=data.municipio;
+          document.getElementById("id_cita_ord").value=data.id_cita;
+          $("#modal_citados").modal('hide');
+      }
+  });      
 }
 
 function getcitadosAtendidos(){

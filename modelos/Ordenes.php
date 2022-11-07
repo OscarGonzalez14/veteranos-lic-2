@@ -145,19 +145,14 @@ public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$o
   $edit_ord = "update orden_lab set
     paciente = ?,
     fecha = ?,
-
     pupilar_od = ?,                                            
     pupilar_oi = ?,
     lente_od = ?,
     lente_oi = ?,
-
     id_aro = ?,
     id_usuario = ?,
-
     observaciones = ?,
     dui = ?,
-
-
     fecha_correlativo=?,
     tipo_lente=?,
     laboratorio=?,
