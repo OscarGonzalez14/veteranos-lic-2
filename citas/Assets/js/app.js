@@ -80,14 +80,25 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         let paciente = document.getElementById('paciente-vet').value;
         let dui = document.getElementById('dui-vet').value;
+        let telefono = document.getElementById('telefono-pac').value;
         let fecha = document.getElementById('fecha-cita').value;
         let sucursal = document.getElementById('sucursal-cita').value;
         let sector = document.getElementById("sector-pac").value;
         let depto = document.getElementById("sector-pac").value;
         let municipio = document.getElementById("sector-pac").value;
+        let vet_titular = document.getElementById("vet-titular").value;
+        let duitit  = document.getElementById("dui-titular").value;
+        if(sector=="CONYUGE" && (vet_titular =="" || duitit=="")){
+          Swal.fire(                
+            'Notificaciones!!',                
+            'DUI y nombres de titular son obligatorios',
+            'warning'
+         )
+         return false
+        }
 
-        
-        if (paciente == '' || dui == '' || fecha == '' || sucursal=="0" || sector=="0" || depto=="" || municipio=='0') {
+
+        if (paciente == '' || dui == '' || fecha == '' || sucursal=="0" || sector=="0" || depto=="" || municipio=='0' || telefono=='') {
              Swal.fire(                
                 'Notificaciones!!',                
                 'Existen campos obligatorios vacios',

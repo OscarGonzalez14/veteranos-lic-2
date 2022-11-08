@@ -28,10 +28,11 @@ class Home extends Controller
                 $hora = $_POST["hora"];
                 $sucursal = $_POST["sucursal-cita"];
                 $user_login = $_POST["id_usuario_vet"];
+                $tel_opcional = $_POST["telefono-opcional"];
                 isset($_POST["vet-titular"]) ? $vet_titular=$_POST["vet-titular"] : $vet_titular="*";
                 isset($_POST["dui-titular"]) ? $dui_titular=$_POST["dui-titular"] : $dui_titular="*";
                 if ($id == '') {
-                    $data = $this->model->registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$user_login,$vet_titular,$dui_titular);
+                    $data = $this->model->registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$user_login,$vet_titular,$dui_titular,$tel_opcional);
                     if ($data == 'ok') {
                         $msg = array('msg' => 'Cita ingresada', 'estado' => true, 'tipo' => 'success');
                     }else{

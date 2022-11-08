@@ -117,7 +117,7 @@ option.suc-tooltip:hover::after {
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id">
                         <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <label for="title">Paciente</label>
                             <input id="paciente-vet" type="text" class="form-control inp-citas" name="paciente-vet">
                         </div>
@@ -127,9 +127,13 @@ option.suc-tooltip:hover::after {
                             <input id="dui-vet" type="text" class="form-control" name="dui-vet">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="dui">Telefono</label>
                             <input id="telefono-pac" type="text" class="form-control" name="telefono-pac">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="dui">Tel. opcional</label>
+                            <input id="telefono-opcional" type="text" class="form-control" name="telefono-opcional" val="*">
                         </div>
 
                         <div class="col-md-2">
@@ -260,8 +264,20 @@ require_once("../vistas/links_js.php");
         blocks: [4,4],
         uppercase: true
         });
-    
+        
         let dui = new Cleave('#dui-vet', {
+        delimiter: '-',
+        blocks: [8,1],
+        uppercase: true
+        });
+    
+        let telefono_op = new Cleave('#telefono-opcional', {
+        delimiter: '-',
+        blocks: [4,4],
+        uppercase: true
+        });
+
+        let duitit = new Cleave('#dui-titular', {
         delimiter: '-',
         blocks: [8,1],
         uppercase: true

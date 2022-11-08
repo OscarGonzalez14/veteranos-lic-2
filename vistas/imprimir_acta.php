@@ -149,7 +149,7 @@ Los lentes de <b><?php echo $paciente;?></b> con DUI: <b><?php echo $dui?></b>, 
  </tr>
 </table>
 <br><br><br><br>
-
+Hago constar que que he recibido el servicio 
 <br>
 <span style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px">
     Y no habiendo mas que hacer constar en la presente acta firmamos: 
