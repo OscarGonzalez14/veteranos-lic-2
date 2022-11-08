@@ -344,6 +344,7 @@ function verEditar(codigo, paciente) {
     data: { codigo: codigo, paciente: paciente },
     dataType: "json",
     success: function (data) {
+      //console.log(data)
       $("#fecha_creacion").val(data.fecha);
       $("#odesferasf").val(data.od_esferas);
       $("#odcilindrosf").val(data.od_cilindros);
@@ -389,18 +390,24 @@ function verEditar(codigo, paciente) {
       let valueSwitch = $("input[name='customSwitch1']:checked").val();
 
       //Validation por cita
-      if(valueSwitch != "on"){
-        $("#paciente_t").html(data.paciente);
-        $("#dui_pac_t").html(data.dui);
-        $("#edad_pac_t").html(data.edad);
-        $("#correlativo_op").html("ORDEN:" + data.codigo);
-        $("#telef_pac_t").html(data.telefono);
-        $("#genero_pac_t").html(data.genero);
-        $("#ocupacion_pac_t").html(data.ocupacion);
-        $("#departamento_pac_t").html(data.depto);
-        $("#munic_pac_data_t").html(data.municipio);
-        $("#instit_t").html(data.institucion);
+      if(data.id_cita != 0){
+        if(valueSwitch != "on"){
+          $("#paciente_t").html(data.paciente);
+          $("#dui_pac_t").html(data.dui);
+          $("#edad_pac_t").html(data.edad);
+          $("#correlativo_op").html("ORDEN:" + data.codigo);
+          $("#telef_pac_t").html(data.telefono);
+          $("#genero_pac_t").html(data.genero);
+          $("#ocupacion_pac_t").html(data.ocupacion);
+          $("#departamento_pac_t").html(data.depto);
+          $("#munic_pac_data_t").html(data.municipio);
+          $("#instit_t").html(data.institucion);
+        }
+      }else{
+        valueSwitch.checked = true
+        //console.log(valueSwitch.value)
       }
+      
       if(valueSwitch != null){
        //Validacion si es por ingreso manual
         if(valueSwitch == "on"){
@@ -476,6 +483,9 @@ function order_new_clear_form(){
   $("#modal_title").html('NUEVA ORDEN')
 
   estado_btn_save();
+
+  $("#depto_pac").html('')
+  $("#muni_pac_label").html('')
 
   $("#paciente_t").html('');
   $("#dui_pac_t").html('');
