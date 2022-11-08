@@ -56,10 +56,12 @@ switch ($_GET["op"]) {
           //Update cita table
           if($_POST["id_cita"] != ""){
             if($result){
-              $mensaje = "exito";
-              echo json_encode($mensaje);
-              $citados->updateEstadoCita($_POST["id_cita"]);
-              return 1;
+              $result = $citados->updateEstadoCita($_POST["id_cita"]);
+                if($result){
+                $mensaje = "exito";
+                echo json_encode($mensaje);
+                return 1;
+                }
             }
           }
           $mensaje = "exito";

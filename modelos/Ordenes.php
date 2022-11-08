@@ -1,5 +1,4 @@
 <?php
-
 require_once("../config/conexion.php");  
 
   class Ordenes extends Conectar{
@@ -117,7 +116,6 @@ require_once("../config/conexion.php");
     $sql7->execute();
 
     $sql_aros = "SELECT stock FROM `stock_aros` WHERE id_aro =:id_aro AND bodega = :bodega";
-      //$SQL_UPDAT_STOCK_ARO = "UPDATE stock_aros SET stock_aros.stock=1 WHERE stock_aros.id_aro = 6;";
     $sql_aros = $conectar->prepare($sql_aros);
     $sql_aros->bindParam(':id_aro',$id_aro);
     $sql_aros->bindParam(':bodega',$sucursal);

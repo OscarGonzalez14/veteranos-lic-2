@@ -16,7 +16,7 @@
           <div class="modal-content">
             <div class="modal-header bg-dark" style="padding: 5px;">
               <h4 class="modal-title w-200 text-rigth" style="font-size: 15px"><span id="correlativo_op"></span>
-                <h5 style="text-align: center; font-size:14px" class="modal-title w-100 text-center">NUEVA ORDEN</h5>
+                <h5 id="modal_title" style="text-align: center; font-size:14px" class="modal-title w-100 text-center">NUEVA ORDEN</h5>
               </h4>
               <button class="btn btn-xs btn-success" id="btnBuscarCitado" onClick="buscarCitado()"><i class="fas fa-search fa-2x"></i></button>&nbsp;&nbsp;
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -74,7 +74,7 @@
                     </div>
 
                     <div class="form-group col-md-2 select2-purple">
-                      <label class="form-check-label">Departamento : <span id="depto_pac" style="color: red;"></span></label>
+                      <label class="form-check-label">Departamento : <span id="depto_pac" class="clear_orden_i" style="color: red;"></span></label>
                       <select class="select2 next-input form-control clear_orden_i select2-hidden-accessible" name="" id="departamento_pac" onchange="get_municipios(this.id)" class="select2 form-control" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true">
                         <option value='0' disabled selected>Seleccionar</option>
                         <option value="San Salvador">San Salvador</option>
@@ -95,7 +95,7 @@
                     </div>
 
                     <div class="form-group col-md-3 select2-primary">
-                      <label class="form-check-label">Municipio: <span id="muni_pac_label" style="color: red;"></span></label>
+                      <label class="form-check-label">Municipio: <span id="muni_pac_label" class="clear_orden_i" style="color: red;"></span></label>
                       <select name="" id="munic_pac" class="select2 next-input form-control clear_orden_i" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true" required>
 
                       </select>

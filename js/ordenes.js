@@ -162,9 +162,7 @@ function guardar_orden(parametro = 'saveEdit') {
   } else {
     var indice = "Si";
   }
-  console.log(alto_indice)
   let color = $("input[type='radio'][name='colors']:checked").val();
-
   let od_esferas = $("#odesferasf").val();
   let od_cilindros = $("#odcilindrosf").val();
   let od_eje = $("#odejesf").val();
@@ -257,9 +255,9 @@ function guardar_orden(parametro = 'saveEdit') {
     dataType:"json",
 
     success: function (data) {
-      console.log("data: " + data)
+      //console.log("data: " + data)
       if (data == "exito") {
-        clearInputAndHTML() //Limpia el html y input
+        order_new_clear_form() //Limpia el html y input
         Swal.fire({
           position: 'top-center',
           icon: 'success',
@@ -298,47 +296,6 @@ function guardar_orden(parametro = 'saveEdit') {
   //explode();
 }
 
-function clearInputAndHTML(){
-  $("#paciente_t").html('');
-  $("#dui_pac_t").html('');
-  $("#edad_pac_t").html('');
-  $("#correlativo_op_t").html('');
-  $("#telef_pac_t").html('');
-  $("#genero_pac_t").html('');
-  $("#ocupacion_pac_t").html('');
-  $("#departamento_pac_t").html('');
-  $("#munic_pac_data_t").html('');
-  $("#instit_t").html('');
-  //Input de ingreso cita manual
-  $("#depto_pac").html('')
-  $("#muni_pac_label").html('')
-
-  $("#departamento_pac").val('');
-  $("#munic_pac").val('')
-
-  $("#instit").val('')
-  $("#sucursal_optica").val('');
-
-  $("#patologias-ord").val('')
-
-  document.getElementsByClassName("colors").checked = false;
-
-  $("#categoria_lente").val()
-  $("#laboratorio").val()
-  //Momentaneo code
-  let elements = document.getElementsByClassName("clear_orden_i");
-
-  for (i = 0; i < elements.length; i++) {
-    let id_element = elements[i].id;
-    document.getElementById(id_element).value = "";
-  }
-  let checkboxs = document.getElementsByClassName("chk_element");
-  for (j = 0; j < checkboxs.length; j++) {
-    let id_chk = checkboxs[j].id;
-    document.getElementById(id_chk).checked = false;
-  }
-}
-
 //////////ELIMINAR CLASE IS INVALID
 $(document).on('keyup', '.is-invalid', function () {
   let id = $(this).attr("id");
@@ -358,11 +315,12 @@ function alerts(alert) {
 }
 
 function verEditar(codigo, paciente) {
-  //console.log("HHHolaaa")
   $("#validate").val("1");
 
-  estado_btn_edit(); // cambia el contenido del boton del modal
+  $("#modal_title").html('EDITAR ORDEN')
 
+  estado_btn_edit(); // cambia el contenido del boton del modal
+  document.getElementById('btnBuscarCitado').style.display = "none" //Oculta boton agregar cita
   let categoria = $("#get_categoria").val();
   //document.getElementById("hist_orden").style.display = "block";
   if (categoria == 'a') {
@@ -386,7 +344,6 @@ function verEditar(codigo, paciente) {
     data: { codigo: codigo, paciente: paciente },
     dataType: "json",
     success: function (data) {
-      //console.log(data)
       $("#fecha_creacion").val(data.fecha);
       $("#odesferasf").val(data.od_esferas);
       $("#odcilindrosf").val(data.od_cilindros);
@@ -436,7 +393,7 @@ function verEditar(codigo, paciente) {
         $("#paciente_t").html(data.paciente);
         $("#dui_pac_t").html(data.dui);
         $("#edad_pac_t").html(data.edad);
-        $("#correlativo_op_t").html(data.codigo);
+        $("#correlativo_op").html("ORDEN:" + data.codigo);
         $("#telef_pac_t").html(data.telefono);
         $("#genero_pac_t").html(data.genero);
         $("#ocupacion_pac_t").html(data.ocupacion);
@@ -510,11 +467,20 @@ function historialOrden(codigo) {
 
 ////////////////OCULTAR ICONOS //////////
 $(document).on('click', '#order_new', function () {
+  order_new_clear_form()
+});
+
+function order_new_clear_form(){
   //Content vacio a nueva orden
+  document.getElementById('btnBuscarCitado').style.display = "block"
+  $("#modal_title").html('NUEVA ORDEN')
+
+  estado_btn_save();
+
   $("#paciente_t").html('');
   $("#dui_pac_t").html('');
   $("#edad_pac_t").html('');
-  $("#correlativo_op_t").html('');
+  $("#correlativo_op").html('');
   $("#telef_pac_t").html('');
   $("#genero_pac_t").html('');
   $("#ocupacion_pac_t").html('');
@@ -540,7 +506,7 @@ $(document).on('click', '#order_new', function () {
   }
 
   //document.getElementById("departamento_pac_data").innerHTML = "";
-  document.getElementById("munic_pac_data").innerHTML = "";
+  document.getElementById("munic_pac_data_t").innerHTML = "";
 
   let checkboxs = document.getElementsByClassName("chk_element");
   for (j = 0; j < checkboxs.length; j++) {
@@ -552,8 +518,7 @@ $(document).on('click', '#order_new', function () {
   document.getElementById("order_create_edit").style.display = "block";
   var ob = document.getElementById("order_create_edit");
   ob.classList.add("btn-block");
-
-});
+}
 
 function show_create_order(codigo) {
   console.log('hh')
@@ -585,8 +550,6 @@ function clear_form_orden() {
     let id_element = fields[i].id;
     document.getElementById(id_element).value = "";
   }
-
-  document.getElementById('color_frente').classList.remove('is-invalid');
 
   $("#observaciones_orden").val("");
   document.getElementById('observaciones_orden').classList.remove('is-invalid');
@@ -1974,12 +1937,12 @@ function imprimirActa(nombre_receptor,dui_receptor,paciente,codigo,tipo_receptor
 //ocultar boton para ingresar cita
 const permiso_manual = names_permisos.includes("ingreso_manual") //return true
 if(!permiso_manual){
-  document.getElementById('radio_button_orden').style.opacity = "0"
+  document.getElementById('radio_button_orden').style.display = "none"
   document.getElementById('show_form_manual').style.display = "none"
 }else{
   document.getElementById('customSwitch1').checked = false
   document.getElementById('btnBuscarCitado').style.opacity = "1"
-  document.getElementById('radio_button_orden').style.opacity = "1"
+  document.getElementById('radio_button_orden').style.display = "block"
 }
 
 init();
