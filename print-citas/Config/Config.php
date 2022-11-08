@@ -6,7 +6,7 @@ const pass = "Veteranos_2022";
 const db = "u579024306_veteranos";
 const charset = "charset=utf8";*/
 
-const base_url = "http://localhost/licitacion2/citas/";
+const base_url = "http://localhost/licitacion2/print-citas/";
 const host = "localhost";
 const user = "root";
 const pass = "";

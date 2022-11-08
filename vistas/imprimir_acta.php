@@ -50,7 +50,7 @@ if($sector=="FAES"){
   }
 
   html{
-    margin-top: 35px;
+    margin-top: 2px;
     margin-left: 10px;
     margin-right:10px; 
     margin-bottom: 0px;
@@ -87,14 +87,14 @@ if($sector=="FAES"){
 </div>
 
 <table style="width: 100%;margin-top:2px" width="100%">
-<td width="25%" style="width:10%;margin:0px">
-  <img src='../dist/img/inabve.jpg' width="90" height="70"/>
+<td width="15%" style="width:15%;margin:0px">
+  <img src='../dist/img/inabve.jpg' width="120" height="90"/>
 </td>
   
 <td width="60%" style="width:75%;margin:0px">
-<table style="width:100%">
+<table style="width:100%; margin-top:15px" >
   <br>
-  <tr>
+  <tr >
     <td  style="text-align: center;margin-top: 0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>DEPARTAMENTO DE PROGRAMAS DE SALUD E INSUMOS MEDICOS</b></td>
   </tr>
 
@@ -105,8 +105,9 @@ if($sector=="FAES"){
 </table>
 </td>
 
-<td width="25%" style="width:15%;margin:0px">
-  <img src='../dist/img/logo_avplus.jpg' width="60" height="35" style="margin-top:25px;"></td>
+<td style="width:15%;">
+  <img src='../dist/img/logo_avplus.jpg' width="85" height="55" style="margin-top:20px;">
+</td>
 </table><!--fin tabla-->
 <?php if($tipo_receptor=="beneficiario"){?>
 <p style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px;line-height: 180%">A las <b><?php echo $hora?></b> horas del <b><?php echo $hoy?> </b> en <span><b>San Salvador, El Salvador</b></span>  se hace la entrega formal a <b><?php echo $paciente;?></b>,<br> con DUI: <b><?php echo $dui?></b>, genero <?php echo $genero?> sector <b><?php echo $sector;?></b>.</p> <br>
@@ -147,7 +148,9 @@ Los lentes de <b><?php echo $paciente;?></b> con DUI: <b><?php echo $dui?></b>, 
 </ul></td>   
  </tr>
 </table>
-<br><br><br><br><br>
+<br><br><br><br>
+
+<br>
 <span style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px">
     Y no habiendo mas que hacer constar en la presente acta firmamos: 
 </span>

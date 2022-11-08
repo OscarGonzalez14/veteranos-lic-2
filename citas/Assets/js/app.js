@@ -85,6 +85,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let sector = document.getElementById("sector-pac").value;
         let depto = document.getElementById("sector-pac").value;
         let municipio = document.getElementById("sector-pac").value;
+
+        
         if (paciente == '' || dui == '' || fecha == '' || sucursal=="0" || sector=="0" || depto=="" || municipio=='0') {
              Swal.fire(                
                 'Notificaciones!!',                

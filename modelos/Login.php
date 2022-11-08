@@ -55,6 +55,7 @@ public function login_users(){
 
         in_array('citas_callcenter',$names_permisos)?$_SESSION['citas_callcenter']=1:$_SESSION['citas_callcenter']=0;
         in_array('citas_diarias',$names_permisos)?$_SESSION['citas_diarias']=1:$_SESSION['citas_diarias']=0;
+        in_array('listado_general_citas',$names_permisos)?$_SESSION['listado_general_citas']=1:$_SESSION['listado_general_citas']=0;
       
       header("Location:vistas/home.php");
       exit();
