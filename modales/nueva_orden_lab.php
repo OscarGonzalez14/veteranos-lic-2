@@ -41,7 +41,7 @@
                   <div class="form-row">
                     <div class="form-group col-md-3">
                       <label class="form-check-label">Paciente*</label>
-                      <input type="text" id="paciente" class="form-control clear_orden_i" required>
+                      <input type="text" id="paciente" class="form-control clear_orden_i oblig_input" required>
                     </div>
 
                     <div class="form-group col-md-3">
@@ -472,30 +472,3 @@
       <!-- /.modal -->
 
       </div>
-
-
-      <script>
-        document.getElementById('show_form_manual').style.display = "none"; //default oculto
-
-        function customSwithIngresoManual(e) {
-          let customSwitch1 = document.querySelector('input[name="customSwitch1"]:checked')
-          /* Para obtener el valor */
-
-          let btnBuscarCitado = document.getElementById('btnBuscarCitado');
-
-          let show_form_manual = document.getElementById('show_form_manual');
-          let tables_cita = document.getElementById('tables_cita');
-          show_form_manual.style.display = "none"
-          if(customSwitch1 != null){
-            if (customSwitch1.value == "on") {
-              btnBuscarCitado.style.display = "none" //oculta el boton buscar paciente
-              tables_cita.style.display = "none";
-              show_form_manual.style.display = "block"
-            }
-          }else {
-              btnBuscarCitado.style.display = "block" //Muestra el boton buscar paciente
-              tables_cita.style.display = "block";
-              show_form_manual.style.display = "none"
-          }
-        }
-      </script>

@@ -391,6 +391,8 @@ function verEditar(codigo, paciente) {
 
       //Validation por cita
       if(data.id_cita != 0){
+        document.getElementById('show_form_manual').style.display = "none"
+        document.getElementById('tables_cita').style.display = "block"
         if(valueSwitch != "on"){
           $("#paciente_t").html(data.paciente);
           $("#dui_pac_t").html(data.dui);
@@ -404,8 +406,21 @@ function verEditar(codigo, paciente) {
           $("#instit_t").html(data.institucion);
         }
       }else{
-        valueSwitch.checked = true
-        //console.log(valueSwitch.value)
+        document.getElementById('id_cita_ord').value = 0
+        document.getElementById('show_form_manual').style.display = "block"
+        document.getElementById('tables_cita').style.display = "none"
+
+        $("#paciente_t").html('');
+          $("#dui_pac_t").html('');
+          $("#edad_pac_t").html('');
+          $("#correlativo_op").html("ORDEN:" + data.codigo);
+          $("#telef_pac_t").html('');
+          $("#genero_pac_t").html('');
+          $("#ocupacion_pac_t").html('');
+          $("#departamento_pac_t").html('');
+          $("#munic_pac_data_t").html('');
+          $("#instit_t").html('');
+
       }
       
       if(valueSwitch != null){
@@ -433,7 +448,7 @@ function verEditar(codigo, paciente) {
       document.getElementById(cadena).checked = true;
 
       let imagen = data.img;
-      console.log(imagen);
+      //console.log(imagen);
       document.getElementById("imagen_aro").src = "images/" + imagen;
 
 
@@ -497,6 +512,7 @@ function order_new_clear_form(){
   $("#departamento_pac_t").html('');
   $("#munic_pac_data_t").html('');
   $("#instit_t").html('');
+  $("#id_cita_ord").val('')
 
   $("#validate").val("save");
   $('#munic_pac').val('1'); // Select the option with a value of '1'
@@ -1954,5 +1970,41 @@ if(!permiso_manual){
   document.getElementById('btnBuscarCitado').style.opacity = "1"
   document.getElementById('radio_button_orden').style.display = "block"
 }
+
+document.getElementById('show_form_manual').style.display = "none"; //default oculto
+
+function customSwithIngresoManual(e) {
+  let customSwitch1 = document.querySelector('input[name="customSwitch1"]:checked')
+          /* Para obtener el valor */
+
+  let btnBuscarCitado = document.getElementById('btnBuscarCitado');
+
+  let show_form_manual = document.getElementById('show_form_manual');
+  let tables_cita = document.getElementById('tables_cita');
+  show_form_manual.style.display = "none"
+  if(customSwitch1 != null){
+    if (customSwitch1.value == "on") {
+      btnBuscarCitado.style.display = "none" //oculta el boton buscar paciente
+        tables_cita.style.display = "none";
+        show_form_manual.style.display = "block"
+        if(document.getElementById('id_cita_ord').value != 0){
+          show_form_manual.style.display = "none"
+          customSwitch1.checked = false
+          tables_cita.style.display = "block"
+          Swal.fire({
+            position: 'top-center',
+            icon: 'info',
+            title: 'Contactarse con Call Center',
+            showConfirmButton: true,
+            timer: 3500
+          });
+        }
+    }
+  }else {
+    btnBuscarCitado.style.display = "block" //Muestra el boton buscar paciente
+    tables_cita.style.display = "block";
+    show_form_manual.style.display = "none"
+  }
+  }
 
 init();
