@@ -225,6 +225,10 @@ function guardar_orden(parametro = 'saveEdit') {
   //Validacion si es por ingreso manual
   let valueSwitch = $("input[name='customSwitch1']:checked").val();
 
+  let titular = $("#titular").val();
+  let dui_titular = $("#dui_titular").val()
+  let id_titular = $("#titular_id").val()
+
   if(valueSwitch != null){
     if(valueSwitch == "on"){
       paciente = $("#paciente").val()
@@ -239,6 +243,10 @@ function guardar_orden(parametro = 'saveEdit') {
       municipio = municipio_array.toString()
       instit = $("#instit").val()
       sucursal = $("#sucursal_optica").val();
+      //Datos nuevos para titular
+      let titular = $("#titular").val();
+      let dui_titular = $("#dui_titular").val()
+      let id_titular = $("#titular_id").val()
     }
   }
   if(isNaN(edad) || edad > 120){
@@ -250,12 +258,12 @@ function guardar_orden(parametro = 'saveEdit') {
   $.ajax({
     url: "../ajax/ordenes.php?op=registrar_orden",
     method: "POST",
-    data: { codigo:codigo, paciente: paciente, fecha_creacion: fecha_creacion, od_pupilar: od_pupilar, oipupilar: oipupilar, odlente: odlente, oilente: oilente, id_aro: id_aro, id_usuario: id_usuario, observaciones_orden: observaciones_orden, dui: dui, od_esferas: od_esferas, od_cilindros: od_cilindros, od_eje: od_eje, od_adicion: od_adicion, oi_esferas: oi_esferas, oi_cilindros: oi_cilindros, oi_eje: oi_eje, oi_adicion: oi_adicion, tipo_lente: tipo_lente, validate: validate, categoria_lente: categoria_lente, edad: edad, ocupacion: ocupacion, avsc: avsc, avfinal: avfinal, avsc_oi: avsc_oi, avfinal_oi: avfinal_oi, telefono: telefono, genero: genero, user: user, depto: depto, municipio: municipio, instit: instit, patologias: patologias, color: color, indice: indice, id_cita: id_cita, sucursal: sucursal,laboratorio:laboratorio },
+    data: { codigo:codigo, paciente: paciente, fecha_creacion: fecha_creacion, od_pupilar: od_pupilar, oipupilar: oipupilar, odlente: odlente, oilente: oilente, id_aro: id_aro, id_usuario: id_usuario, observaciones_orden: observaciones_orden, dui: dui, od_esferas: od_esferas, od_cilindros: od_cilindros, od_eje: od_eje, od_adicion: od_adicion, oi_esferas: oi_esferas, oi_cilindros: oi_cilindros, oi_eje: oi_eje, oi_adicion: oi_adicion, tipo_lente: tipo_lente, validate: validate, categoria_lente: categoria_lente, edad: edad, ocupacion: ocupacion, avsc: avsc, avfinal: avfinal, avsc_oi: avsc_oi, avfinal_oi: avfinal_oi, telefono: telefono, genero: genero, user: user, depto: depto, municipio: municipio, instit: instit, patologias: patologias, color: color, indice: indice, id_cita: id_cita, sucursal: sucursal,laboratorio:laboratorio,titular:titular,dui_titular:dui_titular,id_titular:id_titular },
     cache: false,
     dataType:"json",
 
     success: function (data) {
-      //console.log("data: " + data)
+      console.log("data: " + data)
       if (data == "exito") {
         order_new_clear_form() //Limpia el html y input
         Swal.fire({
@@ -404,6 +412,10 @@ function verEditar(codigo, paciente) {
           $("#departamento_pac_t").html(data.depto);
           $("#munic_pac_data_t").html(data.municipio);
           $("#instit_t").html(data.institucion);
+
+          $("#titular").val('');
+          $("#dui_titular").val('')
+          $("#titular_id").val('')
         }
       }else{
         document.getElementById('id_cita_ord').value = 0
@@ -436,6 +448,10 @@ function verEditar(codigo, paciente) {
           municipio = $("#muni_pac_label").html(data.municipio)
           instit = $("#instit").val(data.institucion)
           $("#sucursal_optica").val(data.sucursal);
+          //new
+          $("#titular").val(data.titular);
+          $("#dui_titular").val(data.dui_titular)
+          $("#titular_id").val(data.id_titular)
         } 
       }
       
@@ -523,7 +539,7 @@ function order_new_clear_form(){
 
   document.getElementById("buscar_aro").style.display = "flex";
   document.getElementById("mostrar_imagen").style.display = "none";
-  document.getElementById("hist_orden").style.display = "none";
+  //document.getElementById("hist_orden").style.display = "none";
   let elements = document.getElementsByClassName("clear_orden_i");
 
   for (i = 0; i < elements.length; i++) {
@@ -2006,5 +2022,18 @@ function customSwithIngresoManual(e) {
     show_form_manual.style.display = "none"
   }
   }
+
+  $(document).ready(function(){
+    $("#instit").change(function () {         
+      $("#instit option:selected").each(function () {
+       let sector = $(this).val();
+       document.getElementById('titular_form').style.display = "none"
+       if(sector == "CONYUGE"){
+        document.getElementById('titular_form').style.display = "block"
+       }    
+                   
+      });
+    })
+  });
 
 init();

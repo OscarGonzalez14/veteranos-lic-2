@@ -121,6 +121,12 @@ require_once("links_js.php");
   uppercase : true
 });
 
+var dui_titular = new Cleave('#dui_titular', {
+  delimiter: '-',
+  blocks: [8,1],
+  uppercase : true
+});
+
 var telefono = new Cleave('#telef_pac', {
   delimiter: '-',
   blocks: [4,4],

@@ -41,7 +41,7 @@
                   <div class="form-row">
                     <div class="form-group col-md-3">
                       <label class="form-check-label">Paciente*</label>
-                      <input type="text" id="paciente" class="form-control clear_orden_i oblig_input" required>
+                      <input type="text" id="paciente" class="form-control clear_orden_i" required>
                     </div>
 
                     <div class="form-group col-md-3">
@@ -112,13 +112,27 @@
                     </div>
                     <div class="form-group col-md-2">
                       <label class="form-check-label">Sucursales*</label>
-                      <div class="input-group mb-3">
+                      <div class="input-group">
                         <select class="form-control clear_orden_i" id="sucursal_optica" required>
                           <option value="0" selected disabled>Seleccionar sucursal...</option>
                           <option value="Valencia">Valencia</option>
                         </select>
                       </div>
                     </div>
+                    
+                  </div>
+                  <div id="titular_form" style="display: none;">
+                  <div class="form-row">
+                  <div class="form-group col-md-3" >
+                      <label class="form-check-label">Titular*</label>
+                      <input type="text" id="titular" class="form-control clear_orden_i" required>
+                    </div>
+
+                    <div class="form-group col-md-3" ">
+                      <label class="form-check-label">DUI Titular*</label>
+                      <input type="text" id="dui_titular" pattern="[1-9]-?\d{4}-?\d{4}" class="form-control clear_orden_i" required>
+                    </div>
+                  </div>
                   </div>
                 </div>
 
@@ -454,6 +468,7 @@
 
             <input type="hidden" id="user_sucursal" value="<?php echo $_SESSION["sucursal"] ?>">
             <input type="hidden" id="user_act" value="<?php echo $_SESSION["user"]; ?>">
+            <input type="hidden" id="titular_id">
             <input type="hidden" id="codigo_correlativo">
             <div class="form-group justify-content-between" style="margin: 4px; display: flex;justify-content: space-between;">
 
