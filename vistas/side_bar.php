@@ -14,9 +14,9 @@
         
 
           <li class="nav-item">
-            <a href='orden.php'class="nav-link" style="color: white">
+            <a href=''class="nav-link" style="color: white">
               <i class="nav-icon fas fa-file"></i>
-              <p>Ordenes</p><i class="fas fa-angle-left right"></i>
+              <p style="#">Ordenes</p><i class="fas fa-angle-left right"></i>
             </a>
             <ul class="nav nav-treeview">
             <li class="nav-item">
@@ -26,9 +26,15 @@
                 </a>
             </li>
             <li class="nav-item">
+              <a href="despachos_lab.php" class="nav-link">
+                <i class="fas fa-shipping-fast"></i>
+                  <p>Despachos lab</p>
+                </a>
+            </li>
+            <li class="nav-item">
               <a href="ordenes_recibidas_veteranos.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-success"></i>
-                  <p>Gestionar ordenes</p>
+                  <p>Recibir ordenes</p>
                 </a>
               </li>
             <li class="nav-item">
