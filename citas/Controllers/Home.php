@@ -36,7 +36,7 @@ class Home extends Controller
                     if ($data == 'ok') {
                         $msg = array('msg' => 'Cita ingresada', 'estado' => true, 'tipo' => 'success');
                     }else{
-                        $msg = array('msg' => 'Error al Registrar', 'estado' => false, 'tipo' => 'danger');
+                        $msg = array('msg' => 'DUI ya existe', 'estado' => false, 'tipo' => 'error');
                     }
                 } else {
                     $data = $this->model->modificar($paciente, $dui, $fecha, $id);

@@ -32,7 +32,6 @@ class Citados extends Conectar
     {
         $conectar = parent::conexion();
         parent::set_names();
-
         $sql = "select * from citas where id_cita=?;";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $id_cita);
@@ -40,8 +39,7 @@ class Citados extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDataCitasSucursal($sucursal, $fecha)
-    {
+    public function getDataCitasSucursal($sucursal, $fecha){
         $conectar = parent::conexion();
         parent::set_names();
 
@@ -63,8 +61,7 @@ class Citados extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDataCitadosSucursalPrint($sucursal, $fecha)
-    {
+    public function getDataCitadosSucursalPrint($sucursal, $fecha){
         $conectar = parent::conexion();
         parent::set_names();
         $sql = "select * from citas where sucursal=? and fecha=?;";
@@ -75,8 +72,7 @@ class Citados extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getHorasSelect($fecha)
-    {
+    public function getHorasSelect($fecha){
         $conectar = parent::conexion();
         parent::set_names();
         $sql2 = "SELECT hora FROM `citas` where fecha = ?;";
@@ -142,8 +138,16 @@ public function getDisponibilidadCitas($fecha){
 
 
         $disponibilidad = ($cupo_disp-$citados)."/".$cupo_disp;
-        if($disponibilidad>0){
-            array_push($data_disponibilidad,array("sucursal"=>$s["nombre"],"cupos"=>$disponibilidad,"direccion"=>$direccion,"referencia"=>$referencia,"optica"=>$optica));
+        $disp_act= $cupo_disp-$citados;
+        $dias = array('Domingo', 'Lunes', 'Martes', 'Miércoles','Jueves', 'Viernes', 'Sábado');
+        $fechats = strtotime($fecha); //fecha en yyyy-mm-dd
+        $dia= $dias[date('w', $fechats)];
+        if($disp_act>0){
+            if(($s["nombre"] == "Sonsonate" and $dia =="Jueves")){
+
+            }else{
+                array_push($data_disponibilidad,array("sucursal"=>$s["nombre"],"cupos"=>$disponibilidad,"direccion"=>$direccion,"referencia"=>$referencia,"optica"=>$optica));
+            }
         }
     }
 

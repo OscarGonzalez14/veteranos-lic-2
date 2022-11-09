@@ -239,7 +239,7 @@ function getDisponibilidadSucursales(fecha){
 }
 
 function consultarDisponibilidad(fecha){
-  console.log(fecha)
+  
   $.ajax({
     url:"../ajax/citados.php?op=get_disponilidad_citas",
     method:"POST",
@@ -247,10 +247,9 @@ function consultarDisponibilidad(fecha){
     cache: false,
     dataType:"json",
     success:function(data){
-      console.log(data)
-      document.getElementById("sucursal-cita").innerHTML="";
+      document.getElementById("sucursal-cita").innerHTML='<option value="0">Seleccionar sucursal</option>';
       for(var i=0; i<data.length; i++){
-        let sucursal=data[i].sucursal
+        let sucursal=data[i].sucursal;
         document.getElementById("sucursal-cita").innerHTML += "<option value='"+data[i].sucursal+"' data-toggle='tooltip' data-placement='left' data-html='true' title='"+sucursal.toUpperCase()+ "\n" +data[i].direccion+"\n"+data[i].referencia+"\n"+data[i].optica+"'>"+data[i].sucursal+" "+data[i].cupos+"</option>"; 
 
       }

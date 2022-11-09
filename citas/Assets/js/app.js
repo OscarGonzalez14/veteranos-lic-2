@@ -18,9 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
             right: 'dayGridMonth timeGridWeek listWeek'
         },
         events: base_url + 'Home/listar',
+       
         //events: base_url + 'Home/listar?filtro='+ sucursal,
         editable: true,
         dateClick: function (info) {
+
             frm.reset();
                 console.log(info.date)
                 let hoy = new Date();
@@ -51,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('#departamento_pac').val('1'); // Select the option with a value of '1'
                     $('#departamento_pac').trigger('change');
                     getDisponibilidadSucursales(info.dateStr);
-                    gethorasDisponibles(info.dateStr);
+                    
                 } else {
                     Swal.fire(
                         'Fecha invalida!!',
@@ -78,10 +80,12 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
     frm.addEventListener('submit', function (e) {
         e.preventDefault();
+
         let paciente = document.getElementById('paciente-vet').value;
         let dui = document.getElementById('dui-vet').value;
         let telefono = document.getElementById('telefono-pac').value;
         let fecha = document.getElementById('fecha-cita').value;
+        let hora = document.getElementById('hora').value;
         let sucursal = document.getElementById('sucursal-cita').value;
         let sector = document.getElementById("sector-pac").value;
         let depto = document.getElementById("sector-pac").value;
@@ -97,8 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
          return false
         }
 
-
-        if (paciente == '' || dui == '' || fecha == '' || sucursal=="0" || sector=="0" || depto=="" || municipio=='0' || telefono=='') {
+        if (paciente == '' || dui == '' || fecha == '' || sucursal=="0" || sector=="0" || depto=="" || municipio=='0' || telefono=='' || hora=="") {
              Swal.fire(                
                 'Notificaciones!!',                
                 'Existen campos obligatorios vacios',
@@ -305,13 +308,31 @@ $(function () {
      
 }
 
+function gethorasDisponiblesSucursal(sucursal){
+  let fecha = document.getElementById("fecha-cita").value;
+  gethorasDisponibles(sucursal,fecha)
+}
+
+function gethorasDisponiblesFecha(fecha){
+  let sucursal = document.getElementById("sucursal-cita").value;
+  gethorasDisponibles(sucursal,fecha)
+}
+
+function gethorasDisponibles(sucursal,fecha){
+  let disp = []
+  if(sucursal=="Metrocentro"){
+    disp = [
+      '8:00:00 AM','8:10:00 AM','8:20:00 AM','8:30:00 AM','8:40:00 AM','8:50:00 AM','9:00:00 AM','9:10:00 AM','9:20:00 AM','9:30:00 AM','9:40:00 AM','9:50:00 AM','10:00:00 AM','10:10:00 AM','10:20:00 AM','10:30:00 AM','10:40:00 AM','10:50:00 AM','11:00:00 AM','11:10:00 AM','11:20:00 AM','11:30:00 AM','11:40:00 AM','11:50:00 AM','12:00:00 PM','12:10:00 PM','12:20:00 PM','12:30:00 PM','12:40:00 PM','12:50:00 PM'];
+  }else if(sucursal=="Sonsonate"){
+      disp =[
+        '8:00:00 AM','8:25:00 AM','8:50:00 AM','9:15:00 AM','9:40:00 AM','1:00 PM','1:20 PM','1:40 PM','2:00 PM','2:20 PM',
+      ]
+  }else{
+
+  }
 
 
-function gethorasDisponibles(fecha){
-    let disp = [
-      '8:00 AM','8:10 AM','8:20 AM','8:30 AM','8:40 AM','8:50 AM','9:00 AM','9:10 AM','9:20 AM','9:30 AM','9:40 AM','9:50 AM','10:00 AM','10:10 AM','10:20 AM','10:30 AM','10:40 AM','10:50 AM','11:00 AM','11:10 AM','11:20 AM','11:30 AM','11:40 AM','11:50 AM','12:00 MD'];
-
-
+    
     $.ajax({
         url:"../ajax/citados.php?op=get_horas_select",
         method:"POST",
@@ -330,7 +351,7 @@ function gethorasDisponibles(fecha){
             $("#hora").select2({ data: diff})
           }
         }
-      });///fin ajax
+      });///fin ajax 
 }
 
 $(".inp-citas").keyup(function(){
