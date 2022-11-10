@@ -184,19 +184,13 @@ function guardar_orden(parametro = 'saveEdit') {
   let instit = $("#instit_t").html();
   let patologias = $("#patologias-ord").val();
   let id_cita = $("#id_cita_ord").val();
+  
   let id_aro = $("#id_aro").val();
   //Aro insertado manual
-  let modelo_aro_orden = "";
-  let marca_aro_orden = "";
-  let material_aro_orden = "";
-  let color_aro_orden = ""
-  
-  if(id_aro != ""){
-    modelo_aro_orden = $("#modelo_aro_orden").val()
-    marca_aro_orden = $("#marca_aro_orden").val()
-    material_aro_orden = $("#material_aro_orden").val()
-    color_aro_orden = $("#color_aro_orden").val()
-  }
+  let modelo_aro_orden = $("#modelo_aro_orden").val()
+  let marca_aro_orden = $("#marca_aro_orden").val()
+  let material_aro_orden = $("#material_aro_orden").val()
+  let color_aro_orden = $("#color_aro_orden").val()
 
   let sucursal = $("#user_sucursal").val();
   let codigo = $("#codigo_correlativo").val()
@@ -252,8 +246,14 @@ function guardar_orden(parametro = 'saveEdit') {
       ocupacion = $("#ocupacion_pac").val()
       departamento = $("#departamento_pac").val()
       depto = departamento.toString();
+      /* if(depto == ""){
+        depto.classList.add('oblig')
+      }
       municipio_array = $("#munic_pac").val()
       municipio = municipio_array.toString()
+      if(municipio == ""){
+        municipio.classList.add('oblig')
+      } */
       instit = $("#instit").val()
       sucursal = $("#sucursal_optica").val();
       //Datos nuevos para titular
@@ -268,6 +268,7 @@ function guardar_orden(parametro = 'saveEdit') {
   }else{
     document.getElementById('edad_pac').classList.add('is-valid')
   }
+
   $.ajax({
     url: "../ajax/ordenes.php?op=registrar_orden",
     method: "POST",
@@ -549,6 +550,7 @@ function order_new_clear_form(){
 
   $("#depto_pac").html('')
   $("#muni_pac_label").html('')
+  $("#id_aro").val('')
 
   $("#paciente_t").html('');
   $("#dui_pac_t").html('');

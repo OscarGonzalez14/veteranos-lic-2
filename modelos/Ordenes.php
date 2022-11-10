@@ -152,6 +152,7 @@ require_once("../config/conexion.php");
         $sql8->bindValue(3, $correlativo_op);
         $sql8->execute();
     }
+    return true;
     
   }
    ////////////////////LISTAR ORDENES///////////////
@@ -1200,6 +1201,17 @@ public function agregarHistorial($codigo,$user){
   $sql7->execute();
 
 
+}
+
+public function getOrdenesSucursalDia($sucursal, $fecha){
+  $conectar = parent::conexion();
+  parent::set_names();
+  $sql = "select dui,institucion as sector,paciente,dui,fecha from orden_lab where sucursal=? and fecha=?;";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1, $sucursal);
+  $sql->bindValue(2, $fecha);
+  $sql->execute();
+  return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
 }//Fin de la Clase
