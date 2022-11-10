@@ -63,7 +63,7 @@ require_once("../config/conexion.php");
       $sql_aro->bindValue(4, $material_aro_orden);
       $sql_aro->execute();
       //default id
-      $id_aro = 0;
+      $id_aro = $conectar->lastInsertId();
     }else{
       $sql_aros = "SELECT stock FROM `stock_aros` WHERE id_aro =:id_aro AND bodega = :bodega";
       $sql_aros = $conectar->prepare($sql_aros);
@@ -155,7 +155,7 @@ require_once("../config/conexion.php");
     
   }
    ////////////////////LISTAR ORDENES///////////////
-   public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$id_titular){
+   public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$id_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden){
     $fecha_creacion = date("Y-m-d");
     $hoy = date("d-m-Y H:i:s");
     $conectar = parent::conexion();
@@ -269,6 +269,16 @@ require_once("../config/conexion.php");
       $sql_titular->bindParam(':id_titular',$id_titular);
       $sql_titular->execute();
     }
+    if($id_aro != 0){
+      $sql_aro = "update aros set marca=?,modelo=?,color=?,material=? where id_aro=?";
+      $sql_aro = $conectar->prepare($sql_aro);
+      $sql_aro->bindValue(1, $marca_aro_orden);
+      $sql_aro->bindValue(2, $modelo_aro_orden);
+      $sql_aro->bindValue(3, $color_aro_orden);
+      $sql_aro->bindValue(4, $material_aro_orden);
+      $sql_aro->bindValue(5, $id_aro);
+      $sql_aro->execute();
+    }
     
   }
 
@@ -301,10 +311,18 @@ require_once("../config/conexion.php");
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function get_data_orden($codigo,$paciente){
-
+  public function get_data_orden($codigo,$paciente,$id_aro,$institucion,$id_cita){
     $conectar = parent::conexion();
-    $sql = "select titulares.id_titular,titulares.titular,titulares.dui_titular,o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,aros.marca,aros.modelo,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,aros.id_aro,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,aros.color,o.color as colorTratamiento,aros.material,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN aros ON o.id_aro = aros.id_aro left join titulares on o.id_orden=titulares.orden_id where o.codigo = ? or rx.codigo = ? or o.paciente=?;";
+
+    if($institucion == "CONYUGE" AND $id_cita == 0 OR $id_cita == ""){
+      $sql = "select titulares.id_titular,titulares.titular,titulares.dui_titular,o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,aros.marca,aros.modelo,aros.color,aros.material,aros.id_aro,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN titulares ON titulares.orden_id=o.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? and rx.codigo = ? or o.paciente=?;";
+
+    }else if($id_aro == 0){
+      $sql = "select o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo where o.codigo = ? and rx.codigo = ? or id_aro=0 or o.paciente=?;";
+    }else{
+      $sql = "select o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,aros.marca,aros.modelo,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,aros.id_aro,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,aros.color,o.color as colorTratamiento,aros.material,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? and rx.codigo = ? or o.paciente=?;";
+    }
+    
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1,$codigo);
     $sql->bindValue(2,$codigo);

@@ -191,7 +191,7 @@ function guardar_orden(parametro = 'saveEdit') {
   let material_aro_orden = "";
   let color_aro_orden = ""
   
-  if(id_aro == ""){
+  if(id_aro != ""){
     modelo_aro_orden = $("#modelo_aro_orden").val()
     marca_aro_orden = $("#marca_aro_orden").val()
     material_aro_orden = $("#material_aro_orden").val()
@@ -335,7 +335,7 @@ function alerts(alert) {
   });
 }
 
-function verEditar(codigo, paciente) {
+function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
   $("#validate").val("1");
 
   $("#modal_title").html('EDITAR ORDEN')
@@ -362,10 +362,10 @@ function verEditar(codigo, paciente) {
     url: "../ajax/ordenes.php?op=get_data_orden",
     method: "POST",
     cache: false,
-    data: { codigo: codigo, paciente: paciente },
+    data: { codigo: codigo, paciente: paciente,id_aro:id_aro,institucion:institucion,id_cita:id_cita },
     dataType: "json",
     success: function (data) {
-      //console.log(data)
+      console.log(data)
       $("#fecha_creacion").val(data.fecha);
       $("#odesferasf").val(data.od_esferas);
       $("#odcilindrosf").val(data.od_cilindros);
@@ -412,40 +412,41 @@ function verEditar(codigo, paciente) {
       let valueSwitch = $("input[name='customSwitch1']:checked").val();
 
       //Validation por cita
-      if(data.id_cita != 0){
+      if(data.id_cita != 0 || data.id_cita != ""){
+        $("#customSwitch1").prop("checked",false);
         document.getElementById('show_form_manual').style.display = "none"
         document.getElementById('tables_cita').style.display = "block"
-        if(valueSwitch != "on"){
-          $("#paciente_t").html(data.paciente);
-          $("#dui_pac_t").html(data.dui);
-          $("#edad_pac_t").html(data.edad);
-          $("#correlativo_op").html("ORDEN:" + data.codigo);
-          $("#telef_pac_t").html(data.telefono);
-          $("#genero_pac_t").html(data.genero);
-          $("#ocupacion_pac_t").html(data.ocupacion);
-          $("#departamento_pac_t").html(data.depto);
-          $("#munic_pac_data_t").html(data.municipio);
-          $("#instit_t").html(data.institucion);
+        $("#paciente_t").html(data.paciente);
+        $("#dui_pac_t").html(data.dui);
+        $("#edad_pac_t").html(data.edad);
+        $("#correlativo_op").html("ORDEN:" + data.codigo);
+        $("#telef_pac_t").html(data.telefono);
+        $("#genero_pac_t").html(data.genero);
+        $("#ocupacion_pac_t").html(data.ocupacion);
+        $("#departamento_pac_t").html(data.depto);
+        $("#munic_pac_data_t").html(data.municipio);
+        $("#instit_t").html(data.institucion);
 
-          $("#titular").val('');
-          $("#dui_titular").val('')
-          $("#titular_id").val('')
-        }
+        $("#titular").val('');
+        $("#dui_titular").val('')
+        $("#titular_id").val('')
+        
       }else{
+        $("#customSwitch1").prop("checked",false);
+        document.getElementById('tables_cita').style.display = "block"
         document.getElementById('id_cita_ord').value = 0
         document.getElementById('show_form_manual').style.display = "block"
-        document.getElementById('tables_cita').style.display = "none"
 
         $("#paciente_t").html('');
-          $("#dui_pac_t").html('');
-          $("#edad_pac_t").html('');
-          $("#correlativo_op").html("ORDEN:" + data.codigo);
-          $("#telef_pac_t").html('');
-          $("#genero_pac_t").html('');
-          $("#ocupacion_pac_t").html('');
-          $("#departamento_pac_t").html('');
-          $("#munic_pac_data_t").html('');
-          $("#instit_t").html('');
+        $("#dui_pac_t").html('');
+        $("#edad_pac_t").html('');
+        $("#correlativo_op").html("ORDEN:" + data.codigo);
+        $("#telef_pac_t").html('');
+        $("#genero_pac_t").html('');
+        $("#ocupacion_pac_t").html('');
+        $("#departamento_pac_t").html('');
+        $("#munic_pac_data_t").html('');
+        $("#instit_t").html('');
 
       }
       
@@ -467,6 +468,21 @@ function verEditar(codigo, paciente) {
           $("#dui_titular").val(data.dui_titular)
           $("#titular_id").val(data.id_titular)
         } 
+      }
+      if(data.institucion == "CONYUGE"){
+        document.getElementById('titular_form').style.display = "block"
+        $("#paciente_t").html(data.paciente);
+        $("#dui_pac_t").html(data.dui);
+        $("#edad_pac_t").html(data.edad);
+        $("#correlativo_op").html("ORDEN:" + data.codigo);
+        $("#telef_pac_t").html(data.telefono);
+        $("#genero_pac_t").html(data.genero);
+        $("#ocupacion_pac_t").html(data.ocupacion);
+        $("#departamento_pac_t").html(data.depto);
+        $("#munic_pac_data_t").html(data.municipio);
+        $("#instit_t").html(data.institucion);
+      }else{
+        document.getElementById('titular_form').style.display = "none"
       }
       
 

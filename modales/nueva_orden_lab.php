@@ -400,11 +400,11 @@
                         <label for="" class="etiqueta">Material <span style="color:blue"></span></label>
                         <select class="form-control clear_orden_i oblig" name="material_aro_orden" id="material_aro_orden" required>
                           <option value="" selected disabled>Seleccionar</option>
-                          <option value="Metal">Metal</option>
-                          <option value="Acetato">Acetato</option>
-                          <option value="Metal/Acetato">Metal/Acetato</option>
-                          <option value="Fibra de carbono">Fibra de carbono</option>
-                          <option value="Titanio">Titanio</option>
+                          <option value="METAL">Metal</option>
+                          <option value="ACETATO">Acetato</option>
+                          <option value="METAL/ACETATO">Metal/Acetato</option>
+                          <option value="FIBRA DE CARBONO">Fibra de carbono</option>
+                          <option value="TITANIO">Titanio</option>
                           <option value="TR90">TR90</option>
                         </select>
                       </div>
