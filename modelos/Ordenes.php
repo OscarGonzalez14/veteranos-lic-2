@@ -41,7 +41,7 @@ require_once("../config/conexion.php");
     barcode('../codigos/' . $codigo . '.png', $codigo, 50, 'horizontal', 'code128', true);
   }
   /////////////   REGISTRAR ORDEN ///////////////////////////////
-  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular){
+  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden){
 
     $conectar = parent::conexion();
     date_default_timezone_set('America/El_Salvador'); 
@@ -52,6 +52,37 @@ require_once("../config/conexion.php");
     //$laboratorio = "";
     $estado_aro = '0';
     $dest_aro = '0';
+
+    //Insertar aro si id es vacio
+    if($id_aro == ""){
+      $sql_aro = "insert into aros values(null,?,?,?,?);";
+      $sql_aro = $conectar->prepare($sql_aro);
+      $sql_aro->bindValue(1, $marca_aro_orden);
+      $sql_aro->bindValue(2, $modelo_aro_orden);
+      $sql_aro->bindValue(3, $color_aro_orden);
+      $sql_aro->bindValue(4, $material_aro_orden);
+      $sql_aro->execute();
+      //default id
+      $id_aro = 0;
+    }else{
+      $sql_aros = "SELECT stock FROM `stock_aros` WHERE id_aro =:id_aro AND bodega = :bodega";
+      $sql_aros = $conectar->prepare($sql_aros);
+      $sql_aros->bindParam(':id_aro',$id_aro);
+      $sql_aros->bindParam(':bodega',$sucursal);
+      $sql_aros->execute();
+      $resultado = $sql_aros->fetchAll(PDO::FETCH_ASSOC);
+      if($resultado[0]['stock'] > 0){
+        //Actualiza el stock de los aros
+        $stock = $resultado[0]['stock'] - 1;
+        $sql_update_stock = "UPDATE stock_aros SET stock=:stock WHERE id_aro =:id_aro AND bodega = :bodega";
+        $sql_update_stock = $conectar->prepare($sql_update_stock);
+        $sql_update_stock->bindParam(':id_aro',$id_aro);
+        $sql_update_stock->bindParam(':bodega',$sucursal);
+        $sql_update_stock->bindParam(':stock',$stock);
+        $sql_update_stock->execute();
+      }
+    }
+
     $sql = "insert into orden_lab values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,null,?,?,?,?,?);";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $correlativo_op);
@@ -88,10 +119,6 @@ require_once("../config/conexion.php");
     $sql->bindValue(32, $id_cita);
     $sql->bindValue(33, $sucursal);
     $sql->execute();
-    //get_id_orden
-    $id_orden = $conectar->lastInsertId();
-    
-    //print_r($_POST);
 
     $sql2 = "insert into rx_orden_lab value(null,?,?,?,?,?,?,?,?,?);";
     $sql2 = $conectar->prepare($sql2);
@@ -116,35 +143,16 @@ require_once("../config/conexion.php");
     $sql7->bindValue(4, $accion);
     $sql7->bindValue(5, $accion);
     $sql7->execute();
-//Insertar titular
-if($id_cita == "" OR $id_cita == 0){
-  $sql_titular = "INSERT INTO `titulares` (`id_titular`, `titular`, `dui_titular`, `orden_id`) VALUES (NULL, :titular,:dui_titular, :id_orden)";
-  $sql_titular = $conectar->prepare($sql_titular);
-  $sql_titular->bindParam(':titular',$titular);
-  $sql_titular->bindParam(':dui_titular',$dui_titular);
-  $sql_titular->bindParam(':id_orden',$id_orden);
-  $sql_titular->execute();
-}
-    //Buscar en el stock los aros
-    $sql_aros = "SELECT stock FROM `stock_aros` WHERE id_aro =:id_aro AND bodega = :bodega";
-    $sql_aros = $conectar->prepare($sql_aros);
-    $sql_aros->bindParam(':id_aro',$id_aro);
-    $sql_aros->bindParam(':bodega',$sucursal);
-    $sql_aros->execute();
-    $resultado = $sql_aros->fetchAll(PDO::FETCH_ASSOC);
-    if($resultado[0]['stock'] > 0){
-      //Actualiza el stock de los aros
-      $stock = $resultado[0]['stock'] - 1;
-      $sql_update_stock = "UPDATE stock_aros SET stock=:stock WHERE id_aro =:id_aro AND bodega = :bodega";
-      $sql_update_stock = $conectar->prepare($sql_update_stock);
-      $sql_update_stock->bindParam(':id_aro',$id_aro);
-      $sql_update_stock->bindParam(':bodega',$sucursal);
-      $sql_update_stock->bindParam(':stock',$stock);
-      $sql_update_stock->execute();
-      return true;
-    }else{
-      return false;
+    //Insertar titular
+    if($instit=="CONYUGE"){
+        $sql8 = "insert into titulares values(null,?,?,?);";
+        $sql8 = $conectar->prepare($sql8);
+        $sql8->bindValue(1, $titular);
+        $sql8->bindValue(2, $dui_titular);
+        $sql8->bindValue(3, $correlativo_op);
+        $sql8->execute();
     }
+    
   }
    ////////////////////LISTAR ORDENES///////////////
    public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$id_titular){
@@ -1177,5 +1185,4 @@ public function agregarHistorial($codigo,$user){
 }
 
 }//Fin de la Clase
-
 

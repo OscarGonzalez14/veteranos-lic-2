@@ -100,6 +100,16 @@
 
                       </select>
                     </div>
+                    
+                   <div class="form-group col-md-2">
+                      <label class="form-check-label">Sucursal*</label>
+                      <div class="input-group">
+                        <select class="form-control clear_orden_i" id="sucursal_optica" required>
+                          <option value="0" selected disabled>Seleccionar sucursal...</option>
+                          <option value="Valencia">Valencia</option>
+                        </select>
+                      </div>
+                    </div>
 
                     <div class="form-group col-md-2">
                       <label class="form-check-label">Sector*</label>
@@ -110,28 +120,21 @@
                         <option value="CONYUGE">CÓNYUGE</option>
                       </select>
                     </div>
-                    <div class="form-group col-md-2">
-                      <label class="form-check-label">Sucursales*</label>
-                      <div class="input-group">
-                        <select class="form-control clear_orden_i" id="sucursal_optica" required>
-                          <option value="0" selected disabled>Seleccionar sucursal...</option>
-                          <option value="Valencia">Valencia</option>
-                        </select>
-                      </div>
-                    </div>
                     
                   </div>
                   <div id="titular_form" style="display: none;">
                   <div class="form-row">
-                  <div class="form-group col-md-3" >
+                  <div class="form-group col-md-6" >
                       <label class="form-check-label">Titular*</label>
                       <input type="text" id="titular" class="form-control clear_orden_i" required>
                     </div>
 
-                    <div class="form-group col-md-3" ">
+                    <div class="form-group col-md-3">
                       <label class="form-check-label">DUI Titular*</label>
                       <input type="text" id="dui_titular" pattern="[1-9]-?\d{4}-?\d{4}" class="form-control clear_orden_i" required>
                     </div>
+                    
+ 
                   </div>
                   </div>
                 </div>
@@ -375,7 +378,7 @@
                       <div class="col-sm-3">
                         <label class="etiqueta"> Modelo <span style="color: red">*</span></label>
                         <div class="input-group">
-                          <input readonly type="text" class="form-control clear_orden_i oblig" id="modelo_aro_orden" placeholder="Especificar aro">
+                          <input type="text" class="form-control clear_orden_i oblig" id="modelo_aro_orden" placeholder="Especificar aro" required>
                           <div class="input-group-append" onClick="buscarAro()" id="buscar_aro">
                             <span class="input-group-text bg-success"><i class="fas fa-search"> </i></span>
                           </div>
@@ -390,20 +393,26 @@
                       <input type="hidden" id="id_aro">
                       <div class="form-group col-sm-3">
                         <label for="" class="etiqueta">Marca </label>
-                        <input readonly type="text" class="form-control clear_orden_i" id="marca_aro_orden">
-                      </div>
-
-
-                      <div class="form-group col-sm-3">
-                        <label for="" class="etiqueta">Color <span style="color:blue"></span></label>
-                        <input readonly type="text" class="form-control clear_orden_i" id="color_aro_orden">
+                        <input type="text" class="form-control clear_orden_i oblig" id="marca_aro_orden" required>
                       </div>
 
                       <div class="form-group col-sm-3">
                         <label for="" class="etiqueta">Material <span style="color:blue"></span></label>
-                        <input readonly type="text" class="form-control clear_orden_i" id="material_aro_orden">
+                        <select class="form-control clear_orden_i oblig" name="material_aro_orden" id="material_aro_orden" required>
+                          <option value="" selected disabled>Seleccionar</option>
+                          <option value="Metal">Metal</option>
+                          <option value="Acetato">Acetato</option>
+                          <option value="Metal/Acetato">Metal/Acetato</option>
+                          <option value="Fibra de carbono">Fibra de carbono</option>
+                          <option value="Titanio">Titanio</option>
+                          <option value="TR90">TR90</option>
+                        </select>
                       </div>
 
+                      <div class="form-group col-sm-3">
+                        <label for="" class="etiqueta">Color (opcional) <span style="color:blue"></span></label>
+                        <input type="text" class="form-control clear_orden_i" id="color_aro_orden">
+                      </div>
 
                     </div>
                   </div>
@@ -428,7 +437,7 @@
             <!--/END MODAL BODY-->
 
             <?php if ($_SESSION["sucursal"] != "Valencia") : ?>
-              <div class="eight" id="hist_orden">
+              <div class="eight" id="hist_orden" style="display:none">
                 <h1>HISTORIAL</h1>
                 <table width="100%" class="table-hover table-bordered display nowrap">
                   <tr style="text-align: center;font-size: 12px;background: #162e41;color: white;margin-top: 5px">
@@ -440,7 +449,7 @@
                   <tbody id="hist_orden_detalles" class="ord_2" style="text-align: center;font-size: 13px;"></tbody>
                 </table>
               </div>
-              <section class="input-group" id="">
+              <section class="input-group" id="" style="display:none">
                 <div class="form-group col-sm-6">
                   <select class="custom-select clear_orden_i" id="categoria_lente" aria-label="Example select with button addon">
                     <option value="0" selected disabled>Seleccionar opcion...</option>
@@ -449,7 +458,7 @@
                   </select>
                 </div>
 
-                <div class="form-group col-sm-6">
+                <div class="form-group col-sm-6" style="display:none">
                   <div class="input-group">
                     <select class="custom-select clear_orden_i" id="laboratorio" aria-label="Example select with button addon">
                       <option value="0" selected disabled>Enviar a...</option>
