@@ -41,7 +41,7 @@
                   <div class="form-row">
                     <div class="form-group col-md-3">
                       <label class="form-check-label">Paciente*</label>
-                      <input type="text" id="paciente" class="form-control clear_orden_i" required>
+                      <input type="text" id="paciente" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" class="form-control clear_orden_i" required>
                     </div>
 
                     <div class="form-group col-md-3">
@@ -126,7 +126,7 @@
                   <div class="form-row">
                   <div class="form-group col-md-6" >
                       <label class="form-check-label">Titular*</label>
-                      <input type="text" id="titular" class="form-control clear_orden_i" required>
+                      <input type="text" id="titular" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" class="form-control clear_orden_i" required>
                     </div>
 
                     <div class="form-group col-md-3">
