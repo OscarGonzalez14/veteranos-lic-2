@@ -365,7 +365,7 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
     data: { codigo: codigo, paciente: paciente,id_aro:id_aro,institucion:institucion,id_cita:id_cita },
     dataType: "json",
     success: function (data) {
-      console.log(data)
+      //console.log(data)
       $("#fecha_creacion").val(data.fecha);
       $("#odesferasf").val(data.od_esferas);
       $("#odcilindrosf").val(data.od_cilindros);
