@@ -2,6 +2,7 @@
 require_once("../config/conexion.php");
 if(isset($_SESSION["user"])){
 $categoria_usuario = $_SESSION["categoria"];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +45,7 @@ $categoria_usuario = $_SESSION["categoria"];
       <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_user"];?>"/>
       <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["user"];?>"/>
       <input type="hidden" name="categoria" id="get_categoria" value="<?php echo $_SESSION["categoria"];?>"/>
+      <input type="hidden" name="sucursal" id="sucursal" value="<?php echo $_SESSION["sucursal"];?>"/>
       <div style="border-top: 0px">
 
       </div>
@@ -75,75 +77,11 @@ $categoria_usuario = $_SESSION["categoria"];
 
   <input type="hidden" value="<?php echo $categoria_usuario;?>" id="cat_users">
 
-   <!--Modal Imagen Aro-->
-   <div class="modal" id="imagen_aro_orden">
-    <div class="modal-dialog" style="max-width: 45%">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <div style="  background-size: cover;background-position: center;display:flex;align-items: center;">
-            <img src="" alt="" id="imagen_aro" style="width: 100%;border-radius: 8px;">
-          </div>          
-        </div>        
    
-      </div>
-    </div>
-  </div>
-
-  <!-----------MODAL COBNFIRMA ENVIO --------->
-<div class="modal fade" id="confirmar_envio_ord">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Confirmación de envío</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-            <div class="modal-body">
-              <h5 style="font-family: Helvetica, Arial, sans-serif;font-size: 18px;text-align: center;"><b>Confirmar el envío de <span id="n_trabajos_env" style="color: red"></span>&nbsp;trabajos</b></h5>
-              <div class="dropdown-divider"></div>
-              <div>
-              <section class="input-group"> 
-              <div class="form-group col-sm-4 select2-purple" style="margin: auto">
-              <select class="select2 form-control" id="destino_envio" multiple="multiple" data-placeholder="Seleccionar destino" data-dropdown-css-class="select2-purple" style="width: 100%;height: ">              
-                  <option value="">Seleccionar destino</option>
-                  <option value="Jenny">Jenny</option>
-                  <option value="Divel">Divel</option>
-                  <option value="Lomed">Lomed</option>
-                  <option value="Lenti">Lenti</option>
-                  <option value="Arce">Arce</option>              
-              </select>   
-              </div>
-
-              <div class="form-group col-sm-4 select2-purple" style="margin: auto">
-              <select class="select2 form-control" id="cat_envio" multiple="multiple" data-placeholder="Seleccionar categoria" data-dropdown-css-class="select2-purple" style="width: 100%;height: ">              
-                  <option value="">Seleccionar categoria</option>
-                  <option value="Proceso">Proceso</option>
-                  <option value="Terminado">Terminado</option>             
-                </select>   
-              </div>
-            </section>
-              </div>
-              </div>
-              <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" onClick="registrarEnvioVet()">Aceptar</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
       <input type="hidden" id="user_act" value="<?php echo $_SESSION["usuario"];?>">
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>2021 Lenti || <b>Version</b> 1.0</strong>
+    <strong>2022 Lenti || <b>Version</b> 1.0</strong>
      &nbsp;All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       

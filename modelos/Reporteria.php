@@ -85,6 +85,16 @@ public function stockSucursales($bodega){
   return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function getDetalleDespacho($n_despacho){
+  $conectar = parent::conexion();
+  parent::set_names();
+  $sql = "SELECT * FROM `det_despacho_lab` where n_despacho=?;";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1, $n_despacho);
+  $sql->execute();
+  return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 }///FIN DE LA CLASE
 

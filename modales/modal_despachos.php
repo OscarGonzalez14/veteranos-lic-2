@@ -11,35 +11,38 @@
         <div class="row">
 
         <div class="col-sm-4" style=" margin-bottom: 3px">
-
-            <input class="form-control" id="fecha-cita" type="date" >
+            <input class="form-control" id="fecha-despacho" type="date" onchange="listarOrdenesDesp(this.value)">
         </div>
 
-        <div class="form-group clearfix" style="margin:6px">
-
+        <div class="form-group clearfix" style="margin:6px;margin-left:30px">
+        <?php if($categoria_usuario=="mensajero" or $categoria_usuario=="Admin" or $_SESSION["sucursal"]=="San miguel" or $_SESSION["sucursal"]=="Usulutan"){?>
         <div class="icheck-success d-inline">
-            <input type="radio" name="receptor-acta" id="ben-acta" class="chk-recept" value="beneficiario">
-            <label for="ben-acta">Citas
+            <input type="radio" name="tipo-desp" id="dsp-cita" class="chk-despachos" value="citas">
+            <label for="dsp-cita">Citas diarias
+            </label>
+        </div>
+        <?php }?>
+        <div class="icheck-warning d-inline" style="margin:6px">
+            <input type="radio" name="tipo-desp" id="dsp-exp" class="chk-despachos" value="expedientes">
+            <label for="dsp-exp">Expedientes digitados
             </label>
         </div>
 
-        <div class="icheck-warning d-inline" style="margin:6px">
-            <input type="radio" name="receptor-acta" id="terc-acta" class="chk-recept" value="tercero">
-            <label for="terc-acta">Expedientes
-            </label>
         </div>
-</div>
+       <div class="col-sm-2">
+           <button class="btn btn-outline-success btn-flat float-rigth" onClick="sendLab()"><i class="fas fa-paper-plane"></i> Enviar</button> 
+       </div>
+       <div col-sm-6><span id="cant-env" style="color:red"></span></div>
         </div>
-        <table width="100%" class="table-hover table-bordered" id="datatable_citas_suc"  data-order='[[ 0, "desc" ]]' style="font-size: 12px">
+        <table width="100%" class="table-hover table-bordered" id="dt_modal_despachos"  data-order='[[ 0, "desc" ]]' style="font-size: 12px">
             <thead style="text-align:center;font-size:12" class="style_th bg-primary">
+                <th>Selec</th>
                 <th>Paciente</th>
+                <th>DUI</th>
                 <th>Fecha</th>
                 <th>Sector</th>
-                <th>Dia</th>
-                <th>Sucursal</th>
-                <th>Estado</th>
             </thead>
-            <tbody style="text-align:center;font-size:14px"></tbody>
+            <tbody style="text-align:center;font-size:14px" id="body-table-env"></tbody>
         </table>
       </div>
     </div>
