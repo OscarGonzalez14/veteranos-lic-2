@@ -184,7 +184,7 @@ function guardar_orden(parametro = 'saveEdit') {
   let instit = $("#instit_t").html();
   let patologias = $("#patologias-ord").val();
   let id_cita = $("#id_cita_ord").val();
-  
+  //alert(id_cita)
   let id_aro = $("#id_aro").val();
   //Aro insertado manual
   let modelo_aro_orden = $("#modelo_aro_orden").val()
@@ -246,14 +246,10 @@ function guardar_orden(parametro = 'saveEdit') {
       ocupacion = $("#ocupacion_pac").val()
       departamento = $("#departamento_pac").val()
       depto = departamento.toString();
-      /* if(depto == ""){
-        depto.classList.add('oblig')
-      }
+      
       municipio_array = $("#munic_pac").val()
       municipio = municipio_array.toString()
-      if(municipio == ""){
-        municipio.classList.add('oblig')
-      } */
+      
       instit = $("#instit").val()
       sucursal = $("#sucursal_optica").val();
       //Datos nuevos para titular
