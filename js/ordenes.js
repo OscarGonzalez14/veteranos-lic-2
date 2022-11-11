@@ -292,6 +292,14 @@ function guardar_orden(parametro = 'saveEdit') {
         });
         $("#datatable_ordenes").DataTable().ajax.reload();
         //explode();
+      }else if(data == "dui_existe"){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'El DUI del beneficiario ya esta registrado',
+          showConfirmButton: true,
+          timer: 2500
+        });
       } else if (data == 'existe') {
         Swal.fire({
           position: 'top-center',
@@ -343,6 +351,7 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
   $("#validate").val("1");
 
   $("#modal_title").html('EDITAR ORDEN')
+  document.getElementById('tableAcciones').style.display = "block"
 
   estado_btn_edit(); // cambia el contenido del boton del modal
   document.getElementById('btnBuscarCitado').style.display = "none" //Oculta boton agregar cita
@@ -552,9 +561,12 @@ function order_new_clear_form(){
   //Conyuge
   document.getElementById('titular_form').style.display = "none"
 
+  $("#mensaje_existe_dui").html('')
   $("#depto_pac").html('')
   $("#muni_pac_label").html('')
   $("#id_aro").val('')
+  //muestra la tabla de acciones
+  document.getElementById('tableAcciones').style.display = "none"
 
   $("#paciente_t").html('');
   $("#dui_pac_t").html('');
@@ -768,8 +780,9 @@ function listar_ordenes_digitadas(filter) {
 function eliminarBeneficiario(codigo) {
 
   let cat_user = $("#cat_users").val();
+  const permiso_eliminar_orden = names_permisos.includes('eliminar_orden')
 
-  if (cat_user == 3) {
+  if (cat_user == "Admin" || permiso_eliminar_orden === true) {
     $.ajax({
       url: "../ajax/ordenes.php?op=eliminar_orden",
       method: "POST",
@@ -777,6 +790,7 @@ function eliminarBeneficiario(codigo) {
       data: { codigo: codigo },
       dataType: "json",
       success: function (data) {
+        console.log(data)
         $("#datatable_ordenes").DataTable().ajax.reload();
         Swal.fire({
           position: 'top-center',
@@ -2074,5 +2088,51 @@ function customSwithIngresoManual(e) {
       });
     })
   });
+
+function comprobarExistenciaDUI(id){
+  let dui_pac = document.getElementById(id).value
+  document.getElementById('mensaje_existe_dui').textContent = ""
+  $.ajax({
+    url: "../ajax/ordenes.php?op=comprobar_exit_DUI_pac",
+    method: "POST",
+    data: { dui_pac:dui_pac},
+    cache: false,
+    dataType:"json",
+    success: function (data) {
+      if(data.dui != ""){
+        document.getElementById('mensaje_existe_dui').textContent = "El dui ya esta registrado"
+        document.getElementById('dui_pac').classList.add('is-invalid')
+      }
+    }
+  });
+}
+
+function get_table_acciones(){
+  //$("#btnDisplayAcciones").html('<i class="fas fa-minus"></i>')
+  let codigo = $("#codigo_correlativo").val()
+  
+  $.ajax({
+    url: "../ajax/ordenes.php?op=ver_historial_orden",
+    method: "POST",
+    data: { codigo:codigo},
+    cache: false,
+    dataType:"json",
+    success: function (data) {
+      //console.log(data)
+      $("#datatable_acciones_orden").html("");
+      let filas = '';
+      for (var i = 0; i < data.length; i++) {
+        filas = filas + "<tr id='fila" + i + "'>" +
+          "<td>" + data[i].id_accion + "</td>" +
+          "<td>" + data[i].nombres + "</td>" +
+          "<td>" + data[i].tipo_accion + "</td>" +
+          "<td>" + data[i].observaciones + "</td>" +
+          "<td>" + data[i].fecha + "</td>" +
+          "</tr>";
+      }
+      $("#datatable_acciones_orden").html(filas);
+    }
+  });
+}
 
 init();

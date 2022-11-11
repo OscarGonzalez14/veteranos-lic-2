@@ -53,6 +53,12 @@ require_once("../config/conexion.php");
     $estado_aro = '0';
     $dest_aro = '0';
 
+    //Validacion de DUI
+    $exist_dui = $this->comprobar_exit_DUI_pac($dui);
+    if($exist_dui){
+      return false;
+    }
+
     //Insertar aro si id es vacio
     if($id_aro == ""){
       $sql_aro = "insert into aros values(null,?,?,?,?);";
@@ -345,6 +351,22 @@ require_once("../config/conexion.php");
 
   public function eliminar_orden($codigo){
     $conectar= parent::conexion();
+
+    //Seleccionar el orden_lab y trae el id de la cita
+    $sql ="SELECT id_cita from orden_lab where codigo=?;";
+    $sql =$conectar->prepare($sql);
+    $sql->bindValue(1,$codigo);
+    $sql->execute();
+    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $id_cita = $result[0]['id_cita'];
+    //UPDATE A CITA EN ESTADO 0
+    if($id_cita != 0){
+      $sql ="UPDATE citas SET estado=0 where id_cita=?;";
+      $sql =$conectar->prepare($sql);
+      $sql->bindValue(1,$id_cita);
+      $sql->execute();
+    }
+
     $sql ="delete from rx_orden_lab where codigo=?;";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1,$codigo);
@@ -354,6 +376,12 @@ require_once("../config/conexion.php");
     $sql2=$conectar->prepare($sql2);
     $sql2->bindValue(1,$codigo);
     $sql2->execute();
+    //delete titulares
+    $sql3 ="delete from titulares where codigo=?;";
+    $sql3=$conectar->prepare($sql3);
+    $sql3->bindValue(1,$codigo);
+    $sql3->execute();
+    
   }
 
   public function show_create_order($codigo){
@@ -892,29 +920,6 @@ public function get_ordenes_enviar_general($instit){
 }
 
 /*-------------- GET ACCIONES ORDEN ----------------------*/
-public function getAccionesOrden($codigo){
-    $conectar = parent::conexion();
-    parent::set_names();
-
-    $sql = "select u.nombres,u.codigo_emp,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=?;";
-    $sql = $conectar->prepare($sql);
-    $sql->bindValue(1, $codigo);
-    $sql->execute();
-    return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-
-}
-
-public function getAccionesOrdenVet($codigo){
-    $conectar = parent::conexion();
-    parent::set_names();
-
-    $sql = "select u.nombres,u.codigo_emp,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=? and (a.tipo_accion = 'Envio Lab' or a.tipo_accion = 'Digitación orden' or a.tipo_accion = 'Ingreso INABVE' OR a.tipo_accion='Entrega INABVE' or a.tipo_accion='Rectificacion');";
-    $sql = $conectar->prepare($sql);
-    $sql->bindValue(1, $codigo);
-    $sql->execute();
-    return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-
-}
 
 /*-------------------LISTAR DETALLE RECTIFICACIONES ----------------*/
 public function getTablasRectificaciones($codigoOrden){
@@ -1221,6 +1226,31 @@ public function getOrdenesSucursalDia($sucursal, $fecha){
   $sql = $conectar->prepare($sql);
   $sql->bindValue(1, $sucursal);
   $sql->bindValue(2, $fecha);
+  $sql->execute();
+  return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function comprobar_exit_DUI_pac($dui_pac){
+  $conectar = parent::conexion();
+  parent::set_names();
+
+  $sql = "select dui from orden_lab where dui=?";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1,$dui_pac);
+  $sql->execute();
+  return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+}
+/**
+ * 
+ * GET ACCIONES ORDENES
+*/
+public function getHistorialOrden($codigo){
+  $conectar = parent::conexion();
+  parent::set_names();
+  $sql = "select a.id_accion,u.nombres,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=?";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1,$codigo);
   $sql->execute();
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }

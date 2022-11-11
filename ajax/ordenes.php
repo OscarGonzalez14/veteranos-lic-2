@@ -11,6 +11,11 @@ $lentiOrdenes = new ordenesLenti();
 
 switch ($_GET["op"]) {
 
+  case 'comprobar_exit_DUI_pac':
+    $datos = $ordenes->comprobar_exit_DUI_pac($_POST['dui_pac']);
+    echo json_encode($datos[0]);
+  break;
+
   case 'crear_barcode':
     $datos = $ordenes->comprobar_existe_correlativo($_POST["codigo"]);
     if (is_array($datos) == true and count($datos) == 0) {
@@ -63,6 +68,12 @@ switch ($_GET["op"]) {
                 return 1;
                 }
             }
+          }
+          //Validacion de DUI
+          if($result == false){
+            $mensaje = "dui_existe";
+            echo json_encode($mensaje);
+            return 1;
           }
           $mensaje = "exito";
           echo json_encode($mensaje);
@@ -166,9 +177,9 @@ switch ($_GET["op"]) {
 
 
   case 'eliminar_orden':
-    $ordenes->eliminar_orden($_POST["codigo"]);
+    $data = $ordenes->eliminar_orden($_POST["codigo"]);
     $mensaje = "Ok";
-    echo json_encode($mensaje);
+    echo json_encode($data);
     break;
 
   case 'show_create_order':
@@ -581,21 +592,7 @@ switch ($_GET["op"]) {
 
       //******************* GET HISTORIAL DE ORDEN ******************//
     case 'ver_historial_orden':
-
-
-      if ($_POST["categoriaUser"] == '1') {
-        $historial = $ordenes->getAccionesOrden($_POST["codigo"]);
-      } elseif ($_POST["categoriaUser"] == 'a' or $_POST["categoriaUser"] == '3') {
-        $historial = $ordenes->getAccionesOrdenVet($_POST["codigo"]);
-      }
-      $data = array();
-      foreach ($historial as $k) {
-        $sub_array["fecha_hora"] =  date("d-m-Y H:i:s", strtotime($k["fecha"]));
-        $sub_array["usuario"] = $k["nombres"];
-        $sub_array["accion"] = $k["tipo_accion"];
-        $sub_array["observaciones"] = $k["observaciones"];
-        $data[] = $sub_array;
-      }
+      $data = $ordenes->getHistorialOrden($_POST['codigo']);
       echo json_encode($data);
       break;
 
