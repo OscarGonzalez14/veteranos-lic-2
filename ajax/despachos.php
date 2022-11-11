@@ -14,7 +14,13 @@ switch ($_GET["op"]){
         require_once("../modelos/Citados.php");
         $citas = new Citados();
         $ordenes = $citas->getDataCitadosSucursalPrint($args[2], $args[1]);
-    }   $data = Array();
+    }else{
+        require_once("../modelos/Ordenes.php");
+        $ord = new Ordenes();
+        $ordenes =  $ord->getOrdenesSucursalDia($args[2], $args[1]);
+    } 
+    
+    $data = Array();
     $i = 0;
     foreach($ordenes as $row){
         $sub_array = array();
