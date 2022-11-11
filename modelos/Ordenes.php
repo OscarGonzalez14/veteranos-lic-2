@@ -274,11 +274,11 @@ require_once("../config/conexion.php");
     $sql7->execute();
 
     if($id_cita == "" OR $id_cita == 0){
-      $sql_titular = "UPDATE `titulares` SET titular=:titular,dui_titular=:dui_titular WHERE id_titular=:id_titular";
+      $sql_titular = "UPDATE `titulares` SET titular=:titular,dui_titular=:dui_titular WHERE id_titulares=:id_titulares";
       $sql_titular = $conectar->prepare($sql_titular);
       $sql_titular->bindParam(':titular',$titular);
       $sql_titular->bindParam(':dui_titular',$dui_titular);
-      $sql_titular->bindParam(':id_titular',$id_titular);
+      $sql_titular->bindParam(':id_titulares',$id_titular);
       $sql_titular->execute();
     }
     if($id_aro != 0){

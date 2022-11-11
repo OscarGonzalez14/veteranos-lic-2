@@ -246,9 +246,16 @@ function guardar_orden(parametro = 'saveEdit') {
       ocupacion = $("#ocupacion_pac").val()
       departamento = $("#departamento_pac").val()
       depto = departamento.toString();
-      
+      //Validacion para editar un registro
+      if(depto === ""){
+        depto = $("#depto_pac").html()
+      }
       municipio_array = $("#munic_pac").val()
       municipio = municipio_array.toString()
+      
+      if(municipio === ""){
+        municipio = $("#muni_pac_label").html()
+      }
       
       instit = $("#instit").val()
       sucursal = $("#sucursal_optica").val();
@@ -406,6 +413,7 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
       if(data.colorTratamiento == "Photocromatico"){
         document.getElementById("photo").checked = true;
       }
+      $("#customSwitch1").prop('checked',true) // default en true
       let valueSwitch = $("input[name='customSwitch1']:checked").val();
 
       //Validation por cita
@@ -463,7 +471,7 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
           //new
           $("#titular").val(data.titular);
           $("#dui_titular").val(data.dui_titular)
-          $("#titular_id").val(data.id_titular)
+          $("#titular_id").val(data.id_titulares)
         } 
       }
       if(data.institucion == "CONYUGE"){
