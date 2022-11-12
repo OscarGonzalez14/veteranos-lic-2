@@ -4,17 +4,18 @@
  //use Dompdf\Options;
  
  require_once '../dompdf/autoload.inc.php';
-
+ require "vendor/autoload.php";
+ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
  require_once '../modelos/Reporteria.php';
  $reporteria = new Reporteria();
 $sucursal = $_POST["sucursal"];
 $correlativo = $_POST["correlativo"];
 $tipo_desp = $_POST["tipo_desp"];
+//echo $tipo_desp; exit();
 date_default_timezone_set('America/El_Salvador'); 
 $hoy= date("d-m-Y H:i:s");
 $fecha = date("Y-m-d");
-    $data=$reporteria->getDetalleDespacho($correlativo);
-
+    $data = $reporteria->getDetalleDespacho($correlativo);
 ?>
 
 <!DOCTYPE html>
@@ -54,12 +55,27 @@ $fecha = date("Y-m-d");
     #pacientes tr:hover {background-color: #ddd;}
 
     #pacientes th {
-      padding-top: 3px;
+      padding-top: 4px;
       padding-bottom: 3px;
       text-align: center;
       background-color: #4c5f70;
       color: white;
     }
+
+    .stilot1{
+    border: 1px solid black;
+    padding: 2px;
+    font-size: 11px;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+
+  }
+  .table2 {
+    border-collapse: collapse;
+  }
+  .encabezado{
+    background: #E8E8E8;
+  }
 	</style>
 </head>
 <body>
@@ -118,15 +134,145 @@ $fecha = date("Y-m-d");
   </tr>  
   <?php
   $i=1;
+  $array_dui = array();
   foreach ($data as $value) { ?>
     <tr> 
-        <td><?php echo $value["id_det"]; ?></td>
+     <td><?php echo $value["id_det"]; ?></td>
      <td><?php echo $value["dui"]; ?></td>
      <td><?php echo $value["paciente"]; ?></td>
     </tr> 
-
-  <?php $i++; } ?>  
+   
+  <?php
+  array_push($array_dui, $value["dui"]);
+  $i++; } ?>  
   </table>
+
+<?php
+if($tipo_desp=="expedientes"){ ?>
+  <div style="page-break-after:always;"></div>
+<?php
+
+
+echo '<table width="100%">';  
+  for($i=0;$i<count($array_dui);$i++){
+
+    $resultado = $reporteria->getDataOrdenDui($array_dui[$i]);
+    
+    foreach($resultado as $key){
+      $codigo = $key["codigo"];
+    }
+
+    $code = $Bar->getBarcode($codigo, $Bar::TYPE_CODE_128,'1','45');
+
+    if($i % 2 == 0){
+      echo "<tr>";
+    }
+
+    echo"<td>";
+     
+    echo "<table class='table2' width='100%' style='margin-top;0px !important'>";
+    echo "
+     <tr>
+      <td colspan='30'>
+        <img src='../dist/img/inabve.jpg' width='55' height='55'>
+      </td>
+      <td colspan='40' style='text-align:center;'>";
+      echo $code;
+      echo "</td>
+      <td colspan='30' align='right' style='text-align:right'>
+        <img src='../dist/img/logooficial.jpg' width='50' height='25'>
+      </td>
+     </tr>
+     ";
+
+     
+     foreach ($resultado as $key) {
+
+      echo "
+      <tr>
+      <td class='stilot1' colspan='100' style='text-align:center;font-size:13px'><b>".$key["sucursal"]."</b></td>
+      </tr>
+
+      <tr>
+      <td class='stilot1' colspan='30' style='text-align:left'>".$key["codigo"]."</td>
+      <td class='stilot1' colspan='30' style='text-align:cente'><b>Lente:</b> ".$key["tipo_lente"]."</td>
+      <td class='stilot1' colspan='40' style='text-align:cente'><b>Fecha</b> ".date("d-m-Y",strtotime($key["fecha"]))."</td>
+      </tr>
+      <tr style='height: 14px'>
+        <td class='stilot1 encabezado' colspan='65'><b style='padding: 0px'>Paciente:</b></td>
+        <td class='stilot1 encabezado' colspan='20'><b style='padding: 0px'>DUI</b></td>
+        <td class='stilot1 encabezado' colspan='15'><b style='padding: 0px'>Edad:</b></td>
+      </tr>
+      <tr>
+        <td class='stilot1' colspan='65' style='text-transform:uppercase;font-size:10px'>".$key["paciente"]."</td>
+        <td class='stilot1' colspan='20'>".$key["dui"]."</td>
+        <td class='stilot1' colspan='15'>".$key["edad"]."</td>
+      </tr>
+      <tr>
+        <td colspan='100' class='stilot1 encabezado' style='text-align: center'><b>Rx final</b></td>
+      </tr>
+      <tr>
+      <th style='text-align: center;' colspan='20' class='stilot1'><b>OJO</b></th>
+        <th style='text-align: center;' colspan='20' class='stilot1'><b>Esfera</b></th>
+        <th style='text-align: center;' colspan='20' class='stilot1'><b>Cilindro</b></th>
+        <th style='text-align: center;' colspan='20' class='stilot1'><b>Eje</b></th>
+        <th style='text-align: center;' colspan='20' class='stilot1'><b>Adición</b></th>
+      </tr>
+      <tr>
+        <td colspan='20' class='stilot1'><b>OD</b></td>
+        <td colspan='20' class='stilot1'>".$key["od_esferas"]."</td>
+        <td colspan='20' class='stilot1'>".$key["od_cilindros"]."</td>
+        <td colspan='20' class='stilot1'>".$key["od_eje"]."</td>
+        <td colspan='20' class='stilot1'>".$key["od_adicion"]."</td>
+      </tr>
+    <tr>
+      <td colspan='20' class='stilot1'><b>OI</b></td>
+      <td colspan='20' class='stilot1'>".$key["oi_esferas"]."</td>
+      <td colspan='20' class='stilot1'>".$key["oi_cilindros"]."</td>
+      <td colspan='20' class='stilot1'>".$key["oi_eje"]."</td>
+      <td colspan='20' class='stilot1'>".$key["oi_adicion"]."</td>
+    </tr>
+    <tr>
+    <td colspan='30' class='stilot1 encabezado' style='height:10px'>Dist. Pupilar</td>
+    <td colspan='30' class='stilot1 encabezado' style='height:10px'>Altura de lente</td>
+    <td colspan='40' class='stilot1 encabezado' style='height:10px'>Agudeza visual</td>
+    </tr>
+    
+    <tr>
+      <td colspan='15' class='stilot1'><b>OD</b></td>
+      <td colspan='15' class='stilot1'><b>OI</b></td>
+      <td colspan='15' class='stilot1'><b>OD</b></td>
+      <td colspan='15' class='stilot1'><b>OI</b></td>
+      <td colspan='20' class='stilot1'><b>AVsc</b></td>
+      <td colspan='20' class='stilot1'><b>AVfinal</b></td>
+    </tr>
+    
+    <tr>
+      <td colspan='15' class='stilot1'>".$key["pupilar_od"]." mm</td>
+      <td colspan='15' class='stilot1'>".$key["pupilar_oi"]." mm</td>
+      <td colspan='15' class='stilot1'>".$key["lente_od"]." mm</td>
+      <td colspan='15' class='stilot1'>".$key["lente_oi"]." mm</td>
+      <td colspan='20' class='stilot1'>".$key["avsc"]."</td>
+      <td colspan='20' class='stilot1'>".$key["avfinal"]."</td>
+    </tr>
+    
+      ";
+    }
+  
+
+    echo "</table><br>--------------------------------------------------------------------------";
+    
+    echo "</td>";
+
+    if ($i % 2 != 0) {
+      echo "</tr>";
+    }
+  }
+  echo '</table>';
+
+
+} ?>
+
 
 <?php
 
