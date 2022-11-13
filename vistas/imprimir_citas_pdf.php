@@ -103,10 +103,11 @@ $data = $citas->get_pacientes_citados($_POST["fecha-cita"],$sucursal);
 <table width="100%" id="tabla_reporte_citas" data-order='[[ 0, "desc" ]]' style="margin: 3px"  class="tabla_reporte_citas">        
  <tr>
    <th colspan="5" style="width:5%">#</th>
+   <th colspan="10" style="width:10%">Hora</th> 
    <th colspan="10" style="width:10%">DUI</th>
    <th colspan="10" style="width:10%">Teléfono</th>   
-   <th colspan="40" style="width:40%">Nombre</th>
-   <th colspan="20" style="width:20%">Firma</th>
+   <th colspan="35" style="width:35%">Nombre</th>
+   <th colspan="15" style="width:15%">Firma</th>
    <th colspan="15" style="width:15%">Observaciones</th>
  </tr>
  <tbody class="style_th" style="font-size:11px">
@@ -115,10 +116,11 @@ $data = $citas->get_pacientes_citados($_POST["fecha-cita"],$sucursal);
   foreach ($data as $value) { ?>
     <tr> 
      <td colspan="5" style="padding:3px;width:5%;padding:10px"><?php echo $i;?></td>
+     <td colspan="10" style="padding:3px;width:10%"><?php echo $value["hora"]; ?></td>
      <td colspan="10" style="padding:3px;width:10%"><?php echo $value["dui"]; ?></td>
      <td colspan="10" style="padding:3px;width:10%"><?php echo $value["telefono"]; ?></td>
-     <td colspan="40" style="padding:3px;width:40%"><?php echo $value["paciente"]; ?></td>
-     <td colspan="20" style="padding:3px;width:20%"></td>
+     <td colspan="35" style="padding:3px;width:35%"><?php echo $value["paciente"]; ?></td>
+     <td colspan="15" style="padding:3px;width:15%"></td>
      <td colspan="15" style="padding:3px;width:15%"></td>
     </tr> 
 
