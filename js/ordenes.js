@@ -308,7 +308,7 @@ function guardar_orden(parametro = 'saveEdit') {
           showConfirmButton: true,
           timer: 2500
         });
-        explode();
+
       } else if( data == "edit_orden") {
         Swal.fire({
           position: 'top-center',
@@ -317,11 +317,7 @@ function guardar_orden(parametro = 'saveEdit') {
           showConfirmButton: true,
           timer: 2500
         });
-        $("#nueva_orden_lab").modal('show');
         $("#data_ordenes_sin_procesar").DataTable().ajax.reload(null, false);
-        $("#data_ordenes_env").DataTable().ajax.reload();
-        $("#datatable_ordenes").DataTable().ajax.reload();
-        //explode();
       }
 
     }
@@ -351,6 +347,9 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
   $("#validate").val("1");
 
   $("#modal_title").html('EDITAR ORDEN')
+  //Modal Collapse acciones
+  $(".collapse").collapse('hide');
+  
   document.getElementById('tableAcciones').style.display = "block"
 
   estado_btn_edit(); // cambia el contenido del boton del modal
@@ -2126,7 +2125,7 @@ function get_table_acciones(){
           "<td>" + data[i].id_accion + "</td>" +
           "<td>" + data[i].nombres + "</td>" +
           "<td>" + data[i].tipo_accion + "</td>" +
-          "<td>" + data[i].observaciones + "</td>" +
+          "<td>" + data[i].observaciones + " en " +  data[i].sucursal + "</td>" +
           "<td>" + data[i].fecha + "</td>" +
           "</tr>";
       }

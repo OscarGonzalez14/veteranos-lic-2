@@ -161,8 +161,6 @@ public function getDisponibilidadCitas($fecha){
         if($sql->execute()){
             return true;
         }
-
-
         //echo json_encode(["msj" => "OLK"]);
     }
 

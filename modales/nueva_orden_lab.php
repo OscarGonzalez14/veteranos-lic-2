@@ -440,19 +440,16 @@
         <a onclick="get_table_acciones()" data-toggle="collapse" id="btnDisplayAcciones" href="#collapseAcciones" role="button" aria-expanded="false" aria-controls="collapseAcciones"><i class="fas fa-plus"></i></a>
         </div>
         <div class="collapse" id="collapseAcciones">
-          <div class="card-body">
-            
-            <table width="100%" class="table-hover table-responsive-sm table-bordered" data-order='[[ 0, "desc" ]]'>
-              <thead class="style_th bg-dark" style="color: white">
-                <th>ID</th>
-                <th>Usuario</th>
-                <th>Digitación</th>
-                <th>Observaciones</th>
-                <th>Fecha</th>
-              </thead>
-              <tbody id="datatable_acciones_orden"></tbody>
-            </table>
-          </div>
+          <table width="100%" class="table-hover table-responsive-sm table-bordered mt-3" data-order='[[ 0, "desc" ]]'>
+            <thead class="style_th bg-dark" style="color: white">
+              <th>ID</th>
+              <th>Usuario</th>
+              <th>Digitación</th>
+              <th>Observaciones</th>
+              <th>Fecha</th>
+            </thead>
+            <tbody id="datatable_acciones_orden"></tbody>
+          </table>
         </div>
        </div>
         
