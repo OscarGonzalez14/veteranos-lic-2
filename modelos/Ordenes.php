@@ -1,5 +1,4 @@
 <?php
-
 require_once("../config/conexion.php");  
 
   class Ordenes extends Conectar{
@@ -42,7 +41,7 @@ require_once("../config/conexion.php");
     barcode('../codigos/' . $codigo . '.png', $codigo, 50, 'horizontal', 'code128', true);
   }
   /////////////   REGISTRAR ORDEN ///////////////////////////////
-  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio){
+  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden){
 
     $conectar = parent::conexion();
     date_default_timezone_set('America/El_Salvador'); 
@@ -53,6 +52,43 @@ require_once("../config/conexion.php");
     //$laboratorio = "";
     $estado_aro = '0';
     $dest_aro = '0';
+
+    //Validacion de DUI
+    $exist_dui = $this->comprobar_exit_DUI_pac($dui);
+    if($exist_dui){
+      return false;
+    }
+
+    //Insertar aro si id es vacio
+    if($id_aro == ""){
+      $sql_aro = "insert into aros values(null,?,?,?,?);";
+      $sql_aro = $conectar->prepare($sql_aro);
+      $sql_aro->bindValue(1, $marca_aro_orden);
+      $sql_aro->bindValue(2, $modelo_aro_orden);
+      $sql_aro->bindValue(3, $color_aro_orden);
+      $sql_aro->bindValue(4, $material_aro_orden);
+      $sql_aro->execute();
+      //default id
+      $id_aro = $conectar->lastInsertId();
+    }else{
+      $sql_aros = "SELECT stock FROM `stock_aros` WHERE id_aro =:id_aro AND bodega = :bodega";
+      $sql_aros = $conectar->prepare($sql_aros);
+      $sql_aros->bindParam(':id_aro',$id_aro);
+      $sql_aros->bindParam(':bodega',$sucursal);
+      $sql_aros->execute();
+      $resultado = $sql_aros->fetchAll(PDO::FETCH_ASSOC);
+      if($resultado[0]['stock'] > 0){
+        //Actualiza el stock de los aros
+        $stock = $resultado[0]['stock'] - 1;
+        $sql_update_stock = "UPDATE stock_aros SET stock=:stock WHERE id_aro =:id_aro AND bodega = :bodega";
+        $sql_update_stock = $conectar->prepare($sql_update_stock);
+        $sql_update_stock->bindParam(':id_aro',$id_aro);
+        $sql_update_stock->bindParam(':bodega',$sucursal);
+        $sql_update_stock->bindParam(':stock',$stock);
+        $sql_update_stock->execute();
+      }
+    }
+
     $sql = "insert into orden_lab values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,null,?,?,?,?,?);";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $correlativo_op);
@@ -89,8 +125,6 @@ require_once("../config/conexion.php");
     $sql->bindValue(32, $id_cita);
     $sql->bindValue(33, $sucursal);
     $sql->execute();
-    
-    //print_r($_POST);
 
     $sql2 = "insert into rx_orden_lab value(null,?,?,?,?,?,?,?,?,?);";
     $sql2 = $conectar->prepare($sql2);
@@ -115,131 +149,156 @@ require_once("../config/conexion.php");
     $sql7->bindValue(4, $accion);
     $sql7->bindValue(5, $accion);
     $sql7->execute();
-
-    $sql_aros = "SELECT stock FROM `stock_aros` WHERE id_aro =:id_aro AND bodega = :bodega";
-      //$SQL_UPDAT_STOCK_ARO = "UPDATE stock_aros SET stock_aros.stock=1 WHERE stock_aros.id_aro = 6;";
-    $sql_aros = $conectar->prepare($sql_aros);
-    $sql_aros->bindParam(':id_aro',$id_aro);
-    $sql_aros->bindParam(':bodega',$sucursal);
-    $sql_aros->execute();
-    $resultado = $sql_aros->fetchAll(PDO::FETCH_ASSOC);
-    if($resultado[0]['stock'] > 0){
-      //Actualiza el stock de los aros
-      $stock = $resultado[0]['stock'] - 1;
-      $sql_update_stock = "UPDATE stock_aros SET stock=:stock WHERE id_aro =:id_aro AND bodega = :bodega";
-      $sql_update_stock = $conectar->prepare($sql_update_stock);
-      $sql_update_stock->bindParam(':id_aro',$id_aro);
-      $sql_update_stock->bindParam(':bodega',$sucursal);
-      $sql_update_stock->bindParam(':stock',$stock);
-      $sql_update_stock->execute();
-      return true;
-    }else{
-      return false;
+    //Insertar titular
+    if($instit=="CONYUGE"){
+        $sql8 = "insert into titulares values(null,?,?,?);";
+        $sql8 = $conectar->prepare($sql8);
+        $sql8->bindValue(1, $titular);
+        $sql8->bindValue(2, $dui_titular);
+        $sql8->bindValue(3, $correlativo_op);
+        $sql8->execute();
     }
+    return true;
+    
   }
    ////////////////////LISTAR ORDENES///////////////
-public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio){
-  $fecha_creacion = date("Y-m-d");
-  $hoy = date("d-m-Y H:i:s");
-  $conectar = parent::conexion();
-  $edit_ord = "update orden_lab set
-    paciente = ?,
-    fecha = ?,
-    pupilar_od = ?,                                            
-    pupilar_oi = ?,
-    lente_od = ?,
-    lente_oi = ?,
-    id_aro = ?,
-    id_usuario = ?,
-    observaciones = ?,
-    dui = ?,
-    fecha_correlativo=?,
-    tipo_lente=?,
-    laboratorio=?,
-    categoria=?,
-
-    edad=?,
-    ocupacion = ?,
-    avsc =?,
-    avfinal =?,
-    avsc_oi=?,
-    avfinal_oi=?,
-    telefono = ?,
-    genero = ?,
-    depto=?,
-    municipio=?,
-    institucion = ?,
-    color=?,
-    patologias=?,
-    id_cita=?,
-    sucursal=?*
-
-    where codigo = ?;";
-
-  $edit_ord = $conectar->prepare($edit_ord);
-  $edit_ord->bindValue(1, $paciente);
-  $edit_ord->bindValue(2, $fecha_creacion);
-
-  $edit_ord->bindValue(3, $od_pupilar);
-  $edit_ord->bindValue(4, $oipupilar);
-  $edit_ord->bindValue(5, $odlente);
-  $edit_ord->bindValue(6, $oilente);
-
-  $edit_ord->bindValue(7, $id_aro);
-  $edit_ord->bindValue(8, $id_usuario);
-  $edit_ord->bindValue(9, $observaciones_orden);
-  $edit_ord->bindValue(10, $dui);
-  $edit_ord->bindValue(11, $hoy);
-  $edit_ord->bindValue(12, $tipo_lente);
-  $edit_ord->bindValue(13, $laboratorio);
-  $edit_ord->bindValue(14, $categoria_lente);
-
-  $edit_ord->bindValue(15, $edad);
-  $edit_ord->bindValue(16, $ocupacion);
-  $edit_ord->bindValue(17, $avsc);
-  $edit_ord->bindValue(18, $avfinal);
-  $edit_ord->bindValue(19, $avsc_oi);
-  $edit_ord->bindValue(20, $avfinal_oi);
-  $edit_ord->bindValue(21, $telefono);
-  $edit_ord->bindValue(22, $genero);
-  $edit_ord->bindValue(23, $depto);
-  $edit_ord->bindValue(24, $municipio);
-  $edit_ord->bindValue(25, $instit);
-
-  $edit_ord->bindValue(26, $color);
+   public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$id_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden){
+    $fecha_creacion = date("Y-m-d");
+    $hoy = date("d-m-Y H:i:s");
+    $conectar = parent::conexion();
+    $edit_ord = "update orden_lab set
+      paciente = ?,
+      fecha = ?,
   
-  $edit_ord->bindValue(27, $patologias);
-
-  $edit_ord->bindValue(28, $id_cita);
-  $edit_ord->bindValue(29, $sucursal);
-
-  $edit_ord->bindValue(30, $correlativo_op);
-
-  $edit_ord->execute();
-
-  $sql2 = "update rx_orden_lab set
-  od_esferas=?,
-  od_cilindros=?,
-  od_eje=?,
-  od_adicion=?,
-  oi_esferas=?,
-  oi_cilindros=?,
-  oi_eje=?,
-  oi_adicion=?
-  where codigo=?";
-  $sql2 = $conectar->prepare($sql2);  
-  $sql2->bindValue(1, $od_esferas);
-  $sql2->bindValue(2, $od_cilindros);
-  $sql2->bindValue(3, $od_eje);
-  $sql2->bindValue(4, $od_adicion);
-  $sql2->bindValue(5, $oi_esferas);
-  $sql2->bindValue(6, $oi_cilindros);
-  $sql2->bindValue(7, $oi_eje);
-  $sql2->bindValue(8, $oi_adicion);
-  $sql2->bindValue(9, $correlativo_op);
-  $sql2->execute();
+      pupilar_od = ?,                                            
+      pupilar_oi = ?,
+      lente_od = ?,
+      lente_oi = ?,
   
-}
+      id_aro = ?,
+      id_usuario = ?,
+  
+      observaciones = ?,
+      dui = ?,
+  
+  
+      fecha_correlativo=?,
+      tipo_lente=?,
+      laboratorio=?,
+      categoria=?,
+  
+      edad=?,
+      ocupacion = ?,
+      avsc =?,
+      avfinal =?,
+      avsc_oi=?,
+      avfinal_oi=?,
+      telefono = ?,
+      genero = ?,
+      depto=?,
+      municipio=?,
+      institucion = ?,
+      color=?,
+      patologias=?,
+      id_cita=?,
+      sucursal=?
+  
+      where codigo = ?;";
+  
+    $edit_ord = $conectar->prepare($edit_ord);
+    $edit_ord->bindValue(1, $paciente);
+    $edit_ord->bindValue(2, $fecha_creacion);
+  
+    $edit_ord->bindValue(3, $od_pupilar);
+    $edit_ord->bindValue(4, $oipupilar);
+    $edit_ord->bindValue(5, $odlente);
+    $edit_ord->bindValue(6, $oilente);
+  
+    $edit_ord->bindValue(7, $id_aro);
+    $edit_ord->bindValue(8, $id_usuario);
+    $edit_ord->bindValue(9, $observaciones_orden);
+    $edit_ord->bindValue(10, $dui);
+    $edit_ord->bindValue(11, $hoy);
+    $edit_ord->bindValue(12, $tipo_lente);
+    $edit_ord->bindValue(13, $laboratorio);
+    $edit_ord->bindValue(14, $categoria_lente);
+  
+    $edit_ord->bindValue(15, $edad);
+    $edit_ord->bindValue(16, $ocupacion);
+    $edit_ord->bindValue(17, $avsc);
+    $edit_ord->bindValue(18, $avfinal);
+    $edit_ord->bindValue(19, $avsc_oi);
+    $edit_ord->bindValue(20, $avfinal_oi);
+    $edit_ord->bindValue(21, $telefono);
+    $edit_ord->bindValue(22, $genero);
+    $edit_ord->bindValue(23, $depto);
+    $edit_ord->bindValue(24, $municipio);
+    $edit_ord->bindValue(25, $instit);
+  
+    $edit_ord->bindValue(26, $color);
+    
+    $edit_ord->bindValue(27, $patologias);
+  
+    $edit_ord->bindValue(28, $id_cita);
+    $edit_ord->bindValue(29, $sucursal);
+  
+    $edit_ord->bindValue(30, $correlativo_op);
+  
+    $edit_ord->execute();
+  
+    $sql2 = "update rx_orden_lab set
+    od_esferas=?,
+    od_cilindros=?,
+    od_eje=?,
+    od_adicion=?,
+    oi_esferas=?,
+    oi_cilindros=?,
+    oi_eje=?,
+    oi_adicion=?
+    where codigo=?";
+    $sql2 = $conectar->prepare($sql2);  
+    $sql2->bindValue(1, $od_esferas);
+    $sql2->bindValue(2, $od_cilindros);
+    $sql2->bindValue(3, $od_eje);
+    $sql2->bindValue(4, $od_adicion);
+    $sql2->bindValue(5, $oi_esferas);
+    $sql2->bindValue(6, $oi_cilindros);
+    $sql2->bindValue(7, $oi_eje);
+    $sql2->bindValue(8, $oi_adicion);
+    $sql2->bindValue(9, $correlativo_op);
+    $sql2->execute();
+    //Control de orden
+    $accion = "Edición orden";
+
+    $sql7 = "insert into acciones_orden values(null,?,?,?,?,?);";
+    $sql7 = $conectar->prepare($sql7);
+    $sql7->bindValue(1, $hoy);
+    $sql7->bindValue(2, $user);
+    $sql7->bindValue(3, $correlativo_op);
+    $sql7->bindValue(4, $accion);
+    $sql7->bindValue(5, $accion);
+    $sql7->execute();
+
+    if($id_cita == "" OR $id_cita == 0){
+      $sql_titular = "UPDATE `titulares` SET titular=:titular,dui_titular=:dui_titular WHERE id_titulares=:id_titulares";
+      $sql_titular = $conectar->prepare($sql_titular);
+      $sql_titular->bindParam(':titular',$titular);
+      $sql_titular->bindParam(':dui_titular',$dui_titular);
+      $sql_titular->bindParam(':id_titulares',$id_titular);
+      $sql_titular->execute();
+    }
+    if($id_aro != 0){
+      $sql_aro = "update aros set marca=?,modelo=?,color=?,material=? where id_aro=?";
+      $sql_aro = $conectar->prepare($sql_aro);
+      $sql_aro->bindValue(1, $marca_aro_orden);
+      $sql_aro->bindValue(2, $modelo_aro_orden);
+      $sql_aro->bindValue(3, $color_aro_orden);
+      $sql_aro->bindValue(4, $material_aro_orden);
+      $sql_aro->bindValue(5, $id_aro);
+      $sql_aro->execute();
+    }
+    
+  }
 
   public function get_ordenes($sucursal,$permisos){
     $conectar= parent::conexion();
@@ -270,10 +329,18 @@ public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$o
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function get_data_orden($codigo,$paciente){
-
+  public function get_data_orden($codigo,$paciente,$id_aro,$institucion,$id_cita){
     $conectar = parent::conexion();
-    $sql = "select o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,aros.marca,aros.modelo,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,aros.id_aro,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,aros.color,o.color as colorTratamiento,aros.material,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? or rx.codigo = ? or o.paciente=?;";
+
+    if($institucion == "CONYUGE" AND $id_cita == 0 OR $id_cita == ""){
+      $sql = "select titulares.id_titulares,titulares.titular,titulares.dui_titular,o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,aros.marca,aros.modelo,aros.color,aros.material,aros.id_aro,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN titulares ON titulares.codigo=o.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? and rx.codigo = ? or o.paciente=?;";
+
+    }else if($id_aro == 0){
+      $sql = "select o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo where o.codigo = ? and rx.codigo = ? or id_aro=0 or o.paciente=?;";
+    }else{
+      $sql = "select o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,aros.marca,aros.modelo,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,aros.id_aro,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,aros.color,o.color as colorTratamiento,aros.material,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? and rx.codigo = ? or o.paciente=?;";
+    }
+    
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1,$codigo);
     $sql->bindValue(2,$codigo);
@@ -284,6 +351,22 @@ public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$o
 
   public function eliminar_orden($codigo){
     $conectar= parent::conexion();
+
+    //Seleccionar el orden_lab y trae el id de la cita
+    $sql ="SELECT id_cita from orden_lab where codigo=?;";
+    $sql =$conectar->prepare($sql);
+    $sql->bindValue(1,$codigo);
+    $sql->execute();
+    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $id_cita = $result[0]['id_cita'];
+    //UPDATE A CITA EN ESTADO 0
+    if($id_cita != 0){
+      $sql ="UPDATE citas SET estado=0 where id_cita=?;";
+      $sql =$conectar->prepare($sql);
+      $sql->bindValue(1,$id_cita);
+      $sql->execute();
+    }
+
     $sql ="delete from rx_orden_lab where codigo=?;";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1,$codigo);
@@ -293,6 +376,12 @@ public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$o
     $sql2=$conectar->prepare($sql2);
     $sql2->bindValue(1,$codigo);
     $sql2->execute();
+    //delete titulares
+    $sql3 ="delete from titulares where codigo=?;";
+    $sql3=$conectar->prepare($sql3);
+    $sql3->bindValue(1,$codigo);
+    $sql3->execute();
+    
   }
 
   public function show_create_order($codigo){
@@ -831,29 +920,6 @@ public function get_ordenes_enviar_general($instit){
 }
 
 /*-------------- GET ACCIONES ORDEN ----------------------*/
-public function getAccionesOrden($codigo){
-    $conectar = parent::conexion();
-    parent::set_names();
-
-    $sql = "select u.nombres,u.codigo_emp,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=?;";
-    $sql = $conectar->prepare($sql);
-    $sql->bindValue(1, $codigo);
-    $sql->execute();
-    return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-
-}
-
-public function getAccionesOrdenVet($codigo){
-    $conectar = parent::conexion();
-    parent::set_names();
-
-    $sql = "select u.nombres,u.codigo_emp,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=? and (a.tipo_accion = 'Envio Lab' or a.tipo_accion = 'Digitación orden' or a.tipo_accion = 'Ingreso INABVE' OR a.tipo_accion='Entrega INABVE' or a.tipo_accion='Rectificacion');";
-    $sql = $conectar->prepare($sql);
-    $sql->bindValue(1, $codigo);
-    $sql->execute();
-    return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-
-}
 
 /*-------------------LISTAR DETALLE RECTIFICACIONES ----------------*/
 public function getTablasRectificaciones($codigoOrden){
@@ -1164,6 +1230,30 @@ public function getOrdenesSucursalDia($sucursal, $fecha){
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
-}//Fin de la Clase
+public function comprobar_exit_DUI_pac($dui_pac){
+  $conectar = parent::conexion();
+  parent::set_names();
 
+  $sql = "select dui from orden_lab where dui=?";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1,$dui_pac);
+  $sql->execute();
+  return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+}
+/**
+ * 
+ * GET ACCIONES ORDENES
+*/
+public function getHistorialOrden($codigo){
+  $conectar = parent::conexion();
+  parent::set_names();
+  $sql = "select a.id_accion,u.nombres,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=?";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1,$codigo);
+  $sql->execute();
+  return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+}//Fin de la Clase
 

@@ -5,7 +5,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button" style="color:white"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
-
+     SUCURSAL:&nbsp; <span style="text-transform:uppercase"><?php echo $_SESSION["sucursal"];?></span>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 

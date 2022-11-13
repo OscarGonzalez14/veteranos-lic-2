@@ -131,11 +131,13 @@ function sendLab(){
     }else{
         let sucursal= document.getElementById("sucursal").value;
         let id_usuario= document.getElementById("id_usuario").value;
+        let usuario= document.getElementById("usuario").value;
         let tipo_desp = $("input[type='radio'][name='tipo-desp']:checked").val();
+
         $.ajax({
             url:"../ajax/despachos.php?op=registrar_despacho_lab",
             method:"POST",
-            data:{'ordenes_desp':JSON.stringify(ordenes_envio_lab),'sucursal':sucursal,'id_usuario':id_usuario},
+            data:{'ordenes_desp':JSON.stringify(ordenes_envio_lab),'sucursal':sucursal,'id_usuario':id_usuario,'usuario':usuario},
             cache: false,
             dataType:"json", 
             success:function(data){
@@ -148,7 +150,7 @@ function sendLab(){
 function printDespacho(correlativo,tipo_desp,sucursal){
 
     var form = document.createElement("form");
-    form.target = "print_popup";
+    form.target = "_blank";
     form.method = "POST";
     form.action = "imprimir_despacho_lab.php";
 
@@ -164,7 +166,7 @@ function printDespacho(correlativo,tipo_desp,sucursal){
     input.value = tipo_desp;
     form.appendChild(input);
 
-        var input = document.createElement("input");
+    var input = document.createElement("input");
     input.type = "hidden";
     input.name = "sucursal";
     input.value = sucursal;

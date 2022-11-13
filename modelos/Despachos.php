@@ -60,6 +60,17 @@ class Despachos extends Conectar{
             $sql2->bindValue(2, $v->dui);
             $sql2->bindValue(3, $v->paciente);
             $sql2->execute();
+
+            $accion = "Envio a laboratorio desde ".$sucursal;
+
+            $sql7 = "insert into acciones_orden values(null,?,?,?,?,?);";
+            $sql7 = $conectar->prepare($sql7);
+            $sql7->bindValue(1, $hoy);
+            $sql7->bindValue(2, $_POST["usuario"]);
+            $sql7->bindValue(3, $v->dui);
+            $sql7->bindValue(4, $v->paciente);
+            $sql7->bindValue(5, $accion );
+            $sql7->execute();
         } 
         $msj = ["correlativo"=>$correlativo];
         echo json_encode($msj);

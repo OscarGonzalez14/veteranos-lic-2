@@ -327,10 +327,14 @@ function gethorasDisponibles(sucursal,fecha){
       disp =[
         '8:00:00 AM','8:25:00 AM','8:50:00 AM','9:15:00 AM','9:40:00 AM','1:00 PM','1:20 PM','1:40 PM','2:00 PM','2:20 PM'
       ]
-  }else if(sucursal=="San Vicente" || sucursal=="San Vicente Centro" || sucursal=="Usulutan" || sucursal=="San Miguel"){
+  }else if(sucursal=="San Vicente" || sucursal=="San Vicente Centro"){
     disp = ['8:00:00 AM','8:30:00 AM','9:00:00 AM','9:30:00 AM','10:00:00 AM','10:30:00 AM','11:00:00 AM','11:30:00 AM']
   }else if(sucursal=="0"){
     disp=[]
+  }else if(sucursal=="San Miguel"){
+    disp =['9:30:00 AM','10:00:00 AM','10:30:00 AM','11:00:00 AM','1:00:00 PM','1:30:00 PM','2:00:00 PM','2:30:00 PM'];
+  }else if(sucursal=="Usulutan"){
+    disp =['8:00:00 AM','8:30:00 AM','9:00:00 AM','9:30:00 AM','10:00:00 AM','10:30:00 AM','11:00:00 AM','11:30:00 AM'];
   }else{
     disp = [
       '8:00:00 AM','8:15:00 AM','8:30:00 AM','8:45:00 AM','9:00:00 AM','9:15:00 AM','9:30:00 AM','9:45:00 AM','10:00:00 AM','10:15:00 AM','10:30:00 AM','10:45:00 AM','11:00:00 AM','11:15:00 AM','11:30:00 AM','11:45:00 AM','12:00:00 PM','12:15:00 PM','12:30:00 PM','12:45:00 PM'

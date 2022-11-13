@@ -50,7 +50,7 @@ public function login_users(){
         }
         $_SESSION['permisos'] = $valores;
         $_SESSION['names_permisos'] = $names_permisos;
-        //in_array(4,$valores)?$_SESSION['citas_callcenter']=1:$_SESSION['citas_callcenter']=0;
+
         in_array(5,$valores)?$_SESSION['citas_sucursal']=1:$_SESSION['citas_sucursal']=0;
 
         in_array('citas_callcenter',$names_permisos)?$_SESSION['citas_callcenter']=1:$_SESSION['citas_callcenter']=0;
