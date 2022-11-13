@@ -6,11 +6,6 @@
     text-align: center;
   }
 </style>
-<?php
-
-//$_SESSION['names_permisos']
-
-?>
 <div class="modal fade" id="nueva_orden_lab" style="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable" style="max-width: 95%">
     <div class="modal-content">
@@ -515,5 +510,4 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
 </div>

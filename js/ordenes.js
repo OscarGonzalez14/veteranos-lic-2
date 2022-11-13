@@ -789,15 +789,24 @@ function eliminarBeneficiario(codigo) {
       data: { codigo: codigo },
       dataType: "json",
       success: function (data) {
-        console.log(data)
         $("#datatable_ordenes").DataTable().ajax.reload();
-        Swal.fire({
-          position: 'top-center',
-          icon: 'success',
-          title: 'La orden ha sido eliminada',
-          showConfirmButton: true,
-          timer: 9500
-        });
+        if(data == "orden_proceso"){
+          Swal.fire({
+            position: 'top-center',
+            icon: 'warning',
+            title: 'La orden esta en proceso',
+            showConfirmButton: true,
+            timer: 9500
+          });
+        }else{
+          Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'La orden ha sido eliminada',
+            showConfirmButton: true,
+            timer: 9500
+          });
+        }
       }
     });
 

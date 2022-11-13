@@ -61,15 +61,16 @@ require_once("../config/conexion.php");
 
     //Insertar aro si id es vacio
     if($id_aro == ""){
-      $sql_aro = "insert into aros values(null,?,?,?,?);";
+      $sql_aro = "insert into aros_manuales values(null,?,?,?,?,?);";
       $sql_aro = $conectar->prepare($sql_aro);
-      $sql_aro->bindValue(1, $marca_aro_orden);
-      $sql_aro->bindValue(2, $modelo_aro_orden);
-      $sql_aro->bindValue(3, $color_aro_orden);
-      $sql_aro->bindValue(4, $material_aro_orden);
+      $sql_aro->bindValue(1, $correlativo_op);
+      $sql_aro->bindValue(2, $marca_aro_orden);
+      $sql_aro->bindValue(3, $modelo_aro_orden);
+      $sql_aro->bindValue(4, $color_aro_orden);
+      $sql_aro->bindValue(5, $material_aro_orden);
       $sql_aro->execute();
       //default id
-      $id_aro = $conectar->lastInsertId();
+      $id_aro = 0;
     }else{
       $sql_aros = "SELECT stock FROM `stock_aros` WHERE id_aro =:id_aro AND bodega = :bodega";
       $sql_aros = $conectar->prepare($sql_aros);
@@ -306,7 +307,7 @@ require_once("../config/conexion.php");
     $conectar= parent::conexion();
 
     if($permisos=="Ok"){
-      $sql= "select*from orden_lab order by id_orden DESC;";
+      $sql= "select*from orden_lab order by id_orden ASC;";
       $sql=$conectar->prepare($sql);
       $sql->execute();
       return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -359,12 +360,19 @@ require_once("../config/conexion.php");
     $conectar= parent::conexion();
 
     //Seleccionar el orden_lab y trae el id de la cita
-    $sql ="SELECT id_cita from orden_lab where codigo=?;";
+    $sql ="SELECT codigo,estado,id_cita,sucursal from orden_lab where codigo=?;";
     $sql =$conectar->prepare($sql);
     $sql->bindValue(1,$codigo);
     $sql->execute();
     $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     $id_cita = $result[0]['id_cita'];
+    $codigo_orden = $result[0]['codigo'];
+    $sucursal = $result[0]['sucursal'];
+    $estado = $result[0]['estado'];
+    //Validacion si la orden estado estado 1
+    if($estado > 0){
+      return true;
+    }
     //UPDATE A CITA EN ESTADO 0
     if($id_cita != 0){
       $sql ="UPDATE citas SET estado=0 where id_cita=?;";
@@ -387,6 +395,20 @@ require_once("../config/conexion.php");
     $sql3=$conectar->prepare($sql3);
     $sql3->bindValue(1,$codigo);
     $sql3->execute();
+
+    $accion = "Eliminación orden";
+    $hoy = date("d-m-Y H:i:s");
+    $user = $_SESSION["user"];
+
+    $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
+    $sql7 = $conectar->prepare($sql7);
+    $sql7->bindValue(1, $hoy);
+    $sql7->bindValue(2, $user);
+    $sql7->bindValue(3, $codigo_orden);
+    $sql7->bindValue(4, $accion);
+    $sql7->bindValue(5, $accion);
+    $sql7->bindValue(6, $sucursal);
+    $sql7->execute();
     
   }
 
