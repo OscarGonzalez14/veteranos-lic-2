@@ -199,6 +199,31 @@ require_once('../modales/aros_en_orden.php');
       </div>
     </div>
   </div>
+  <!---Modal laboratorio --->
+  <div class="modal" id="modal_laboratorio" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="max-width: 35%">
+    <div class="modal-content">      
+        <!-- Modal Header -->
+        <div class="modal-header" style="background: #162e41;color: white">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h5>Total de ordenes : <span id="totalOrdenLab">0</span></h5>
+
+          <div class="form-group">
+            <select name="laboratorio" id="laboratorio" class="form-control">
+              <option value="">Seleccionar</option>
+              <option value="LENTI 1">LENTI </option>
+            </select>
+          </div>
+
+        </div>
+        <!-- Modal footer -->
+       
+      </div>
+    </div>
+  </div>
 
   <!--==================== MODAL BUSQUEDAS ================-->
 <div class="modal" id="modal_busqueda_grads">

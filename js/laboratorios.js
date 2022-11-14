@@ -1083,7 +1083,8 @@ function selectedUnico(id_det){
 }
 
 function enviarDespachosLab(){
-  $("#result_despacho").html("");
+  $("#modal_laboratorio").modal('show')
+  /* $("#result_despacho").html("");
   $.ajax({
     url:"../ajax/laboratorios.php?op=cambiarEstadoOrdenLab",
     method:"POST",
@@ -1093,7 +1094,7 @@ function enviarDespachosLab(){
     success:function(data){ 
       //
     }
-  });
+  }); */
 }
 
 
