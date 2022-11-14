@@ -111,14 +111,14 @@
             </a>
           </li>
           <?php } ?>
-          <?php if($cat_usuario==1 or $cat_usuario==4){ ?>
+
           <li class="nav-item">
             <a href='laboratorios.php' class="nav-link" style="color: white">
               <i class="nav-icon fas fa-file"></i>
               <p>Laboratorio</p>
             </a>
           </li>
-          <?php } ?>
+
           
           
           <?php if($cat_usuario==1 or $cat_usuario==4){ ?>

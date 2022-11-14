@@ -23,13 +23,19 @@
                 </a>
             </li>
             <li class="nav-item">
+              <a href="../vistas/despachos_lab.php" class="nav-link">
+                <i class="fas fa-shipping-fast"></i>
+                  <p>Despachos lab</p>
+                </a>
+            </li>
+            <li class="nav-item">
               <a href="../vistas/ordenes_recibidas_veteranos.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-success"></i>
-                  <p>Gestionar ordenes</p>
+                  <p>Recibir ordenes</p>
                 </a>
               </li>
             <li class="nav-item">
-              <a href="rectificaciones.php" class="nav-link">
+              <a href="../vistas/rectificaciones.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-danger"></i>
                   <p>Rectificaciones</p>
                 </a>

@@ -1,6 +1,6 @@
 <?php 
 require_once("../config/conexion.php");
-if(isset($_SESSION["usuario"])){
+if(isset($_SESSION["user"])){
 $categoria_usuario = $_SESSION["categoria"];
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ $categoria_usuario = $_SESSION["categoria"];
 <?php require_once("links_plugin.php"); 
  require_once('../modelos/Ordenes.php');
  $ordenes = new Ordenes();
- $suc = $ordenes->get_opticas();
+
 require_once('../modales/modal_ingresos_lab.php');
 require_once('../modales/nueva_orden_lab.php');
 require_once('../modales/aros_en_orden.php');
