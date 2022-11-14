@@ -142,10 +142,8 @@ switch ($_GET["op"]) {
 
     $datos = $ordenes->get_ordenes($_POST["sucursal"], $_POST["permiso_listar"]);
 
-<<<<<<< HEAD
-=======
+
     $contador = 0;
->>>>>>> veterano_v2
     foreach ($datos as $row) {
       $sub_array = array();
       $sub_array[] = $contador += 1;
@@ -181,17 +179,13 @@ switch ($_GET["op"]) {
 
   case 'eliminar_orden':
     $data = $ordenes->eliminar_orden($_POST["codigo"]);
-<<<<<<< HEAD
-    $mensaje = "Ok";
-    echo json_encode($data);
-=======
+
     if($data){
       $mensaje = "orden_proceso";
     }else{
       $mensaje = "Ok";
     }
     echo json_encode($mensaje);
->>>>>>> veterano_v2
     break;
 
   case 'show_create_order':
