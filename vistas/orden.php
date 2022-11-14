@@ -55,7 +55,8 @@ $categoria_usuario = $_SESSION["categoria"];
       <div class="card card-dark card-outline" style="margin: 2px;">
        <table width="100%" class="table-hover table-bordered" id="datatable_ordenes"  data-order='[[ 0, "desc" ]]'>    
          <thead class="style_th bg-dark" style="color: white">
-           <th>ID</th>
+           <th>Correlativo</th>
+           <th>ID orden</th>
            <th>Fecha</th>
            <th>Paciente</th>
            <th>DUI</th>
@@ -116,6 +117,12 @@ require_once("links_js.php");
 <script type="text/javascript" src="../js/citados.js"></script>
 <script>
   var dui = new Cleave('#dui_pac', {
+  delimiter: '-',
+  blocks: [8,1],
+  uppercase : true
+});
+
+var dui_titular = new Cleave('#dui_titular', {
   delimiter: '-',
   blocks: [8,1],
   uppercase : true

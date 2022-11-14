@@ -162,9 +162,10 @@ public function getDisponibilidadCitas($fecha){
         $sql = "UPDATE citas SET estado = '1' WHERE citas.id_cita = :id_cita";
         $sql = $conectar->prepare($sql);
         $sql->bindParam(':id_cita',$id_cita);
-        $sql->execute();
-
-        echo json_encode(["msj" => "OLK"]);
+        if($sql->execute()){
+            return true;
+        }
+        //echo json_encode(["msj" => "OLK"]);
     }
 
 }////Fin de la clase
