@@ -54,7 +54,6 @@ require_once('../modales/aros_en_orden.php');
           <input type="date" class="form-control clear_orden_i" id="hasta_orders_lab_pend" placeholder="desde">
         </div>
 
-       
         <div class="col-sm-2" style="text-align: right;display: flex;align-items: right">         
           <select name="" id="tipo_lente_ing" class="form-control" style="margin-top: 1px">
             <option value="0">Selec. lente</option>
@@ -98,6 +97,7 @@ require_once('../modales/aros_en_orden.php');
            <th><label><input type="checkbox" id="select-all-env" class="form-check-label" onClick="selectOrdenesImprimir()"> Selecc.</label></th>
            <th>Mod.Aro</th>
            <th>Codigo</th>
+           <th>Sucursal</th>
            <th>Fecha</th>
            <th>Paciente</th>
            <th>Tipo lente</th>
@@ -166,6 +166,38 @@ require_once('../modales/aros_en_orden.php');
       </div>
     </div>
     <input type="hidden" id="cat_data_barcode" value="ing_lab">
+  </div>
+
+  <!--Modal buscar despacho-->
+  <div class="modal" id="modal_ingreso_laboratorio" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="max-width: 35%">
+    <div class="modal-content">      
+        <!-- Modal Header -->
+        <div class="modal-header" style="background: #162e41;color: white">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <input type="text" class="form-control" id="n_despacho" onchange="getDespachoLab(this.id)">
+
+          <button type="button" class="btn btn-default float-right btn-sm " onclick="enviarDespachosLab()" style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Enviar <span id="totalOrdenLab">0</span></button>
+
+          <table class="table-hover table-bordered" style="font-family: Helvetica, Arial, sans-serif;max-width: 100%;text-align: left;margin-top: 5px !important" width="100%">
+
+          <thead style="font-family: Helvetica, Arial, sans-serif;width: 100%;text-align: center;font-size: 12px;" class="bg-dark">
+            <tr>
+            <th><input type="checkbox" id="select-all-desp" class="form-check-label" onclick="selectedAll()"></th>
+            <th>DUI</th>
+            <th>PACIENTE</th>
+          </tr></thead>
+          <tbody id="result_despacho" style="font-size: 12px"></tbody>
+        </table>
+
+        </div>
+        <!-- Modal footer -->
+       
+      </div>
+    </div>
   </div>
 
   <!--==================== MODAL BUSQUEDAS ================-->

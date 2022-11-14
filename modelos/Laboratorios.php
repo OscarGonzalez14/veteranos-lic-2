@@ -424,4 +424,24 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
 
   }
 
+  public function get_despacho_lab($n_despacho){
+    $conectar = parent::conexion();
+    parent::set_names();
+
+    $sql = "SELECT d_des.id_det,d_des.n_despacho,d_des.dui,d_des.paciente FROM `det_despacho_lab` as d_des WHERE d_des.n_despacho=?";
+    $sql=$conectar->prepare($sql);
+    $sql->bindValue(1, $n_despacho);
+    $sql->execute();
+    return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function cambiarEstadoOrdenLab($dui){
+    $conectar = parent::conexion();
+    parent::set_names();
+    $sql = "update orden_lab set estado=2 where dui=?";
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1,$dui);
+    $sql->execute();
+  }
+
 }

@@ -1019,4 +1019,82 @@ $(document).on('click', '#busquedas_graduaciones', function(){
 
 });
 
+//new codigo
+function ingreso_laboratorio(){
+  $("#modal_ingreso_laboratorio").modal('show')
+  $("#result_despacho").html("");
+  document.getElementById('n_despacho').value = ""
+  document.getElementById('n_despacho').style.display = "block"
+}
+var old_despachos_lab = []
+var new_despachos_lab = []
+function getDespachoLab(id){
+  let n_despacho = document.getElementById(id).value
+  $.ajax({
+    url:"../ajax/laboratorios.php?op=get_despacho_lab",
+    method:"POST",
+    data:{n_despacho:n_despacho}, 
+    cache:false,
+    dataType: "json",
+    success:function(data){ 
+      old_despachos_lab = data  
+
+      if (data == "vacio") {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'No existen despachos',
+          showConfirmButton: true,
+          timer: 2500
+        });
+      }else{
+
+        document.getElementById('n_despacho').style.display = "none"
+  
+        $("#result_despacho").html("");
+            let filas = '';
+            for(var i=0; i<old_despachos_lab.length; i++){
+              filas = filas + "<tr id='fila"+i+"'>"+
+              "<td><input type='checkbox' class='form-check-label checkDespacho' id='chkenv"+i+"' data-id='"+old_despachos_lab[i].id_det+"' onClick='selectedUnico(this.id)'></td>"+
+              "<td>"+old_despachos_lab[i].dui+"</td>"+
+              "<td>"+old_despachos_lab[i].paciente+"</td>"+
+              "</tr>";
+            }
+          $("#result_despacho").html(filas);  
+      }
+    }
+  });
+}
+
+function selectedAll(){
+
+}
+function selectedUnico(id_det){
+  let id_despacho = document.getElementById(id_det).dataset.id
+
+  let checkDespacho = document.getElementById(id_det).checked
+  if(checkDespacho){
+    const despachos_lab = old_despachos_lab.filter((despacho)=> despacho.id_det == id_despacho)
+    new_despachos_lab = [...new_despachos_lab,...despachos_lab]
+  }else{
+    new_despachos_lab = new_despachos_lab.filter((despacho)=> despacho.id_det != id_despacho)
+  }
+  document.getElementById('totalOrdenLab').textContent = new_despachos_lab.length
+}
+
+function enviarDespachosLab(){
+  $("#result_despacho").html("");
+  $.ajax({
+    url:"../ajax/laboratorios.php?op=cambiarEstadoOrdenLab",
+    method:"POST",
+    data:{dui:dui}, 
+    cache:false,
+    dataType: "json",
+    success:function(data){ 
+      //
+    }
+  });
+}
+
+
 init();

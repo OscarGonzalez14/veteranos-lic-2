@@ -349,5 +349,18 @@ $datos = $ordenes->get_rango_fechas_ordenes($_POST["inicio"],$_POST["hasta"],$_P
     case 'cambiar_estado_aro_print':
         $ordenes->cambiaEstadoAroPrint();
     break;        
+    case 'get_despacho_lab':
 
+      $data = $ordenes->get_despacho_lab($_POST['n_despacho']);
+
+      if(count($data) > 0){
+        echo json_encode($data);
+      }else{
+        $mensaje = "vacio";
+        echo json_encode($mensaje);
+      }
+    break;
+    case 'cambiarEstadoOrdenLab':
+      $ordenes->cambiarEstadoOrdenLab($_POST['dui']);
+      break;
 }
