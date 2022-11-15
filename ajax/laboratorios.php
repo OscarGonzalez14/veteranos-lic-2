@@ -360,7 +360,41 @@ $datos = $ordenes->get_rango_fechas_ordenes($_POST["inicio"],$_POST["hasta"],$_P
         echo json_encode($mensaje);
       }
     break;
-    case 'cambiarEstadoOrdenLab':
-      $ordenes->cambiarEstadoOrdenLab($_POST['dui']);
+    case 'set_ingreso_lab':
+      
+      $data = $_POST['data'];
+      $ACCIONES = "ingresos_lab";
+      foreach($data as $row){
+        $ordenes->set_ingreso_lab($row['n_despacho'],$row['dui'],$row['paciente'],$ACCIONES,$_POST['tipo_acciones'],$_POST['laboratorio']);
+      }
+      $mensaje = "exito";
+      echo json_encode($mensaje);
       break;
+    case 'listar_ingreso_lab':
+      $data = array();
+
+      $datos = $ordenes->get_acciones_lab();
+      // $sub_array[] = date("d-m-Y", strtotime($row["fecha"]));
+      $contador = 0;
+      foreach ($datos as $row) {
+        $sub_array = array();
+        $sub_array[] = $row["id_acc_lab"];
+        $sub_array[] = $row["n_despacho"];
+        $sub_array[] = $row["tipo_accion"];
+        $sub_array[] = $row["fecha_creacion"];
+        $sub_array[] = $row["laboratorio"];
+        $sub_array[] = $row["dui"];
+        $sub_array[] = $row["paciente"];
+        $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="verIngresoLab(\'' . $row["id_acc_lab"] . '\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';
+        $data[] = $sub_array;
+      }
+
+      $results = array(
+        "sEcho" => 1, //Información para el datatables
+        "iTotalRecords" => count($data), //enviamos el total registros al datatable
+        "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
+        "aaData" => $data
+      );
+      echo json_encode($results);
+    break;
 }

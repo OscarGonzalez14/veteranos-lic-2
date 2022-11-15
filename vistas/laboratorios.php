@@ -168,63 +168,6 @@ require_once('../modales/aros_en_orden.php');
     <input type="hidden" id="cat_data_barcode" value="ing_lab">
   </div>
 
-  <!--Modal buscar despacho-->
-  <div class="modal" id="modal_ingreso_laboratorio" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="max-width: 35%">
-    <div class="modal-content">      
-        <!-- Modal Header -->
-        <div class="modal-header" style="background: #162e41;color: white">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-        </div>        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <input type="text" class="form-control" id="n_despacho" onchange="getDespachoLab(this.id)">
-
-          <button type="button" class="btn btn-default float-right btn-sm " onclick="enviarDespachosLab()" style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Enviar <span id="totalOrdenLab">0</span></button>
-
-          <table class="table-hover table-bordered" style="font-family: Helvetica, Arial, sans-serif;max-width: 100%;text-align: left;margin-top: 5px !important" width="100%">
-
-          <thead style="font-family: Helvetica, Arial, sans-serif;width: 100%;text-align: center;font-size: 12px;" class="bg-dark">
-            <tr>
-            <th><input type="checkbox" id="select-all-desp" class="form-check-label" onclick="selectedAll()"></th>
-            <th>DUI</th>
-            <th>PACIENTE</th>
-          </tr></thead>
-          <tbody id="result_despacho" style="font-size: 12px"></tbody>
-        </table>
-
-        </div>
-        <!-- Modal footer -->
-       
-      </div>
-    </div>
-  </div>
-  <!---Modal laboratorio --->
-  <div class="modal" id="modal_laboratorio" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="max-width: 35%">
-    <div class="modal-content">      
-        <!-- Modal Header -->
-        <div class="modal-header" style="background: #162e41;color: white">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-        </div>        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <h5>Total de ordenes : <span id="totalOrdenLab">0</span></h5>
-
-          <div class="form-group">
-            <select name="laboratorio" id="laboratorio" class="form-control">
-              <option value="">Seleccionar</option>
-              <option value="LENTI 1">LENTI </option>
-            </select>
-          </div>
-
-        </div>
-        <!-- Modal footer -->
-       
-      </div>
-    </div>
-  </div>
-
   <!--==================== MODAL BUSQUEDAS ================-->
 <div class="modal" id="modal_busqueda_grads">
   <div class="modal-dialog modal-lg">

@@ -6,7 +6,7 @@ function init(){
     listar_ordenes_entregas_vet()
     get_ordenes_procesando_envios();
     listar_ordenes_de_envio();
-
+    listar_ingreso_lab();
 }
 
 /*========RECIBIR E IMPRIMIR=======*/
@@ -1023,8 +1023,10 @@ $(document).on('click', '#busquedas_graduaciones', function(){
 function ingreso_laboratorio(){
   $("#modal_ingreso_laboratorio").modal('show')
   $("#result_despacho").html("");
+  $("#totalOrdenLab").html("")
   document.getElementById('n_despacho').value = ""
   document.getElementById('n_despacho').style.display = "block"
+  document.getElementById('dui_despacho').style.display = "none"
 }
 var old_despachos_lab = []
 var new_despachos_lab = []
@@ -1036,7 +1038,8 @@ function getDespachoLab(id){
     data:{n_despacho:n_despacho}, 
     cache:false,
     dataType: "json",
-    success:function(data){ 
+    success:function(data){
+      new_despachos_lab = []
       old_despachos_lab = data  
 
       if (data == "vacio") {
@@ -1050,12 +1053,13 @@ function getDespachoLab(id){
       }else{
 
         document.getElementById('n_despacho').style.display = "none"
+        document.getElementById('dui_despacho').style.display = "block"
   
         $("#result_despacho").html("");
             let filas = '';
             for(var i=0; i<old_despachos_lab.length; i++){
               filas = filas + "<tr id='fila"+i+"'>"+
-              "<td><input type='checkbox' class='form-check-label checkDespacho' id='chkenv"+i+"' data-id='"+old_despachos_lab[i].id_det+"' onClick='selectedUnico(this.id)'></td>"+
+              "<td><input type='checkbox' name='checkDespacho' class='form-check-label checkDespacho' id='chkenv"+i+"' data-dui='"+old_despachos_lab[i].dui+"' onClick='selectedUnico(this.id)'></td>"+
               "<td>"+old_despachos_lab[i].dui+"</td>"+
               "<td>"+old_despachos_lab[i].paciente+"</td>"+
               "</tr>";
@@ -1066,36 +1070,193 @@ function getDespachoLab(id){
   });
 }
 
-function selectedAll(){
+//Selected all chk despacho
+$(document).ready(function() {
+    $('#select-all-desp').click(function() {
+        let chk_fila = $('input[name="checkDespacho"]').prop('checked', this.checked);
+        if(document.getElementById('select-all-desp').checked){
+          new_despachos_lab = []
+          for(let i = 0; i < chk_fila.length; i++){
+            old_dui_pac = chk_fila[i].dataset.dui
 
-}
+            const data_pac = old_despachos_lab.filter(despacho=> despacho.dui == old_dui_pac)
+            new_despachos_lab = [...new_despachos_lab,...data_pac]
+          }
+          $("#totalOrdenLab").html(new_despachos_lab.length)
+        }else{
+          new_despachos_lab = []
+          $("#totalOrdenLab").html('')
+        }
+    })
+});
 function selectedUnico(id_det){
-  let id_despacho = document.getElementById(id_det).dataset.id
+  let dui_pac = document.getElementById(id_det).dataset.dui
 
   let checkDespacho = document.getElementById(id_det).checked
   if(checkDespacho){
-    const despachos_lab = old_despachos_lab.filter((despacho)=> despacho.id_det == id_despacho)
+    const despachos_lab = old_despachos_lab.filter((despacho)=> despacho.dui == dui_pac)
     new_despachos_lab = [...new_despachos_lab,...despachos_lab]
   }else{
-    new_despachos_lab = new_despachos_lab.filter((despacho)=> despacho.id_det != id_despacho)
+    new_despachos_lab = new_despachos_lab.filter((despacho)=> despacho.dui != dui_pac)
   }
   document.getElementById('totalOrdenLab').textContent = new_despachos_lab.length
 }
 
-function enviarDespachosLab(){
-  $("#modal_laboratorio").modal('show')
-  /* $("#result_despacho").html("");
-  $.ajax({
-    url:"../ajax/laboratorios.php?op=cambiarEstadoOrdenLab",
-    method:"POST",
-    data:{dui:dui}, 
-    cache:false,
-    dataType: "json",
-    success:function(data){ 
-      //
+function buscar_dui_table(id){
+  let dui_pac_scan = document.getElementById(id).value
+
+  let chk_fila = document.getElementsByClassName('checkDespacho')
+  for(let i = 0; i < chk_fila.length; i++){
+    if(chk_fila[i].dataset.dui === dui_pac_scan){
+      //clear input
+      document.getElementById('dui_despacho').value = ""
+      document.getElementById('dui_despacho').focus()
+      chk_fila[i].checked = true
+      const data_pac = old_despachos_lab.filter(despacho=> despacho.dui == dui_pac_scan)
+      new_despachos_lab = [...new_despachos_lab,...data_pac]
+      $("#totalOrdenLab").html(new_despachos_lab.length)
     }
-  }); */
+  }
 }
 
+$("#showModalEnviarLab").click(()=>{
+  $("#totalOrdenLab_ingreso").html(new_despachos_lab.length)
+  $("#modal_laboratorio").modal('show')
+})
+
+function ingreso_lab(){
+  let tipo_acciones = $("#tipo_acciones").val()
+  let laboratorio = $("#laboratorio_ingreso").val()
+  if(tipo_acciones === null || laboratorio === null){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'warning',
+      title: 'Por favor, rellenar el formulario!!',
+      showConfirmButton: true,
+      timer: 2500
+    });
+    return false;
+  }
+  $.ajax({
+    url:"../ajax/laboratorios.php?op=set_ingreso_lab",
+    method:"POST",
+    data:{tipo_acciones:tipo_acciones,laboratorio:laboratorio,data: new_despachos_lab}, 
+    cache:false,
+    dataType: "json",
+    success:function(data){
+      if(data == "exito"){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Se registro el ingreso al Laboratorio',
+          showConfirmButton: true,
+          timer: 2500
+        });
+        $("#modal_laboratorio").modal('hide')
+        $("#tipo_acciones").val('')
+        $("#laboratorio_ingreso").val('')
+        $("#ingreso_lab_ordenes").DataTable().ajax.reload()
+        //actualizamos la tabla
+        old_despachos_lab = old_despachos_lab.filter((despacho)=>{
+          return new_despachos_lab.filter((newDespacho)=> newDespacho.dui != despacho.dui)
+        })
+
+        console.log()
+
+        let filas = '';
+            for(var i=0; i<old_despachos_lab.length; i++){
+              filas = filas + "<tr id='fila"+i+"'>"+
+              "<td><input type='checkbox' name='checkDespacho' class='form-check-label checkDespacho' id='chkenv"+i+"' data-dui='"+old_despachos_lab[i].dui+"' onClick='selectedUnico(this.id)'></td>"+
+              "<td>"+old_despachos_lab[i].dui+"</td>"+
+              "<td>"+old_despachos_lab[i].paciente+"</td>"+
+              "</tr>";
+            }
+          $("#result_despacho").html(filas);
+      }
+      console.log(data)
+    } 
+  });
+}
+
+function listar_ingreso_lab(){
+
+  let permiso = "";
+  let sucursal = "-";
+
+  $('#ingreso_lab_ordenes').DataTable({
+    "aProcessing": true,//Activamos el procesamiento del datatables
+    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+    buttons: [
+      'excelHtml5',
+    ],
+  
+    "ajax": {
+      url: "../ajax/laboratorios.php?op=listar_ingreso_lab",
+      type: "POST",
+      dataType : "json",
+      data: { permiso: permiso, sucursal: sucursal },
+      error: function (e) {
+        console.log(e.responseText);
+      },
+    },
+  
+    "bDestroy": true,
+    "responsive": true,
+    "bInfo": true,
+    "iDisplayLength": 25,//Por cada 10 registros hace una paginación
+    "order": [[0, "desc"]],//Ordenar (columna,orden)
+  
+    "language": {
+  
+      "sProcessing": "Procesando...",
+  
+      "sLengthMenu": "Mostrar _MENU_ registros",
+  
+      "sZeroRecords": "No se encontraron resultados",
+  
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+  
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+  
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+  
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+  
+      "sInfoPostFix": "",
+  
+      "sSearch": "Buscar:",
+  
+      "sUrl": "",
+  
+      "sInfoThousands": ",",
+  
+      "sLoadingRecords": "Cargando...",
+  
+      "oPaginate": {
+  
+        "sFirst": "Primero",
+  
+        "sLast": "Último",
+  
+        "sNext": "Siguiente",
+  
+        "sPrevious": "Anterior"
+  
+      },
+  
+      "oAria": {
+  
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+  
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+  
+      }
+  
+    }, //cerrando language
+  
+    //"scrollX": true
+  });
+}
 
 init();

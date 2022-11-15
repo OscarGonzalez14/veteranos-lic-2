@@ -435,13 +435,56 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function cambiarEstadoOrdenLab($dui){
+  public function set_ingreso_lab($n_despacho,$dui,$paciente,$acciones,$tipo_accion,$laboratorio){
     $conectar = parent::conexion();
+    $id_usuario = $_SESSION["id_user"];
+    $user = $_SESSION['user'];
+    $hoy = date("d-m-Y H:i:s");
     parent::set_names();
+    $sql = "insert into acciones_lab values (null,?,?,?,?,?,?,?,null)";
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1,$n_despacho);
+    $sql->bindValue(2,$dui);
+    $sql->bindValue(3,$paciente);
+    $sql->bindValue(4,$acciones);
+    $sql->bindValue(5,$tipo_accion);
+    $sql->bindValue(6,$laboratorio);
+    $sql->bindValue(7,$id_usuario);
+    $sql->execute();
+    //Buscar orden para registrarlo en acciones orden
+    $sql = "select codigo,sucursal from orden_lab where dui=?";
+    $sql=$conectar->prepare($sql);
+    $sql->bindValue(1,$dui);
+    $sql->execute();
+    $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $correlativo_op = $resultado[0]['codigo'];
+    $sucursal = $resultado[0]['sucursal'];
+    //Update a Orden
     $sql = "update orden_lab set estado=2 where dui=?";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1,$dui);
     $sql->execute();
+    //Inseted a acciones_orden
+    $accion = "Ingreso a laboratorio orden";
+
+    $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
+    $sql7 = $conectar->prepare($sql7);
+    $sql7->bindValue(1, $hoy);
+    $sql7->bindValue(2, $_SESSION['user']);
+    $sql7->bindValue(3, $correlativo_op);
+    $sql7->bindValue(4, $accion);
+    $sql7->bindValue(5, $accion);
+    $sql7->bindValue(6, $sucursal);
+    $sql7->execute();
+  }
+
+  public function get_acciones_lab(){
+    $conectar = parent::conexion();
+    parent::set_names();
+    $sql = "select * from acciones_lab order by id_acc_lab DESC";
+    $sql=$conectar->prepare($sql);
+    $sql->execute();
+    return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
 }

@@ -1,8 +1,8 @@
 <div class="card-body" style="margin: 1px solid red;color: black !important">
-  <button class="btn btn-app" id="modal_ingreso_lab" style="color: black;border: solid #5bc0de 1px;" onclick="ingreso_laboratorio()">
+  <a href="ingreso_lab.php" class="btn btn-app" style="color: black;border: solid #5bc0de 1px;">
     <span class="badge bg-success"></span>
     <i class="fas fa-file"></i> INGRESO A LABORATORIO
-  </button>
+</a>
 
   <a href="laboratorios.php" class="btn btn-app" style="color: black;border: solid #5bc0de 1px;">
     <span class="badge bg-warning" id="alert_creadas_ord"></span>
