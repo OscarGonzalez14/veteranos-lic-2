@@ -137,7 +137,7 @@ $fecha = date("Y-m-d");
   $array_dui = array();
   foreach ($data as $value) { ?>
     <tr> 
-     <td><?php echo $value["id_det"]; ?></td>
+     <td><?php echo $i;?></td>
      <td><?php echo $value["dui"]; ?></td>
      <td><?php echo $value["paciente"]; ?></td>
     </tr> 

@@ -39,6 +39,9 @@ switch ($_GET["op"]) {
 
   case 'registrar_orden':
 
+  
+   
+
     date_default_timezone_set('America/El_Salvador');
     $now = date("dmY");
     $validate = $_POST["validate"];
@@ -53,40 +56,24 @@ switch ($_GET["op"]) {
       } else {
         $nuevo_correlativo = $now . "1";
       }
-      
+      $dui = $ordenes->comprobar_exit_DUI_pac($_POST['dui']);
       $datos = $ordenes->validar_correlativo_orden($nuevo_correlativo);
-      if (is_array($datos) and count($datos) == 0) {
-        for ($x = 0; $x < 1; $x++) {
+      if (count($datos) == 0 and count($dui)==0) {
           $result = $ordenes->registrar_orden($nuevo_correlativo, $_POST['paciente'], $_POST['od_pupilar'], $_POST['oipupilar'], $_POST["odlente"], $_POST["oilente"], $_POST['id_aro'], $_POST["id_usuario"], $_POST["observaciones_orden"], $_POST["dui"], $_POST["od_esferas"], $_POST["od_cilindros"], $_POST["od_eje"], $_POST["od_adicion"], $_POST["oi_esferas"], $_POST["oi_cilindros"], $_POST["oi_eje"], $_POST["oi_adicion"], $_POST["tipo_lente"], $_POST["edad"], $_POST["ocupacion"], $_POST["avsc"], $_POST["avfinal"], $_POST["avsc_oi"], $_POST["avfinal_oi"], $_POST["telefono"], $_POST["genero"], $_POST["user"], $_POST["depto"], $_POST["municipio"], $_POST["instit"], $_POST["patologias"], $_POST["color"], $_POST["indice"], $_POST["id_cita"], $_POST["sucursal"], $_POST['categoria_lente'], $_POST['laboratorio'],$_POST['titular'],$_POST['dui_titular'],$_POST['modelo_aro_orden'],$_POST['marca_aro_orden'],$_POST['material_aro_orden'],$_POST['color_aro_orden']);
-          //Update cita table
-          if($_POST["id_cita"] != ""){
-            if($result){
-              $result = $citados->updateEstadoCita($_POST["id_cita"]);
-                if($result){
-                $mensaje = "exito";
-                echo json_encode($mensaje);
-                return 1;
-                }
-            }
-          }
-          //Validacion de DUI
-          if($result == false){
-            $mensaje = "dui_existe";
-            echo json_encode($mensaje);
-            return 1;
-          }
+
           $mensaje = "exito";
           echo json_encode($mensaje);
-          return 1;
-        }
-      } else {
-        $mensaje = "existe";
-      }
+          
+        }else{
+          $mensaje = "dui_existe";
+          echo json_encode($mensaje);
+        }   
     } else {
       $ordenes->editar_orden($_POST["codigo"], $_POST['paciente'], $_POST['od_pupilar'], $_POST['oipupilar'], $_POST["odlente"], $_POST["oilente"], $_POST['id_aro'], $_POST["id_usuario"], $_POST["observaciones_orden"], $_POST["dui"], $_POST["od_esferas"], $_POST["od_cilindros"], $_POST["od_eje"], $_POST["od_adicion"], $_POST["oi_esferas"], $_POST["oi_cilindros"], $_POST["oi_eje"], $_POST["oi_adicion"], $_POST["tipo_lente"], $_POST["edad"], $_POST["ocupacion"], $_POST["avsc"], $_POST["avfinal"], $_POST["avsc_oi"], $_POST["avfinal_oi"], $_POST["telefono"], $_POST["genero"], $_POST["user"], $_POST["depto"], $_POST["municipio"], $_POST["instit"], $_POST["patologias"], $_POST["color"], $_POST["indice"], $_POST["id_cita"], $_POST["sucursal"], $_POST['categoria_lente'], $_POST['laboratorio'],$_POST['titular'],$_POST['dui_titular'],$_POST['id_titular'],$_POST['modelo_aro_orden'],$_POST['marca_aro_orden'],$_POST['material_aro_orden'],$_POST['color_aro_orden']);
       $mensaje = "edit_orden";
+      echo json_encode($mensaje);
     }
-    echo json_encode($mensaje);
+
     break;
 
   case "get_correlativo_orden":
@@ -142,10 +129,7 @@ switch ($_GET["op"]) {
 
     $datos = $ordenes->get_ordenes($_POST["sucursal"], $_POST["permiso_listar"]);
 
-<<<<<<< HEAD
-=======
     $contador = 0;
->>>>>>> veterano_v2
     foreach ($datos as $row) {
       $sub_array = array();
       $sub_array[] = $contador += 1;
@@ -181,17 +165,12 @@ switch ($_GET["op"]) {
 
   case 'eliminar_orden':
     $data = $ordenes->eliminar_orden($_POST["codigo"]);
-<<<<<<< HEAD
-    $mensaje = "Ok";
-    echo json_encode($data);
-=======
     if($data){
       $mensaje = "orden_proceso";
     }else{
       $mensaje = "Ok";
     }
     echo json_encode($mensaje);
->>>>>>> veterano_v2
     break;
 
   case 'show_create_order':

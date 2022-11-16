@@ -6,12 +6,6 @@
     text-align: center;
   }
 </style>
-<<<<<<< HEAD
-<?php
-
-//$_SESSION['names_permisos']
-
-?>
 <div class="modal fade" id="nueva_orden_lab" style="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable" style="max-width: 95%">
     <div class="modal-content">
@@ -35,31 +29,6 @@
           </div>
         </div>
 
-=======
-<div class="modal fade" id="nueva_orden_lab" style="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable" style="max-width: 95%">
-    <div class="modal-content">
-      <div class="modal-header bg-dark" style="padding: 5px;">
-        <h4 class="modal-title w-200 text-rigth" style="font-size: 15px"><span id="correlativo_op"></span>
-          <h5 id="modal_title" style="text-align: center; font-size:14px" class="modal-title w-100 text-center">NUEVA ORDEN</h5>
-        </h4>
-        <button class="btn btn-xs btn-success" id="btnBuscarCitado" onClick="buscarCitado()"><i class="fas fa-search fa-2x"></i></button>&nbsp;&nbsp;
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <!--START MODAL BODY-->
-
-        <div class="row mb-2" id="radio_button_orden">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" onchange="customSwithIngresoManual()" class="custom-control-input" name="customSwitch1" id="customSwitch1">
-            <label class="custom-control-label" for="customSwitch1">Ingreso manual</label>
-          </div>
-        </div>
-
->>>>>>> veterano_v2
 
         <div class="shadow-sm" id="cita_content">
 
@@ -466,21 +435,6 @@
         <a onclick="get_table_acciones()" data-toggle="collapse" id="btnDisplayAcciones" href="#collapseAcciones" role="button" aria-expanded="false" aria-controls="collapseAcciones"><i class="fas fa-plus"></i></a>
         </div>
         <div class="collapse" id="collapseAcciones">
-<<<<<<< HEAD
-          <div class="card-body">
-            
-            <table width="100%" class="table-hover table-responsive-sm table-bordered" data-order='[[ 0, "desc" ]]'>
-              <thead class="style_th bg-dark" style="color: white">
-                <th>ID</th>
-                <th>Usuario</th>
-                <th>Digitación</th>
-                <th>Observaciones</th>
-                <th>Fecha</th>
-              </thead>
-              <tbody id="datatable_acciones_orden"></tbody>
-            </table>
-          </div>
-=======
           <table width="100%" class="table-hover table-responsive-sm table-bordered mt-3" data-order='[[ 0, "desc" ]]'>
             <thead class="style_th bg-dark" style="color: white">
               <th>ID</th>
@@ -491,7 +445,6 @@
             </thead>
             <tbody id="datatable_acciones_orden"></tbody>
           </table>
->>>>>>> veterano_v2
         </div>
        </div>
         
@@ -557,8 +510,5 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-<<<<<<< HEAD
 
-=======
->>>>>>> veterano_v2
 </div>

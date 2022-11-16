@@ -280,7 +280,7 @@ function guardar_orden(parametro = 'saveEdit') {
     dataType:"json",
 
     success: function (data) {
-      //console.log("data: " + data)
+      console.log(data)
       if (data == "exito") {
         order_new_clear_form() //Limpia el html y input
         Swal.fire({
@@ -347,12 +347,9 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
   $("#validate").val("1");
 
   $("#modal_title").html('EDITAR ORDEN')
-<<<<<<< HEAD
-=======
   //Modal Collapse acciones
   $(".collapse").collapse('hide');
   
->>>>>>> veterano_v2
   document.getElementById('tableAcciones').style.display = "block"
 
   estado_btn_edit(); // cambia el contenido del boton del modal
@@ -792,7 +789,6 @@ function eliminarBeneficiario(codigo) {
       data: { codigo: codigo },
       dataType: "json",
       success: function (data) {
-        console.log(data)
         $("#datatable_ordenes").DataTable().ajax.reload();
         if(data == "orden_proceso"){
           Swal.fire({
@@ -2041,13 +2037,8 @@ function imprimirActa(nombre_receptor,dui_receptor,paciente,codigo,tipo_receptor
 }
 
 
-<<<<<<< HEAD
-
-var permiso_manual = names_permisos.includes("ingreso_manual") //return true
-=======
 //ocultar boton para ingresar cita
 const permiso_manual = names_permisos.includes("ingreso_manual") //return true
->>>>>>> veterano_v2
 if(!permiso_manual){
   document.getElementById('radio_button_orden').style.display = "none"
   document.getElementById('show_form_manual').style.display = "none"
@@ -2055,11 +2046,7 @@ if(!permiso_manual){
   document.getElementById('customSwitch1').checked = false
   document.getElementById('btnBuscarCitado').style.opacity = "1"
   document.getElementById('radio_button_orden').style.display = "block"
-<<<<<<< HEAD
-} 
-=======
 }
->>>>>>> veterano_v2
 
 document.getElementById('show_form_manual').style.display = "none"; //default oculto
 
@@ -2131,11 +2118,6 @@ function comprobarExistenciaDUI(id){
 function get_table_acciones(){
   //$("#btnDisplayAcciones").html('<i class="fas fa-minus"></i>')
   let codigo = $("#codigo_correlativo").val()
-<<<<<<< HEAD
-  let dui = $("#dui_pac_t").html();
-  console.log(dui)
-=======
->>>>>>> veterano_v2
   
   $.ajax({
     url: "../ajax/ordenes.php?op=ver_historial_orden",
@@ -2152,11 +2134,7 @@ function get_table_acciones(){
           "<td>" + data[i].id_accion + "</td>" +
           "<td>" + data[i].nombres + "</td>" +
           "<td>" + data[i].tipo_accion + "</td>" +
-<<<<<<< HEAD
-          "<td>" + data[i].observaciones + "</td>" +
-=======
           "<td>" + data[i].observaciones + " en " +  data[i].sucursal + "</td>" +
->>>>>>> veterano_v2
           "<td>" + data[i].fecha + "</td>" +
           "</tr>";
       }
