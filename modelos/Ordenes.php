@@ -48,17 +48,6 @@ require_once("../config/conexion.php");
     $hoy = date("d-m-Y H:i:s");
     $fecha_creacion = date("Y-m-d");
     $estado = 0;
-    //$categoria_lente = "-";
-    //$laboratorio = "";
-    $estado_aro = '0';
-    $dest_aro = '0';
-
-    //Validacion de DUI
-    $exist_dui = $this->comprobar_exit_DUI_pac($dui);
-    if($exist_dui){
-      return false;
-    }
-
     //Insertar aro si id es vacio
     if($id_aro == ""){
       $sql_aro = "insert into aros_manuales values(null,?,?,?,?,?);";
@@ -279,7 +268,6 @@ require_once("../config/conexion.php");
     $sql7->bindValue(3, $correlativo_op);
     $sql7->bindValue(4, $accion);
     $sql7->bindValue(5, $accion);
-
     $sql7->bindValue(6, $sucursal);
     $sql7->execute();
 
@@ -291,7 +279,6 @@ require_once("../config/conexion.php");
       $sql_titular->bindParam(':id_titulares',$id_titular);
       $sql_titular->execute();
     }
-
     //Update aro
     if($id_aro != 0){
       $sql_aro = "update aros set marca=?,modelo=?,color=?,material=? where id_aro=?";
@@ -300,7 +287,6 @@ require_once("../config/conexion.php");
       $sql_aro = "update aros_manuales set marca=?,modelo=?,color=?,material=? where codigo_orden=?";
       $id_aro = $correlativo_op;
     }
-
       $sql_aro = $conectar->prepare($sql_aro);
       $sql_aro->bindValue(1, $marca_aro_orden);
       $sql_aro->bindValue(2, $modelo_aro_orden);
@@ -384,15 +370,12 @@ require_once("../config/conexion.php");
     $conectar= parent::conexion();
 
     //Seleccionar el orden_lab y trae el id de la cita
-
     $sql ="SELECT codigo,estado,id_cita,sucursal from orden_lab where codigo=?;";
-
     $sql =$conectar->prepare($sql);
     $sql->bindValue(1,$codigo);
     $sql->execute();
     $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     $id_cita = $result[0]['id_cita'];
-
     $codigo_orden = $result[0]['codigo'];
     $sucursal = $result[0]['sucursal'];
     $estado = $result[0]['estado'];
@@ -1303,7 +1286,6 @@ public function comprobar_exit_DUI_pac($dui_pac){
 public function getHistorialOrden($codigo){
   $conectar = parent::conexion();
   parent::set_names();
-
   $sql = "select a.sucursal,a.id_accion,u.nombres,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=?";
   $sql = $conectar->prepare($sql);
   $sql->bindValue(1,$codigo);

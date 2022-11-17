@@ -428,7 +428,7 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     $conectar = parent::conexion();
     parent::set_names();
 
-    $sql = "SELECT d_des.id_det,d_des.n_despacho,d_des.dui,d_des.paciente FROM `det_despacho_lab` as d_des WHERE d_des.n_despacho=?";
+    $sql = "SELECT d_des.id_det,d_des.n_despacho,d_des.dui,d_des.paciente FROM `det_despacho_lab` as d_des WHERE d_des.n_despacho=? AND d_des.estado = 0";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1, $n_despacho);
     $sql->execute();
@@ -441,6 +441,22 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     $user = $_SESSION['user'];
     $hoy = date("d-m-Y H:i:s");
     parent::set_names();
+    //para obtener el número
+    $sql = "SELECT n_despacho FROM `acciones_lab` ORDER BY id_acc_lab DESC LIMIT 1;";
+    $sql=$conectar->prepare($sql);
+    $sql->execute();
+    $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+    if(count($resultado) > 0){
+      //ENV-1
+      $n_despacho = $resultado[0]['n_despacho'];
+      $n_despacho = explode("-",$n_despacho);
+      $numero_unico = $n_despacho[1];
+      $numero_unico += 1;
+      $n_despacho = "ENV-".$numero_unico;
+    }else{
+      $n_despacho = "ENV-1";
+    }
+
     $sql = "insert into acciones_lab values (null,?,?,?,?,?,?,?,null)";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1,$n_despacho);
@@ -476,15 +492,75 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     $sql7->bindValue(5, $accion);
     $sql7->bindValue(6, $sucursal);
     $sql7->execute();
+    //Update det_despacho_lab
+    $sql = "update det_despacho_lab set estado=1 where dui=?";
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1,$dui);
+    $sql->execute();
   }
 
-  public function get_acciones_lab(){
+  public function get_acciones_lab($dui = ""){
     $conectar = parent::conexion();
     parent::set_names();
-    $sql = "select * from acciones_lab order by id_acc_lab DESC";
+    if($dui == ""){
+      $sql = "select * from acciones_lab order by id_acc_lab DESC";
+    }else{
+      $sql = "select * from acciones_lab where dui=? order by id_acc_lab DESC";
+    }
     $sql=$conectar->prepare($sql);
+    $sql->bindValue(1,$dui);
     $sql->execute();
     return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function get_data_orden($dui){
+    $conectar = parent::conexion();
+
+    //Traer datos y relleno
+    $sql = "select codigo,id_aro,institucion from orden_lab where dui=?";
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1,$dui);
+    $sql->execute();
+    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $institucion = $result[0]['institucion'];
+    $codigo = $result[0]['codigo'];
+    $id_aro = $result[0]['id_aro'];
+
+    //Verificador para ver si tiene ingresado un aro en manuales
+    $sql = "select id_aro from aros_manuales where codigo_orden=?";
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1,$codigo);
+    $sql->execute();
+    $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    if($institucion == "CONYUGE"){
+        if($id_aro == 0){
+          if(count($data) > 0){
+            $sql = "select am.marca,am.modelo,am.color,am.material,titulares.id_titulares,titulares.titular,titulares.dui_titular,o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN titulares ON titulares.codigo=o.codigo INNER JOIN aros_manuales as am ON o.codigo=am.codigo_orden where o.codigo = ? and rx.codigo = ? ";
+          }else{
+            $sql = "select titulares.id_titulares,titulares.titular,titulares.dui_titular,o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN titulares ON titulares.codigo=o.codigo where o.codigo = ? and rx.codigo = ? ";
+          }
+
+        }else{
+            $sql = "select titulares.id_titulares,titulares.titular,titulares.dui_titular,o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,aros.marca,aros.modelo,aros.color,aros.material,aros.id_aro,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN titulares ON titulares.codigo=o.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? and rx.codigo = ? ";
+        }
+
+    }else if($id_aro == 0){
+      if(count($data) > 0){
+        $sql = "select am.marca,am.modelo,am.color,am.material,o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN aros_manuales as am ON o.codigo=am.codigo_orden where o.codigo = ? and rx.codigo = ? ";
+      }else{
+        $sql = "select o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.color as colorTratamiento,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo where o.codigo = ? and rx.codigo = ? ";
+      }
+      
+    }else{
+      $sql = "select o.id_orden,o.id_cita,o.genero,o.sucursal,o.telefono,o.laboratorio,o.categoria,o.codigo,o.paciente,o.fecha,o.pupilar_od,o.pupilar_oi,o.lente_od,o.patologias,o.lente_oi,aros.marca,aros.modelo,o.id_usuario,o.observaciones,o.dui,o.estado,o.tipo_lente,rx.od_esferas,aros.id_aro,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,aros.color,o.color as colorTratamiento,aros.material,o.dui,o.edad,o.usuario_lente,o.ocupacion,o.avsc,o.avfinal,o.avsc_oi,o.avfinal_oi,o.depto,o.municipio,o.institucion from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo INNER JOIN aros ON o.id_aro = aros.id_aro where o.codigo = ? and rx.codigo = ? ";
+    }
+    
+    $sql=$conectar->prepare($sql);
+    $sql->bindValue(1,$codigo);
+    $sql->bindValue(2,$codigo);
+    $sql->execute();
+    return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
 }

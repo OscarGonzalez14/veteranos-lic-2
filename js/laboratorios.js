@@ -1083,6 +1083,7 @@ $(document).ready(function() {
             new_despachos_lab = [...new_despachos_lab,...data_pac]
           }
           $("#totalOrdenLab").html(new_despachos_lab.length)
+          estado_btn_enviar_lab(new_despachos_lab);
         }else{
           new_despachos_lab = []
           $("#totalOrdenLab").html('')
@@ -1100,6 +1101,7 @@ function selectedUnico(id_det){
     new_despachos_lab = new_despachos_lab.filter((despacho)=> despacho.dui != dui_pac)
   }
   document.getElementById('totalOrdenLab').textContent = new_despachos_lab.length
+  estado_btn_enviar_lab(new_despachos_lab);
 }
 
 function buscar_dui_table(id){
@@ -1115,6 +1117,7 @@ function buscar_dui_table(id){
       const data_pac = old_despachos_lab.filter(despacho=> despacho.dui == dui_pac_scan)
       new_despachos_lab = [...new_despachos_lab,...data_pac]
       $("#totalOrdenLab").html(new_despachos_lab.length)
+      estado_btn_enviar_lab();
     }
   }
 }
@@ -1145,6 +1148,9 @@ function ingreso_lab(){
     dataType: "json",
     success:function(data){
       if(data == "exito"){
+
+        //estado_btn_enviar_lab(new_despachos_lab)
+        
         Swal.fire({
           position: 'top-center',
           icon: 'success',
@@ -1157,12 +1163,11 @@ function ingreso_lab(){
         $("#laboratorio_ingreso").val('')
         $("#ingreso_lab_ordenes").DataTable().ajax.reload()
         //actualizamos la tabla
-        old_despachos_lab = old_despachos_lab.filter((despacho)=>{
-          return new_despachos_lab.filter((newDespacho)=> newDespacho.dui != despacho.dui)
-        })
+        //element a eliminar 
+        const ids_delete = new_despachos_lab.map((element) => element.id_det);
 
-        console.log()
-
+        old_despachos_lab = old_despachos_lab.filter((despacho,index)=> !ids_delete.includes(despacho.id_det))
+        
         let filas = '';
             for(var i=0; i<old_despachos_lab.length; i++){
               filas = filas + "<tr id='fila"+i+"'>"+
@@ -1172,17 +1177,27 @@ function ingreso_lab(){
               "</tr>";
             }
           $("#result_despacho").html(filas);
+          new_despachos_lab = []
+          estado_btn_enviar_lab(new_despachos_lab)
+          $("#totalOrdenLab").html(new_despachos_lab.length)
       }
-      console.log(data)
     } 
   });
 }
 
-function listar_ingreso_lab(){
+//activamos el boton si array > 0
+document.getElementById('showModalEnviarLab').disabled = true
+function estado_btn_enviar_lab(new_despachos_lab){
+  if(new_despachos_lab.length > 0){
+    document.getElementById('showModalEnviarLab').disabled = false
+  }else{
+    document.getElementById('showModalEnviarLab').disabled = true
+  }
+}
 
+function listar_ingreso_lab(){
   let permiso = "";
   let sucursal = "-";
-
   $('#ingreso_lab_ordenes').DataTable({
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -1208,54 +1223,178 @@ function listar_ingreso_lab(){
     "order": [[0, "desc"]],//Ordenar (columna,orden)
   
     "language": {
-  
       "sProcessing": "Procesando...",
-  
       "sLengthMenu": "Mostrar _MENU_ registros",
-  
       "sZeroRecords": "No se encontraron resultados",
-  
       "sEmptyTable": "Ningún dato disponible en esta tabla",
-  
       "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-  
       "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-  
       "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-  
       "sInfoPostFix": "",
-  
       "sSearch": "Buscar:",
-  
       "sUrl": "",
-  
       "sInfoThousands": ",",
-  
       "sLoadingRecords": "Cargando...",
-  
       "oPaginate": {
-  
         "sFirst": "Primero",
-  
         "sLast": "Último",
-  
         "sNext": "Siguiente",
-  
         "sPrevious": "Anterior"
-  
       },
-  
       "oAria": {
-  
         "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-  
         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-  
       }
-  
     }, //cerrando language
-  
     //"scrollX": true
+  });
+}
+
+function verOrdenLaboratorio(dui){
+  $("#nueva_orden_lab").modal('show');
+  $.ajax({
+    url: "../ajax/laboratorios.php?op=get_data_orden",
+    method: "POST",
+    cache: false,
+    data: { dui:dui },
+    dataType: "json",
+    success: function (data) {
+      console.log(data)
+      //$("#fecha_creacion").val(data.fecha);
+      $("#odesferasf").val(data.od_esferas);
+      $("#odcilindrosf").val(data.od_cilindros);
+      $("#odejesf").val(data.od_eje);
+      $("#oddicionf").val(data.od_adicion);
+      $("#oiesferasf").val(data.oi_esferas);
+      $("#oicilindrosf").val(data.oi_cilindros);
+      $("#oiejesf").val(data.oi_eje);
+      $("#oiadicionf").val(data.oi_adicion);
+      $("#od_pupilar").val(data.pupilar_od);
+      $("#oipupilar").val(data.pupilar_oi);
+      $("#odlente").val(data.lente_od);
+      $("#oilente").val(data.lente_oi);
+      $("#marca_aro_orden").val(data.marca);
+      $("#modelo_aro_orden").val(data.modelo)
+      $("#horizontal_aro_orden").val(data.horizontal_aro);
+      $("#material_aro_orden").val(data.material);
+      $("#observaciones_orden").val(data.puente_aro);
+      $("#observaciones_orden").val(data.observaciones);
+      $("#color_aro_orden").val(data.color);
+      $("#categoria_lente").val(data.categoria);
+      $("#destino_orden_lente").val(data.laboratorio);
+      
+      $("#usuario_pac").val(data.usuario_lente);
+      $("#avsc").val(data.avsc);
+      $("#avfinal").val(data.avfinal);
+      $("#avsc_oi").val(data.avsc_oi);
+      $("#avfinal_oi").val(data.avfinal_oi);
+      
+      $("#patologias-ord").val(data.patologias)
+
+      $("#codigo_correlativo").val(data.codigo)
+      $("#id_cita_ord").val(data.id_cita)
+      $("#id_aro").val(data.id_aro)
+      material_aro_orden
+      $("#laboratorio").val(data.laboratorio)
+
+      if(data.colorTratamiento == "Blanco"){
+        document.getElementById("blanco").checked = true;
+      }
+      if(data.colorTratamiento == "Photocromatico"){
+        document.getElementById("photo").checked = true;
+      }
+      $("#customSwitch1").prop('checked',true) // default en true
+      let valueSwitch = $("input[name='customSwitch1']:checked").val();
+
+      //Validation por cita
+      if(data.id_cita != 0 || data.id_cita != ""){
+        $("#customSwitch1").prop("checked",false);
+        document.getElementById('show_form_manual').style.display = "none"
+        document.getElementById('tables_cita').style.display = "block"
+        $("#paciente_t").html(data.paciente);
+        $("#dui_pac_t").html(data.dui);
+        $("#edad_pac_t").html(data.edad);
+        $("#correlativo_op").html("ORDEN:" + data.codigo);
+        $("#telef_pac_t").html(data.telefono);
+        $("#genero_pac_t").html(data.genero);
+        $("#ocupacion_pac_t").html(data.ocupacion);
+        $("#departamento_pac_t").html(data.depto);
+        $("#munic_pac_data_t").html(data.municipio);
+        $("#instit_t").html(data.institucion);
+
+        $("#titular").val('');
+        $("#dui_titular").val('')
+        $("#titular_id").val('')
+        
+      }else{
+        $("#customSwitch1").prop("checked",false);
+        document.getElementById('tables_cita').style.display = "block"
+        document.getElementById('id_cita_ord').value = 0
+        document.getElementById('show_form_manual').style.display = "block"
+
+        $("#paciente_t").html('');
+        $("#dui_pac_t").html('');
+        $("#edad_pac_t").html('');
+        $("#correlativo_op").html("ORDEN:" + data.codigo);
+        $("#telef_pac_t").html('');
+        $("#genero_pac_t").html('');
+        $("#ocupacion_pac_t").html('');
+        $("#departamento_pac_t").html('');
+        $("#munic_pac_data_t").html('');
+        $("#instit_t").html('');
+
+      }
+      
+      if(valueSwitch != null){
+       //Validacion si es por ingreso manual
+        if(valueSwitch == "on"){
+          paciente = $("#paciente").val(data.paciente)
+          dui = $("#dui_pac").val(data.dui)
+          edad = $("#edad_pac").val(data.edad)
+          telefono = $("#telef_pac").val(data.telefono)
+          genero = $("#genero_pac").val(data.genero)
+          ocupacion = $("#ocupacion_pac").val(data.ocupacion)
+          depto = $("#depto_pac").html(data.depto)
+          municipio = $("#muni_pac_label").html(data.municipio)
+          instit = $("#instit").val(data.institucion)
+          $("#sucursal_optica").val(data.sucursal);
+          //new
+          $("#titular").val(data.titular);
+          $("#dui_titular").val(data.dui_titular)
+          $("#titular_id").val(data.id_titulares)
+        } 
+      }
+      if(data.institucion == "CONYUGE"){
+        document.getElementById('titular_form').style.display = "block"
+        $("#paciente_t").html(data.paciente);
+        $("#dui_pac_t").html(data.dui);
+        $("#edad_pac_t").html(data.edad);
+        $("#correlativo_op").html("ORDEN:" + data.codigo);
+        $("#telef_pac_t").html(data.telefono);
+        $("#genero_pac_t").html(data.genero);
+        $("#ocupacion_pac_t").html(data.ocupacion);
+        $("#departamento_pac_t").html(data.depto);
+        $("#munic_pac_data_t").html(data.municipio);
+        $("#instit_t").html(data.institucion);
+      }else{
+        document.getElementById('titular_form').style.display = "none"
+      }
+      
+
+      let tipo_lente = data.tipo_lente;
+      const acentos = { 'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U' };
+      let lente = tipo_lente.split('').map(letra => acentos[letra] || letra).join('').toString();
+      let cadena = lente.replace(/ /g, "");
+
+      document.getElementById(cadena).checked = true;
+
+      let imagen = data.img;
+      //console.log(imagen);
+      document.getElementById("imagen_aro").src = "images/" + imagen;
+
+
+
+    }
   });
 }
 

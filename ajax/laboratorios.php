@@ -385,7 +385,7 @@ $datos = $ordenes->get_rango_fechas_ordenes($_POST["inicio"],$_POST["hasta"],$_P
         $sub_array[] = $row["laboratorio"];
         $sub_array[] = $row["dui"];
         $sub_array[] = $row["paciente"];
-        $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="verIngresoLab(\'' . $row["id_acc_lab"] . '\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';
+        $sub_array[] = '<button type="button" class="btn btn-sm bg-light" onClick="verOrdenLaboratorio(\'' . $row["dui"] . '\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';
         $data[] = $sub_array;
       }
 
@@ -396,5 +396,9 @@ $datos = $ordenes->get_rango_fechas_ordenes($_POST["inicio"],$_POST["hasta"],$_P
         "aaData" => $data
       );
       echo json_encode($results);
+    break;
+    case 'get_data_orden':
+      $datos = $ordenes->get_data_orden($_POST["dui"]);
+      echo json_encode($datos[0]);
     break;
 }

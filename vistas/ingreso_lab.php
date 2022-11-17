@@ -51,7 +51,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
         <div class="col-sm-2 float-right" style="margin-bottom: 5px !important">         
         <button class="btn btn-app btn-success" id="modal_ingreso_lab" style="color: black;border: solid #5bc0de 1px;" onclick="ingreso_laboratorio()">
           <span class="badge bg-success"></span>
-          <i class="fas fa-file"></i> INGRESO A LABORATORIO
+          <i class="fa fa-truck" aria-hidden="true" style="color: #5bc0de;"></i> INGRESO
         </button>
          </div>
       </div>
