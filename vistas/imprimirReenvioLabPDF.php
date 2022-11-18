@@ -78,6 +78,9 @@ $dateTime= date("d-m-Y H:i:s");
   <tr>
     <td style="text-align:right; font-size:12px;color: #008C45"><strong>ORDEN</strong></td>
   </tr>
+  <tr>
+    <td style="color:red;text-align:right; font-size:12px;color: #CD212A"><strong >No.&nbsp;<span><?php echo $data[0]->n_despacho; ?></strong></td>
+  </tr>
 </table><!--fin segunda tabla-->
 </td> <!--fin segunda columna-->
 </tr>

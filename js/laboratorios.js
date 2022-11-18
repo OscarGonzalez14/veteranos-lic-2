@@ -991,7 +991,6 @@ function ingreso_laboratorio() {
   $("#totalOrdenLab").html("")
   old_despachos_lab = []
   new_despachos_lab = []
-  $("#totalSobrante").html(old_despachos_lab.length)
   $("#totalOrdenLab").html(new_despachos_lab.length)
 
   document.getElementById('n_despacho').value = ""
@@ -1052,7 +1051,8 @@ $(document).ready(function () {
         new_despachos_lab = [...new_despachos_lab, ...data_pac]
       }
       $("#totalOrdenLab").html(new_despachos_lab.length)
-      estado_btn_enviar_lab(new_despachos_lab);
+      estado_btn_ingreso_lab(new_despachos_lab);
+      //console.log(new_despachos_lab)
     } else {
       new_despachos_lab = []
       $("#totalOrdenLab").html('')
@@ -1069,9 +1069,9 @@ function selectedUnico(id_det) {
   } else {
     new_despachos_lab = new_despachos_lab.filter((despacho) => despacho.dui != dui_pac)
   }
-  console.log(new_despachos_lab)
+  //console.log(new_despachos_lab)
   document.getElementById('totalOrdenLab').textContent = new_despachos_lab.length
-  estado_btn_enviar_lab(new_despachos_lab);
+  estado_btn_ingreso_lab(new_despachos_lab);
 }
 
 function buscar_dui_table(id) {
@@ -1087,7 +1087,7 @@ function buscar_dui_table(id) {
       const data_pac = old_despachos_lab.filter(despacho => despacho.dui == dui_pac_scan)
       new_despachos_lab = [...new_despachos_lab, ...data_pac]
       $("#totalOrdenLab").html(new_despachos_lab.length)
-      estado_btn_enviar_lab();
+      estado_btn_ingreso_lab(new_despachos_lab);
     }
   }
 }
@@ -1109,6 +1109,9 @@ function ingreso_lab() {
       timer: 2500
     });
     return false;
+  }
+  if(tipo_acciones == "REENVIO A LAB"){
+    imprimirEnviosLabPDF()
   }
   $.ajax({
     url: "../ajax/laboratorios.php?op=set_ingreso_lab",
@@ -1145,9 +1148,8 @@ function ingreso_lab() {
         }
         $("#result_despacho").html(filas);
         new_despachos_lab = []
-        estado_btn_enviar_lab(new_despachos_lab)
+        estado_btn_ingreso_lab(new_despachos_lab)
         $("#totalOrdenLab").html(new_despachos_lab.length)
-        $("#totalSobrante").html(old_despachos_lab.length)
       }
     }
   });
@@ -1155,7 +1157,7 @@ function ingreso_lab() {
 
 //activamos el boton si array > 0
 document.getElementById('showModalEnviarLab').disabled = true
-function estado_btn_enviar_lab(new_despachos_lab) {
+function estado_btn_ingreso_lab(new_despachos_lab) {
   if (new_despachos_lab.length > 0) {
     document.getElementById('showModalEnviarLab').disabled = false
   } else {
@@ -1374,10 +1376,7 @@ $(document).ready(function(){
   })
 });
 
-//Imprimir
-document.getElementById('imprimirOrdenLab').addEventListener('click', ()=>{
-  imprimirEnviosLabPDF()
-});
+//Imprimi
 function imprimirEnviosLabPDF() {
 
   var form = document.createElement("form");
@@ -1388,7 +1387,7 @@ function imprimirEnviosLabPDF() {
   var input = document.createElement("input");
   input.type = "hidden";
   input.name = "data";
-  input.value = JSON.stringify(old_despachos_lab);
+  input.value = JSON.stringify(new_despachos_lab);
   form.appendChild(input);
   document.body.appendChild(form);//"width=600,height=500"
 

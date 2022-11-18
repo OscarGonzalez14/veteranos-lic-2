@@ -439,24 +439,24 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     $fecha_creacion = date("Y-m-d");
     parent::set_names();
     //para obtener el número
-    $sql = "SELECT n_despacho FROM `acciones_lab` ORDER BY id_acc_lab DESC LIMIT 1;";
+    $sql = "SELECT cod_ingreso FROM `acciones_lab` ORDER BY id_acc_lab DESC LIMIT 1;";
     $sql=$conectar->prepare($sql);
     $sql->execute();
     $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     if(count($resultado) > 0){
       //ENV-1
-      $n_despacho = $resultado[0]['n_despacho'];
-      $n_despacho = explode("-",$n_despacho);
-      $numero_unico = $n_despacho[1];
+      $cod_ingreso = $resultado[0]['cod_ingreso'];
+      $cod_ingreso = explode("-",$cod_ingreso);
+      $numero_unico = $cod_ingreso[1];
       $numero_unico += 1;
-      $n_despacho = "ENV-".$numero_unico;
+      $cod_ingreso = "INGR-".$numero_unico;
     }else{
-      $n_despacho = "ENV-1";
+      $cod_ingreso = "INGR-1";
     }
 
     $sql = "insert into acciones_lab values (null,?,?,?,?,?,?,?,?,?)";
     $sql = $conectar->prepare($sql);
-    $sql->bindValue(1,$n_despacho);
+    $sql->bindValue(1,$cod_ingreso);
     $sql->bindValue(2,$dui);
     $sql->bindValue(3,$paciente);
     $sql->bindValue(4,$acciones);
@@ -492,9 +492,10 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     $sql7->bindValue(6, $sucursal);
     $sql7->execute();
     //Update det_despacho_lab
-    $sql = "update det_despacho_lab set estado=1 where dui=?";
+    $sql = "update det_despacho_lab set estado=1 where dui=? and n_despacho=?";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1,$dui);
+    $sql->bindValue(2,$n_despacho);
     $sql->execute();
   }
 

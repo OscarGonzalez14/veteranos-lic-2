@@ -115,8 +115,6 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
 
           <button type="button" class="btn btn-default float-right btn-sm " id='showModalEnviarLab' style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Ingresar <span id="totalOrdenLab">0</span></button>
 
-          <button type="button" class="btn btn-default float-right btn-sm " id='imprimirOrdenLab' style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Imprimir <span id="totalSobrante">0</span></button>
-
           <table class="table-hover table-bordered" style="font-family: Helvetica, Arial, sans-serif;max-width: 100%;text-align: left;margin-top: 5px !important" width="100%">
 
           <thead style="font-family: Helvetica, Arial, sans-serif;width: 100%;text-align: center;font-size: 12px;" class="bg-dark">
