@@ -113,7 +113,7 @@
           <?php } ?>
           <?php if(in_array("ver_laboratorio",$_SESSION['names_permisos']) OR $cat_usuario=="Admin"):?>
           <li class="nav-item">
-            <a href='laboratorios.php' class="nav-link" style="color: white">
+            <a href='ingreso_lab.php' class="nav-link" style="color: white">
               <i class="nav-icon fas fa-file"></i>
               <p>Laboratorio</p>
             </a>

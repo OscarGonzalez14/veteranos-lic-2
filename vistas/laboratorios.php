@@ -53,35 +53,23 @@ require_once('../modales/aros_en_orden.php');
         <div class="col-sm-2 form-group" style="text-align: right;display: flex;align-items: right" name="fecha_fin">
           <input type="date" class="form-control clear_orden_i" id="hasta_orders_lab_pend" placeholder="desde">
         </div>
-
-        <div class="col-sm-2" style="text-align: right;display: flex;align-items: right">         
-          <select name="" id="tipo_lente_ing" class="form-control" style="margin-top: 1px">
-            <option value="0">Selec. lente</option>
-            <option value="Visión Sencilla">Visión Sencilla</option>
-            <option value="Flaptop">Flaptop</option>
-            <option value="Progresive">Progresive</option>
-          </select>
-        </div>
-
-         <div class="col-sm-2" style="text-align: right;display: flex;align-items: right">          
-          <select name="" id="categoria_lente_ing" class="form-control" style="margin-top: 1px">
-            <option value="0">Selec. base</option>
-            <option value="Proceso">Proceso</option>
-            <option value="Terminado">Terminado</option>
-          </select>
-        </div>
         
         <div class="col-sm-2" style="text-align: right;display: flex;align-items: right">          
-          <select name="0" id="estado_proceso" class="form-control" style="margin-top: 1px">
-            <option value="0">Selec. estado</option>
-            <option value="2">Pendiente</option>
+          <select id="estado_proceso" class="form-control" style="margin-top: 1px">
+            <option value="" selected disabled>Selec. estado</option>
+            <option value="0">Digitadas</option>
+            <option value="1">Enviada a Laboratorio</option>
+            <option value="2">Recibida Laboratorio</option>
             <option value="3">En proceso</option>
-            <option value="4">Finalizado</option>
+            <option value="4">Finalizada</option>
+            <option value="5">Despachada Laboratorio</option>
+            <option value="6">Recibida en optica</option>
+            <option value="7">Entregada</option>
           </select>
         </div>
         
         <div class="col-sm-2 form-group" style="text-align: right;display: flex;align-items: right">
-          <button class="btn btn-success" onClick="listar_ordenes_pend_lab()"><i class="fas fa-search" style="cursor:pointer;margin-top: 4px" ></i> Filtrar</button>
+          <button class="btn btn-success" onClick="listar_ordenes_pend_lab('si')"><i class="fas fa-search" style="cursor:pointer;margin-top: 4px" ></i> Filtrar</button>
         </div>
         <div class="col-sm-2 form-group" >
             <i class="fas fa-download barcode_actions ingresa_ordenes_id" data-toggle="modal" data-target="#barcode_ingresos_lab" onClick='input_focus_clearb()'></i>
@@ -90,23 +78,20 @@ require_once('../modales/aros_en_orden.php');
         </div>
          </div>
         </div> 
-        <table width="100%" class="table-hover table-bordered" id="ordenes_pendientes_lab"  data-order='[[ 0, "desc" ]]'> 
+       <table width="100%" class="table-hover table-bordered" id="ingreso_lab_ordenes"  data-order='[[ 0, "desc" ]]'> 
               
-         <thead class="style_th bg-dark" style="color: white">
-           <th>ID</th>
-           <th><label><input type="checkbox" id="select-all-env" class="form-check-label" onClick="selectOrdenesImprimir()"> Selecc.</label></th>
-           <th>Mod.Aro</th>
-           <th>Codigo</th>
-           <th>Sucursal</th>
-           <th>Fecha</th>
-           <th>Paciente</th>
-           <th>Tipo lente</th>
-           <th>Categoria</th>
-           <th>Detalles</th>
-           <th>Aro</th>
-         </thead>
-         <tbody class="style_th"></tbody>
-       </table>
+        <thead class="style_th bg-dark" style="color: white">
+          <th>ID</th>
+          <th>Número de orden</th>
+          <th>Fecha</th>
+          <th>Detalle de orden</th>
+          <th>Laboratorio</th>
+          <th>DUI</th>
+          <th>Paciente</th>
+          <th>Editar</th>
+        </thead>
+        <tbody class="style_th"></tbody>
+      </table>
 
     </section>
     <!-- /.content -->
@@ -301,7 +286,7 @@ require_once("links_js.php");
   element.addEventListener("click", recibirOrdenesbyChk);
 
 
-function recibirOrdenesbyChk() {
+/* function recibirOrdenesbyChk() {
   let usuario = $("#usuario").val();
   $.ajax({
   url:"../ajax/laboratorios.php?op=cambiar_estado_aro_print",
@@ -326,24 +311,11 @@ function recibirOrdenesbyChk() {
   });
 
 
-}
+} */
 </script>
 <script type="text/javascript" src="../js/ordenes.js"></script>
 <script type="text/javascript" src="../js/laboratorios.js"></script>
 
-<script>
-  var dui = new Cleave('#dui_pac', {
-  delimiter: '-',
-  blocks: [8,1],
-  uppercase : true
-});
-
-var telefono = new Cleave('#telef_pac', {
-  delimiter: '-',
-  blocks: [4,4],
-  uppercase : true
-});
-</script>
 </body>
 </html>
  <?php } else{

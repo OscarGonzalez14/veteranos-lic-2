@@ -43,7 +43,7 @@ $categoria_usuario = $_SESSION["categoria"];
     <section class="content">
       <div class="container-fluid">
       <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_user"];?>"/>
-      <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["usuario"];?>"/>
+      <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["user"];?>"/>
       <input type="hidden" name="categoria" id="get_categoria" value="<?php echo $_SESSION["categoria"];?>"/>
       <input type="hidden" name="sucursal" id="sucursal" value="<?php echo $_SESSION["sucursal"];?>"/>
       <div style="border-top: 0px">      
@@ -62,6 +62,7 @@ $categoria_usuario = $_SESSION["categoria"];
            <th>DUI</th>
            <th>Telefono</th>
            <th>Tipo lente</th>
+           <th>Sucursal</th>
            <th>Ver y Editar</th>
            <th>Eliminar</th>
          </thead>

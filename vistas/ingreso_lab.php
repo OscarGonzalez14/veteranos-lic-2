@@ -46,26 +46,49 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
       </div>
 
       <?php include 'ordenes/header_status_lab.php'; ?>
-      <div class="row">
-        <div class="col-sm-10"><h5 style="text-align: center">INGRESO A LABORATORIO</h5></div>
-        <div class="col-sm-2 float-right" style="margin-bottom: 5px !important">         
-        <button class="btn btn-app btn-success" id="modal_ingreso_lab" style="color: black;border: solid #5bc0de 1px;" onclick="ingreso_laboratorio()">
-          <span class="badge bg-success"></span>
-          <i class="fa fa-truck" aria-hidden="true" style="color: #5bc0de;"></i> INGRESO
-        </button>
+      <div class="col-sm-10"><h5 style="text-align: center">INGRESO A LABORATORIOS</h5></div>
+      <div class="form-row">
+        <div class="col-sm-2" style="text-align: right;display: flex;align-items: right">
+          <input type="date" class="form-control clear_orden_i" id="desde_orders_lab_pend" placeholder="desde" name="inicio">
+        </div>
+
+        <div class="col-sm-2 form-group" style="text-align: right;display: flex;align-items: right" name="fecha_fin">
+          <input type="date" class="form-control clear_orden_i" id="hasta_orders_lab_pend" placeholder="desde">
+        </div>
+        
+        <div class="col-sm-2" style="text-align: right;display: flex;align-items: right">          
+          <select id="estado_proceso" class="form-control" style="margin-top: 1px">
+            <option value="" selected disabled>Selec. estado</option>
+            <option value="0">Digitadas</option>
+            <option value="1">Enviada a Laboratorio</option>
+            <option value="2">Recibida Laboratorio</option>
+            <option value="3">En proceso</option>
+            <option value="4">Finalizada</option>
+            <option value="5">Despachada Laboratorio</option>
+            <option value="6">Recibida en optica</option>
+            <option value="7">Entregada</option>
+          </select>
+        </div>
+        <div class="ml-3">         
+          <button class="btn btn-app btn-success btn-sm" id="modal_ingreso_lab" style="color: black;border: solid #5bc0de 1px; width:32px;" onclick="ingreso_laboratorio()">
+            <span class="badge bg-success"></span>
+            <i class="fas fa-paste" aria-hidden="true" style="color: #5bc0de;"></i> INGRESO
+          </button>
          </div>
       </div>
-        <table width="100%" class="table-hover table-bordered" id="ingreso_lab_ordenes"  data-order='[[ 0, "desc" ]]'> 
-              
+      
+      <table width="100%" class="table-hover table-bordered" id="ordenes_pendientes_lab"  data-order='[[ 0, "desc" ]]'> 
          <thead class="style_th bg-dark" style="color: white">
-           <th>ID</th>
-           <th>Número de orden</th>
-           <th>Detalle de orden</th>
+           <th>Correlativo</th>
+           <th>ID orden</th>
            <th>Fecha</th>
-           <th>Laboratorio</th>
            <th>DUI</th>
            <th>Paciente</th>
-           <th>Editar</th>
+           <th>Tipo lente</th>
+           <th>Institución</th>
+           <th>Estado</th>
+           <th>Sucursal</th>
+           <th>Detalles</th>
          </thead>
          <tbody class="style_th"></tbody>
        </table>
@@ -90,7 +113,9 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
 
           <input type="text" class="form-control" id="dui_despacho" onchange="buscar_dui_table(this.id)" placeholder="Buscar por Escaner">
 
-          <button type="button" class="btn btn-default float-right btn-sm " id='showModalEnviarLab' style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Enviar <span id="totalOrdenLab">0</span></button>
+          <button type="button" class="btn btn-default float-right btn-sm " id='showModalEnviarLab' style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Ingresar <span id="totalOrdenLab">0</span></button>
+
+          <button type="button" class="btn btn-default float-right btn-sm " id='imprimirOrdenLab' style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Imprimir <span id="totalSobrante">0</span></button>
 
           <table class="table-hover table-bordered" style="font-family: Helvetica, Arial, sans-serif;max-width: 100%;text-align: left;margin-top: 5px !important" width="100%">
 

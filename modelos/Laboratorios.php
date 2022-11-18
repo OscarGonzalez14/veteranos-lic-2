@@ -4,25 +4,21 @@ require_once("../config/conexion.php");
 
   class Laboratorios extends Conectar{
    
-    public function get_ordenes_filter_date($inicio,$fin,$tipo_lente,$categoria){
+    public function get_ordenes_filter_date($inicio,$fin,$estado_proceso){
     $conectar= parent::conexion();
-    $sql= "select*from orden_lab where (fecha between ? and ?) and estado_aro < 2 and tipo_lente = ? and categoria = ? order by id_orden DESC;";
+    $sql= "select*from orden_lab where fecha between ? and ? and estado=? order by id_orden DESC;";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1, $inicio);
     $sql->bindValue(2, $fin);
-    $sql->bindValue(3, $tipo_lente);
-    $sql->bindValue(4, $categoria);
+    $sql->bindValue(3, $estado_proceso);
     $sql->execute();
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
   }
   
-  public function get_rango_fechas_ordenes($inicio,$hasta,$estado_aro){
+  public function get_rango_fechas_ordenes(){
   $conectar = parent::conexion();
-  $sql= "select * from orden_lab where (fecha between ? and ?) and estado_aro=?";
+  $sql= "select * from orden_lab";
   $sql=$conectar->prepare($sql);
-  $sql->bindValue(1, $inicio);
-  $sql->bindValue(2, $hasta);
-  $sql->bindValue(3, $estado_aro);
   $sql->execute();
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -440,6 +436,7 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     $id_usuario = $_SESSION["id_user"];
     $user = $_SESSION['user'];
     $hoy = date("d-m-Y H:i:s");
+    $fecha_creacion = date("Y-m-d");
     parent::set_names();
     //para obtener el número
     $sql = "SELECT n_despacho FROM `acciones_lab` ORDER BY id_acc_lab DESC LIMIT 1;";
@@ -457,7 +454,7 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
       $n_despacho = "ENV-1";
     }
 
-    $sql = "insert into acciones_lab values (null,?,?,?,?,?,?,?,null)";
+    $sql = "insert into acciones_lab values (null,?,?,?,?,?,?,?,?,?)";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1,$n_despacho);
     $sql->bindValue(2,$dui);
@@ -466,6 +463,8 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     $sql->bindValue(5,$tipo_accion);
     $sql->bindValue(6,$laboratorio);
     $sql->bindValue(7,$id_usuario);
+    $sql->bindValue(8,$hoy);
+    $sql->bindValue(9,$fecha_creacion);
     $sql->execute();
     //Buscar orden para registrarlo en acciones orden
     $sql = "select codigo,sucursal from orden_lab where dui=?";

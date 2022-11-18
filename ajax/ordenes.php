@@ -139,6 +139,7 @@ switch ($_GET["op"]) {
       $sub_array[] = $row["dui"];
       $sub_array[] = $row["telefono"];
       $sub_array[] = $row["tipo_lente"];
+      $sub_array[] = $row["sucursal"];
       $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="verEditar(\'' . $row["codigo"] . '\',\'' . $row["paciente"] . '\',\''.$row["id_aro"].'\',\''.$row["institucion"].'\',\''.$row["id_cita"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';
       $sub_array[] = '<button type="button"  class="btn btn-xs bg-light" onClick="eliminarBeneficiario(\'' . $row["codigo"] . '\')"><i class="fa fa-trash" aria-hidden="true" style="color:red"></i></button>';
 

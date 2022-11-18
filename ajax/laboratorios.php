@@ -10,42 +10,56 @@ switch ($_GET["op"]){
 
 case 'get_ordenes_pendientes_lab':
   
-  if($_POST["inicio"] != "0" and $_POST["hasta"] != "0" and $_POST["tipo_lente"] != "0" and $_POST["categoria_lente"] != "0" and $_POST["estado_proceso"] == "0"){
-$datos = $ordenes->get_ordenes_filter_date($_POST["inicio"],$_POST["hasta"],$_POST["tipo_lente"],$_POST["categoria_lente"]); 
-}elseif($_POST["inicio"] != "0" and $_POST["hasta"] != "0" and $_POST["tipo_lente"] == "0" and $_POST["categoria_lente"] == "0" and $_POST["estado_proceso"] != "0") {
-$datos = $ordenes->get_rango_fechas_ordenes($_POST["inicio"],$_POST["hasta"],$_POST["estado_proceso"]);
-}
+  if($_POST['inicio'] != "" AND $_POST['hasta'] != "" AND $_POST['estado_proceso'] != ""){
+  $datos = $ordenes->get_ordenes_filter_date($_POST["inicio"],$_POST["hasta"],$_POST["estado_proceso"]); 
+  }else{
+    $datos = $ordenes->get_rango_fechas_ordenes();
+  }
 
   $data = Array();
-  $i=0;
-  $estado = '';
-  $badge = "";
-
+  $i=1;
   foreach ($datos as $row) { 
     $sub_array = array();
-    if ($row["estado_aro"]=="2"){
-      $estado ='Pendiente';
-      $badge = "danger";      
-    }elseif($row["estado_aro"]=="3"){
-      $estado ='En proceso';
-      $badge="warning";
-    }elseif($row["estado_aro"]=="4"){
-      $estado ='Finalizado';
-      $badge="success";
+
+    switch ($row['estado']){
+      case 0:
+        $estado = "Digitada";
+      break;
+      case 1:
+        $estado = "Enviada Lab";
+      break;
+      case 2:
+        $estado = "Recibida Lab";
+      break;
+      case 3:
+        $estado = "En proceso";
+      break;
+      case 4:
+        $estado = "Finalizada";
+      break;
+      case 5:
+        $estado = "Despachada en Lab";
+      break;
+      case 6:
+        $estado = "Recibida en optica";
+      break;
+      case 7:
+        $estado = "Entregada";
+      break;
     }
 
+
   $sub_array = array();
-  $sub_array[] = $row["id_orden"];
-  $sub_array[] = '<div data-toggle="tooltip" title="Fecha envío: '.$row["fecha"].'" style="text-align:center"><input type="checkbox" class="form-check-input ordenes_enviar" value="'.$row["id_orden"].'" name="'.$row["paciente"].'" id="'.$row["codigo"].'" style="text-align: center"><span style="color:white">.</span></div>';
-  $sub_array[] = $row["modelo_aro"];
-  $sub_array[] = $row["codigo"];  
+  $sub_array[] = $i;
+  $sub_array[] = $row["id_orden"];  
   $sub_array[] = date("d-m-Y",strtotime($row["fecha"])); 
+  $sub_array[] = $row["dui"];
   $sub_array[] = strtoupper($row["paciente"]);
   $sub_array[] = $row["tipo_lente"];
-  $sub_array[] = $row["categoria"];
-  $sub_array[] = '<span class="right badge badge-'.$badge.'" style="font-size:12px">'.$estado.'</span>';
-  $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="verEditar(\''.$row["codigo"].'\',\''.$row["paciente"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';  
-  $sub_array[] = '<i class="fas fa-image fa-2x" aria-hidden="true" style="color:blue" onClick="verImg(\''.$row["img"].'\',\''.$row["codigo"].'\',\''.$row["paciente"].'\')">';                                            
+  $sub_array[] = $row["institucion"];
+  $sub_array[] = $estado;
+  $sub_array[] = $row["sucursal"];
+  $sub_array[] = '<button type="button" class="btn btn-sm bg-light" onClick="verOrdenLaboratorio(\'' . $row["dui"] . '\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';
   $data[] = $sub_array;
   $i++;
   }
@@ -380,8 +394,8 @@ $datos = $ordenes->get_rango_fechas_ordenes($_POST["inicio"],$_POST["hasta"],$_P
         $sub_array = array();
         $sub_array[] = $row["id_acc_lab"];
         $sub_array[] = $row["n_despacho"];
-        $sub_array[] = $row["tipo_accion"];
         $sub_array[] = $row["fecha_creacion"];
+        $sub_array[] = $row["tipo_accion"];
         $sub_array[] = $row["laboratorio"];
         $sub_array[] = $row["dui"];
         $sub_array[] = $row["paciente"];
