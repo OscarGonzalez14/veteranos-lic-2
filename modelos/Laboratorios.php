@@ -6,6 +6,7 @@ require_once("../config/conexion.php");
    
     public function get_ordenes_filter_date($inicio,$fin,$estado_proceso){
     $conectar= parent::conexion();
+    
     $sql= "select*from orden_lab where fecha between ? and ? and estado=? order by id_orden DESC;";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1, $inicio);

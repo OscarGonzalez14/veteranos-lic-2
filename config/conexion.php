@@ -17,7 +17,17 @@ class Conectar {
  	}
 	} //cierre de llave de la function conexion()
 
-
+	protected function conexion_lenti(){
+		try {
+		   $conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=lenti","root","");
+		   //$conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_lenti","u579024306_rlenti","And20vas08");
+		   return $conectarLenti;
+	   }catch (Exception $e) {
+				print "¡Error!: " . $e->getMessage() . "<br/>";
+			   die();
+		}
+	} 
+	
     public function set_names(){
 		return $this->dbh->query("SET NAMES 'utf8'");
     }
@@ -36,26 +46,6 @@ class Conectar {
 }//cierre de llave conectar
 
 
-class conexionLenti{
-	protected $dbh;
- 	protected function conexion_lenti(){
- 	try {
-	    $conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=lenti","root","");
-		//$conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_lenti","u579024306_rlenti","And20vas08");
-		return $conectarLenti;
-    }catch (Exception $e) {
- 			print "¡Error!: " . $e->getMessage() . "<br/>";
-            die();
- 	}
-	} //cierre de llave de la function conexion()
-
-	public function set_names(){
-		return $this->dbh->query("SET NAMES 'utf8'");
-    }
-    	public function ruta(){
-		return "localhost/veteranos/";
-	}
-}
 $sucursales_array = ["Valencia","Metrocentro","Cascadas","Santa Ana","Chalatenango","Ahuachapan","Sonsonate","Ciudad Arce","Opico","Apopa","San Vicente Centro","San Vicente","Gotera","San Miguel","Usulutan"];
 $sucursales = '
 	<option value="0">Seleccionar sucursal...</option>

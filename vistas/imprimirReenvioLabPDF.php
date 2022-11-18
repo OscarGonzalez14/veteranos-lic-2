@@ -69,7 +69,7 @@ $dateTime= date("d-m-Y H:i:s");
 <td width="50%" style="width: 75%;margin:0px">
 <table style="width:100%">
   <tr>
-    <td  style="text-align: center;margin-top: 0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;"><b>ORDEN DE ENVIOS</b></td>
+    <td  style="text-align: center;margin-top: 0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;"><b>ORDEN DE REENVIOS</b></td>
   </tr>
 </table><!--fin segunda tabla-->
 </td>
