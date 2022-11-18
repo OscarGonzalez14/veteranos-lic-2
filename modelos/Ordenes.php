@@ -41,7 +41,7 @@ require_once("../config/conexion.php");
     barcode('../codigos/' . $codigo . '.png', $codigo, 50, 'horizontal', 'code128', true);
   }
   /////////////   REGISTRAR ORDEN ///////////////////////////////
-  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden){
+  public function registrar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden,$usuario_lente){
 
     $conectar = parent::conexion();
     date_default_timezone_set('America/El_Salvador'); 
@@ -49,6 +49,7 @@ require_once("../config/conexion.php");
     $fecha_creacion = date("Y-m-d");
     $estado = 0;
     //Insertar aro si id es vacio
+
     if($id_aro == ""){
       $sql_aro = "insert into aros_manuales values(null,?,?,?,?,?);";
       $sql_aro = $conectar->prepare($sql_aro);
@@ -98,7 +99,7 @@ require_once("../config/conexion.php");
     $sql->bindValue(15, $laboratorio);
     $sql->bindValue(16, $categoria_lente);
     $sql->bindValue(17, $edad);
-    $sql->bindValue(18, $user);
+    $sql->bindValue(18, $usuario_lente);
     $sql->bindValue(19, $ocupacion);
     $sql->bindValue(20, $avsc);
     $sql->bindValue(21, $avfinal);
@@ -153,7 +154,7 @@ require_once("../config/conexion.php");
     
   }
    ////////////////////LISTAR ORDENES///////////////
-   public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$id_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden){
+   public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$id_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden,$usuario_lente){
     $fecha_creacion = date("Y-m-d");
     $hoy = date("d-m-Y H:i:s");
     $conectar = parent::conexion();
@@ -179,6 +180,7 @@ require_once("../config/conexion.php");
       categoria=?,
   
       edad=?,
+      usuario_lente=?,
       ocupacion = ?,
       avsc =?,
       avfinal =?,
@@ -215,25 +217,26 @@ require_once("../config/conexion.php");
     $edit_ord->bindValue(14, $categoria_lente);
   
     $edit_ord->bindValue(15, $edad);
-    $edit_ord->bindValue(16, $ocupacion);
-    $edit_ord->bindValue(17, $avsc);
-    $edit_ord->bindValue(18, $avfinal);
-    $edit_ord->bindValue(19, $avsc_oi);
-    $edit_ord->bindValue(20, $avfinal_oi);
-    $edit_ord->bindValue(21, $telefono);
-    $edit_ord->bindValue(22, $genero);
-    $edit_ord->bindValue(23, $depto);
-    $edit_ord->bindValue(24, $municipio);
-    $edit_ord->bindValue(25, $instit);
+    $edit_ord->bindValue(16, $usuario_lente);
+    $edit_ord->bindValue(17, $ocupacion);
+    $edit_ord->bindValue(18, $avsc);
+    $edit_ord->bindValue(19, $avfinal);
+    $edit_ord->bindValue(20, $avsc_oi);
+    $edit_ord->bindValue(21, $avfinal_oi);
+    $edit_ord->bindValue(22, $telefono);
+    $edit_ord->bindValue(23, $genero);
+    $edit_ord->bindValue(24, $depto);
+    $edit_ord->bindValue(25, $municipio);
+    $edit_ord->bindValue(26, $instit);
   
-    $edit_ord->bindValue(26, $color);
+    $edit_ord->bindValue(27, $color);
     
-    $edit_ord->bindValue(27, $patologias);
+    $edit_ord->bindValue(28, $patologias);
   
-    $edit_ord->bindValue(28, $id_cita);
-    $edit_ord->bindValue(29, $sucursal);
+    $edit_ord->bindValue(29, $id_cita);
+    $edit_ord->bindValue(30, $sucursal);
   
-    $edit_ord->bindValue(30, $correlativo_op);
+    $edit_ord->bindValue(31, $correlativo_op);
   
     $edit_ord->execute();
   

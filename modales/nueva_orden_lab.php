@@ -177,8 +177,9 @@
         </div>
         <div class="row">
           <div class="col-sm-3 bg-light" style="font-size:12px; text-align:center;">PATOLOGIAS</div>
+          <div class="col-sm-2 bg-light" style="font-size:12px; text-align:center;">USUARIO LENTE</div>
           <div class="col-sm-4 bg-primary" style="font-size:12px; text-align:center;">TRATAMIENTOS</div>
-          <div class="col-sm-5 bg-dark" style="font-size:12px; text-align:center;">TIPO LENTE</div>
+          <div class="col-sm-3 bg-dark" style="font-size:12px; text-align:center;">TIPO LENTE</div>
 
           <div class="col-sm-3" style="margin-top:3px;">
 
@@ -191,6 +192,14 @@
               <option value="Glaucoma">Glaucoma</option>
             </select>
 
+          </div>
+
+          <div class="form-group col-sm-2" style="margin-top:3px;">
+            <select name="usuario_lente" class="form-control clear_orden_i oblig" id="usuario_lente">
+              <option value="" selected disabled>Selec. usuario lente</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
           </div>
 
           <div class="col-sm-4" style="margin-top:3px;background:#E3EFF9">
@@ -216,7 +225,7 @@
             </div>
           </div>
 
-          <div class="col-sm-5" style="margin-top:3px;background:#f8f8f8">
+          <div class="col-sm-3" style="margin-top:3px;background:#f8f8f8">
             <div class="row">
               <div class="col-sm-4" class="d-flex justify-content-center" style="display:flex;justify-content: center;margin-top:0px;">
                 <div class="form-check form-check-inline">
@@ -413,14 +422,11 @@
             </div>
           </div>
 
-
-
         </div>
         <!--Fin Div Aros row-->
-
         <div class="form-group col-sm-12">
-          <label for="" class="etiqueta">Observaciones</label>
-          <input type="text" class="form-control clear_orden_i oblig" id="observaciones_orden">
+            <label for="" class="etiqueta">Observaciones</label>
+            <input type="text" class="form-control clear_orden_i oblig" id="observaciones_orden">
         </div>
 
         <p id="created"></p>

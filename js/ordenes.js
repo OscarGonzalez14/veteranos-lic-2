@@ -198,6 +198,7 @@ function guardar_orden(parametro = 'saveEdit') {
   let campos_orden = document.getElementsByClassName('oblig');
   
   let laboratorio = $("#laboratorio").val()
+  let usuario_lente = $("#usuario_lente").val();
   categoria_lente = $("#categoria_lente").val()
   //Si la sucursal es valencia, se deja por default laboratorio y categoria
   if(laboratorio == undefined && categoria_lente == undefined){
@@ -275,12 +276,12 @@ function guardar_orden(parametro = 'saveEdit') {
   $.ajax({
     url: "../ajax/ordenes.php?op=registrar_orden",
     method: "POST",
-    data: { codigo:codigo, paciente: paciente, fecha_creacion: fecha_creacion, od_pupilar: od_pupilar, oipupilar: oipupilar, odlente: odlente, oilente: oilente, id_aro: id_aro, id_usuario: id_usuario, observaciones_orden: observaciones_orden, dui: dui, od_esferas: od_esferas, od_cilindros: od_cilindros, od_eje: od_eje, od_adicion: od_adicion, oi_esferas: oi_esferas, oi_cilindros: oi_cilindros, oi_eje: oi_eje, oi_adicion: oi_adicion, tipo_lente: tipo_lente, validate: validate, categoria_lente: categoria_lente, edad: edad, ocupacion: ocupacion, avsc: avsc, avfinal: avfinal, avsc_oi: avsc_oi, avfinal_oi: avfinal_oi, telefono: telefono, genero: genero, user: user, depto: depto, municipio: municipio, instit: instit, patologias: patologias, color: color, indice: indice, id_cita: id_cita, sucursal: sucursal,laboratorio:laboratorio,titular:titular,dui_titular:dui_titular,id_titular:id_titular,modelo_aro_orden:modelo_aro_orden,marca_aro_orden:marca_aro_orden,material_aro_orden:material_aro_orden,color_aro_orden:color_aro_orden },
+    data: { codigo:codigo, paciente: paciente, fecha_creacion: fecha_creacion, od_pupilar: od_pupilar, oipupilar: oipupilar, odlente: odlente, oilente: oilente, id_aro: id_aro, id_usuario: id_usuario, observaciones_orden: observaciones_orden, dui: dui, od_esferas: od_esferas, od_cilindros: od_cilindros, od_eje: od_eje, od_adicion: od_adicion, oi_esferas: oi_esferas, oi_cilindros: oi_cilindros, oi_eje: oi_eje, oi_adicion: oi_adicion, tipo_lente: tipo_lente, validate: validate, categoria_lente: categoria_lente, edad: edad, ocupacion: ocupacion, avsc: avsc, avfinal: avfinal, avsc_oi: avsc_oi, avfinal_oi: avfinal_oi, telefono: telefono, genero: genero, user: user, depto: depto, municipio: municipio, instit: instit, patologias: patologias, color: color, indice: indice, id_cita: id_cita, sucursal: sucursal,laboratorio:laboratorio,titular:titular,dui_titular:dui_titular,id_titular:id_titular,modelo_aro_orden:modelo_aro_orden,marca_aro_orden:marca_aro_orden,material_aro_orden:material_aro_orden,color_aro_orden:color_aro_orden,usuario_lente:usuario_lente},
     cache: false,
     dataType:"json",
 
     success: function (data) {
-      console.log(data)
+      //console.log(data)
       if (data == "exito") {
         order_new_clear_form() //Limpia el html y input
         Swal.fire({
@@ -377,7 +378,7 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
     data: { codigo: codigo, paciente: paciente,id_aro:id_aro,institucion:institucion,id_cita:id_cita },
     dataType: "json",
     success: function (data) {
-      console.log(data)
+      //console.log(data)
       //$("#fecha_creacion").val(data.fecha);
       $("#odesferasf").val(data.od_esferas);
       $("#odcilindrosf").val(data.od_cilindros);
@@ -412,8 +413,8 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
       $("#codigo_correlativo").val(data.codigo)
       $("#id_cita_ord").val(data.id_cita)
       $("#id_aro").val(data.id_aro)
-      material_aro_orden
       $("#laboratorio").val(data.laboratorio)
+      $("#usuario_lente").val(data.usuario_lente)
 
       if(data.colorTratamiento == "Blanco"){
         document.getElementById("blanco").checked = true;
