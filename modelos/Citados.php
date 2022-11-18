@@ -95,7 +95,8 @@ class Citados extends Conectar
 
 
     public function updateCitas(){
-
+        $conectar = parent::conexion();
+        parent::set_names();
         $sql = "update citas set paciente=?,dui=?,fecha=?,sucursal=? where id_cita=?";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $_POST["paciente"]);
@@ -104,7 +105,9 @@ class Citados extends Conectar
         $sql->bindValue(4, $_POST["sucursal"]);
         $sql->bindValue(5, $_POST["id_cita"]);
         $sql->execute();
-
+        if($sql->rowCount() > 0){
+            json_encode(["msj"=>"Ok"]);
+        }
 
 }
 

@@ -140,7 +140,7 @@ $categoria_usuario = $_SESSION["categoria"];
         <div class="col-sm-9 select2-purple">
           <label for="" class="etiqueta">Bodega-Sucursal </label>
             <select class="select2 form-control clear_input" id="bodega-sucursal" name="departamento_pac" multiple="multiple" data-placeholder="Seleccionar Sucursal" data-dropdown-css-class="select2-purple" style="width: 100%;height: ">
-            <option value="Valencia">MetroValenciacentro</option>
+            <option value="Valencia">Valencia</option>
             <option value="Metrocentro">Metrocentro</option>
               <option value="Cascadas">Cascadas</option>
               <option value="Santa Ana">Santa Ana</option>
@@ -154,7 +154,8 @@ $categoria_usuario = $_SESSION["categoria"];
               <option value="San Vicente">San Vicente</option>
               <option value="Gotera">Gotera</option>
               <option value="San Miguel">San Miguel</option>
-              <option value="Usulutan">Usulutan</option>     
+              <option value="Usulutan">Usulutan</option>   
+              <option value="Prueba">Prueba</option> 
 
             </select> 
           </div>
@@ -188,12 +189,22 @@ $categoria_usuario = $_SESSION["categoria"];
           <div class="col-md-6" style="">
             <div class="card card-default">
               <div class="card-header">
-                <label for="bodega-existencia">Existencias&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-file-pdf" style="color:red;cursor:pointer" onClick="printStockSucursal()"></i></label>
+
+                <div class="row">
+                  <div class="col-sm-9">
+                  <label for="bodega-existencia">Existencias&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-file-pdf" style="color:red;cursor:pointer" onClick="printStockSucursal()"></i></label>
                 <select class="form-control" id="bodega-existencia">
                   <?php 
                   echo $sucursales;
                   ?>
                 </select>
+                  </div>
+                  <div class="col-sm-3">
+                  <label for="btn-ingresos">Ingresos</label>
+                   <button class="btn btn-sm btn-outline-primary btn-flat float-left" onclick="getIngresosBodegaSucursales()"><i class="fas fa-download" id="btn-ingresos">Ingresos</i></button>
+                  </div>
+                </div>
+
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="margin: 0px !important; padding: 2px">
@@ -274,7 +285,39 @@ $categoria_usuario = $_SESSION["categoria"];
      </div>
       </div>
 
+  <div class="modal" id="ingresosBodegaModal">
+     <div class="modal-dialog" style="max-width:60%">
+    <div class="modal-content">
 
+      <!-- Modal Header -->
+      <div class="modal-header" style="padding: 5px;">
+        <h4 class="modal-title">INGRESOS A BODEGA</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+      <table width="100%" class="table-bordered table-hover"  id="ingresos_bodega_suc" data-order='[[ 0, "desc" ]]' style="margin-top:3px;text-transform:uppercase">
+      <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 13px;text-align: center" class='bg-dark'>
+        <tr>
+          <td>ID</td>
+          <td>Fecha</td>
+          <td>Usuario</td>
+          <td>Sucursal</td>
+          <td>Cantidad</td>
+          <td>Imprimir</td>
+        </tr>
+      </th>
+</thead>
+<tbody style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;" id="aros-enviar-bodega">                                  
+</tbody>
+      </table>
+       
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
 
       
 

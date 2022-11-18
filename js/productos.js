@@ -343,6 +343,24 @@ function printStockSucursal(){
   }
 }
 
+function getIngresosBodegaSucursales(){
+
+  let sucursal = document.getElementById("bodega-existencia").value
+  if(sucursal=='0'){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'error',
+      title: 'Seleccionar bodega',
+      showConfirmButton: true,
+      timer: 2500
+    });
+  return false;
+  }
+  $("#ingresosBodegaModal").modal()
+
+  dtTemplateProductos("ingresos_bodega_suc","listar_ingreso_bodegas",sucursal)
+}
+
 initProd()
 
 

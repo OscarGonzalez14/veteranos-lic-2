@@ -159,7 +159,7 @@ echo '<table width="100%">';
     $resultado = $reporteria->getDataOrdenDui($array_dui[$i]);
     
     foreach($resultado as $key){
-      $codigo = $key["codigo"];
+      $codigo = $key["dui"];
     }
 
     $code = $Bar->getBarcode($codigo, $Bar::TYPE_CODE_128,'1','45');

@@ -109,11 +109,15 @@ function editarCita(id_cita){
     data :{id_cita:id_cita},
     dataType:"json",
     success:function(data){
+
       $("#myModal").modal();
+
+      getDisponibilidadSucursales(data.fecha);
+      const select = document.querySelector('#sucursal-cita');
+      select.value = data.sucursal;
       document.getElementById("fecha-cita").readOnly = false;
       document.getElementById("btnEdit").style.display="block";
-      document.getElementById("btnAccion").style.display="none";      
-      document.getElementById("sucursal-cita").value=data.sucursal;
+      document.getElementById("btnAccion").style.display="none";   
       document.getElementById("fecha-cita").value=data.fecha;
       document.getElementById("telefono-pac").value=data.telefono;
       document.getElementById("edad-pac").value=data.edad;
@@ -149,6 +153,7 @@ function editarCita(id_cita){
         document.getElementById("departamento_pac").disabled = false;
       }
       
+
     }
 });
 
@@ -231,10 +236,9 @@ function imprimirCitadosAll(){
 }
 
 function getDisponibilidadSucursales(fecha){
-  const dias = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo']
+  const dias = ['lunes','martes','miercoles','jueves','viernes','sabado','domingo']
   let diaInt = new Date(fecha).getDay();
   const nombreDia = dias[diaInt];
-  //console.log(diaInt ,nombreDia)
   consultarDisponibilidad(fecha);
 }
 
@@ -247,6 +251,7 @@ function consultarDisponibilidad(fecha){
     cache: false,
     dataType:"json",
     success:function(data){
+      console.log(data)
       document.getElementById("sucursal-cita").innerHTML='<option value="0">Seleccionar sucursal</option>';
       for(var i=0; i<data.length; i++){
         let sucursal=data[i].sucursal;

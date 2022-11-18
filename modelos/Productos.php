@@ -187,14 +187,17 @@
 
      }
 
-     public function getMarcas(){
+     public function listarIngresoArosBodega($sucursal){
           $conectar=parent::conexion();
           parent::set_names();
-          $sql2 = "select marca from marcas";
+          $sql2 = "select i.id_ingreso,i.fecha,i.hora,i.n_ingreso,sum(d.cantidad) as cantidad,i.bodega,u.usuario from ingreso_aros as i inner JOIN detalle_ingreso_aros as d on i.n_ingreso=d.n_ingreso INNER join usuarios as u on i.id_usuario=u.id_usuario where i.bodega=? GROUP by i.n_ingreso;";
           $sql2=$conectar->prepare($sql2);
+          $sql2->bindValue(1,$sucursal);
           $sql2->execute();
           return  $resultado=$sql2->fetchAll(PDO::FETCH_ASSOC);
      }
+
+
 
 
 

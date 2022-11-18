@@ -215,6 +215,33 @@ $correlativo = $productos->getCorrelativoIngreso();
 break;
 
 
+case 'listar_ingreso_bodegas':
+
+  $sucursal = $_POST["Args"][0];
+  $datos=$productos->listarIngresoArosBodega($sucursal);
+  //Vamos a declarar un array
+  $data= Array();
+  foreach($datos as $row){
+
+    $sub_array = array(); 
+    $sub_array[] = $row["id_ingreso"];
+    $sub_array[] = date("d-m-Y", strtotime($row["fecha"]))." ".$row["hora"];
+    $sub_array[] = $row["usuario"];
+    $sub_array[] = $row["bodega"];
+    $sub_array[] = $row["cantidad"];
+    $sub_array[] = "<i class='fas fa-file-pdf fa-2x' onClick='impIngresoBodega(".$row["n_ingreso"].")' style='red'></i>";
+    $data[] = $sub_array;
+    
+  }
+  $results = array(
+    "sEcho"=>1, //Información para el datatables
+    "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+    "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+    "aaData"=>$data);
+  echo json_encode($results);
+
+  break;
+
 
 }
 

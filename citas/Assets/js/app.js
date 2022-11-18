@@ -27,8 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(info.date)
                 let hoy = new Date();
                 hoy.setHours(0,0,0,0);
-                console.log(hoy);
-               
+              
                 if (info.date >= hoy) {
                   document.getElementById('datos-titular').style.display = "none";
                   document.getElementById("paciente-vet").readOnly = false;
@@ -319,6 +318,10 @@ function gethorasDisponiblesFecha(fecha){
 }
 
 function gethorasDisponibles(sucursal,fecha){
+  const numeroDia = new Date(fecha).getDay();
+  const dias = ['lunes','martes','miercoles','jueves','viernes','sabado'];
+  const nombreDia = dias[numeroDia];
+  
   let disp = []
   if(sucursal=="Metrocentro"){
     disp = [
@@ -335,6 +338,10 @@ function gethorasDisponibles(sucursal,fecha){
     disp =['9:30:00 AM','10:00:00 AM','10:30:00 AM','11:00:00 AM','1:00:00 PM','1:30:00 PM','2:00:00 PM','2:30:00 PM'];
   }else if(sucursal=="Usulutan"){
     disp =['8:00:00 AM','8:30:00 AM','9:00:00 AM','9:30:00 AM','10:00:00 AM','10:30:00 AM','11:00:00 AM','11:30:00 AM'];
+  }else if(sucursal=="Gotera" && (nombreDia=="miercoles" || nombreDia=="lunes")){
+    disp = ['10:00 AM','10:15 AM','10:30 AM','10:45 AM','11:00 AM','11:15 AM','11:30 AM','11:45 AM','12:00 PM','12:15 PM','12:30 PM','12:45 PM','1:00 PM','1:15 PM','1:30 PM','1:45 PM','2:00 PM','2:15 PM','2:30 PM','2:45 PM']
+  }else if(sucursal=="Gotera" && nombreDia=="sabado"){
+    disp = ['8:00:00 AM','8:15:00 AM','8:30:00 AM','8:45:00 AM','9:00:00 AM','9:15:00 AM','9:30:00 AM','9:45:00 AM','10:00:00 AM','10:15:00 AM']
   }else{
     disp = [
       '8:00:00 AM','8:15:00 AM','8:30:00 AM','8:45:00 AM','9:00:00 AM','9:15:00 AM','9:30:00 AM','9:45:00 AM','10:00:00 AM','10:15:00 AM','10:30:00 AM','10:45:00 AM','11:00:00 AM','11:15:00 AM','11:30:00 AM','11:45:00 AM','12:00:00 PM','12:15:00 PM','12:30:00 PM','12:45:00 PM'

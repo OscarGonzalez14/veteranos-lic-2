@@ -206,16 +206,18 @@ option.suc-tooltip:hover::after {
                             </select>               
                        </div>
 
+                       <div class="col-md-2">
+                            <label for="start">Fecha</label>
+                            <input class="form-control" id="fecha-cita" type="date" name="fecha-cita" onchange="gethorasDisponiblesFecha(this.value)"  onclick="gethorasDisponiblesFecha(this.value)">
+                        </div> 
+
                         <div class="col-md-2">
                             <label for="start">Sucursal</label>
                             <select class="form-control suc-tooltip" id="sucursal-cita" name="sucursal-cita"  onchange="gethorasDisponibles(this.value)"  onclick="gethorasDisponiblesSucursal(this.value)">
                                 <option value="0">Seleccionar sucursal</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <label for="start">Fecha</label>
-                            <input class="form-control" id="fecha-cita" type="date" name="fecha-cita" onchange="consultarDisponibilidad(this.value)"  onclick="consultarDisponibilidad(this.value)">
-                        </div>                  
+                 
 
                         <div class="col-md-2 select2-primary">
                             <label for="hora" >Hora</label>
