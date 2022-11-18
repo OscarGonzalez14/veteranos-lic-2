@@ -194,7 +194,7 @@ echo '<table width="100%">';
       </tr>
 
       <tr>
-      <td class='stilot1' colspan='30' style='text-align:left'>".$key["codigo"]."</td>
+      <td class='stilot1' colspan='30' style='text-align:left'>".$key["dui"]."</td>
       <td class='stilot1' colspan='30' style='text-align:cente'><b>Lente:</b> ".$key["tipo_lente"]."</td>
       <td class='stilot1' colspan='40' style='text-align:cente'><b>Fecha</b> ".date("d-m-Y",strtotime($key["fecha"]))."</td>
       </tr>

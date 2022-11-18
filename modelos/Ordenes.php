@@ -1260,7 +1260,7 @@ public function agregarHistorial($codigo,$user){
 public function getOrdenesSucursalDia($sucursal, $fecha){
   $conectar = parent::conexion();
   parent::set_names();
-  $sql = "select dui,institucion as sector,paciente,dui,fecha from orden_lab where sucursal=? and fecha=?;";
+  $sql = "select dui,institucion as sector,paciente,dui,fecha from orden_lab where sucursal=? and fecha=? and estado='0';";
   $sql = $conectar->prepare($sql);
   $sql->bindValue(1, $sucursal);
   $sql->bindValue(2, $fecha);

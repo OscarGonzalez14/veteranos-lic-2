@@ -71,6 +71,11 @@ class Despachos extends Conectar{
             $sql7->bindValue(4, $v->paciente);
             $sql7->bindValue(5, $accion );
             $sql7->execute();
+
+            $sql3 = "update orden_lab set estado='1' where dui=?";
+            $sql3 = $conectar->prepare($sql3); 
+            $sql3->bindValue(1, $v->dui);
+            $sql3->execute();
         } 
         $msj = ["correlativo"=>$correlativo];
         echo json_encode($msj);

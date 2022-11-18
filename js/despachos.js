@@ -140,8 +140,12 @@ function sendLab(){
             data:{'ordenes_desp':JSON.stringify(ordenes_envio_lab),'sucursal':sucursal,'id_usuario':id_usuario,'usuario':usuario},
             cache: false,
             dataType:"json", 
-            success:function(data){
-                printDespacho(data.correlativo,tipo_desp,sucursal)
+            success:function(data){                
+               console.log('ok5')
+                printDespacho(data.correlativo,tipo_desp,sucursal);
+                ordenes_envio_lab =[];
+                $("#modal-despachos").modal('hide');
+                document.getElementById("cant-env").innerHTML="";
             }
         });//fin ajax
     }
