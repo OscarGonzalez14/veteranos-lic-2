@@ -377,10 +377,10 @@ $(".inp-citas").keyup(function(){
 
 
 $(document).ready(function(){
-  $("#sector-pac").change(function () {         
-    $("#sector-pac option:selected").each(function () {
+  $("#tipo-pac").change(function () {         
+    $("#tipo-pac option:selected").each(function () {
      let sector = $(this).val();
-      if(sector=="CONYUGE"){        
+      if(sector=="Designado" || sector=="Conyuge"){        
         document.getElementById('datos-titular').style.display = "flex";
       }else{
         document.getElementById('datos-titular').style.display = "none";

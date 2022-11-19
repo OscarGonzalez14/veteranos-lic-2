@@ -117,12 +117,23 @@ option.suc-tooltip:hover::after {
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id">
                         <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <label for="title">Paciente</label>
                             <input id="paciente-vet" type="text" class="form-control inp-citas" name="paciente-vet">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <label for="dui">Tipo Paciente</label>
+                            <select class="form-control" id="tipo-pac" name="tipo-pac">
+                            <option option="0">Seleccionar...</option>
+                            <option option="Veterano">Veterano</option>
+                            <option option="Ex-Combatiente">Ex-Combatiente</option>
+                            <option option="Conyuge">Conyuge</option>
+                            <option option="Designado">Designado</option>
+                        </select>
+                        </div>
+
+                        <div class="col-md-2">
                             <label for="dui">DUI</label>
                             <input id="dui-vet" type="text" class="form-control" name="dui-vet">
                         </div>
@@ -142,7 +153,7 @@ option.suc-tooltip:hover::after {
                         </div>
 
 
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <label for="ocupacion-pac">Ocupación</label>
                             <input id="ocupacion-pac" type="text" class="form-control inp-citas" name="ocupacion-pac">
                         </div>
@@ -154,17 +165,17 @@ option.suc-tooltip:hover::after {
                             <option>Masculino</option>
                             <option>Femenino</option>
                         </select>
-                        </div>
-                       
-                        <div class="col-md-2">
-                            <label for="dui">Sector</label>
-                            <select class="form-control" id="sector-pac" name="sector-pac">
+                        </div> 
+                        
+                        <div class="col-md-3">
+                        <label for="dui">Sector</label>
+                        <select class="form-control" id="sector-pac" name="sector-pac">
                             <option option="0">Seleccionar...</option>
-                            <option option="FAES">FAES</option>
                             <option option="FMLN">FMLN</option>
-                            <option option="CONYUGE">CONYUGE</option>
+                            <option option="FAES">FAES</option>
                         </select>
                         </div>
+
                         <div class="col-sm-12" id="datos-titular" style="display:none">
                         <div class="col-md-7" id="nombre-tit">
                             <label for="ocupacion-pac">Veterano/Ex-combatiente titular *</label>
@@ -175,6 +186,7 @@ option.suc-tooltip:hover::after {
                             <label for="ocupacion-pac"> DUI Veterano/Ex-combatiente titular *</label>
                             <input id="dui-titular" type="text" class="form-control inp-citas" placeholder="DUI" name="dui-titular">
                         </div>
+
                         </div>
 
                         
@@ -214,7 +226,7 @@ option.suc-tooltip:hover::after {
                         <div class="col-md-2">
                             <label for="start">Sucursal</label>
                             <select class="form-control suc-tooltip" id="sucursal-cita" name="sucursal-cita"  onchange="gethorasDisponibles(this.value)"  onclick="gethorasDisponiblesSucursal(this.value)">
-                                <option value="0">Seleccionar sucursal</option>
+                           
                             </select>
                         </div>
                  

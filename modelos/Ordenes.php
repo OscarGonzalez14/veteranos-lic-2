@@ -325,6 +325,20 @@ require_once("../config/conexion.php");
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
+
+  public function get_data_ordenPac($codigo,$paciente){
+    $conectar = parent::conexion();
+
+    //Verificador para ver si tiene ingresado un aro en manuales
+    $sql = "select *from orden_lab where codigo=? and paciente=?;";
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1,$codigo);
+    $sql->bindValue(2,$paciente);
+    $sql->execute();
+    return $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+  }
+
   public function get_data_orden($codigo,$paciente,$id_aro,$institucion,$id_cita){
     $conectar = parent::conexion();
 

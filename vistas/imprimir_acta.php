@@ -22,7 +22,8 @@ $dui_receptor = $_POST["dui-receptor"];
 $id_acta = $_POST["id_acta"];
 $correlativo_suc = $_POST["correlativo_suc"];
 
-$data_orden = $orden->get_data_orden($codigo,$paciente);
+$data_orden = $orden->get_data_ordenPac($codigo,$paciente);
+
 $sector = $data_orden[0]["institucion"];
 $dui = $data_orden[0]["dui"];
 $genero = $data_orden[0]["genero"];

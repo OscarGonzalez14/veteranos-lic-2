@@ -11,7 +11,7 @@ class HomeModel extends Query{
         return $this->selectAll($sql);
     }
     
-    public function registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$user_login,$vet_titular,$dui_titular,$tel_opcional){
+    public function registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$user_login,$vet_titular,$dui_titular,$tel_opcional,$tipo_paciente){
        // $user_login="6547";
         $color="#116530";
         $estado="0";
@@ -25,8 +25,8 @@ class HomeModel extends Query{
             $res = 'error';
         }else{
 
-        $sql = "INSERT INTO citas (paciente,dui,fecha,sucursal,color,estado,telefono,edad,ocupacion,genero,usuario_lente,sector,depto,municipio,hora,fecha_reg,hora_reg,id_usuario,vet_titular,dui_titular,tel_opcional) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $array = array($paciente, $dui, $fecha,$sucursal,$color,$estado,$telefono,$edad,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$hoy_reg,$hora_reg,$user_login,$vet_titular,$dui_titular,$tel_opcional);
+        $sql = "INSERT INTO citas (paciente,dui,fecha,sucursal,color,estado,telefono,edad,ocupacion,genero,usuario_lente,sector,depto,municipio,hora,fecha_reg,hora_reg,id_usuario,vet_titular,dui_titular,tel_opcional,tipo_paciente) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $array = array($paciente, $dui, $fecha,$sucursal,$color,$estado,$telefono,$edad,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$hoy_reg,$hora_reg,$user_login,$vet_titular,$dui_titular,$tel_opcional,$tipo_paciente);
         
         $data = $this->save($sql, $array);
         $res = 'ok';

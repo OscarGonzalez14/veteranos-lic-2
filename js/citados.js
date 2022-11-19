@@ -99,7 +99,7 @@ function showModalGestion(){
 }
 
 function editarCita(id_cita){
- 
+ console.log(permisos)
  let permiso_edita_cita = permisos.includes('3'); 
 
   $.ajax({
@@ -109,12 +109,9 @@ function editarCita(id_cita){
     data :{id_cita:id_cita},
     dataType:"json",
     success:function(data){
-
+      
       $("#myModal").modal();
-
-      getDisponibilidadSucursales(data.fecha);
-      const select = document.querySelector('#sucursal-cita');
-      select.value = data.sucursal;
+      document.getElementById("sucursal-cita").value=data.sucursal;
       document.getElementById("fecha-cita").readOnly = false;
       document.getElementById("btnEdit").style.display="block";
       document.getElementById("btnAccion").style.display="none";   
@@ -124,11 +121,14 @@ function editarCita(id_cita){
       document.getElementById("genero-pac").value=data.genero;
       document.getElementById("ocupacion-pac").value=data.ocupacion;
       document.getElementById("sector-pac").value=data.sector;
+      $("#hora").val(data.hora).trigger('change');
       $("#departamento_pac").val(data.depto).trigger('change');
-      $("#munic_pac").val(data.municipio).trigger('change');
+      $("#munic_pac").val(data.municipio).trigger('change');      
       document.getElementById("paciente-vet").value=data.paciente
       document.getElementById("dui-vet").value=data.dui;
-      document.getElementById("id_citado").value=id_cita;
+      document.getElementById("id_citado").value=id_cita;      
+      //consultarDisponibilidad(data.fecha)
+      document.getElementById("sucursal-cita").innerHTML='<option value="'+data.sucursal+'" selected>'+data.sucursal+'</option>';
 
       //let id_user = document.getElementById("id_usuario_vet").value;
       if(permiso_edita_cita==false) {
@@ -182,6 +182,11 @@ function editarCitaSendData(){
     dataType:"json",
     success:function(data){
       console.log(data)
+      Swal.fire(
+        'Orden editada!!',
+        'Existosamente',
+        'success'
+    )
       calendar.refetchEvents();
       $("#myModal").modal('hide')
       $("#gestion-citas").modal('hide')

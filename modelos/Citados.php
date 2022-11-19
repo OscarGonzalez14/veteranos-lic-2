@@ -105,9 +105,9 @@ class Citados extends Conectar
         $sql->bindValue(4, $_POST["sucursal"]);
         $sql->bindValue(5, $_POST["id_cita"]);
         $sql->execute();
-        if($sql->rowCount() > 0){
-            json_encode(["msj"=>"Ok"]);
-        }
+
+        echo json_encode(["msj"=>"Ok"]);
+
 
 }
 
