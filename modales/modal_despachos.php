@@ -10,10 +10,6 @@
       <div class="modal-body">
         <div class="row">
 
-        <div class="col-sm-4" style=" margin-bottom: 3px">
-            <input class="form-control" id="fecha-despacho" type="date" onchange="listarOrdenesDesp(this.value)">
-        </div>
-
         <div class="form-group clearfix" style="margin:6px;margin-left:30px">
         <?php if($categoria_usuario=="mensajero" or $categoria_usuario=="Admin" or $_SESSION["sucursal"]=="San miguel" or $_SESSION["sucursal"]=="Usulutan"){?>
         <div class="icheck-success d-inline">

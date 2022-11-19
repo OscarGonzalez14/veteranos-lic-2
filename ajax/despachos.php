@@ -17,7 +17,7 @@ switch ($_GET["op"]){
     }else{
         require_once("../modelos/Ordenes.php");
         $ord = new Ordenes();
-        $ordenes =  $ord->getOrdenesSucursalDia($args[2], $args[1]);
+        $ordenes =  $ord->getOrdenesSucursalDia($args[1]);
     } 
     
     $data = Array();

@@ -7,23 +7,15 @@ function showModalDespachos(){
     });
     $("#body-table-env").html('');
     ordenes_envio_lab = [];
-    $("#cant-env").html("")
+    $("#cant-env").html("");
+
 }
 
 document.querySelectorAll(".chk-despachos").forEach(i => i.addEventListener("click", e => {    
     let tipo_desp = $("input[type='radio'][name='tipo-desp']:checked").val();
-    let fecha = document.getElementById("fecha-despacho").value;
     let sucursal = document.getElementById("sucursal").value;
-    if(fecha != ""){
-        dtTemplateDespachos("dt_modal_despachos","get_ordenes_despachar",tipo_desp,fecha,sucursal)
-    }else{        
-        Swal.fire({
-            position: 'top-center',
-            icon: 'warning',
-            title: 'Especificar fecha',
-            timer: 3500
-          });
-    }
+        dtTemplateDespachos("dt_modal_despachos","get_ordenes_despachar",tipo_desp,sucursal)      
+
 }));
 
 function listarOrdenesDesp(fecha){

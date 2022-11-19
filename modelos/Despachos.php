@@ -54,11 +54,12 @@ class Despachos extends Conectar{
         $sql->execute();
 
         foreach($ordenes as $key=>$v){
-            $sql2 = "insert into det_despacho_lab values(null,?,?,?);";
+            $sql2 = "insert into det_despacho_lab values(null,?,?,?,?);";
             $sql2 = $conectar->prepare($sql2);
             $sql2->bindValue(1, $correlativo);
             $sql2->bindValue(2, $v->dui);
             $sql2->bindValue(3, $v->paciente);
+            $sql2->bindValue(4, '0');
             $sql2->execute();
 
             $accion = "Envio a laboratorio desde ".$sucursal;

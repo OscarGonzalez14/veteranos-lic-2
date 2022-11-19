@@ -101,7 +101,7 @@ public function getDataOrdenDui($dui){
     $conectar= parent::conexion();
     parent::set_names(); 
 
-    $sql = "select o.id_orden,o.fecha,o.paciente,o.dui,o.edad,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.pupilar_od,o.pupilar_oi,o.lente_od,o.lente_oi,o.pupilar_od,o.pupilar_oi,o.lente_od,o.lente_oi,o.avsc,o.avfinal,o.tipo_lente,o.codigo,o.codigo_lenti,o.sucursal from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo where o.dui=?;";
+    $sql = "select o.id_orden,o.fecha,o.paciente,o.dui,o.edad,o.color,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.pupilar_od,o.pupilar_oi,o.lente_od,o.lente_oi,o.pupilar_od,o.pupilar_oi,o.lente_od,o.lente_oi,o.avsc,o.avfinal,o.tipo_lente,o.codigo,o.codigo_lenti,o.sucursal from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo where o.dui=?;";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1,$dui);
     $sql->execute();

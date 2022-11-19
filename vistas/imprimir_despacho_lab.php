@@ -11,7 +11,7 @@
 $sucursal = $_POST["sucursal"];
 $correlativo = $_POST["correlativo"];
 $tipo_desp = $_POST["tipo_desp"];
-//echo $tipo_desp; exit();
+$corr = $Bar->getBarcode($correlativo, $Bar::TYPE_CODE_128,'1','45');
 date_default_timezone_set('America/El_Salvador'); 
 $hoy= date("d-m-Y H:i:s");
 $fecha = date("Y-m-d");
@@ -108,7 +108,10 @@ $fecha = date("Y-m-d");
     <td style="text-align:right; font-size:12px;color: #008C45"><strong>ORDEN</strong></td>
   </tr>
   <tr>
-    <td style="color:red;text-align:right; font-size:12px;color: #CD212A"><strong >No.&nbsp;<span><?php echo $correlativo; ?></strong></td>
+    <td style="color:red;text-align:right; font-size:12px;color: #CD212A"><strong >No.&nbsp;<span><?php echo $correlativo;
+    echo $corr;
+    
+    ?></strong></td>
   </tr>
 </table><!--fin segunda tabla-->
 </td> <!--fin segunda columna-->
@@ -190,12 +193,12 @@ echo '<table width="100%">';
 
       echo "
       <tr>
-      <td class='stilot1' colspan='100' style='text-align:center;font-size:13px'><b>".$key["sucursal"]."</b></td>
+      <td class='stilot1' colspan='100' style='text-align:center;font-size:13px'>Lente: <b>".$key["tipo_lente"]." ".$key["color"]."</b></td>
       </tr>
 
       <tr>
       <td class='stilot1' colspan='30' style='text-align:left'>".$key["dui"]."</td>
-      <td class='stilot1' colspan='30' style='text-align:cente'><b>Lente:</b> ".$key["tipo_lente"]."</td>
+      <td class='stilot1' colspan='30' style='text-align:cente'><b>Suc.:</b> ".$key["sucursal"]."</td>
       <td class='stilot1' colspan='40' style='text-align:cente'><b>Fecha</b> ".date("d-m-Y",strtotime($key["fecha"]))."</td>
       </tr>
       <tr style='height: 14px'>
