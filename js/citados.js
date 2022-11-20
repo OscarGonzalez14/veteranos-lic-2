@@ -140,6 +140,8 @@ function editarCita(id_cita){
         document.getElementById("vet-titular").value=data.vet_titular;
         document.getElementById("dui-titular").value=data.dui_titular;
       }else{
+        document.getElementById("vet-titular").value="";
+        document.getElementById("dui-titular").value="";
         document.getElementById("datos-titular").style.display="none";
       }
 

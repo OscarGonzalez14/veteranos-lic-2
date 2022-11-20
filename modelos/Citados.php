@@ -102,22 +102,18 @@ class Citados extends Conectar
         $sql->bindValue(2, $_POST["dui"]);
         $sql->bindValue(3, $_POST["fecha"]);
         $sql->bindValue(4, $_POST["sucursal"]);
-
         $sql->bindValue(5, $_POST["telefono"]);
         $sql->bindValue(6, $_POST["edad"]);
         $sql->bindValue(7, $_POST["ocupacion"]);
         $sql->bindValue(8, $_POST["genero"]);
         $sql->bindValue(9, $_POST["sector"]);
-
         $sql->bindValue(10, $_POST["depto"]);
         $sql->bindValue(11, $_POST["municipio"]);
         $sql->bindValue(12, $_POST["hora"]);
         $sql->bindValue(13, $_POST["titular"]);
         $sql->bindValue(14, $_POST["dui_titular"]);
-
         $sql->bindValue(15, $_POST["tel_opcional"]);
         $sql->bindValue(16, $_POST["tipo_paciente"]);
-
         $sql->bindValue(17, $_POST["id_cita"]);
         $sql->execute();
 
