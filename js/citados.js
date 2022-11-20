@@ -109,9 +109,9 @@ function editarCita(id_cita){
     data :{id_cita:id_cita},
     dataType:"json",
     success:function(data){
-      
+      console.log(data)
       $("#myModal").modal();
-      
+           
       document.getElementById("sucursal-cita").value=data.sucursal;
       document.getElementById("fecha-cita").readOnly = false;
       document.getElementById("btnEdit").style.display="block";
@@ -127,12 +127,21 @@ function editarCita(id_cita){
       $("#munic_pac").val(data.municipio).trigger('change');      
       document.getElementById("paciente-vet").value=data.paciente
       document.getElementById("dui-vet").value=data.dui;
-      document.getElementById("id_citado").value=id_cita;      
-      //consultarDisponibilidad(data.fecha)
+      document.getElementById("id_citado").value=id_cita;       
+      document.getElementById("telefono-opcional").value=data.tel_opcional;     
+  
       document.getElementById("sucursal-cita").innerHTML='<option value="'+data.sucursal+'" selected>'+data.sucursal+'</option>';
       let $option = $("<option selected></option>").val(data.hora).text(data.hora);
       $('#hora').val(null).trigger('change');
 			$('#hora').append($option).trigger('change');
+
+      if(data.tipo_paciente=="Designado" || data.tipo_paciente=="Conyuge"){
+        document.getElementById("datos-titular").style.display="flex";
+        document.getElementById("vet-titular").value=data.vet_titular;
+        document.getElementById("dui-titular").value=data.dui_titular;
+      }else{
+        document.getElementById("datos-titular").style.display="none";
+      }
 
       listarDispEdicion()
 
@@ -193,22 +202,25 @@ function editarCitaSendData(){
   let fecha = document.getElementById('fecha-cita').value;
   let sucursal = document.getElementById('sucursal-cita').value;
   let sector = document.getElementById("sector-pac").value;
-  let depto = document.getElementById("sector-pac").value;
-  let municipio = document.getElementById("sector-pac").value;
-  let hora = "-";
+  let depto = document.getElementById("departamento_pac").value;
+  let municipio = document.getElementById("munic_pac").value;
+  let hora = document.getElementById("hora").value;;
   let telefono = document.getElementById("telefono-pac").value;
   let edad = document.getElementById("edad-pac").value;
   let ocupacion = document.getElementById("ocupacion-pac").value;
   let genero = document.getElementById("genero-pac").value;
+  let tipo_paciente = document.getElementById("tipo-pac").value;
+  let tel_opcional = document.getElementById("telefono-opcional").value;
+  let titular = document.getElementById("vet-titular").value;
+  let dui_titular = document.getElementById("dui-titular").value;
 
   $.ajax({
     url:"../ajax/citados.php?op=editar_cita",
     method:"POST",
-    data:{paciente:paciente,dui:dui,fecha:fecha,sucursal:sucursal,sector:sector,depto:depto,municipio:municipio,hora:hora,telefono:telefono,edad:edad,ocupacion:ocupacion,genero:genero,id_cita:id_cita},
+    data:{paciente:paciente,dui:dui,fecha:fecha,sucursal:sucursal,sector:sector,depto:depto,municipio:municipio,hora:hora,telefono:telefono,edad:edad,ocupacion:ocupacion,genero:genero,id_cita:id_cita,tipo_paciente:tipo_paciente,tel_opcional:tel_opcional,titular:titular,dui_titular: dui_titular},
     cache: false,
     dataType:"json",
     success:function(data){
-      console.log(data)
       Swal.fire(
         'Orden editada!!',
         'Existosamente',
@@ -216,7 +228,7 @@ function editarCitaSendData(){
     )
       calendar.refetchEvents();
       $("#myModal").modal('hide')
-      $("#gestion-citas").modal('hide')
+      $("#data-gest-citas").DataTable().ajax.reload(null, false);
     }
   });///fin ajax
   

@@ -162,8 +162,8 @@ option.suc-tooltip:hover::after {
                         <label for="usuario-lente">Genero</label>
                         <select class="form-control inp-citas" id="genero-pac" name="genero-pac">
                             <option>Seleccionar...</option>
-                            <option>Masculino</option>
-                            <option>Femenino</option>
+                            <option value="Mascu">Masculino</option>
+                            <option value="Femen">Femenino</option>
                         </select>
                         </div> 
                         

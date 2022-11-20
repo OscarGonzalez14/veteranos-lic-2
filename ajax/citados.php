@@ -57,26 +57,7 @@ switch ($_GET["op"]){
     case 'get_data_cita':
 
         $data = $citas->getDataCitaId($_POST["id_cita"]);
-        
-        foreach ($data as $row) {
-            $output["paciente"] = $row["paciente"];
-            $output["dui"] = $row["dui"];
-            $output["edad"] = $row["edad"]; 
-            $output["telefono"] = $row["telefono"];
-            $output["usuario_lente"] = $row["usuario_lente"];
-            $output["ocupacion"] = $row["ocupacion"];
-            $output["sector"] = $row["sector"];
-            $output["genero"] = $row["genero"];
-            $output["depto"] = $row["depto"];
-            $output["municipio"] = $row["municipio"];
-            $output["fecha"] = $row["fecha"];
-            $output["hora"] = $row["hora"];
-            $output["sucursal"] = $row["sucursal"];
-            $output["id_cita"] = $row["id_cita"];
-            $output["tipo_paciente"] = $row["tipo_paciente"];  
-        }
-        echo json_encode($output);
-
+        echo json_encode($data[0]);
         break;
 
         case 'get_citados_sucursal':
