@@ -101,7 +101,7 @@ function showModalGestion(){
 function editarCita(id_cita){
  console.log(permisos)
  let permiso_edita_cita = permisos.includes('3'); 
-
+ $("#input-ed").val("1")
   $.ajax({
     url:"../ajax/citados.php?op=get_data_cita",
     method:"POST",
@@ -111,6 +111,7 @@ function editarCita(id_cita){
     success:function(data){
       
       $("#myModal").modal();
+      
       document.getElementById("sucursal-cita").value=data.sucursal;
       document.getElementById("fecha-cita").readOnly = false;
       document.getElementById("btnEdit").style.display="block";
@@ -121,7 +122,7 @@ function editarCita(id_cita){
       document.getElementById("genero-pac").value=data.genero;
       document.getElementById("ocupacion-pac").value=data.ocupacion;
       document.getElementById("sector-pac").value=data.sector;
-      $("#hora").val(data.hora).trigger('change');
+      document.getElementById("tipo-pac").value=data.tipo_paciente;
       $("#departamento_pac").val(data.depto).trigger('change');
       $("#munic_pac").val(data.municipio).trigger('change');      
       document.getElementById("paciente-vet").value=data.paciente
@@ -129,6 +130,11 @@ function editarCita(id_cita){
       document.getElementById("id_citado").value=id_cita;      
       //consultarDisponibilidad(data.fecha)
       document.getElementById("sucursal-cita").innerHTML='<option value="'+data.sucursal+'" selected>'+data.sucursal+'</option>';
+      let $option = $("<option selected></option>").val(data.hora).text(data.hora);
+      $('#hora').val(null).trigger('change');
+			$('#hora').append($option).trigger('change');
+
+      listarDispEdicion()
 
       //let id_user = document.getElementById("id_usuario_vet").value;
       if(permiso_edita_cita==false) {
@@ -157,6 +163,27 @@ function editarCita(id_cita){
     }
 });
 
+}
+
+function listarDispEdicion(){
+  let suc_act = document.getElementById("sucursal-cita").value;
+  let fecha = document.getElementById("fecha-cita").value;
+  $.ajax({
+    url:"../ajax/citados.php?op=get_disponilidad_citas",
+    method:"POST",
+    data:{fecha:fecha},
+    cache: false,
+    dataType:"json",
+    success:function(data){
+      console.log(data)
+      document.getElementById("sucursal-cita").innerHTML='<option value='+suc_act+'>'+suc_act+'</option>';
+      for(var i=0; i<data.length; i++){
+        let sucursal=data[i].sucursal;
+        document.getElementById("sucursal-cita").innerHTML += "<option value='"+data[i].sucursal+"' data-toggle='tooltip' data-placement='left' data-html='true' title='"+sucursal.toUpperCase()+ "\n" +data[i].direccion+"\n"+data[i].referencia+"\n"+data[i].optica+"'>"+data[i].sucursal+" "+data[i].cupos+"</option>"; 
+
+      }
+    }
+  });///fin ajax
 }
 
 function editarCitaSendData(){

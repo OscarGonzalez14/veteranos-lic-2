@@ -13,7 +13,7 @@ switch ($_GET["op"]){
     if($args[0]=='citas'){
         require_once("../modelos/Citados.php");
         $citas = new Citados();
-        $ordenes = $citas->getDataCitadosSucursalPrint($args[2], $args[1]);
+        $ordenes = $citas->getDataCitadosSucursalPrint($args[1]);
     }else{
         require_once("../modelos/Ordenes.php");
         $ord = new Ordenes();

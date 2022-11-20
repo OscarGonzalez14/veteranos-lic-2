@@ -74,7 +74,7 @@ option.suc-tooltip:hover::after {
  <!--MODAL GESTION CITAS -->
 
 <div class="modal" id="gestion-citas">
-  <div class="modal-dialog" style="max-width:55%">
+  <div class="modal-dialog" style="max-width:85%">
     <div class="modal-content">
 
       <!-- Modal Header -->
@@ -189,7 +189,6 @@ option.suc-tooltip:hover::after {
 
                         </div>
 
-                        
                         <div class=" form-group col-sm-3 select2-purple">
                         <label for="" class="etiqueta">Departamento </label> <span id="departamento_pac_data" style="color: red"></span>
                         <select class="select2 form-control clear_input" id="departamento_pac" name="departamento_pac" multiple="multiple" data-placeholder="Seleccionar Departamento" data-dropdown-css-class="select2-purple" style="width: 100%;height: ">              
@@ -239,7 +238,7 @@ option.suc-tooltip:hover::after {
                         </div>
 
                         <input type="hidden" id="start">
-
+                        <input type="hidden" id="input-ed">
                         </div>
                     </div>
                     <input type="hidden" id="id_citado">
@@ -273,6 +272,8 @@ require_once("../vistas/links_js.php");
     <script src="<?php echo base_url; ?>Assets/js/app.js"></script>
     <script src='../js/cleave.js'></script>
     <script src='../js/citados.js'></script>
+
+ 
     <script>
         let telefono = new Cleave('#telefono-pac', {
         delimiter: '-',

@@ -39,7 +39,7 @@ switch ($_GET["op"]){
                 $sub_array[] = $c["paciente"]; 
                 $sub_array[] = $c["dui"]; 
                 $sub_array[] = $c["sector"];
-                $sub_array[] = $c["fecha"];
+                $sub_array[] = $c["fecha"]." ".$c["hora"];
                 $sub_array[] = $c["sucursal"];
                 $sub_array[] = "<button class='btn btn-outline-success btn-xs' onClick='editarCita(".$c["id_cita"].")'><i class='fas fa-edit'></i></button>";
                 $data[] = $sub_array;
@@ -72,7 +72,8 @@ switch ($_GET["op"]){
             $output["fecha"] = $row["fecha"];
             $output["hora"] = $row["hora"];
             $output["sucursal"] = $row["sucursal"];
-            $output["id_cita"] = $row["id_cita"];  
+            $output["id_cita"] = $row["id_cita"];
+            $output["tipo_paciente"] = $row["tipo_paciente"];  
         }
         echo json_encode($output);
 

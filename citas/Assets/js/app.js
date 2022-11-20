@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 hoy.setHours(0,0,0,0);
               
                 if (info.date >= hoy) {
+                  $("#input-ed").val("0")
+                  $("#hora").empty();
                   document.getElementById('datos-titular').style.display = "none";
                   document.getElementById("paciente-vet").readOnly = false;
                   document.getElementById("dui-vet").readOnly = false;
@@ -318,6 +320,7 @@ function gethorasDisponiblesFecha(fecha){
 }
 
 function gethorasDisponibles(sucursal,fecha){
+  console.log(sucursal,fecha)
   const numeroDia = new Date(fecha).getDay();
   const dias = ['lunes','martes','miercoles','jueves','viernes','sabado'];
   const nombreDia = dias[numeroDia];
@@ -357,7 +360,7 @@ function gethorasDisponibles(sucursal,fecha){
         cache: false,
         dataType:"json",
         success:function(horas){
-          
+          let valida_edit = document.getElementById("input-ed").value;
           let tam_array = horas.length;
           if(tam_array==0){
             $("#hora").empty();
@@ -367,6 +370,8 @@ function gethorasDisponibles(sucursal,fecha){
             $("#hora").empty();
             $("#hora").select2({ data: diff})
           }
+          
+          
         }
       });///fin ajax 
 }

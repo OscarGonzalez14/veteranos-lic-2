@@ -1,5 +1,5 @@
 <div class="modal" id="listarCitas">
-  <div class="modal-dialog" style="max-width:70%">
+  <div class="modal-dialog" style="max-width:80%">
     <div class="modal-content">
       <div class="modal-header bg-info">
         <h5 class="modal-title w-100 text-center position-absolute">PACIENTES CITADOS</h5>

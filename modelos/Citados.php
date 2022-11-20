@@ -28,8 +28,7 @@ class Citados extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDataCitaId($id_cita)
-    {
+    public function getDataCitaId($id_cita){
         $conectar = parent::conexion();
         parent::set_names();
         $sql = "select * from citas where id_cita=?;";
@@ -61,13 +60,13 @@ class Citados extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDataCitadosSucursalPrint($sucursal, $fecha){
+    public function getDataCitadosSucursalPrint($sucursal){
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "select * from citas where sucursal=? and fecha=?;";
+        $sql = "select * from citas where sucursal=? ;";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $sucursal);
-        $sql->bindValue(2, $fecha);
+
         $sql->execute();
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
