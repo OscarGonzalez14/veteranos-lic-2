@@ -987,6 +987,7 @@ $(document).on('click', '#busquedas_graduaciones', function () {
 //new codigo
 function ingreso_laboratorio() {
   $("#modal_ingreso_laboratorio").modal('show')
+  document.getElementById('n_despacho').focus()
   $("#result_despacho").html("");
   $("#totalOrdenLab").html("")
   old_despachos_lab = []
@@ -1022,15 +1023,19 @@ function getDespachoLab(id) {
 
         document.getElementById('n_despacho').style.display = "none"
         document.getElementById('dui_despacho').style.display = "block"
+        document.getElementById('dui_despacho').focus()
 
         $("#result_despacho").html("");
         let filas = '';
+        let indexTable = old_despachos_lab.length;
         for (var i = 0; i < old_despachos_lab.length; i++) {
           filas = filas + "<tr id='fila" + i + "'>" +
+            "<td>" + indexTable + "</td>" +
             "<td><input type='checkbox' name='checkDespacho' class='form-check-label checkDespacho' id='chkenv" + i + "' data-dui='" + old_despachos_lab[i].dui + "' onClick='selectedUnico(this.id)'></td>" +
             "<td>" + old_despachos_lab[i].dui + "</td>" +
             "<td>" + old_despachos_lab[i].paciente + "</td>" +
             "</tr>";
+            indexTable --;
         }
         $("#result_despacho").html(filas);
       }
@@ -1086,10 +1091,14 @@ function buscar_dui_table(id) {
       chk_fila[i].checked = true
       const data_pac = old_despachos_lab.filter(despacho => despacho.dui == dui_pac_scan)
       new_despachos_lab = [...new_despachos_lab, ...data_pac]
+      //Validacion para evitar duplicacion
+      array_paciente_unico = new_despachos_lab.filter((paciente)=> paciente.dui != dui_pac_scan)
+      new_despachos_lab = [...array_paciente_unico,...data_pac]
       $("#totalOrdenLab").html(new_despachos_lab.length)
       estado_btn_ingreso_lab(new_despachos_lab);
     }
   }
+  //console.log(new_despachos_lab)
 }
 
 $("#showModalEnviarLab").click(() => {
@@ -1120,6 +1129,7 @@ function ingreso_lab() {
     cache: false,
     dataType: "json",
     success: function (data) {
+      //console.log(data)
       if (data == "exito") {
         Swal.fire({
           position: 'top-center',
@@ -1139,12 +1149,15 @@ function ingreso_lab() {
         old_despachos_lab = old_despachos_lab.filter((despacho, index) => !ids_delete.includes(despacho.id_det))
 
         let filas = '';
+        let indexTable = old_despachos_lab.length;
         for (var i = 0; i < old_despachos_lab.length; i++) {
           filas = filas + "<tr id='fila" + i + "'>" +
+            "<td>" + indexTable + "</td>" +
             "<td><input type='checkbox' name='checkDespacho' class='form-check-label checkDespacho' id='chkenv" + i + "' data-dui='" + old_despachos_lab[i].dui + "' onClick='selectedUnico(this.id)'></td>" +
             "<td>" + old_despachos_lab[i].dui + "</td>" +
             "<td>" + old_despachos_lab[i].paciente + "</td>" +
             "</tr>";
+          indexTable --;
         }
         $("#result_despacho").html(filas);
         new_despachos_lab = []

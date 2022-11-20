@@ -109,9 +109,9 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
         </div>        
         <!-- Modal body -->
         <div class="modal-body">
-          <input type="text" class="form-control" id="n_despacho" onchange="getDespachoLab(this.id)" placeholder="Buscar por código de envio">
+          <input type="text" autofocus class="form-control" id="n_despacho" onchange="getDespachoLab(this.id)" placeholder="Buscar por código de envio">
 
-          <input type="text" class="form-control" id="dui_despacho" onchange="buscar_dui_table(this.id)" placeholder="Buscar por Escaner">
+          <input type="text" autofocus class="form-control" id="dui_despacho" onchange="buscar_dui_table(this.id)" placeholder="Buscar por Escaner">
 
           <button type="button" class="btn btn-default float-right btn-sm " id='showModalEnviarLab' style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Ingresar <span id="totalOrdenLab">0</span></button>
 
@@ -119,9 +119,10 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
 
           <thead style="font-family: Helvetica, Arial, sans-serif;width: 100%;text-align: center;font-size: 12px;" class="bg-dark">
             <tr>
-            <th><input type="checkbox" id="select-all-desp" class="form-check-label"></th>
-            <th>DUI</th>
-            <th>PACIENTE</th>
+              <th>#</th>
+              <th><input type="checkbox" id="select-all-desp" class="form-check-label"></th>
+              <th>DUI</th>
+              <th>PACIENTE</th>
           </tr></thead>
           <tbody id="result_despacho" style="font-size: 12px"></tbody>
         </table>
@@ -189,6 +190,7 @@ require_once("links_js.php");
 ?>
 <script type="text/javascript" src="../js/laboratorios.js"></script>
 <script type="text/javascript" src="../js/ordenes.js"></script>
+<script type="text/javascript" src="../js/cleave.js"></script>
 
 </body>
 </html>

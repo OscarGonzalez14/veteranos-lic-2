@@ -67,5 +67,11 @@ $sucursales = '
 	<option value="Usulutan">Usulutan</option>
 
 ';
+//Experimental
+class conexionLenti{
+	public function conexion_lenti(){
+		return 0;
+	}
+}
 
 ?>

@@ -2127,7 +2127,6 @@ function get_table_acciones(){
     cache: false,
     dataType:"json",
     success: function (data) {
-      //console.log(data)
       $("#datatable_acciones_orden").html("");
       let filas = '';
       for (var i = 0; i < data.length; i++) {
