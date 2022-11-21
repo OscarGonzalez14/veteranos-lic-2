@@ -61,8 +61,8 @@ switch ($_GET["op"]) {
           if($_POST["id_cita"] != ""){
             $citados->updateEstadoCita($_POST["id_cita"]);
           }
-          $mensaje = "exito";
-          echo json_encode($mensaje);
+          $data = ["mensaje" => "exito", "id_orden_lab"=>$result];
+          echo json_encode($data);
           
         }else{
           $mensaje = "dui_existe";
@@ -133,7 +133,7 @@ switch ($_GET["op"]) {
     foreach ($datos as $row) {
       $sub_array = array();
       $sub_array[] = $contador += 1;
-      $sub_array[] = $row["id_orden"];
+      $sub_array[] = '<b style="color: #148F77; font-weight: 900;">'.$row["id_orden"].'</b>';
       $sub_array[] = date("d-m-Y", strtotime($row["fecha"]));
       $sub_array[] = strtoupper($row["paciente"]);
       $sub_array[] = $row["dui"];

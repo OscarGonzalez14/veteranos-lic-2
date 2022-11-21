@@ -115,42 +115,45 @@ require_once("../config/conexion.php");
     $sql->bindValue(31, $patologias);
     $sql->bindValue(32, $id_cita);
     $sql->bindValue(33, $sucursal);
-    $sql->execute();
+    //Si se inserta se crea lo demas
+    if($sql->execute()){
+      $id_orden_lab = $conectar->lastInsertId();
+      $sql2 = "insert into rx_orden_lab value(null,?,?,?,?,?,?,?,?,?);";
+      $sql2 = $conectar->prepare($sql2);
+      $sql2->bindValue(1, $correlativo_op);
+      $sql2->bindValue(2, $od_esferas);
+      $sql2->bindValue(3, $od_cilindros);
+      $sql2->bindValue(4, $od_eje);
+      $sql2->bindValue(5, $od_adicion);
+      $sql2->bindValue(6, $oi_esferas);
+      $sql2->bindValue(7, $oi_cilindros);
+      $sql2->bindValue(8, $oi_eje);
+      $sql2->bindValue(9, $oi_adicion);
+      $sql2->execute();
 
-    $sql2 = "insert into rx_orden_lab value(null,?,?,?,?,?,?,?,?,?);";
-    $sql2 = $conectar->prepare($sql2);
-    $sql2->bindValue(1, $correlativo_op);
-    $sql2->bindValue(2, $od_esferas);
-    $sql2->bindValue(3, $od_cilindros);
-    $sql2->bindValue(4, $od_eje);
-    $sql2->bindValue(5, $od_adicion);
-    $sql2->bindValue(6, $oi_esferas);
-    $sql2->bindValue(7, $oi_cilindros);
-    $sql2->bindValue(8, $oi_eje);
-    $sql2->bindValue(9, $oi_adicion);
-    $sql2->execute();
+      $accion = "Digitación orden";
 
-    $accion = "Digitación orden";
-
-    $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
-    $sql7 = $conectar->prepare($sql7);
-    $sql7->bindValue(1, $hoy);
-    $sql7->bindValue(2, $user);
-    $sql7->bindValue(3, $correlativo_op);
-    $sql7->bindValue(4, $accion);
-    $sql7->bindValue(5, $accion);
-    $sql7->bindValue(6, $sucursal);
-    $sql7->execute();
-    //Insertar titular
-    if($instit=="CONYUGE"){
-        $sql8 = "insert into titulares values(null,?,?,?);";
-        $sql8 = $conectar->prepare($sql8);
-        $sql8->bindValue(1, $titular);
-        $sql8->bindValue(2, $dui_titular);
-        $sql8->bindValue(3, $correlativo_op);
-        $sql8->execute();
+      $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
+      $sql7 = $conectar->prepare($sql7);
+      $sql7->bindValue(1, $hoy);
+      $sql7->bindValue(2, $user);
+      $sql7->bindValue(3, $correlativo_op);
+      $sql7->bindValue(4, $accion);
+      $sql7->bindValue(5, $accion);
+      $sql7->bindValue(6, $sucursal);
+      $sql7->execute();
+      //Insertar titular
+      if($instit=="CONYUGE"){
+          $sql8 = "insert into titulares values(null,?,?,?);";
+          $sql8 = $conectar->prepare($sql8);
+          $sql8->bindValue(1, $titular);
+          $sql8->bindValue(2, $dui_titular);
+          $sql8->bindValue(3, $correlativo_op);
+          $sql8->execute();
+      }
+      return $id_orden_lab;
     }
-    return true;
+    return false;
     
   }
    ////////////////////LISTAR ORDENES///////////////
@@ -1260,13 +1263,12 @@ public function agregarHistorial($codigo,$user){
 
 }
 
-public function getOrdenesSucursalDia($sucursal, $fecha){
+public function getOrdenesSucursalDia($sucursal){
   $conectar = parent::conexion();
   parent::set_names();
-  $sql = "select dui,institucion as sector,paciente,dui,fecha from orden_lab where sucursal=? and fecha=?;";
+  $sql = "select dui,institucion as sector,paciente,dui,fecha from orden_lab where sucursal=?  and estado='0';";
   $sql = $conectar->prepare($sql);
   $sql->bindValue(1, $sucursal);
-  $sql->bindValue(2, $fecha);
   $sql->execute();
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }

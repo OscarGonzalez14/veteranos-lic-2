@@ -281,15 +281,13 @@ function guardar_orden(parametro = 'saveEdit') {
     dataType:"json",
 
     success: function (data) {
-      //console.log(data)
-      if (data == "exito") {
+      if (data.mensaje == "exito") {
         order_new_clear_form() //Limpia el html y input
         Swal.fire({
           position: 'top-center',
           icon: 'success',
-          title: 'Orden Registrada',
-          showConfirmButton: true,
-          timer: 2500
+          title: 'ID orden registrada: ' + data.id_orden_lab,
+          showConfirmButton: true
         });
         $("#datatable_ordenes").DataTable().ajax.reload();
         //explode();
@@ -1837,9 +1835,7 @@ $(document).ready(function () {
   $("#departamento_pac").change(function () {
     $("#departamento_pac option:selected").each(function () {
       let depto = $(this).val();
-
       get_municipios(depto);
-
     });
   })
 });
@@ -1861,7 +1857,7 @@ var santaana = ["Candelaria de la Frontera", "Chalchuapa", "Coatepeque", "El Con
 var sonsonate = ["Acajutla", "Armenia", "Caluco", "Cuisnahuat", "Izalco", "Juayúa", "Nahuizalco", "Nahulingo", "Salcoatitán", "San Antonio del Monte", "San Julián", "Santa Catarina Masahuat", "Santa Isabel Ishuatán", "Santo Domingo de Guzmán", "Sonsonate", "Sonzacate"];
 var usulutan = ["Alegría", "Berlín", "California", "Concepción Batres", "El Triunfo", "Ereguayquín", "Estanzuelas", "Jiquilisco", "Jucuapa", "Jucuarán", "Mercedes Umaña", "Nueva Granada", "Ozatlán", "Puerto El Triunfo", "San Agustín", "San Buenaventura", "San Dionisio", "San Francisco Javier", "Santa Elena", "Santa María", "Santiago de María", "Tecapán", "Usulután"];
 function get_municipios(depto) {
-  //$("#munic_pac").empty();
+  $("#munic_pac").empty()
   if (depto == "San Salvador") {
     $("#munic_pac").select2({ data: sansalvador })
   } else if (depto == "La Libertad") {
@@ -2127,6 +2123,7 @@ function get_table_acciones(){
     cache: false,
     dataType:"json",
     success: function (data) {
+      //console.log(data)
       $("#datatable_acciones_orden").html("");
       let filas = '';
       for (var i = 0; i < data.length; i++) {
