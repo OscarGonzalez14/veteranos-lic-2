@@ -988,6 +988,7 @@ $(document).on('click', '#busquedas_graduaciones', function () {
 function ingreso_laboratorio() {
   $("#modal_ingreso_laboratorio").modal('show')
   document.getElementById('n_despacho').focus()
+  document.getElementById('showModalEnviarLab').disabled = true
   $("#result_despacho").html("");
   $("#totalOrdenLab").html("")
   old_despachos_lab = []
@@ -1001,6 +1002,8 @@ function ingreso_laboratorio() {
 
 function getDespachoLab(id) {
   let n_despacho = document.getElementById(id).value
+  n_despacho = n_despacho.replace("'","-")
+  n_despacho = document.getElementById(id).value = n_despacho
   $.ajax({
     url: "../ajax/laboratorios.php?op=get_despacho_lab",
     method: "POST",
@@ -1012,6 +1015,8 @@ function getDespachoLab(id) {
       old_despachos_lab = data
 
       if (data == "vacio") {
+        document.getElementById('n_despacho').value = ""
+        document.getElementById('n_despacho').focus()
         Swal.fire({
           position: 'top-center',
           icon: 'error',
@@ -1082,21 +1087,54 @@ function selectedUnico(id_det) {
 function buscar_dui_table(id) {
   let dui_pac_scan = document.getElementById(id).value
 
+  dui_pac_scan = dui_pac_scan.replace("'","-")
+  dui_pac_scan = document.getElementById(id).value = dui_pac_scan
+
   let chk_fila = document.getElementsByClassName('checkDespacho')
+  let no_existe = true
   for (let i = 0; i < chk_fila.length; i++) {
     if (chk_fila[i].dataset.dui === dui_pac_scan) {
+      //cambiamos el estado para mensaje
+      no_existe = false
       //clear input
       document.getElementById('dui_despacho').value = ""
       document.getElementById('dui_despacho').focus()
       chk_fila[i].checked = true
       const data_pac = old_despachos_lab.filter(despacho => despacho.dui == dui_pac_scan)
       new_despachos_lab = [...new_despachos_lab, ...data_pac]
+      
       //Validacion para evitar duplicacion
-      array_paciente_unico = new_despachos_lab.filter((paciente)=> paciente.dui != dui_pac_scan)
+      let counter = 0
+      array_paciente_unico = new_despachos_lab.filter((paciente)=>{
+        if(paciente.dui === dui_pac_scan ){
+          counter ++;
+        }
+        return paciente.dui != dui_pac_scan
+      })
+
+      //mensaje
+      if(counter > 1){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'warning',
+          title: 'El paciente ya esta seleccionado!',
+          timer: 1500
+        });
+      }
       new_despachos_lab = [...array_paciente_unico,...data_pac]
       $("#totalOrdenLab").html(new_despachos_lab.length)
       estado_btn_ingreso_lab(new_despachos_lab);
     }
+  }
+  if(no_existe){
+    document.getElementById('dui_despacho').value = ""
+      document.getElementById('dui_despacho').focus()
+      Swal.fire({
+        position: 'top-center',
+        icon: 'warning',
+        title: 'No existe el paciente!',
+        timer: 1000
+      });
   }
   //console.log(new_despachos_lab)
 }

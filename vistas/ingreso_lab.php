@@ -70,9 +70,9 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
           </select>
         </div>
         <div class="ml-3">         
-          <button class="btn btn-app btn-success btn-sm" id="modal_ingreso_lab" style="color: black;border: solid #5bc0de 1px; width:32px;" onclick="ingreso_laboratorio()">
+          <button class="btn btn-primary" id="modal_ingreso_lab" onclick="ingreso_laboratorio()">
             <span class="badge bg-success"></span>
-            <i class="fas fa-paste" aria-hidden="true" style="color: #5bc0de;"></i> INGRESO
+            <i class="fas fa-paste" aria-hidden="true" style="color: #e8eff1;"></i> INGRESO
           </button>
          </div>
       </div>

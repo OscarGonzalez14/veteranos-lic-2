@@ -2,7 +2,7 @@
 
 require_once("../config/conexion.php");  
 
-  class ordenesLenti extends conexionLenti{
+  class ordenesLenti extends Conectar{
 
       //////////////////  GET CODIGO DE ORDEN ////////////////////////
       public function get_correlativo_orden($fecha){
@@ -145,5 +145,13 @@ if($tipo_lente=="Visión Sencilla" or $tipo_lente=="Progresive"){
 
     }
 
-
+    public function get_orden(){
+        $conectar = parent::conexion_lenti();
+        //$sql="select id_orden from orden where codigo=?;";
+        $sql="select * from orden";
+        $sql= $conectar->prepare($sql);
+        //$sql->bindValue(1, $codigo);
+        $sql->execute();
+        return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
+    }
   }

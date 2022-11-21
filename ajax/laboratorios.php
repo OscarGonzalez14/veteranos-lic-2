@@ -3,8 +3,11 @@
 require_once("../config/conexion.php");
 //llamada al modelo categoria
 require_once("../modelos/Laboratorios.php");
+//Modelo orden lenti
+require_once("../modelos/OrdenesLenti.php");
 
 $ordenes = new Laboratorios();
+$orden_lenti = new ordenesLenti(); //Para insertar datos a lenti
 
 switch ($_GET["op"]){
 
