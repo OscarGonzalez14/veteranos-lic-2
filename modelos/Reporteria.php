@@ -49,7 +49,7 @@ $conectar= parent::conexion();
 public function get_pacientes_citados($fecha,$sucursal){
   $conectar= parent::conexion();
   parent::set_names();
-  $sql = "select*from citas where fecha = ? and sucursal=? order by id_cita;";
+  $sql = "select*from citas where fecha = ? and sucursal=? order by id_cita ASC;";
   $sql=$conectar->prepare($sql);
   $sql->bindValue(1,$fecha);
   $sql->bindValue(2,$sucursal);
