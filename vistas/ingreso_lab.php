@@ -158,7 +158,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
               <label for="laboratorio">Laboratorio: </label>
               <select name="laboratorio" id="laboratorio_ingreso" class="form-control" required>
                 <option value="" disabled selected>Seleccionar</option>
-                <option value="LENTI 1">LENTI </option>
+                <option value="LENTI">LENTI </option>
                 <option value="AV Plus Lab">AV Plus Lab</option>
               </select>
             </div>

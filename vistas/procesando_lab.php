@@ -55,14 +55,14 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
         <table width="100%" class="table-hover table-bordered" id="ordenes_procesando_lab"  data-order='[[ 0, "desc" ]]'> 
               
          <thead class="style_th bg-dark" style="color: white">
-           <th>ID</th>
+            <th>#</th>
+           <th>ID orden</th>
            <th>Codigo</th>
            <th>Fecha</th>
-           <th>Recibir</th>
+           <th>Dui</th>
            <th>Paciente</th>
            <th>Tipo lente</th>
            <th>Detalles</th>
-           <th>Aro</th>
          </thead>
          <tbody class="style_th"></tbody>
        </table>
@@ -72,30 +72,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
   </div>
 
   <input type="hidden" value="<?php echo $categoria_usuario;?>" id="cat_users">
-
-   <!--Modal Imagen Aro-->
-   <div class="modal" id="imagen_aro_orden">
-    <div class="modal-dialog" style="max-width: 55%">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <span><b>Código: </b></span><span id="cod_orden_lab"></span>&nbsp;&nbsp;&nbsp;<span><b>Paciente: </b></span><span id="paciente_ord_lab"></span>
-          <div style="  background-size: cover;background-position: center;display:flex;align-items: center;">
-            <img src="" alt="" id="imagen_aro_v" style="width: 100%;border-radius: 8px;">
-          </div>          
-        </div>        
-   
-      </div>
-    </div>
-  </div>
-
-
+  
    <!--Modal Ingreso a laboratorio-->
    <div class="modal" id="modal_procesando_lab" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="max-width: 35%">
@@ -139,19 +116,6 @@ require_once("links_js.php");
 <script type="text/javascript" src="../js/laboratorios.js"></script>
 <script type="text/javascript" src="../js/ordenes.js"></script>
 
-<script>
-  var dui = new Cleave('#dui_pac', {
-  delimiter: '-',
-  blocks: [8,1],
-  uppercase : true
-});
-
-var telefono = new Cleave('#telef_pac', {
-  delimiter: '-',
-  blocks: [4,4],
-  uppercase : true
-});
-</script>
 </body>
 </html>
  <?php } else{

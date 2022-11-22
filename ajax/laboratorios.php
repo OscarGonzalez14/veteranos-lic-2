@@ -83,24 +83,24 @@ case 'get_ordenes_pendientes_lab':
 
  case 'get_ordenes_procesando_lab':
   $data = Array();
-  $i=0;
+  $i=1;
   $datos = $ordenes->get_ordenes_procesando_lab();
   foreach ($datos as $row) { 
   $sub_array = array();
-
+  $sub_array[] = $i;
   $sub_array[] = $row["id_orden"];
   $sub_array[] = $row["codigo"];  
   $sub_array[] = date("d-m-Y",strtotime($row["fecha"]));
-   $sub_array[] = '<input type="checkbox"class="form-check-input ordenes_procesando_lab" value="'.$row["id_orden"].'" name="'.$row["codigo"].'" id="orden_enviar'.$i.'">'."Rec.".'';
+  $sub_array[] = strtoupper($row["dui"]);
   $sub_array[] = strtoupper($row["paciente"]);
   $sub_array[] = $row["tipo_lente"];
-  $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="verEditar(\''.$row["codigo"].'\',\''.$row["paciente"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';  
-  $sub_array[] = '<i class="fas fa-image fa-2x" aria-hidden="true" style="color:blue" onClick="verImg(\''.$row["img"].'\',\''.$row["codigo"].'\',\''.$row["paciente"].'\')">';               
+  $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="verOrdenLaboratorio(\''.$row["dui"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';
+
   $i++;                                             
   $data[] = $sub_array;
   }
   
-  $results = array(
+    $results = array(
       "sEcho"=>1, //Información para el datatables
       "iTotalRecords"=>count($data), //enviamos el total registros al datatable
       "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
@@ -176,9 +176,9 @@ case 'get_ordenes_pendientes_lab':
   case 'get_data_orden_barcode':
 
   if ($_POST["tipo_accion"]=="ing_lab") {
-    $datos = $ordenes->get_ordenes_barcode_lab_id($_POST["cod_orden_act"],$_POST["tipo_accion"]);
+    $datos = $ordenes->get_ordenes_barcode_lab_id($_POST["paciente_dui"],$_POST["tipo_accion"]);
   }else{
-    $datos = $ordenes->get_ordenes_barcode_lab($_POST["cod_orden_act"]);
+    $datos = $ordenes->get_ordenes_barcode_lab($_POST["paciente_dui"]);
   }
 
     
@@ -218,13 +218,10 @@ case 'get_ordenes_pendientes_lab':
 
 //////////////////PROCESAR ORDENES BARCODE /////////////
     case 'procesar_ordenes_barcode':
-
-    if ($_POST['tipo_accion']=='ing_lab') {
-      $ordenes->recibirOrdenesLabBarcode();
-      $mensaje = "Ok";
-    }elseif ($_POST['tipo_accion']=='finalizar_lab') {///FINALIZAR LAB
+    if ($_POST['tipo_accion']=='finalizar_lab') {///FINALIZAR LAB
       $ordenes->finalizarOrdenesLab();
       $mensaje = "Ok";
+
     }elseif ($_POST['tipo_accion']=='recibir_veteranos' or $_POST['tipo_accion']=='entregar_veteranos') {
       $comprobar_correlativo = $ordenes->compruebaCorrelativo($_POST['correlativo_accion']);
       if(is_array($comprobar_correlativo)==true and count($comprobar_correlativo)==0){
@@ -383,10 +380,20 @@ case 'get_ordenes_pendientes_lab':
       $ACCIONES = "ingresos_lab";
       foreach($data as $row){
         $ordenes->set_ingreso_lab($row['n_despacho'],$row['dui'],$row['paciente'],$ACCIONES,$_POST['tipo_acciones'],$_POST['laboratorio']);
+        //insertar a LENTI
+        if($_POST['laboratorio'] == "LENTI"){
+          $data_orden_lab = $ordenes->get_data_orden($row['dui']);
+          foreach($data_orden_lab as $k){
+            $orden_lenti->trasladoOrdenesLenti($k['codigo'],$k['paciente'],$k['observaciones'],$k['id_usuario'],$k['tipo_lente'],$k['od_esferas'],$k['od_cilindros'],$k['od_eje'],$k['od_adicion'],$k['oi_esferas'],$k['oi_cilindros'],$k['oi_eje'],$k['oi_adicion'],$k['marca'],$k['modelo'],'','','',$k['pupilar_od'],$k['pupilar_oi'],$k['lente_od'],$k['lente_oi'],$k['categoria']);
+          }
+        }
       }
+
       $mensaje = "exito";
       echo json_encode($mensaje);
       break;
+
+
     case 'listar_ingreso_lab':
       $data = array();
 

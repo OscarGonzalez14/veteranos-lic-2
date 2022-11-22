@@ -57,7 +57,7 @@ require_once("../config/conexion.php");
   public function get_ordenes_procesando_lab(){
     $conectar= parent::conexion();
     parent::set_names();
-    $sql= "select*from orden_lab where estado_aro = 2 order by id_orden DESC;";
+    $sql= "select id_orden,codigo,paciente,dui,tipo_lente,fecha from orden_lab where estado=2";
     $sql=$conectar->prepare($sql);
     $sql->execute();
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -74,10 +74,10 @@ require_once("../config/conexion.php");
     foreach ($detalle_finalizados as $k => $v) {
       
       $codigoOrden = $v->n_orden;
-      $accion = "Finalizado Lab";
+      $accion = "En proceso";
       $destino = "-";
 
-      $sql2 = "update orden_lab set estado_aro='3' where codigo=?;";
+      $sql2 = "update orden_lab set estado=3 where codigo=?;";
       $sql2=$conectar->prepare($sql2);
       $sql2->bindValue(1, $codigoOrden);
       $sql2->execute();
@@ -167,38 +167,6 @@ require_once("../config/conexion.php");
     $sql->execute();
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
   }
-
-  public function recibirOrdenesLabBarcode(){
-    $conectar= parent::conexion();
-    parent::set_names();
-    date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H:i:s");
-    $detalle_recibidos = array();
-    $detalle_recibidos = json_decode($_POST["arrayOrdenesBarcode"]);
-    $usuario = $_POST["usuario"];
-
-    foreach ($detalle_recibidos as $k => $v) {
-      
-      $codigoOrden = $v->n_orden;
-      $accion = "Recibido en laboratorio";
-      $destino = "A proceso";
-
-      $sql2 = "update orden_lab set estado_aro='2' where codigo=?;";
-      $sql2=$conectar->prepare($sql2);
-      $sql2->bindValue(1, $codigoOrden);
-      $sql2->execute();
-
-      $sql = "insert into acciones_orden values(null,?,?,?,?,?);";
-      $sql=$conectar->prepare($sql);
-      $sql->bindValue(1, $hoy);
-      $sql->bindValue(2, $usuario);
-      $sql->bindValue(3, $codigoOrden);
-      $sql->bindValue(4, $accion);
-      $sql->bindValue(5, $destino);
-      $sql->execute();
-    }
-  }
-
-
   
   public function get_correlativo_accion_veteranos(){
     $conectar= parent::conexion();
@@ -334,12 +302,12 @@ public function compruebaAccion($accion,$codigo){
   return $data_result;
 }
 
-public function get_ordenes_barcode_lab($codigo){
+public function get_ordenes_barcode_lab($dui_paciente){
 
   $conectar = parent::conexion();
-  $sql= "select*from orden_lab where codigo = ?;";
+  $sql= "select*from orden_lab where dui = ?;";
   $sql=$conectar->prepare($sql);
-  $sql->bindValue(1, $codigo);
+  $sql->bindValue(1, $dui_paciente);
   $sql->execute();
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 

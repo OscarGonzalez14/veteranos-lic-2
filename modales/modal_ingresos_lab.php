@@ -28,9 +28,6 @@
         </table>
 
         </div> 
-        
-        <audio id="success_sound"><source src="../Beep.mp3" type="audio/mp3"></audio>
-        <audio id="error_sound"><source src="../error-beep.wav" type="audio/wav"></audio> 
         <!-- Modal footer -->
        
       </div>

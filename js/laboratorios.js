@@ -10,6 +10,7 @@ function init() {
   listar_ordenes_de_envio();
   listar_ingreso_lab();
 }
+init();
 
 /*========RECIBIR E IMPRIMIR=======*/
 
@@ -235,10 +236,7 @@ function confirmarIngresoLab() {
     }
   });
 }
-
 function listar_ordenes_procesando_lab() {
-
-
   tabla_ordenes = $('#ordenes_procesando_lab').DataTable({
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -250,7 +248,7 @@ function listar_ordenes_procesando_lab() {
     "ajax": {
       url: "../ajax/laboratorios.php?op=get_ordenes_procesando_lab",
       type: "POST",
-      dataType: "json",
+      //dataType: "json",
       //data:{inicio:inicio,hasta:hasta},           
       error: function (e) {
         console.log(e.responseText);
@@ -511,26 +509,19 @@ function getCorrelativoAccionVet() {
 
 function getOrdenBarcode() {
 
-  let cod_orden_act = $("#reg_ingresos_barcode").val();
+  let paciente_dui = $("#reg_ingresos_barcode").val();
   let tipo_accion = $("#cat_data_barcode").val();
 
   $.ajax({
     url: "../ajax/laboratorios.php?op=get_data_orden_barcode",
     method: "POST",
-    data: { cod_orden_act: cod_orden_act, tipo_accion: tipo_accion },
+    data: { paciente_dui: paciente_dui, tipo_accion: tipo_accion },
     cache: false,
     dataType: "json",
     success: function (data) {
       let resultados = typeof data;
-      if (resultados === 'string' && tipo_accion == 'ing_lab') {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'error',
-          title: 'Orden ya ha sido ingresada anteriormente',
-          showConfirmButton: true,
-          timer: 6000
-        });
-      } else if (resultados == 'object') {
+      $("#reg_ingresos_barcode").focus()
+      if (resultados == 'object') {
         getDataOrdenes(resultados, data);
       }
 
@@ -551,8 +542,6 @@ function getDataOrdenes(resultados, data) {
     });
 
     if (indice >= 0) {
-      var y = document.getElementById("error_sound");
-      y.play();
       Swal.fire({
         position: 'top-center',
         icon: 'error',
@@ -562,8 +551,6 @@ function getDataOrdenes(resultados, data) {
       });
       input_focus_clearb();
     } else {
-      var x = document.getElementById("success_sound");
-      x.play();
       let items_ingresos = {
         n_orden: data.codigo,
         paciente: data.paciente,
@@ -576,8 +563,6 @@ function getDataOrdenes(resultados, data) {
       input_focus_clearb();
     }
   } else {
-    var z = document.getElementById("error_sound");
-    z.play();
     Swal.fire({
       position: 'top-center',
       icon: 'error',
@@ -593,7 +578,6 @@ function input_focus_clearb() {
   $("#reg_ingresos_barcode").val("");
 
   $('#reg_ingresos_barcode').focus();
-
 }
 
 function show_items_barcode_lab() {
@@ -628,21 +612,15 @@ function drop_index(position_element) {
   $('#reg_ingresos_barcode').focus();
   show_items_barcode_lab()
 }
-
+//========EN DESARROLLO============
 function registrarBarcodeOrdenes() {
 
   let tipo_accion = $("#cat_data_barcode").val();
-
-  var datatables = '';
-  var mjs = '';
-  var fecha_orden = '';
   var ubicacion_orden = ''
-
-
   let usuario = $("#usuario").val();
   let correlativo_accion = $("#correlativo_acc_vet").val();
   let n_ordenes = items_barcode.length;
-  console.log(correlativo_accion);
+  //console.log(correlativo_accion);
   if (n_ordenes == 0) {
     Swal.fire({
       position: 'top-center',
@@ -662,12 +640,12 @@ function registrarBarcodeOrdenes() {
     dataType: "json",
     success: function (data) {
       console.log(data);
-      if (tipo_accion == 'ing_lab') {
-        msj = ' ordenes recibidas exitosamente';
-        imprimir_ordenes();
-      } else if (tipo_accion == 'finalizar_lab') {
+      if (tipo_accion == 'finalizar_lab') {
         $("#ordenes_procesando_lab").DataTable().ajax.reload();
-        msj = ' ordenes finalizadas exitosamente';
+        msj = ' ordenes en proceso exitosamente';
+        $("#reg_ingresos_barcode").focus();
+        $("#items-ordenes-barcode").html('');
+
       } else if (tipo_accion == 'recibir_veteranos') {
         msj = ' ordenes recibidas exitosamente';
         $('#modal_acciones_veteranos').modal('hide');
@@ -785,9 +763,7 @@ function listar_ordenes_entregas_vet() {
 
 function input_focus_clearb() {
   $("#reg_ingresos_barcode").val("");
-  $('#modal_acciones_veteranos').on('shown.bs.modal', function () {
-    $('#reg_ingresos_barcode').focus();
-  });
+  $("#reg_ingresos_barcode").focus()
 }
 
 function downloadExcelEntregas(title, fecha) {
@@ -1446,4 +1422,3 @@ function imprimirEnviosLabPDF() {
   document.body.removeChild(form);
 
 }
-init();
