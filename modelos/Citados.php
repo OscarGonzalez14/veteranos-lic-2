@@ -60,13 +60,13 @@ class Citados extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDataCitadosSucursalPrint($sucursal){
+    public function getDataCitadosSucursalPrint($sucursal,$fecha){
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "select * from citas where sucursal=? ;";
+        $sql = "select * from citas where sucursal=? and fecha=?;";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $sucursal);
-
+        $sql->bindValue(2, $fecha);
         $sql->execute();
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -180,6 +180,50 @@ public function getDisponibilidadCitas($fecha){
             return true;
         }
         //echo json_encode(["msj" => "OLK"]);
+    }
+
+    public function comprobarImpresion($dui){
+        $conectar = parent::conexion();
+        parent::set_names();
+        $sql = "select dui from hoja_atencion where dui=?;";
+        $sql= $conectar->prepare($sql);
+        $sql->bindValue(1, $dui);
+        $sql->execute();
+        return $resultado=$sql->fetchAll();
+    }
+
+    public function getCorrelativoImpAsistencia($sucursal,$fecha){
+        $conectar = parent::conexion();
+        parent::set_names();
+        $sql = "select corr_diario from hoja_atencion where sucursal=? and fecha_imp=? order by id_imp DESC limit 1;";
+        $sql= $conectar->prepare($sql);
+        $sql->bindValue(1, $sucursal);
+        $sql->bindValue(2, $fecha);
+        $sql->execute();
+        $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        if(count($resultado)==0){
+            $correlativo = 1;
+        }else{
+            foreach($resultado as $r){
+             $correlativo = (int)$r["corr_diario"]+1;
+            }
+        }
+
+        return $correlativo;
+
+    }
+
+    public function getDataAsistencia($dui,$fecha,$sucursal){
+        $conectar = parent::conexion();
+        parent::set_names();
+        $data_validacion = $this->comprobarImpresion($dui);
+       if(count($data_validacion)>0){
+        echo  json_encode(["msj"=>"existe"]);
+       }else{
+        $correlativo = $this->getCorrelativoImpAsistencia($sucursal,$fecha);
+        echo  json_encode(["correlativo"=>$correlativo]);
+       }
     }
 
 }////Fin de la clase

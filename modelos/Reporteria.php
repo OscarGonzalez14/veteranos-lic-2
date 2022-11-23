@@ -105,7 +105,8 @@ public function getDataOrdenDui($dui){
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1,$dui);
     $sql->execute();
-    return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);    
+    return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC); 
+       
 }
 
 

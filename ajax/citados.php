@@ -116,6 +116,7 @@ switch ($_GET["op"]){
                 $sub_array[] = date("d-m-Y",strtotime($c["fecha"]));
                 $sub_array[] = $c["sucursal"];
                 $sub_array[] = $estado;
+                $sub_array[] = '<button type="button"  class="btn btn-xs bg-light" onClick="printHojaIdent(\'' . $c["dui"] . '\')" style="cursor:pointer"><i class="fa fa-file-pdf" aria-hidden="true" style="color:red"></i></button>';
                 $data[] = $sub_array;
             }
     
@@ -192,6 +193,10 @@ switch ($_GET["op"]){
             case 'get_disponilidad_citas':
                 $citas->getDisponibilidadCitas($_POST["fecha"]);
             break;
+
+            case 'get_correlativo_impresion_hoja_asist':
+                 $citas->getDataAsistencia($_POST["dui"],$_POST["fecha"],$_POST["sucursal"]);
+                break;
 
 }
 

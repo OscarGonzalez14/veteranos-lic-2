@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         eventClick: function (info) {
+          console.log(info.event.title)
             let fecha = info.event.startStr;
             getCitadosSucursal(sucursal,fecha);
         },

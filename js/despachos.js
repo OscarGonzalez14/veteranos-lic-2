@@ -1,3 +1,7 @@
+function initDesp(){
+ console.log("func")
+}
+
 function showModalDespachos(){
     $("#fecha-despacho").val("")
     $("#modal-despachos").modal();
@@ -173,3 +177,5 @@ function printDespacho(correlativo,tipo_desp,sucursal){
     document.body.removeChild(form);
 
 }
+
+initDesp()

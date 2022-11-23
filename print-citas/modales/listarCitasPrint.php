@@ -1,5 +1,5 @@
 <div class="modal" id="listarCitasPrint">
-  <div class="modal-dialog" style="max-width:70%">
+  <div class="modal-dialog" style="max-width:75%">
     <div class="modal-content">
       <div class="modal-header bg-dark">
         <h5 class="modal-title w-100 text-center position-absolute">PACIENTES CITADOS&nbsp;</h5>
@@ -23,6 +23,7 @@
                 <th>Dia</th>
                 <th>Sucursal</th>
                 <th>Estado</th>
+                <th>Hoja eval.</th>
             </thead>
             <tbody style="text-align:center;font-size:14px"></tbody>
         </table>

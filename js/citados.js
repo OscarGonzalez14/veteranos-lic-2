@@ -309,3 +309,18 @@ function consultarDisponibilidad(fecha){
 }
 
 
+function printHojaIdent(dui){
+  let fecha = document.getElementById("fecha_print").value;
+  let sucursal = document.getElementById("sucursal_print").value;
+
+  $.ajax({
+    url:"../ajax/citados.php?op=get_correlativo_impresion_hoja_asist",
+    method:"POST",
+    data:{dui:dui,fecha:fecha,sucursal:sucursal},
+    cache: false,
+    dataType:"json", 
+    success:function(data){                
+       console.log(data)
+    }
+});//fin ajax
+}

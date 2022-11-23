@@ -69,8 +69,8 @@ class Despachos extends Conectar{
             $sql7->bindValue(1, $hoy);
             $sql7->bindValue(2, $_POST["usuario"]);
             $sql7->bindValue(3, $v->dui);
-            $sql7->bindValue(4, $v->paciente);
-            $sql7->bindValue(5, $accion );
+            $sql7->bindValue(4, "Despacho a Lab. No. Envio ".$correlativo);
+            $sql7->bindValue(5, $accion);
             $sql7->execute();
 
             $sql3 = "update orden_lab set estado='1' where dui=?";
