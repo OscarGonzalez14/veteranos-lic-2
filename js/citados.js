@@ -109,10 +109,9 @@ function editarCita(id_cita){
     data :{id_cita:id_cita},
     dataType:"json",
     success:function(data){
-      console.log(data)
-      $("#myModal").modal();
-           
-      document.getElementById("sucursal-cita").value=data.sucursal;
+      let hora= data.hora;
+      $("#myModal").modal();          
+
       document.getElementById("fecha-cita").readOnly = false;
       document.getElementById("btnEdit").style.display="block";
       document.getElementById("btnAccion").style.display="none";   
@@ -128,12 +127,8 @@ function editarCita(id_cita){
       document.getElementById("paciente-vet").value=data.paciente
       document.getElementById("dui-vet").value=data.dui;
       document.getElementById("id_citado").value=id_cita;       
-      document.getElementById("telefono-opcional").value=data.tel_opcional;     
-  
-      document.getElementById("sucursal-cita").innerHTML='<option value="'+data.sucursal+'" selected>'+data.sucursal+'</option>';
-      let $option = $("<option selected></option>").val(data.hora).text(data.hora);
-      $('#hora').val(null).trigger('change');
-			$('#hora').append($option).trigger('change');
+      document.getElementById("telefono-opcional").value=data.tel_opcional; 
+     
 
       if(data.tipo_paciente=="Designado" || data.tipo_paciente=="Conyuge"){
         document.getElementById("datos-titular").style.display="flex";
@@ -145,7 +140,7 @@ function editarCita(id_cita){
         document.getElementById("datos-titular").style.display="none";
       }
 
-      listarDispEdicion()
+      listarDispEdicion(data.sucursal,hora)
 
       //let id_user = document.getElementById("id_usuario_vet").value;
       if(permiso_edita_cita==false) {
@@ -176,8 +171,7 @@ function editarCita(id_cita){
 
 }
 
-function listarDispEdicion(){
-  let suc_act = document.getElementById("sucursal-cita").value;
+function listarDispEdicion(sucursal,hora){  
   let fecha = document.getElementById("fecha-cita").value;
   $.ajax({
     url:"../ajax/citados.php?op=get_disponilidad_citas",
@@ -186,15 +180,18 @@ function listarDispEdicion(){
     cache: false,
     dataType:"json",
     success:function(data){
-      console.log(data)
-      document.getElementById("sucursal-cita").innerHTML='<option value='+suc_act+'>'+suc_act+'</option>';
+     
       for(var i=0; i<data.length; i++){
         let sucursal=data[i].sucursal;
         document.getElementById("sucursal-cita").innerHTML += "<option value='"+data[i].sucursal+"' data-toggle='tooltip' data-placement='left' data-html='true' title='"+sucursal.toUpperCase()+ "\n" +data[i].direccion+"\n"+data[i].referencia+"\n"+data[i].optica+"'>"+data[i].sucursal+" "+data[i].cupos+"</option>"; 
 
       }
+      $("#sucursal-cita").val(sucursal)
+      gethorasDisponibles(sucursal,fecha,hora)
     }
   });///fin ajax
+
+
 }
 
 function editarCitaSendData(){
@@ -206,7 +203,8 @@ function editarCitaSendData(){
   let sector = document.getElementById("sector-pac").value;
   let depto = document.getElementById("departamento_pac").value;
   let municipio = document.getElementById("munic_pac").value;
-  let hora = document.getElementById("hora").value;;
+  let hora = document.getElementById("hora").value;
+  
   let telefono = document.getElementById("telefono-pac").value;
   let edad = document.getElementById("edad-pac").value;
   let ocupacion = document.getElementById("ocupacion-pac").value;

@@ -311,16 +311,16 @@ $(function () {
 
 function gethorasDisponiblesSucursal(sucursal){
   let fecha = document.getElementById("fecha-cita").value;
-  gethorasDisponibles(sucursal,fecha)
+  gethorasDisponibles(sucursal,fecha,"0")
 }
 
 function gethorasDisponiblesFecha(fecha){
   let sucursal = document.getElementById("sucursal-cita").value;
-  gethorasDisponibles(sucursal,fecha)
+  gethorasDisponibles(sucursal,fecha,"0")
 }
 
-function gethorasDisponibles(sucursal,fecha){
-  console.log(sucursal,fecha)
+function gethorasDisponibles(sucursal,fecha,param){
+  console.log(sucursal,fecha,param)
   const numeroDia = new Date(fecha).getDay();
   const dias = ['lunes','martes','miercoles','jueves','viernes','sabado'];
   const nombreDia = dias[numeroDia];
@@ -354,7 +354,6 @@ function gethorasDisponibles(sucursal,fecha){
     ]
   }
 
-
     
     $.ajax({
         url:"../ajax/citados.php?op=get_horas_select",
@@ -363,9 +362,8 @@ function gethorasDisponibles(sucursal,fecha){
         cache: false,
         dataType:"json",
         success:function(horas){
-          let valida_edit = document.getElementById("input-ed").value;
           let tam_array = horas.length;
-          if(tam_array==0){
+          if(tam_array==0 || param !='0'){
             $("#hora").empty();
             $("#hora").select2({ data: disp})
           }else{
@@ -377,6 +375,12 @@ function gethorasDisponibles(sucursal,fecha){
           
         }
       });///fin ajax 
+
+      if(param !="0"){
+        console.log(param)
+        $('select#hora').val(param).select2();
+        
+      }
 }
 
 $(".inp-citas").keyup(function(){

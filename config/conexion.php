@@ -24,6 +24,16 @@ class Conectar {
 	public function ruta(){
 		return "localhost/veteranos/";
 	}
+	protected function conexion_lenti(){
+		try {
+		    $conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=lenti","root","");
+		   //$conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_lenti","u579024306_rlenti","And20vas08");
+		   return $conectarLenti;
+	   }catch (Exception $e) {
+				print "¡Error!: " . $e->getMessage() . "<br/>";
+			   die();
+		}
+	} 
 
     //Función para convertir fecha del mes de numero al nombre, ejemplo de 01 a enero
 	public static function convertir($string){
@@ -55,6 +65,7 @@ class conexionLenti{
     	public function ruta(){
 		return "localhost/veteranos/";
 	}
+	
 }
 $sucursales_array = ["Valencia","Metrocentro","Cascadas","Santa Ana","Chalatenango","Ahuachapan","Sonsonate","Ciudad Arce","Opico","Apopa","San Vicente Centro","San Vicente","Gotera","San Miguel","Usulutan"];
 $sucursales = '
