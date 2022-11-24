@@ -11,7 +11,9 @@
         <div class="modal-body">
           <input type="text" class="form-control" id="reg_ingresos_barcode" onchange="getOrdenBarcode()">
 
-          <button type="button" class="btn btn-default float-right btn-sm " onClick="registrarBarcodeOrdenes()" style='margin: 3px'><i class=" fas fa-file-export" style="color: #0275d8"></i> Registrar</button>
+          <button type="button" id="btn_proceso_fin_env" class="btn btn-default float-right btn-sm " onClick="registrarBarcodeOrdenes()" style='margin: 3px'><i class=" fas fa-file-export" style="color: #0275d8"></i> Registrar</button>
+
+          <button type="button" class="btn btn-default float-right btn-sm " id="showModalIngresosLab" style='margin: 3px'><i class=" fas fa-file-export" style="color: #0275d8"></i> Ingresar</button>
 
           <table class="table-hover table-bordered" style="font-family: Helvetica, Arial, sans-serif;max-width: 100%;text-align: left;margin-top: 5px !important" width="100%" id="tabla_acciones_veterans">
 
@@ -19,7 +21,10 @@
             <th>ID</th>
             <th>#Orden</th>
             <th>Fecha</th>
+            <th>DUI</th>
             <th>Paciente</th>
+            <th>Co.Envio</th>
+            <th>Sucursal</th>
             <th>Eliminar</th>
           </thead>
           <tbody id="items-ordenes-barcode" style="font-size: 12px"></tbody>

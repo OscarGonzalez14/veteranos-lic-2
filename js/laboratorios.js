@@ -558,7 +558,10 @@ function getDataOrdenes(resultados, data) {
         dui: data.dui,
         paciente: data.paciente,
         fecha: data.fecha,
-        id_orden: data.id_orden
+        id_orden: data.id_orden,
+        n_despacho: data.n_despacho,
+        estado: data.estado,
+        sucursal: data.sucursal,
       }
       items_barcode.push(items_ingresos);
       orders.push(data.codigo);
@@ -596,7 +599,10 @@ function show_items_barcode_lab() {
       "<td>" + items_barcode[i].id_orden + "</td>" +
       "<td>" + items_barcode[i].n_orden + "</td>" +
       "<td>" + items_barcode[i].fecha + "</td>" +
+      "<td>" + items_barcode[i].dui + "</td>" +
       "<td>" + items_barcode[i].paciente + "</td>" +
+      "<td>" + items_barcode[i].n_despacho + "</td>" +
+      "<td>" + items_barcode[i].sucursal + "</td>" +
       "<td>" + "<button type='button'  class='btn btn-sm bg-light' onClick='eliminarItemBarcodeLab(" + i + ")'><i class='fa fa-times-circle' aria-hidden='true' style='color:red'></i></button>" + "</td>" +
       "</tr>";
   }
@@ -623,7 +629,6 @@ function registrarBarcodeOrdenes() {
   let usuario = $("#usuario").val();
   let correlativo_accion = $("#correlativo_acc_vet").val();
   let n_ordenes = items_barcode.length;
-  //console.log(correlativo_accion);
   if (n_ordenes == 0) {
     Swal.fire({
       position: 'top-center',
@@ -768,6 +773,14 @@ function listar_ordenes_entregas_vet() {
 function input_focus_clearb() {
   $("#reg_ingresos_barcode").val("");
   $("#reg_ingresos_barcode").focus()
+  //Verify proceso
+  let tipo_accion = $("#cat_data_barcode").val()
+  document.getElementById('btn_proceso_fin_env').style.display = "block"
+  document.getElementById('showModalIngresosLab').style.display = "none"
+  if(tipo_accion == "ingreso_lab"){
+    document.getElementById('btn_proceso_fin_env').style.display = "none"
+    document.getElementById('showModalIngresosLab').style.display = "block"
+  }
 }
 
 function downloadExcelEntregas(title, fecha) {
@@ -1010,6 +1023,8 @@ function getDespachoLab(id) {
         document.getElementById('dui_despacho').style.display = "block"
         document.getElementById('dui_despacho').focus()
 
+        $("#form-label-title").html('DUI expediente')
+
         $("#result_despacho").html("");
         let filas = '';
         let indexTable = old_despachos_lab.length;
@@ -1019,6 +1034,8 @@ function getDespachoLab(id) {
             "<td><input type='checkbox' name='checkDespacho' class='form-check-label checkDespacho' id='chkenv" + i + "' data-dui='" + old_despachos_lab[i].dui + "' onClick='selectedUnico(this.id)'></td>" +
             "<td>" + old_despachos_lab[i].dui + "</td>" +
             "<td>" + old_despachos_lab[i].paciente + "</td>" +
+            "<td>" + old_despachos_lab[i].n_despacho + "</td>" +
+            "<td>" + old_despachos_lab[i].sucursal + "</td>" +
             "</tr>";
             indexTable --;
         }
@@ -1126,6 +1143,11 @@ $("#showModalEnviarLab").click(() => {
   $("#laboratorio_ingreso").val('')
 })
 
+$("#showModalIngresosLab").click(()=>{
+  $("#totalOrdenLab_ingreso").html(items_barcode.length)
+  $("#modal_laboratorio").modal('show')
+})
+
 function ingreso_lab() {
   let tipo_acciones = $("#tipo_acciones").val()
   let laboratorio = $("#laboratorio_ingreso").val()
@@ -1142,6 +1164,19 @@ function ingreso_lab() {
   if(tipo_acciones == "REENVIO A LAB"){
     imprimirEnviosLabPDF()
   }
+  //Validando envio manual
+  if(items_barcode.length > 0){
+    new_despachos_lab = items_barcode
+  }
+  if(new_despachos_lab.length === 0){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'warning',
+      title: 'Lista vacia!',
+      showConfirmButton: true,
+      timer: 2000
+    });
+  }
   $.ajax({
     url: "../ajax/laboratorios.php?op=ingreso_lab",
     method: "POST",
@@ -1149,7 +1184,7 @@ function ingreso_lab() {
     cache: false,
     dataType: "json",
     success: function (data) {
-      //console.log(data)
+      console.log(data)
       if (data == "exito") {
         Swal.fire({
           position: 'top-center',
@@ -1183,6 +1218,9 @@ function ingreso_lab() {
         new_despachos_lab = []
         estado_btn_ingreso_lab(new_despachos_lab)
         $("#totalOrdenLab").html(new_despachos_lab.length)
+        //Clear datatable
+        items_barcode = []
+        $("#items-ordenes-barcode").html('')
       }
     }
   });
@@ -1420,6 +1458,9 @@ function imprimirEnviosLabPDF() {
   var input = document.createElement("input");
   input.type = "hidden";
   input.name = "data";
+  if(items_barcode.length > 0){
+    new_despachos_lab = items_barcode
+  }
   input.value = JSON.stringify(new_despachos_lab);
   form.appendChild(input);
   document.body.appendChild(form);//"width=600,height=500"

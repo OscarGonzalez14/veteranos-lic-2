@@ -28,67 +28,65 @@ class ordenesLenti extends Conectar
         return $resultado = $sql->fetchAll();
     }
     //en uso para registrar datos
-    public function trasladoOrdenesLenti($codigo, $paciente, $observaciones, $usuario, $tipo_lente, $od_esferas, $od_cilindros, $od_eje, $od_adicion, $oi_esferas, $oi_cilindros, $oi_eje, $oi_adicion, $marca_aro, $modelo_aro, $horizontal_aro, $vertical_aro, $puente, $pupilar_od, $pupilar_oi, $lente_od, $lente_oi, $categoria_lente)
+    public function trasladoOrdenesLenti($codigo, $paciente, $observaciones, $usuario, $tipo_lente, $od_esferas, $od_cilindros, $od_eje, $od_adicion, $oi_esferas, $oi_cilindros, $oi_eje, $oi_adicion, $pupilar_od, $pupilar_oi, $lente_od, $lente_oi, $categoria_lente,$color_aro,$modelo_aro,$materia_aro,$marca_aro,$tratamiento,$accion,$dui)
     {
         $conectar = parent::conexion_lenti();
         $precio = 0;
         parent::set_names();
-        if ($tipo_lente == "Visión Sencilla") {
-            $marca_aro = "VS AURORA";
-            $precio = "12.50";
-        } elseif ($tipo_lente == "Visión Sencilla") {
-            $marca_aro = "VS Terminado";
-            $precio = "12.50";
-        } elseif ($tipo_lente == "Progresive") {
-            $marca_aro = "GEMINI";
-            $precio = "16.25";
-        } elseif ($tipo_lente == "Flaptop") {
-            $marca_aro = "BIFOCAL 1.56";
-            $precio = "9";
+        if ($tipo_lente == "Visión Sencilla" && $tratamiento=="Blanco") {
+            $tratamiento = "BLANCO";
+            $marca = "VS/PROCESO";
+            $precio = "-";
+        } elseif ($tipo_lente == "Visión Sencilla" && $tratamiento=="Photocromatico") {
+            $tratamiento = "PHOTOCHROMA";
+            $marca = "VS/PROCESO";
+            $precio = "-";
+        }elseif ($tipo_lente == "Flaptop" && $tratamiento=="Blanco") {
+            $tratamiento = "BLANCO";
+            $marca = "BIFOCAL 1.56";
+            $precio = "-";
+        }elseif ($tipo_lente == "Flaptop" && $tratamiento=="Photocromatico") {
+            $tratamiento = "PHOTOCHROMA";
+            $marca = "BIFOCAL 1.56";
+            $precio = "-";
+        }elseif ($tipo_lente == "Progresive" && $tratamiento=="Blanco") {
+            $tratamiento = "BLANCO";
+            $marca = "GEMINI";
+            $precio = "-";
+        }elseif ($tipo_lente == "Progresive" && $tratamiento=="Photocromatico") {
+            $tratamiento = "PHOTOCHROMA";
+            $marca = "GEMINI";
+            $precio = "-";
         }
 
         date_default_timezone_set('America/El_Salvador');
         $hoy = date("d-m-Y H:i:s");
 
-        $fecha = date('m-Y');
-        $date_validate = date("d-m-Y");
-        $mes = date('m');
-        $year = date('Y');
-        $anio = substr($year, 2, 5);
-        $datos = $this->get_correlativo_orden($fecha);
-
-        if (is_array($datos) == true and count($datos) > 0) {
-            foreach ($datos as $row) {
-                $numero_orden = substr($row["codigo"], 4, 15) + 1;
-                $codigo = $mes . $anio . $numero_orden;
-            }
-        } else {
-            $codigo = $mes . $anio . '1';
-        }
+        
         $codigoExiste = $this->comprobar_existe_correlativo($codigo);
         if (is_array($codigoExiste) && count($codigoExiste) == 0) {
             $sql2 = "insert into orden value(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
             $sql2 = $conectar->prepare($sql2);
-            $sql2->bindValue(1, $codigo);
+            $sql2->bindValue(1, $dui);
             $sql2->bindValue(2, $paciente);
             $sql2->bindValue(3, $observaciones);
             $sql2->bindValue(4, $usuario);
             $sql2->bindValue(5, $hoy);
             $sql2->bindValue(6, 0);
-            $sql2->bindValue(7, 1);
+            $sql2->bindValue(7, 41);
             $sql2->bindValue(8, $tipo_lente);
-            $sql2->bindValue(9, 1);
-            $sql2->bindValue(10, "Veteranos");
-            $sql2->bindValue(11, "Blanco");
+            $sql2->bindValue(9, 30);
+            $sql2->bindValue(10, "INABVE");
+            $sql2->bindValue(11, $tratamiento);
             $sql2->bindValue(12, "1");
-            $sql2->bindValue(13, $marca_aro);
+            $sql2->bindValue(13, $marca);
             $sql2->bindValue(14, $categoria_lente);
             $sql2->bindValue(15, "No");
             $sql2->bindValue(16, $precio);
             if ($sql2->execute()) {
                 $sql = "insert into rx_orden values(?,?,?,?,?,?,?,?,?,?,?,?);";
                 $sql = $conectar->prepare($sql);
-                $sql->bindValue(1, $codigo);
+                $sql->bindValue(1, $dui);
                 $sql->bindValue(2, $paciente);
                 $sql->bindValue(3, $od_esferas);
                 $sql->bindValue(4, $od_cilindros);
@@ -109,10 +107,10 @@ class ordenesLenti extends Conectar
                 $sql3->bindValue(3, $marca_aro);
                 $sql3->bindValue(4, "-");
                 $sql3->bindValue(5, "-");
-                $sql3->bindValue(6, $horizontal_aro);
+                $sql3->bindValue(6, "-");
                 $sql3->bindValue(7, "-");
-                $sql3->bindValue(8, $vertical_aro);
-                $sql3->bindValue(9, $puente);
+                $sql3->bindValue(8, $dui);
+                $sql3->bindValue(9, "-");
                 $sql3->execute();
 
                 //***INSERT INTO ALTURAS ORDEN ///
@@ -120,7 +118,7 @@ class ordenesLenti extends Conectar
                 if ($tipo_lente == "Visión Sencilla" or $tipo_lente == "Progresive") {
                     $sql4 = "insert into alturas_orden values(?,?,?,?,?,?,?,?);";
                     $sql4 = $conectar->prepare($sql4);
-                    $sql4->bindValue(1, $codigo);
+                    $sql4->bindValue(1, $dui);
                     $sql4->bindValue(2, $paciente);
                     $sql4->bindValue(3, $pupilar_od);
                     $sql4->bindValue(4, $lente_od);
@@ -132,7 +130,7 @@ class ordenesLenti extends Conectar
                 } elseif ($tipo_lente == "Flaptop") {
                     $sql4 = "insert into alturas_orden values(?,?,?,?,?,?,?,?);";
                     $sql4 = $conectar->prepare($sql4);
-                    $sql4->bindValue(1, $codigo);
+                    $sql4->bindValue(1, $dui);
                     $sql4->bindValue(2, $paciente);
                     $sql4->bindValue(3, $pupilar_od);
                     $sql4->bindValue(4, "-");
@@ -143,7 +141,7 @@ class ordenesLenti extends Conectar
                     $sql4->execute();
                 }
             }
-            return $codigo;
+            
         }
     }
 

@@ -75,6 +75,10 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
             <i class="fas fa-paste" aria-hidden="true" style="color: #e8eff1;"></i> INGRESO
           </button>
          </div>
+
+         <div class="col-sm-2 float-right" style="margin-bottom: 5px !important">         
+          <button class="btn btn-success" class="btn btn-info barcode_actions" data-toggle="modal" data-target="#barcode_ingresos_lab" onClick='input_focus_clearb()'><i class="fas fa-clipboard-check"></i> INGRESO MANUAL</button>
+         </div>
       </div>
       
       <table width="100%" class="table-hover table-bordered" id="ordenes_pendientes_lab"  data-order='[[ 0, "desc" ]]'> 
@@ -109,9 +113,12 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
         </div>        
         <!-- Modal body -->
         <div class="modal-body">
-          <input type="text" autofocus class="form-control" id="n_despacho" onchange="getDespachoLab(this.id)" placeholder="Buscar por código de envio">
+          <div class="form-group">
+            <label class="form-label-title" id="form-label-title">Código envio</label>
+            <input type="text" autofocus class="form-control" id="n_despacho" onchange="getDespachoLab(this.id)" placeholder="Buscar por código de envio">
 
-          <input type="text" autofocus class="form-control" id="dui_despacho" onchange="buscar_dui_table(this.id)" placeholder="Buscar por Escaner">
+            <input type="text" autofocus class="form-control" id="dui_despacho" onchange="buscar_dui_table(this.id)" placeholder="Buscar por Escaner">
+          </div>
 
           <button type="button" class="btn btn-default float-right btn-sm " id='showModalEnviarLab' style="margin: 3px"><i class=" fas fa-file-export" style="color: #0275d8"></i> Ingresar <span id="totalOrdenLab">0</span></button>
 
@@ -123,6 +130,8 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
               <th><input type="checkbox" id="select-all-desp" class="form-check-label"></th>
               <th>DUI</th>
               <th>PACIENTE</th>
+              <th>No.Envio</th>
+              <th>Sucursal</th>
           </tr></thead>
           <tbody id="result_despacho" style="font-size: 12px"></tbody>
         </table>
@@ -173,7 +182,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
     </div>
   </div>
    
-  <input type="hidden" id="cat_data_barcode" value="finalizar_lab">
+  <input type="hidden" id="cat_data_barcode" value="ingreso_lab">
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>2021 Lenti || <b>Version</b> 1.0</strong>
