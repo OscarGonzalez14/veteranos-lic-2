@@ -500,7 +500,7 @@ function getCorrelativoAccionVet() {
     cache: false,
     dataType: "json",
     success: function (data) {
-      console.log(data)
+      //console.log(data)
       $("#correlativo_acc_vet").val(data.correlativo);
       $("#c_accion").html('OP ' + data.correlativo);
     }
@@ -510,6 +510,8 @@ function getCorrelativoAccionVet() {
 function getOrdenBarcode() {
 
   let paciente_dui = $("#reg_ingresos_barcode").val();
+  paciente_dui = paciente_dui.replace("'","-");
+  paciente_dui = document.getElementById('reg_ingresos_barcode').value = paciente_dui
   let tipo_accion = $("#cat_data_barcode").val();
 
   $.ajax({
@@ -553,6 +555,7 @@ function getDataOrdenes(resultados, data) {
     } else {
       let items_ingresos = {
         n_orden: data.codigo,
+        dui: data.dui,
         paciente: data.paciente,
         fecha: data.fecha,
         id_orden: data.id_orden
@@ -639,8 +642,8 @@ function registrarBarcodeOrdenes() {
     cache: false,
     dataType: "json",
     success: function (data) {
-      console.log(data);
-      if (tipo_accion == 'finalizar_lab') {
+      //console.log(data);
+      if (tipo_accion == 'en_proceso_lab') {
         $("#ordenes_procesando_lab").DataTable().ajax.reload();
         msj = ' ordenes en proceso exitosamente';
         $("#reg_ingresos_barcode").focus();
@@ -654,9 +657,10 @@ function registrarBarcodeOrdenes() {
         msj = ' ordenes entregadas exitosamente';
         $('#barcode_ingresos_lab').modal('hide');
         $("#ordenes_entregados_veteranos_data").DataTable().ajax.reload();
-      } else if (tipo_accion == 'finalizar_orden_lab_completo') {
-        msj = ' ordenes enviadas';
-        document.getElementById('reportes_vets').style.display = 'block';
+      } else if (tipo_accion == 'finalizar_lab') {
+        msj = ' ordenes finalizadas';
+        //document.getElementById('reportes_vets').style.display = 'block';
+        $("#items-ordenes-barcode").html('')
         $("#ordenes_finalizadas_lab").DataTable().ajax.reload();
 
       }
@@ -917,7 +921,7 @@ function buscarGraduacion() {
     cache: false,
     dataType: "json",
     success: function (data) {
-      console.log(data)
+      //console.log(data)
 
 
       if (data == "Vacio") {
@@ -1118,6 +1122,8 @@ function buscar_dui_table(id) {
 $("#showModalEnviarLab").click(() => {
   $("#totalOrdenLab_ingreso").html(new_despachos_lab.length)
   $("#modal_laboratorio").modal('show')
+  $("#tipo_acciones").val('')
+  $("#laboratorio_ingreso").val('')
 })
 
 function ingreso_lab() {
@@ -1137,7 +1143,7 @@ function ingreso_lab() {
     imprimirEnviosLabPDF()
   }
   $.ajax({
-    url: "../ajax/laboratorios.php?op=set_ingreso_lab",
+    url: "../ajax/laboratorios.php?op=ingreso_lab",
     method: "POST",
     data: { tipo_acciones: tipo_acciones, laboratorio: laboratorio, data: new_despachos_lab },
     cache: false,

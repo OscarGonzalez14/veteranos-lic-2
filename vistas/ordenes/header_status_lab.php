@@ -3,12 +3,6 @@
     <span class="badge bg-success"></span>
     <i class="fas fa-home"></i> LABORATORIOS
 </a>
-
-  <a href="laboratorios.php" class="btn btn-app" style="color: black;border: solid #5bc0de 1px;">
-    <span class="badge bg-warning" id="alert_creadas_ord"></span>
-    <i class="fas fa-history" style="color: #d9534f"></i> PENDIENTES
-  </a>
-
   <a href="procesando_lab.php" class="btn btn-app" style="color: black;border: solid #5bc0de 1px;">
     <span class="badge bg-primary" id="alert_enviadas_ord"></span>
     <i class="fas fa-cog" style="color: #f0ad4e"></i> PROCESANDO

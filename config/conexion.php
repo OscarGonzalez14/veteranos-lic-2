@@ -19,8 +19,8 @@ class Conectar {
 
 	protected function conexion_lenti(){
 		try {
-		   $conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=lenti","root","");
-		   //$conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_lenti","u579024306_rlenti","And20vas08");
+		   //$conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=lenti","root","");
+		   $conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_lenti","u579024306_rlenti","And20vas08");
 		   return $conectarLenti;
 	   }catch (Exception $e) {
 				print "¡Error!: " . $e->getMessage() . "<br/>";

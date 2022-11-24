@@ -39,8 +39,8 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
   <div class="content-wrapper">
     <section class="content">
       <div class="container-fluid">
-      <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_usuario"];?>"/>
-      <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["usuario"];?>"/>
+      <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_user"];?>"/>
+      <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["user"];?>"/>
       <input type="hidden" name="categoria" id="get_categoria" value="<?php echo $_SESSION["categoria"];?>"/>
       <div style="border-top: 0px">
       </div>
@@ -98,7 +98,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
       </div>
     </div>
   </div>
-  <input type="hidden" id="cat_data_barcode" value="finalizar_lab">
+  <input type="hidden" id="cat_data_barcode" value="en_proceso_lab">
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>2021 Lenti || <b>Version</b> 1.0</strong>

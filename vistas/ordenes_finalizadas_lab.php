@@ -1,6 +1,6 @@
 <?php 
 require_once("../config/conexion.php");
-if(isset($_SESSION["usuario"])){
+if(isset($_SESSION["user"])){
 $categoria_usuario = $_SESSION["categoria"];
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ $categoria_usuario = $_SESSION["categoria"];
 <?php require_once("links_plugin.php"); 
  require_once('../modelos/Ordenes.php');
  $ordenes = new Ordenes();
- $suc = $ordenes->get_opticas();
+ //$suc = $ordenes->get_opticas();
  require_once('../modales/nueva_orden_lab.php');
  require_once('../modales/aros_en_orden.php');
 
@@ -35,15 +35,15 @@ $categoria_usuario = $_SESSION["categoria"];
   <div class="content-wrapper">
     <section class="content">
       <div class="container-fluid">
-      <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_usuario"];?>"/>
-      <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["usuario"];?>"/>
+      <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION["id_user"];?>"/>
+      <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION["user"];?>"/>
       <input type="hidden" name="categoria" id="get_categoria" value="<?php echo $_SESSION["categoria"];?>"/>
       <div style="border-top: 0px">
       </div>
 
       <?php include 'ordenes/header_status_lab.php'; ?>
       <div class="row">
-        <div class="col-sm-12"><h5 style="text-align: center">ORDENES ENVIADAS</h5></div>
+        <div class="col-sm-12"><h5 style="text-align: center">ORDENES ENVIADAS A ÓPTICA</h5></div>
       </div>
         <table width="100%" class="table-hover table-bordered" id="ordenes_finalizadas_lab_envs"  data-order='[[ 0, "desc" ]]'> 
               
@@ -51,10 +51,10 @@ $categoria_usuario = $_SESSION["categoria"];
            <th>ID</th>
            <th>Codigo</th>
            <th>Fecha Env.</th>
+           <th>DUI</th>
            <th>Paciente</th>
            <th>Tipo lente</th>
            <th>Detalles</th>
-           <th>Aro</th>
          </thead>
          <tbody class="style_th"></tbody>
        </table>

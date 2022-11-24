@@ -13,8 +13,6 @@
 
           <button type="button" class="btn btn-default float-right btn-sm " onClick="registrarBarcodeOrdenes()" style='margin: 3px'><i class=" fas fa-file-export" style="color: #0275d8"></i> Registrar</button>
 
-          <a id="reportes_vets"><button type="button" class="btn btn-default float-right btn-sm" style='margin: 3px;' onClick='imprimirEnviosLabPDF()'><i class="fas fa-file-pdf" style="color: red"></i> Imprimir</button></a>
-
           <table class="table-hover table-bordered" style="font-family: Helvetica, Arial, sans-serif;max-width: 100%;text-align: left;margin-top: 5px !important" width="100%" id="tabla_acciones_veterans">
 
           <thead style="font-family: Helvetica, Arial, sans-serif;width: 100%;text-align: center;font-size: 12px;" class="bg-dark">

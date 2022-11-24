@@ -142,8 +142,8 @@ class ordenesLenti extends Conectar
                     $sql4->bindValue(8, $lente_oi);
                     $sql4->execute();
                 }
-                return $codigo;
             }
+            return $codigo;
         }
     }
 

@@ -63,89 +63,134 @@ require_once("../config/conexion.php");
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-    public function finalizarOrdenesLab(){
+    public function finalizarOrdenesLab($usuario){
     $conectar= parent::conexion();
     parent::set_names();
     date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H:i:s");
+    $fecha_creacion = date("Y-m-d");
     $detalle_finalizados = array();
     $detalle_finalizados = json_decode($_POST["arrayOrdenesBarcode"]);
-    $usuario = $_POST["usuario"];
 
     foreach ($detalle_finalizados as $k => $v) {
       
       $codigoOrden = $v->n_orden;
-      $accion = "En proceso";
+      $dui_paciente = $v->dui;
+      $paciente = $v->paciente;
+      $tipo_accion = "Finalizada orden Lab";
+      $observaciones = "-";
       $destino = "-";
 
       $sql2 = "update orden_lab set estado=3 where codigo=?;";
       $sql2=$conectar->prepare($sql2);
       $sql2->bindValue(1, $codigoOrden);
       $sql2->execute();
-
-      $sql = "insert into acciones_orden values(null,?,?,?,?,?);";
+       //para obtener el codigo
+      $sql = "SELECT cod_ingreso FROM `acciones_lab` ORDER BY id_acc_lab DESC LIMIT 1;";
       $sql=$conectar->prepare($sql);
-      $sql->bindValue(1, $hoy);
-      $sql->bindValue(2, $usuario);
-      $sql->bindValue(3, $codigoOrden);
-      $sql->bindValue(4, $accion);
-      $sql->bindValue(5, $destino);
       $sql->execute();
+      $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+      if(count($resultado) > 0){
+        //ENV-1
+        $cod_ingreso = $resultado[0]['cod_ingreso'];
+        $cod_ingreso = explode("-",$cod_ingreso);
+        $numero_unico = $cod_ingreso[1];
+        $numero_unico += 1;
+        $cod_ingreso = "INGR-".$numero_unico;
+      }else{
+        $cod_ingreso = "INGR-1";
+      }
+
+      //Insertado a acciones lab
+      $acciones = "finalizada_orden_lab";
+      
+      $sql = "insert into acciones_lab values (null,?,?,?,?,?,?,?,?,?)";
+      $sql = $conectar->prepare($sql);
+      $sql->bindValue(1,$cod_ingreso);
+      $sql->bindValue(2,$dui_paciente);
+      $sql->bindValue(3,$paciente);
+      $sql->bindValue(4,$acciones);
+      $sql->bindValue(5,$tipo_accion);
+      $sql->bindValue(6,"-");
+      $sql->bindValue(7,$_SESSION['id_user']);
+      $sql->bindValue(8,$hoy);
+      $sql->bindValue(9,$fecha_creacion);
+      $sql->execute();
+
+      $sql = "insert into acciones_orden values(null,?,?,?,?,?,?);";
+        $sql=$conectar->prepare($sql);
+        $sql->bindValue(1, $hoy);
+        $sql->bindValue(2, $usuario);
+        $sql->bindValue(3, $codigoOrden);
+        $sql->bindValue(4, $tipo_accion);
+        $sql->bindValue(5, $observaciones);
+        $sql->bindValue(6, $destino);
+        $sql->execute();
     }
   }
 
 ////////////////////////////ORDENES FINALIZADAS  LABORATORIOS////////////////////
-    public function finalizarOrdenesLabEnviar(){
+    public function finalizarOrdenesLabEnviar($usuario){
     $conectar= parent::conexion();
     parent::set_names();
     date_default_timezone_set('America/El_Salvador');
-    $hoy = date("Y-m-d");
-    $hora = date('H:i:s');
+    $hoy = date("d-m-Y H:i:s");
+    $fecha_creacion = date('Y-m-d');
     $detalle_finalizados = array();
     $detalle_finalizados = json_decode($_POST["arrayOrdenesBarcode"]);
-    $usuario = $_POST["usuario"];
-    $accion = 'Despacho lab';
-    $ubicacion = '';
-
-    $correlativo = $_POST["correlativo_accion"];
-    $sql = 'insert into acciones_ordenes_veteranos values(null,?,?,?,?,?,?);';
-    $sql=$conectar->prepare($sql);
-    $sql->bindValue(1, $correlativo);
-    $sql->bindValue(2, $hoy);
-    $sql->bindValue(3, $hora);
-    $sql->bindValue(4, $usuario);
-    $sql->bindValue(5, $accion);
-    $sql->bindValue(6, $ubicacion);
-    $sql->execute();
-
+    $ubicacion = '-';
     foreach ($detalle_finalizados as $k => $v) {
       
       $codigoOrden = $v->n_orden;
-      $accion = "Envio Lab";
+      $dui_paciente = $v->dui;
+      $paciente = $v->paciente;
+      $tipo_accion = "Enviada a optica";
       $destino = "-";
-
-      $sql2 = "update orden_lab set estado_aro='4' where codigo=?;";
+      $observaciones = "-";
+      $sql2 = "update orden_lab set estado=4 where codigo=?;";
       $sql2=$conectar->prepare($sql2);
       $sql2->bindValue(1, $codigoOrden);
-      $sql2->execute();
-
-      $sql = "insert into acciones_orden values(null,?,?,?,?,?);";
+      if($sql2->execute()){
+        //para obtener el codigo
+      $sql = "SELECT cod_ingreso FROM `acciones_lab` ORDER BY id_acc_lab DESC LIMIT 1;";
       $sql=$conectar->prepare($sql);
-      $sql->bindValue(1, $hoy);
-      $sql->bindValue(2, $usuario);
-      $sql->bindValue(3, $codigoOrden);
-      $sql->bindValue(4, $accion);
-      $sql->bindValue(5, $destino);
       $sql->execute();
-      
-      $est_det = 'Despachado lab';
-      $sql2 = "insert into detalle_acciones_veteranos values(null,?,?,?);";
-      $sql2=$conectar->prepare($sql2);
-      $sql2->bindValue(1, $codigoOrden);
-      $sql2->bindValue(2, $correlativo);
-      $sql2->bindValue(3, $est_det);
-      $sql2->execute();
-
-
+      $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+      if(count($resultado) > 0){
+        //ENV-1
+        $cod_ingreso = $resultado[0]['cod_ingreso'];
+        $cod_ingreso = explode("-",$cod_ingreso);
+        $numero_unico = $cod_ingreso[1];
+        $numero_unico += 1;
+        $cod_ingreso = "INGR-".$numero_unico;
+      }else{
+        $cod_ingreso = "INGR-1";
+      }
+        //Insertado a acciones lab
+        $acciones = "enviada_optica";
+        
+        $sql = "insert into acciones_lab values (null,?,?,?,?,?,?,?,?,?)";
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$cod_ingreso);
+        $sql->bindValue(2,$dui_paciente);
+        $sql->bindValue(3,$paciente);
+        $sql->bindValue(4,$acciones);
+        $sql->bindValue(5,$tipo_accion);
+        $sql->bindValue(6,"-");
+        $sql->bindValue(7,$_SESSION['id_user']);
+        $sql->bindValue(8,$hoy);
+        $sql->bindValue(9,$fecha_creacion);
+        $sql->execute();
+        
+        $sql = "insert into acciones_orden values(null,?,?,?,?,?,?);";
+        $sql=$conectar->prepare($sql);
+        $sql->bindValue(1, $hoy);
+        $sql->bindValue(2, $usuario);
+        $sql->bindValue(3, $codigoOrden);
+        $sql->bindValue(4, $tipo_accion);
+        $sql->bindValue(5, $observaciones);
+        $sql->bindValue(6, $destino);
+        $sql->execute();
+      }
     }
   }
 
@@ -153,7 +198,16 @@ require_once("../config/conexion.php");
   public function get_ordeOrdenesFinalizadasEnviar(){
     $conectar= parent::conexion();
     parent::set_names();
-    $sql= "select o.id_orden,o.codigo,a.fecha,o.paciente,o.tipo_lente,o.img from orden_lab as o INNER JOIN acciones_orden as a on a.codigo=o.codigo where o.estado_aro = '4' and a.tipo_accion='Envio Lab'  GROUP by a.codigo;";
+    $sql= "select o.id_orden,o.codigo,o.fecha,o.paciente,o.tipo_lente from orden_lab as o WHERE estado=4";
+    $sql=$conectar->prepare($sql);
+    $sql->execute();
+    return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function get_ordenesFinalEnviadaLab(){
+    $conectar= parent::conexion();
+    parent::set_names();
+    $sql= "select o.id_orden,o.codigo,o.fecha,o.dui,o.paciente,o.tipo_lente from orden_lab as o WHERE estado=4";
     $sql=$conectar->prepare($sql);
     $sql->execute();
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -162,7 +216,7 @@ require_once("../config/conexion.php");
   public function get_ordeOrdenesFinalizadas(){
     $conectar= parent::conexion();
     parent::set_names();
-    $sql= "select o.id_orden,o.codigo,a.fecha,o.paciente,o.tipo_lente,o.img from orden_lab as o INNER JOIN acciones_orden as a on a.codigo=o.codigo where a.`tipo_accion` = 'Finalizado Lab' and o.estado_aro='3';";
+    $sql= "select o.id_orden,o.codigo,o.fecha,o.dui,o.paciente,o.tipo_lente from orden_lab as o WHERE estado=3";
     $sql=$conectar->prepare($sql);
     $sql->execute();
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -400,7 +454,7 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function set_ingreso_lab($n_despacho,$dui,$paciente,$acciones,$tipo_accion,$laboratorio){
+  public function ingreso_lab($n_despacho,$dui,$paciente,$acciones,$tipo_accion,$laboratorio){
     $conectar = parent::conexion();
     //$conexion_lenti = parent::conexion_lenti();
     $id_usuario = $_SESSION["id_user"];
@@ -408,7 +462,7 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
     $hoy = date("d-m-Y H:i:s");
     $fecha_creacion = date("Y-m-d");
     parent::set_names();
-    //para obtener el número
+    //para obtener el codigo
     $sql = "SELECT cod_ingreso FROM `acciones_lab` ORDER BY id_acc_lab DESC LIMIT 1;";
     $sql=$conectar->prepare($sql);
     $sql->execute();
@@ -462,8 +516,6 @@ public function get_ordenes_barcode_lab_id($codigo,$accion){
       if($tipo_accion == "REENVIO A LAB"){
         //Inserted lenti
         $accion = "Reenvio a Laboratorio ".$laboratorio;
-        
-
       }
 
       $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
