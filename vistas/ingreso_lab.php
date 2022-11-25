@@ -171,7 +171,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
               </select>
             </div>
           </div>
-          <button class="btn btn-primary btn-block" onclick="ingreso_lab()">Enviar</button>
+          <button id="btn_enviar_ingreso_lab" class="btn btn-primary btn-block" onclick="ingreso_lab()">Enviar</button>
 
         </div>
         <!-- Modal footer -->

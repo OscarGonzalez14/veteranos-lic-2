@@ -1163,6 +1163,8 @@ $("#showModalIngresosLab").click(()=>{
 function ingreso_lab() {
   let tipo_acciones = $("#tipo_acciones").val()
   let laboratorio = $("#laboratorio_ingreso").val()
+  //Desabilitamos el bton de enviar
+  $("#btn_enviar_ingreso_lab").attr('disabled',true);
   if (tipo_acciones === null || laboratorio === null) {
     Swal.fire({
       position: 'top-center',
@@ -1205,6 +1207,8 @@ function ingreso_lab() {
           showConfirmButton: true,
           timer: 2500
         });
+        //Habilitamos boton de enviar
+        $("#btn_enviar_ingreso_lab").attr('disabled',false);
         $("#modal_laboratorio").modal('hide')
         $("#tipo_acciones").val('')
         $("#laboratorio_ingreso").val('')
