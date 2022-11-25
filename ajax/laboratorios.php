@@ -391,8 +391,10 @@ case 'get_ordenes_pendientes_lab':
         if($_POST['laboratorio'] == "LENTI"){
           $data_orden_lab = $ordenes->getDataOrdenLenti($row['dui']);
          foreach($data_orden_lab as $k){
+          //$marca = (isset($k['marca'])) ? $k['marca'] : '-';
+          //$modelo = (isset($k['modelo'])) ? $k['modelo'] : '-';
 
-$orden_lenti->trasladoOrdenesLenti($k['codigo'],$k['paciente'],$k['observaciones'],$k['id_usuario'],$k['tipo_lente'],$k['od_esferas'],$k['od_cilindros'],$k['od_eje'],$k['od_adicion'],$k['oi_esferas'],$k['oi_cilindros'],$k['oi_eje'],$k['oi_adicion'],$k['pupilar_od'],$k['pupilar_oi'],$k['lente_od'],$k['lente_oi'],$k['categoria'],$k['color'],$k['modelo'],$k['material'],$k['marca'],$k['trat'],$_POST['tipo_acciones'],$k["dui"]);
+          $orden_lenti->trasladoOrdenesLenti($k['codigo'],$k['paciente'],$k['observaciones'],$k['id_usuario'],$k['tipo_lente'],$k['od_esferas'],$k['od_cilindros'],$k['od_eje'],$k['od_adicion'],$k['oi_esferas'],$k['oi_cilindros'],$k['oi_eje'],$k['oi_adicion'],$k['pupilar_od'],$k['pupilar_oi'],$k['lente_od'],$k['lente_oi'],$k['categoria'],$k['color'],$k['modelo'],$k['material'],$k['marca'],$k['trat'],$_POST['tipo_acciones'],$k["dui"]);
           } 
         
         }
@@ -400,7 +402,6 @@ $orden_lenti->trasladoOrdenesLenti($k['codigo'],$k['paciente'],$k['observaciones
 
       $mensaje = "exito";
       echo json_encode($mensaje);
-      
       break;
 
 
