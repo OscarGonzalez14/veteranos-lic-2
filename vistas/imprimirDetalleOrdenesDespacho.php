@@ -3,13 +3,12 @@ use Dompdf\Dompdf;
 //use Dompdf\Options;
 
 require_once '../dompdf/autoload.inc.php';
-$correlativo = $_POST['correlativos_acc'];
-
 require_once '../modelos/Reporteria.php';
 $reporteria = new Reporteria();
+$codigo_despacho = $_POST['cod_despacho'];
+$data = $reporteria->get_detalle_ordenes_envio($codigo_despacho);
 
-$data = $reporteria->getItemsReporteOrdenes($correlativo);
-date_default_timezone_set('America/El_Salvador'); 
+date_default_timezone_set('America/El_Salvador');
 $hoy = date("d-m-Y");
 $dateTime= date("d-m-Y H:i:s");
 
@@ -72,7 +71,7 @@ $dateTime= date("d-m-Y H:i:s");
 <td width="50%" style="width: 75%;margin:0px">
 <table style="width:100%">
   <tr>
-    <td  style="text-align: center;margin-top: 0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;"><b>ORDEN DE ENVIOS</b></td>
+    <td  style="text-align: center;margin-top: 0px;font-size:15px;font-family: Helvetica, Arial, sans-serif;"><b>ORDENES FINALIZADAS</b></td>
   </tr>
 </table><!--fin segunda tabla-->
 </td>
@@ -82,7 +81,7 @@ $dateTime= date("d-m-Y H:i:s");
     <td style="text-align:right; font-size:12px;color: #008C45"><strong>ORDEN</strong></td>
   </tr>
   <tr>
-    <td style="color:red;text-align:right; font-size:12px;color: #CD212A"><strong >No.&nbsp;<span><?php echo $correlativo; ?></strong></td>
+    <td style="color:red;text-align:right; font-size:12px;color: #CD212A"><strong >No.&nbsp;<span><?php echo $codigo_despacho; ?></strong></td>
   </tr>
 </table><!--fin segunda tabla-->
 </td> <!--fin segunda columna-->
@@ -105,24 +104,24 @@ $dateTime= date("d-m-Y H:i:s");
 	<table width="100%" id="pacientes" style="margin-top: 0px">
     <tr>
     <th>#</th>
-    <th>Cod. orden</th>
-    <th>Fecha orden</th>
+    <th>Cod. Orden</th>
+    <th>Fecha</th>
     <th>Paciente</th>
     <th>Dui</th>
-    <th>Télefono</th>
-    <th>Tipo Lente</th>
+    <th>Telefono</th>
+    <th>Tipo lente</th>
   </tr>  
   <?php
   $i=1;
   foreach ($data as $value) { ?>
     <tr> 
      <td><?php echo $i; ?></td>
-     <td><?php echo $value["codigo"]; ?></td>
-     <td><?php echo date("d-m-Y",strtotime($value["fecha_o"])); ?></td>
-     <td><?php echo $value["paciente"]; ?></td>
-     <td><?php echo $value["dui"]; ?></td>
-     <td><?php echo $value["telefono"]; ?></td>
-     <td><?php echo $value["tipo_lente"]; ?></td>
+     <td><?php echo $value['codigo']; ?></td>
+     <td><?php echo date("d-m-Y",strtotime($value["fecha"])); ?></td>
+     <td><?php echo $value['paciente']; ?></td>
+     <td><?php echo $value['dui']; ?></td>
+     <td><?php echo $value['telefono']; ?></td>
+     <td><?php echo $value['tipo_lente']; ?></td>
     </tr> 
 
   <?php $i++; } ?>  
@@ -131,7 +130,6 @@ $dateTime= date("d-m-Y H:i:s");
 </html>
 
 <?php
-  echo "Hola";
 $salida_html = ob_get_contents();
 
 ob_end_clean();
@@ -139,5 +137,5 @@ $dompdf = new Dompdf();
 $dompdf->loadHtml($salida_html);
 $dompdf->setPaper('letter', 'portrait');
 $dompdf->render();
-//$dompdf->stream('document', array('Attachment'=>'0'));
+$dompdf->stream('document', array('Attachment'=>'0'));
 ?>

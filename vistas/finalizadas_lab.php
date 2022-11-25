@@ -130,7 +130,10 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
             <th>ID</th>
             <th>#Orden</th>
             <th>Fecha</th>
+            <th>DUI</th>
             <th>Paciente</th>
+            <th>Cod. Envio</th>
+            <th>Sucursal</th>
             <th>Eliminar</th>
           </thead>
           <tbody id="items-ordenes-barcode" style="font-size: 12px"></tbody>

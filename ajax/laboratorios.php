@@ -174,18 +174,14 @@ case 'get_ordenes_pendientes_lab':
 
   case 'get_data_orden_barcode':
 
-    if($_POST["tipo_accion"]=="ingreso_lab"){
+    //print_r($datos);
+    if($_POST["tipo_accion"] == "ingreso_lab"){
       $datos = $ordenes->get_ordenes_despacho($_POST["paciente_dui"]);
-      print_r($datos);
+    }else if($_POST["tipo_accion"]=="en_proceso_lab") {
+      $datos = $ordenes->get_ordenes_barcode_lab_id($_POST["paciente_dui"]);
+    }else if($_POST["tipo_accion"] == "finalizar_lab"){
+      $datos = $ordenes->get_ordenes_barcode_lab($_POST["paciente_dui"]);
     }
-
-  if ($_POST["tipo_accion"]=="ing_lab") {
-    $datos = $ordenes->get_ordenes_barcode_lab_id($_POST["paciente_dui"],$_POST["tipo_accion"]);
-  }else{
-    $datos = $ordenes->get_ordenes_barcode_lab($_POST["paciente_dui"]);
-  }
-
-    
 
   if(is_array($datos)==true and count($datos)>0){
       foreach($datos as $row){
@@ -208,18 +204,18 @@ case 'get_ordenes_pendientes_lab':
 
     ///////////////BARCODE PROCESOS //////////
 
-    case 'get_correlativo_accion_vet':
+    case 'get_correlativo_detalle_envio':
 
-    $correlativo = $ordenes->get_correlativo_accion_veteranos();
+    $correlativo = $ordenes->get_correlativo_detalle_envio();
 
     if (is_array($correlativo)==true and count($correlativo)>0) {
       foreach($correlativo as $row){                  
-        $codigo = $row["correlativo_accion"];
-        $cod = (substr($codigo,2,11))+1;
-        $output["correlativo"] = "A-".$cod;
+        $codigo = $row["cod_despacho"];
+        $cod = (substr($codigo,4,15))+1;
+        $output["correlativo"] = "DSP-".$cod;
       }
     }else{
-        $output["correlativo"] = "A-1";
+        $output["correlativo"] = "DSP-1";
     }
     echo json_encode($output);
     break;
@@ -242,7 +238,7 @@ case 'get_ordenes_pendientes_lab':
           $mensaje = 'Error';
         }     
       }elseif($_POST['tipo_accion']=='finalizar_lab') {
-        $ordenes->finalizarOrdenesLabEnviar($_POST["usuario"]);
+        $ordenes->finalizarOrdenesLabEnviar($_POST["usuario"],$_POST['correlativo_accion']);
         $mensaje = "Ok";
       }
 
@@ -311,13 +307,13 @@ case 'get_ordenes_pendientes_lab':
     foreach ($datos as $row) { 
     $sub_array = array();
 
-    $sub_array[] = $row["id_orden_rec"];
-    $sub_array[] = $row["correlativo_accion"];
-    $sub_array[] = date("d-m-Y",strtotime($row["fecha"]))." ".$row["hora"];
+    $sub_array[] = $row["id_ordenes_envio"];
+    $sub_array[] = $row["cod_despacho"];
+    $sub_array[] = date("d-m-Y",strtotime($row["fecha"]));
     $sub_array[] = $row["usuario"];
     $sub_array[] = $row["cant"]." ordenes";
-    $sub_array[] = '<form action="imprimirDespachoLabPdf.php" method="POST" target="_blank">
-    <input type="hidden" name="correlativos_acc" value="'.$row['correlativo_accion'].'">
+    $sub_array[] = '<form action="imprimirDetalleOrdenesDespacho.php" method="POST" target="_blank">
+    <input type="hidden" name="cod_despacho" value="'.$row['cod_despacho'].'">
     <button type="submit"  class="btn btn-sm" style="background:#6d0202;color:white"><i class="fas fa-file-pdf"></i></button>
     </form>';  
             

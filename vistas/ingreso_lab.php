@@ -61,12 +61,11 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
             <option value="" selected disabled>Selec. estado</option>
             <option value="0">Digitadas</option>
             <option value="1">Enviada a Laboratorio</option>
-            <option value="2">Recibida Laboratorio</option>
-            <option value="3">En proceso</option>
-            <option value="4">Finalizada</option>
-            <option value="5">Despachada Laboratorio</option>
-            <option value="6">Recibida en optica</option>
-            <option value="7">Entregada</option>
+            <option value="2">En proceso</option>
+            <option value="3">Finalizada</option>
+            <option value="4">Despachada Laboratorio</option>
+            <option value="5">Recibida en optica</option>
+            <option value="6">Entregada</option>
           </select>
         </div>
         <div class="ml-3">         
@@ -172,7 +171,6 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
               </select>
             </div>
           </div>
-
           <button class="btn btn-primary btn-block" onclick="ingreso_lab()">Enviar</button>
 
         </div>
