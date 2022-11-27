@@ -33,6 +33,17 @@ class Conectar {
 				print "¡Error!: " . $e->getMessage() . "<br/>";
 			   die();
 		}
+	}
+
+	protected function conexion_inabve1(){
+		try {
+		    $conectarVet1 = $this->dbh = new PDO("mysql:local=localhost;dbname=veteranos","root","");
+		   //$conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_lenti","u579024306_rlenti","And20vas08");
+		   return $conectarVet1;
+	   }catch (Exception $e) {
+				print "¡Error!: " . $e->getMessage() . "<br/>";
+			   die();
+		}
 	} 
 
     //Función para convertir fecha del mes de numero al nombre, ejemplo de 01 a enero

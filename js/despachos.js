@@ -1,5 +1,5 @@
 function initDesp(){
- console.log("func")
+ listarDespachos();
 }
 
 function showModalDespachos(){
@@ -13,6 +13,12 @@ function showModalDespachos(){
     ordenes_envio_lab = [];
     $("#cant-env").html("");
 
+}
+
+function listarDespachos(){
+    let sucursal = document.getElementById("sucursal").value;
+    let permiso_listar_gen = names_permisos.includes("despachos_listado_general");   
+    dtTemplateDespachos("data_despachos_suc","get_ordenes_despachadas",permiso_listar_gen,sucursal)
 }
 
 document.querySelectorAll(".chk-despachos").forEach(i => i.addEventListener("click", e => {    

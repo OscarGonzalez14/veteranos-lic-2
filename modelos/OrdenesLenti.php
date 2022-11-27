@@ -73,9 +73,9 @@ class ordenesLenti extends Conectar
             $sql2->bindValue(4, $usuario);
             $sql2->bindValue(5, $hoy);
             $sql2->bindValue(6, 0);
-            $sql2->bindValue(7, 1);
+            $sql2->bindValue(7, 41);
             $sql2->bindValue(8, $tipo_lente);
-            $sql2->bindValue(9, 1);
+            $sql2->bindValue(9, 30);
             $sql2->bindValue(10, "INABVE");
             $sql2->bindValue(11, $tratamiento);
             $sql2->bindValue(12, "1");

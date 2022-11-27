@@ -82,4 +82,22 @@ class Despachos extends Conectar{
         echo json_encode($msj);
     }
 
+    public function getOrdenesDespachadas($list_gen,$sucursal){
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        if($list_gen){
+            $sql = "SELECT d.id_despacho,count(dt.n_despacho) as cantidad,d.hora,d.n_despacho,d.fecha,d.sucursal from despachos_lab as d INNER join det_despacho_lab as dt on dt.n_despacho=d.n_despacho GROUP by d.n_despacho order by d.id_despacho DESC;";
+            $sql = $conectar->prepare($sql);
+            $sql->execute();
+        }else{
+            $sql = "SELECT d.id_despacho,count(dt.n_despacho) as cantidad,d.hora,d.n_despacho,d.fecha,d.sucursal from despachos_lab as d INNER join det_despacho_lab as dt on dt.n_despacho=d.n_despacho where sucursal=? GROUP by d.n_despacho order by d.id_despacho DESC;";
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1,$sucursal);
+            $sql->execute();
+        }
+
+        return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

@@ -109,8 +109,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 'warning'
              )
         } else {
+        
+          $.ajax({
+            url:"../ajax/ordenes.php?op=valida_licitacion_1",
+            method:"POST",
+            data:{dui:dui},
+            cache: false,
+            dataType:"json",
+            success:function(data){
+             
+              console.log(data)
+            }
+          });///fin ajax 
+
             
-            const url = base_url + 'Home/registrar';
+            /* const url = base_url + 'Home/registrar';
             const http = new XMLHttpRequest();
             http.open("POST", url, true);
             http.send(new FormData(frm));
@@ -129,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         calendar.refetchEvents();
                     }
                 }
-            }
+            } */
         }
     });
     eliminar.addEventListener('click', function () {
@@ -358,7 +371,7 @@ function gethorasDisponibles(sucursal,fecha,param){
     $.ajax({
         url:"../ajax/citados.php?op=get_horas_select",
         method:"POST",
-        data:{fecha:fecha},
+        data:{fecha:fecha,sucursal:sucursal},
         cache: false,
         dataType:"json",
         success:function(horas){
@@ -376,11 +389,6 @@ function gethorasDisponibles(sucursal,fecha,param){
         }
       });///fin ajax 
 
-      if(param !="0"){
-        console.log(param)
-        $('select#hora').val(param).select2();
-        
-      }
 }
 
 $(".inp-citas").keyup(function(){

@@ -132,7 +132,7 @@ switch ($_GET["op"]){
 
         case 'get_horas_select':
             
-            $data = $citas->getHorasSelect($_POST["fecha"]);
+            $data = $citas->getHorasSelect($_POST["fecha"],$_POST["sucursal"]);
             $horas = array();
             foreach($data as $m){
                 $hora = $m["hora"];

@@ -71,12 +71,13 @@ class Citados extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getHorasSelect($fecha){
+    public function getHorasSelect($fecha,$sucursal){
         $conectar = parent::conexion();
         parent::set_names();
-        $sql2 = "SELECT hora FROM `citas` where fecha = ?;";
+        $sql2 = "SELECT hora FROM `citas` where fecha = ? and sucursal = ?;";
         $sql2 = $conectar->prepare($sql2);
         $sql2->bindValue(1, $fecha);
+        $sql2->bindValue(2, $sucursal);
         $sql2->execute();
         return  $resultado = $sql2->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -222,7 +223,7 @@ public function getDisponibilidadCitas($fecha){
         echo  json_encode(["msj"=>"existe"]);
        }else{
         $correlativo = $this->getCorrelativoImpAsistencia($sucursal,$fecha);
-        echo  json_encode(["correlativo"=>$correlativo]);
+        $sql = "insert into hoja_atencion values(null,?,?,?,?)";
        }
     }
 

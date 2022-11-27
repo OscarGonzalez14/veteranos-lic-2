@@ -641,4 +641,8 @@ switch ($_GET["op"]) {
       );
       echo json_encode($results);
       break;
+
+      case 'valida_licitacion_1':
+         $ordenes->buscaOrdenLicitacion1($_POST["dui"]);
+        break;
   }

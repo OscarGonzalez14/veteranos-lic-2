@@ -9,7 +9,7 @@
  require_once '../modelos/Reporteria.php';
  $reporteria = new Reporteria();
 $sucursal = $_POST["sucursal"];
-$correlativo = $_POST["correlativo"];
+$correlativo =$_POST["correlativo"];
 $tipo_desp = $_POST["tipo_desp"];
 $corr = $Bar->getBarcode($correlativo, $Bar::TYPE_CODE_128,'1','45');
 date_default_timezone_set('America/El_Salvador'); 
@@ -150,26 +150,24 @@ $fecha = date("Y-m-d");
   $i++; } ?>  
   </table>
 
-<?php
-if($tipo_desp=="expedientes"){ ?>
+
   <div style="page-break-after:always;"></div>
+
+
+<table width="100%">
 <?php
-
-
-echo '<table width="100%">';  
-  for($i=0;$i<count($array_dui);$i++){
-
-    $resultado = $reporteria->getDataOrdenDui($array_dui[$i]);
+for($i=0;$i<count($array_dui);$i++){
     
+$resultado = $reporteria->getDataOrdenDui($array_dui[$i]);
     foreach($resultado as $key){
       $codigo = $key["dui"];
     }
-
+    
     $code = $Bar->getBarcode($codigo, $Bar::TYPE_CODE_128,'1','45');
-
-    if($i % 2 == 0){
+ 
+  if($i % 2 == 0){
       echo "<tr>";
-    }
+  }
 
     echo"<td>";
      
@@ -177,6 +175,7 @@ echo '<table width="100%">';
     echo "
      <tr>
       <td colspan='30'>
+
         <img src='../dist/img/inabve.jpg' width='55' height='55'>
       </td>
       <td colspan='40' style='text-align:center;'>";
@@ -187,20 +186,20 @@ echo '<table width="100%">';
       </td>
      </tr>
      ";
-
      
-     foreach ($resultado as $key) {
+    foreach ($resultado as $key) {
 
       echo "
       <tr>
       <td class='stilot1' colspan='100' style='text-align:center;font-size:13px'>Lente: <b>".$key["tipo_lente"]." ".$key["color"]."</b></td>
       </tr>
-
-      <tr>
+      
+           <tr>
       <td class='stilot1' colspan='30' style='text-align:left'>".$key["dui"]."</td>
       <td class='stilot1' colspan='30' style='text-align:cente'><b>Suc.:</b> ".$key["sucursal"]."</td>
       <td class='stilot1' colspan='40' style='text-align:cente'><b>Fecha</b> ".date("d-m-Y",strtotime($key["fecha"]))."</td>
       </tr>
+      
       <tr style='height: 14px'>
         <td class='stilot1 encabezado' colspan='65'><b style='padding: 0px'>Paciente:</b></td>
         <td class='stilot1 encabezado' colspan='20'><b style='padding: 0px'>DUI</b></td>
@@ -228,7 +227,8 @@ echo '<table width="100%">';
         <td colspan='20' class='stilot1'>".$key["od_eje"]."</td>
         <td colspan='20' class='stilot1'>".$key["od_adicion"]."</td>
       </tr>
-    <tr>
+      
+       <tr>
       <td colspan='20' class='stilot1'><b>OI</b></td>
       <td colspan='20' class='stilot1'>".$key["oi_esferas"]."</td>
       <td colspan='20' class='stilot1'>".$key["oi_cilindros"]."</td>
@@ -258,11 +258,12 @@ echo '<table width="100%">';
       <td colspan='20' class='stilot1'>".$key["avsc"]."</td>
       <td colspan='20' class='stilot1'>".$key["avfinal"]."</td>
     </tr>
-    
+      
       ";
+      
+      
     }
-  
-
+     
     echo "</table><br>--------------------------------------------------------------------------";
     
     echo "</td>";
@@ -270,13 +271,11 @@ echo '<table width="100%">';
     if ($i % 2 != 0) {
       echo "</tr>";
     }
-  }
-  echo '</table>';
-
-
-} ?>
-
-
+  
+   
+}//fin recorrer array dui
+?>
+</table>
 <?php
 
 $salida_html = ob_get_contents();

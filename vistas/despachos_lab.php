@@ -56,17 +56,18 @@ $categoria_usuario = $_SESSION["categoria"];
         </a>
       <div class="card card-warning card-outline" style="margin: 2px;margin-top: 0px !important">
       <h5 style="text-align: center; font-size: 16px" align="center" class="bg-dark">LISTADO DE DESPACHOS A LABORATORIO</h5>
-       <table width="100%" class="table-bordered" id="data_despachos"  data-order='[[ 0, "asc" ]]' style="font-size: 11px">
+       <table width="100%" class="table-bordered" id="data_despachos_suc"  data-order='[[ 0, "asc" ]]' style="font-size: 11px; text-align-center">
      
         <thead class="style_th bg-info" style="color: white">
            <th>ID</th>
+           <th>No. Despacho</th>
            <th>Fecha</th>
            <th>Enviado por</th>
            <th>Sucursal</th>
-           <th>Cantidad</th>
+           <th>Ordenes</th>
            <th style="text-align: center">Detalles</th>
          </thead>
-         <tbody class="style_th" style="padding: 3px;text-align: left;font-size: 11px"></tbody>
+         <tbody class="style_th" style="padding: 3px;text-align: center;font-size: 11px"></tbody>
        </table>
 
       </div>

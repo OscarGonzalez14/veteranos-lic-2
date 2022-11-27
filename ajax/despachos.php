@@ -48,5 +48,33 @@ switch ($_GET["op"]){
        $despachos->registrarDespachos();
     break;
 
+    case 'get_ordenes_despachadas':
+    $args = $_POST["Args"];
+    $desps = $despachos->getOrdenesDespachadas($args[0],$args[1]);
+
+    $data = Array();
+
+    foreach($desps as $row){
+        $sub_array = array();
+        $sub_array[] = $row["id_despacho"];
+        $sub_array[] = $row["n_despacho"];
+        $sub_array[] = date("d-m-Y",strtotime($row["fecha"]))." ".$row["hora"];  
+        $sub_array[] = $row["sucursal"];
+        $sub_array[] = $row["sucursal"];        
+        $sub_array[] = $row["cantidad"];
+        $sub_array[] = '<button type="button" class="btn btn-sm bg-light" onClick="printDespacho(\'' . $row["n_despacho"] . '\',\'' . $row["n_despacho"] . '\',\'' . $row["sucursal"] . '\')"><i class="fa fa-file-pdf" aria-hidden="true" style="color:red"></i></button>';
+        $data[] = $sub_array;
+
+    }
+
+    $results = array(
+        "sEcho"=>1, //Información para el datatables
+        "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+        "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+        "aaData"=>$data);
+        echo json_encode($results); 
+
+        break;
+
 
 }

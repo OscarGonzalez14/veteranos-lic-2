@@ -1306,5 +1306,21 @@ public function getHistorialOrden($codigo){
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+public function buscaOrdenLicitacion1($dui){
+  $conectar = parent::conexion_inabve1();
+  parent::set_names();
+  $sql = "select*from orden_lab where dui=?";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1,$dui);
+  $sql->execute();
+  $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+  if(count($resultado)>0){
+    $msj = ["paciente"=>$resultado[0]["paciente"]];
+  }else{
+    $msj =["resp"=>"ok"];
+  }
+  echo json_encode($msj);
+}
 }//Fin de la Clase
 
