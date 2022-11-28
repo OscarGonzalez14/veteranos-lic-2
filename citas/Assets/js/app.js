@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let municipio = document.getElementById("sector-pac").value;
         let vet_titular = document.getElementById("vet-titular").value;
         let duitit  = document.getElementById("dui-titular").value;
+        console.log(fecha,sucursal,hora)
         if(sector=="CONYUGE" && (vet_titular =="" || duitit=="")){
           Swal.fire(                
             'Notificaciones!!',                

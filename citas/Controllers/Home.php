@@ -40,6 +40,8 @@ class Home extends Controller
                         $msg = array('msg' => 'Sucursal no admite mas cupos, selecione otra fecha', 'estado' => false, 'tipo' => 'error');
                     }else if($data == 'error'){
                         $msg = array('msg' => 'DUI ya existe', 'estado' => false, 'tipo' => 'error');
+                    }else if($data == 'errorhora'){
+                        $msg = array('msg' => 'hora ya ha sido seleccionada por otro usuario', 'estado' => false, 'tipo' => 'error');
                     }
                 } else {
                     $data = $this->model->modificar($paciente, $dui, $fecha, $id);
