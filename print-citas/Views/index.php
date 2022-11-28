@@ -40,6 +40,7 @@ require_once("modales/listarCitasPrint.php");
   <?php require_once('side_bar.php'); ?>
   <div class="content-wrapper">
    <input type="hidden" value="<?php echo $_SESSION["sucursal"];?>" id="sucs">
+   <input type="text" value="<?php print_r($_SESSION["names_permisos"]) ;?>">
    
     <div class="container">
         <div id="calendario-citas"></div>
@@ -91,9 +92,9 @@ require_once("../vistas/links_js.php");
         const base_url = '<?php echo base_url; ?>';
     </script>
    
-    <script src="<?php echo base_url; ?>Assets/js/app.js"></script>
+    <script src="<?php echo base_url; ?>Assets/js/app.js?v=<?php echo(rand()); ?>"></script>
     <script src='../js/cleave.js'></script>
-    <script src='../js/citados.js'></script>
+    <script src='../js/citados.js?v=<?php echo(rand()); ?>'></script>
     <script>
         let telefono = new Cleave('#telefono-pac', {
         delimiter: '-',

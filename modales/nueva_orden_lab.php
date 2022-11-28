@@ -103,6 +103,7 @@
                   <select class="form-control clear_orden_i" id="sucursal_optica" required>
                     <option value="0" selected disabled>Seleccionar sucursal...</option>
                     <option value="Valencia">Valencia</option>
+                    <option value="Usulutan">Usulutan</option>
                   </select>
                 </div>
               </div>

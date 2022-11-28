@@ -109,21 +109,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 'warning'
              )
         } else {
-        
-          $.ajax({
+             $.ajax({
             url:"../ajax/ordenes.php?op=valida_licitacion_1",
             method:"POST",
             data:{dui:dui},
             cache: false,
             dataType:"json",
             success:function(data){
-             
-              console.log(data)
-            }
-          });///fin ajax 
-
-            
-            /* const url = base_url + 'Home/registrar';
+             if(data.resp=="error"){
+                 Swal.fire(                
+                'Paciente registrado en Licitacion 2021',                
+                'Su DUI pertenece al expediente: '+data.id_orden+" con fecha: "+data.fecha,
+                'warning'
+             )
+             }else{
+            const url = base_url + 'Home/registrar';
             const http = new XMLHttpRequest();
             http.open("POST", url, true);
             http.send(new FormData(frm));
@@ -142,7 +142,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         calendar.refetchEvents();
                     }
                 }
-            } */
+            }
+             }
+              
+            }
+          });
+            
         }
     });
     eliminar.addEventListener('click', function () {
@@ -324,16 +329,16 @@ $(function () {
 
 function gethorasDisponiblesSucursal(sucursal){
   let fecha = document.getElementById("fecha-cita").value;
-  gethorasDisponibles(sucursal,fecha,"0")
+  gethorasDisponibles(sucursal,fecha)
 }
 
 function gethorasDisponiblesFecha(fecha){
   let sucursal = document.getElementById("sucursal-cita").value;
-  gethorasDisponibles(sucursal,fecha,"0")
+  gethorasDisponibles(sucursal,fecha)
 }
 
-function gethorasDisponibles(sucursal,fecha,param){
-  console.log(sucursal,fecha,param)
+function gethorasDisponibles(sucursal,fecha){
+  console.log(sucursal,fecha)
   const numeroDia = new Date(fecha).getDay();
   const dias = ['lunes','martes','miercoles','jueves','viernes','sabado'];
   const nombreDia = dias[numeroDia];
@@ -359,7 +364,8 @@ function gethorasDisponibles(sucursal,fecha,param){
   }else if(sucursal=="Gotera" && nombreDia=="sabado"){
     disp = ['8:00:00 AM','8:15:00 AM','8:30:00 AM','8:45:00 AM','9:00:00 AM','9:15:00 AM','9:30:00 AM','9:45:00 AM','10:00:00 AM','10:15:00 AM']
   }else if(sucursal=="Valencia"){
-     disp = ['8:00','8:05','8:10','8:15','8:20','8:25','8:30','8:35','8:40','8:45','8:50','8:55','9:00','9:05','9:10','9:15','9:20','9:25','9:30','9:35','9:40','9:45','9:50','9:55','10:00','10:05','10:10','10:15','10:20','10:25','10:30','10:35','10:40','10:45','10:50','10:55','11:00','11:05','11:10','11:15','11:20','11:25','11:30','11:35','11:40','11:45','11:50','11:55','1:00:00 PM','1:05:00 PM','1:10:00 PM','1:15:00 PM','1:20:00 PM','1:25:00 PM','1:30:00 PM','1:35:00 PM','1:40:00 PM','1:45:00 PM','1:50:00 PM','1:55:00 PM','2:00:00 PM'
+     disp = ['8:00','8:05','8:10','8:15','8:20','8:25','8:30','8:35','8:40','8:45','8:50','8:55','9:00','9:05','9:10','9:15','9:20','9:25','9:30','9:35','9:40','9:45','9:50','9:55','10:00','10:05','10:10','10:15','10:20','10:25','10:30','10:35','10:40','10:45','10:50','10:55','11:00','11:05','11:10','11:15','11:20','11:25','11:30','11:35','11:40','11:45','11:50','11:55','1:00 PM','1:05 PM','1:10 PM','1:15 PM','1:20 PM','1:25 PM','1:30 PM','1:35 PM','1:40 PM','1:45 PM','1:50 PM','1:55 PM','2:00 PM'
+
       ]
   }else{
     disp = [
@@ -375,8 +381,9 @@ function gethorasDisponibles(sucursal,fecha,param){
         cache: false,
         dataType:"json",
         success:function(horas){
+          console.log(horas)
           let tam_array = horas.length;
-          if(tam_array==0 || param !='0'){
+          if(tam_array==0){
             $("#hora").empty();
             $("#hora").select2({ data: disp})
           }else{
@@ -388,7 +395,6 @@ function gethorasDisponibles(sucursal,fecha,param){
           
         }
       });///fin ajax 
-
 }
 
 $(".inp-citas").keyup(function(){

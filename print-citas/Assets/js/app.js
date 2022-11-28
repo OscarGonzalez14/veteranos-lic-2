@@ -195,3 +195,26 @@ function gethorasDisponibles(fecha){
         }
       });///fin ajax
 }
+
+function verificarPermisos(){
+
+  $.ajax({
+    url:"../ajax/citados.php?op=get_permisos",
+    method:"POST",
+    data:{fecha:fecha},
+    cache: false,
+    dataType:"json",
+    success:function(horas){
+      let tam_array = horas.length;
+      if(tam_array==0){
+        $("#hora").empty();
+        $("#hora").select2({ data: disp})
+      }else{
+        let diff = disp.filter(d => !horas.includes(d));
+        $("#hora").empty();
+        $("#hora").select2({ data: diff})
+      }
+    }
+  });///fin ajax
+
+}

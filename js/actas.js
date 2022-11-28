@@ -108,3 +108,6 @@ document.querySelectorAll(".chk-recept").forEach(i => i.addEventListener("click"
     document.body.removeChild(form);
   }
   
+ /////////////////  RECIBIR ORDENES 
+
+ 

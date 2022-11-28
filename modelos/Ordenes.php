@@ -1316,7 +1316,7 @@ public function buscaOrdenLicitacion1($dui){
   $sql->execute();
   $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
   if(count($resultado)>0){
-    $msj = ["paciente"=>$resultado[0]["paciente"]];
+    $msj = ["paciente"=>$resultado[0]["paciente"],"fecha"=>$resultado[0]["fecha"]];
   }else{
     $msj =["resp"=>"ok"];
   }

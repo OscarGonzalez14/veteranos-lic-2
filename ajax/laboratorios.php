@@ -14,9 +14,9 @@ switch ($_GET["op"]){
 case 'get_ordenes_pendientes_lab':
   
   if($_POST['inicio'] != "" AND $_POST['hasta'] != "" AND $_POST['estado_proceso'] != ""){
-  $datos = $ordenes->get_ordenes_filter_date($_POST["inicio"],$_POST["hasta"],$_POST["estado_proceso"]); 
+    $datos = $ordenes->get_ordenes_filter_date($_POST["inicio"],$_POST["hasta"],$_POST["estado_proceso"]); 
   }else{
-    $datos = $ordenes->get_rango_fechas_ordenes();
+    $datos = $ordenes->get_rango_estados_ordenes($_POST['estado_proceso']);
   }
 
   $data = Array();
@@ -26,28 +26,25 @@ case 'get_ordenes_pendientes_lab':
 
     switch ($row['estado']){
       case 0:
-        $estado = "Digitada";
+        $estado = "Pendientes (Digitadas)";
       break;
       case 1:
-        $estado = "Enviada Lab";
+        $estado = "Despacho de óptica";
       break;
       case 2:
-        $estado = "Recibida Lab";
+        $estado = "Recibidas (Procesando)";
       break;
       case 3:
-        $estado = "En proceso";
+        $estado = "Finalizadas";
       break;
       case 4:
-        $estado = "Finalizada";
+        $estado = "Enviadas a ópticas";
       break;
       case 5:
-        $estado = "Despachada en Lab";
+        $estado = "Recibidas en optica";
       break;
       case 6:
-        $estado = "Recibida en optica";
-      break;
-      case 7:
-        $estado = "Entregada";
+        $estado = "Entregadas";
       break;
     }
 
@@ -173,22 +170,30 @@ case 'get_ordenes_pendientes_lab':
 
 
   case 'get_data_orden_barcode':
+    if($_POST["tipo_accion"] == "ingreso_lab" || $_POST["tipo_accion"] == "recibir_veteranos" ){
+      $datos = $ordenes->get_ordenes_lab_rectificaciones($_POST["paciente_dui"]);
+      if(count($datos) > 0){
+        $estado = true;
+      }else{
+        $datos = $ordenes->get_ordenes_despacho($_POST["paciente_dui"]);
+      }
 
-  if ($_POST["tipo_accion"]=="ing_lab") {
-    $datos = $ordenes->get_ordenes_barcode_lab_id($_POST["paciente_dui"],$_POST["tipo_accion"]);
-  }else{
-    $datos = $ordenes->get_ordenes_barcode_lab($_POST["paciente_dui"]);
-  }
-
-    
+    }else if($_POST["tipo_accion"]=="en_proceso_lab") {
+      $datos = $ordenes->get_ordenes_barcode_lab_id($_POST["paciente_dui"]);
+    }else if($_POST["tipo_accion"] == "finalizar_lab"){
+      $datos = $ordenes->get_ordenes_barcode_lab($_POST["paciente_dui"]);
+    }
 
   if(is_array($datos)==true and count($datos)>0){
       foreach($datos as $row){
-      $output["id_orden"] = $row["id_orden"];
-      $output["codigo"] = $row["codigo"];
-      $output["fecha"] = date("d-m-Y",strtotime($row["fecha"]));
-      $output["dui"] = $row["dui"];
-      $output["paciente"] = $row["paciente"];   
+        $output["id_orden"] = $row["id_orden"];
+        $output["n_despacho"] = $row["n_despacho"];
+        $output["codigo"] = $row["codigo"];
+        $output["estado"] = isset($estado) ? "rectificacion" : $row["codigo"];
+        $output["fecha"] = date("d-m-Y",strtotime($row["fecha"]));
+        $output["dui"] = $row["dui"];
+        $output["paciente"] = $row["paciente"]; 
+        $output["sucursal"] = $row["sucursal"];  
     }
     }else{
       $output = $datos;
@@ -200,24 +205,27 @@ case 'get_ordenes_pendientes_lab':
 
     ///////////////BARCODE PROCESOS //////////
 
-    case 'get_correlativo_accion_vet':
+    case 'get_correlativo_detalle_envio':
 
-    $correlativo = $ordenes->get_correlativo_accion_veteranos();
+    $correlativo = $ordenes->get_correlativo_detalle_envio();
 
     if (is_array($correlativo)==true and count($correlativo)>0) {
       foreach($correlativo as $row){                  
-        $codigo = $row["correlativo_accion"];
-        $cod = (substr($codigo,2,11))+1;
-        $output["correlativo"] = "A-".$cod;
+        $codigo = $row["cod_despacho"];
+        $cod = (substr($codigo,4,15))+1;
+        $output["correlativo"] = "DSP-".$cod;
       }
     }else{
-        $output["correlativo"] = "A-1";
+        $output["correlativo"] = "DSP-1";
     }
     echo json_encode($output);
     break;
 
 //////////////////PROCESAR ORDENES BARCODE /////////////
     case 'procesar_ordenes_barcode':
+      if($_POST['tipo_accion'] == "ingreso_lab"){
+        //$ordenes->ingreso_lab();
+      }
       if ($_POST['tipo_accion']=='en_proceso_lab') {///FINALIZAR LAB
         $ordenes->finalizarOrdenesLab($_POST["usuario"]);
         $mensaje = "Ok";
@@ -231,7 +239,7 @@ case 'get_ordenes_pendientes_lab':
           $mensaje = 'Error';
         }     
       }elseif($_POST['tipo_accion']=='finalizar_lab') {
-        $ordenes->finalizarOrdenesLabEnviar($_POST["usuario"]);
+        $ordenes->finalizarOrdenesLabEnviar($_POST["usuario"],$_POST['correlativo_accion']);
         $mensaje = "Ok";
       }
 
@@ -300,13 +308,13 @@ case 'get_ordenes_pendientes_lab':
     foreach ($datos as $row) { 
     $sub_array = array();
 
-    $sub_array[] = $row["id_orden_rec"];
-    $sub_array[] = $row["correlativo_accion"];
-    $sub_array[] = date("d-m-Y",strtotime($row["fecha"]))." ".$row["hora"];
+    $sub_array[] = $row["id_ordenes_envio"];
+    $sub_array[] = $row["cod_despacho"];
+    $sub_array[] = date("d-m-Y",strtotime($row["fecha"]));
     $sub_array[] = $row["usuario"];
     $sub_array[] = $row["cant"]." ordenes";
-    $sub_array[] = '<form action="imprimirDespachoLabPdf.php" method="POST" target="_blank">
-    <input type="hidden" name="correlativos_acc" value="'.$row['correlativo_accion'].'">
+    $sub_array[] = '<form action="imprimirDetalleOrdenesDespacho.php" method="POST" target="_blank">
+    <input type="hidden" name="cod_despacho" value="'.$row['cod_despacho'].'">
     <button type="submit"  class="btn btn-sm" style="background:#6d0202;color:white"><i class="fas fa-file-pdf"></i></button>
     </form>';  
             
@@ -379,13 +387,15 @@ case 'get_ordenes_pendientes_lab':
       $data = $_POST['data'];
       $ACCIONES = "ingresos_lab";
       foreach($data as $row){
-        $ordenes->ingreso_lab($row['n_despacho'],$row['dui'],$row['paciente'],$ACCIONES,$_POST['tipo_acciones'],$_POST['laboratorio']);
+        $ordenes->ingreso_lab($row['n_despacho'],$row['dui'],$row['paciente'],$ACCIONES,$_POST['tipo_acciones'],$_POST['laboratorio'],$row['estado']);
         //insertar a LENTI
         if($_POST['laboratorio'] == "LENTI"){
           $data_orden_lab = $ordenes->getDataOrdenLenti($row['dui']);
          foreach($data_orden_lab as $k){
+          //$marca = (isset($k['marca'])) ? $k['marca'] : '-';
+          //$modelo = (isset($k['modelo'])) ? $k['modelo'] : '-';
 
-$orden_lenti->trasladoOrdenesLenti($k['codigo'],$k['paciente'],$k['observaciones'],$k['id_usuario'],$k['tipo_lente'],$k['od_esferas'],$k['od_cilindros'],$k['od_eje'],$k['od_adicion'],$k['oi_esferas'],$k['oi_cilindros'],$k['oi_eje'],$k['oi_adicion'],$k['pupilar_od'],$k['pupilar_oi'],$k['lente_od'],$k['lente_oi'],$k['categoria'],$k['color'],$k['modelo'],$k['material'],$k['marca'],$k['trat'],$_POST['tipo_acciones'],$k["dui"]);
+          $orden_lenti->trasladoOrdenesLenti($k['codigo'],$k['paciente'],$k['observaciones'],$k['id_usuario'],$k['tipo_lente'],$k['od_esferas'],$k['od_cilindros'],$k['od_eje'],$k['od_adicion'],$k['oi_esferas'],$k['oi_cilindros'],$k['oi_eje'],$k['oi_adicion'],$k['pupilar_od'],$k['pupilar_oi'],$k['lente_od'],$k['lente_oi'],$k['categoria'],$k['color'],$k['modelo'],$k['material'],$k['marca'],$k['trat'],$_POST['tipo_acciones'],$k["dui"]);
           } 
         
         }
@@ -393,7 +403,6 @@ $orden_lenti->trasladoOrdenesLenti($k['codigo'],$k['paciente'],$k['observaciones
 
       $mensaje = "exito";
       echo json_encode($mensaje);
-      
       break;
 
 
