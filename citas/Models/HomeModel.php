@@ -10,9 +10,18 @@ class HomeModel extends Query{
         $sql = "select*from citas where dui='$dui';";
         return $this->selectAll($sql);
     }
+
+    public function comprobarCupos($sucursal){
+        $sql = "select cupos from sucursales where nombre='$sucursal';";
+        return $this->selectAll($sql);
+    }
+    public function contarCupos($sucursal,$fecha){
+        $sql = "select count(dui) as tot_cupos from citas where sucursal='$sucursal' and fecha='$fecha';";
+        return $this->selectAll($sql);
+    }
     
     public function registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$user_login,$vet_titular,$dui_titular,$tel_opcional,$tipo_paciente){
-       // $user_login="6547";
+   
         $color="#116530";
         $estado="0";
         date_default_timezone_set('America/El_Salvador');
@@ -20,18 +29,26 @@ class HomeModel extends Query{
         $hora_reg = date("H:i:s");
 
         $resp = $this->comprobarExisteDui($dui);
-
+        $cupos = $this->comprobarCupos($sucursal);
+        $cuentaCupos = $this->contarCupos($sucursal,$fecha);
+        $cupos_suc = $cupos[0]["cupos"];
+        $sum_cupos = $cuentaCupos[0]["tot_cupos"];
         if(count($resp)>0){
             $res = 'error';
-        }else{
+        }
+        
+        if((int)$sum_cupos < (int)$cupos_suc){
 
         $sql = "INSERT INTO citas (paciente,dui,fecha,sucursal,color,estado,telefono,edad,ocupacion,genero,usuario_lente,sector,depto,municipio,hora,fecha_reg,hora_reg,id_usuario,vet_titular,dui_titular,tel_opcional,tipo_paciente) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $array = array($paciente, $dui, $fecha,$sucursal,$color,$estado,$telefono,$edad,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$hoy_reg,$hora_reg,$user_login,$vet_titular,$dui_titular,$tel_opcional,$tipo_paciente);
         
         $data = $this->save($sql, $array);
         $res = 'ok';
+        }else{
+            $res = "not";
         }
         return $res;
+
     }
     public function getEventos(){
         $sql = "SELECT id_cita as id,concat(count(paciente),'-', 'citas') as title,fecha as start, color FROM citas where estado='0' group by fecha;";

@@ -108,7 +108,6 @@ require_once("../vistas/links_js.php");
         uppercase: true
         });
     </script>
-
 </body>
 
 </html>

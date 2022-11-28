@@ -36,7 +36,9 @@ class Home extends Controller
                     $data = $this->model->registrar($paciente, $dui, $fecha,$sucursal,$edad,$telefono,$ocupacion,$genero,$usuario_lente,$sector,$depto,$municipio,$hora,$user_login,$vet_titular,$dui_titular,$tel_opcional,$tipo_paciente);
                     if ($data == 'ok') {
                         $msg = array('msg' => 'Cita ingresada', 'estado' => true, 'tipo' => 'success');
-                    }else{
+                    }else if($data == 'not'){
+                        $msg = array('msg' => 'Sucursal no admite mas cupos, selecione otra fecha', 'estado' => false, 'tipo' => 'error');
+                    }else if($data == 'error'){
                         $msg = array('msg' => 'DUI ya existe', 'estado' => false, 'tipo' => 'error');
                     }
                 } else {
