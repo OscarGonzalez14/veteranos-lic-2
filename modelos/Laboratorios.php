@@ -6,7 +6,6 @@ require_once("../config/conexion.php");
    
     public function get_ordenes_filter_date($inicio,$fin,$estado_proceso){
     $conectar= parent::conexion();
-    
     $sql= "select*from orden_lab where fecha between ? and ? and estado=? order by id_orden DESC;";
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1, $inicio);
@@ -16,10 +15,15 @@ require_once("../config/conexion.php");
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
   }
   
-  public function get_rango_fechas_ordenes(){
+  public function get_rango_estados_ordenes($estado_orden_lab = ""){
   $conectar = parent::conexion();
-  $sql= "select * from orden_lab";
+  if($estado_orden_lab == ""){
+    $sql= "select * from orden_lab";
+  }else{
+    $sql= "select * from orden_lab where estado=?";
+  }
   $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$estado_orden_lab);
   $sql->execute();
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -441,7 +445,7 @@ public function get_ordenes_barcode_lab_id($dui_paciente){
     return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function ingreso_lab($n_despacho,$dui,$paciente,$acciones,$tipo_accion,$laboratorio){
+  public function ingreso_lab($n_despacho,$dui,$paciente,$acciones,$tipo_accion,$laboratorio,$estado){
     $conectar = parent::conexion();
     //$conexion_lenti = parent::conexion_lenti();
     $id_usuario = $_SESSION["id_user"];
@@ -463,6 +467,18 @@ public function get_ordenes_barcode_lab_id($dui_paciente){
       $cod_ingreso = "INGR-".$numero_unico;
     }else{
       $cod_ingreso = "INGR-1";
+    }
+    //Rectificaciones guardar en acciones lab y acciones orden
+    if($estado == "rectificacion"){
+      $acciones = "ingreso_rectificacion";
+      $tipo_accion = "Ingreso rectificación";
+      $accion = "Ingreso rectificación";
+    }else{
+      $accion = "Ingreso a Laboratorio ".$laboratorio;
+      if($tipo_accion == "REENVIO A LAB"){
+        //Inserted lenti
+        $accion = "Reenvio a Laboratorio ".$laboratorio;
+      }
     }
 
     $sql = "insert into acciones_lab values (null,?,?,?,?,?,?,?,?,?)";
@@ -499,11 +515,6 @@ public function get_ordenes_barcode_lab_id($dui_paciente){
       $sql->execute();
 
       //Inseted a acciones_orden
-      $accion = "Ingreso a Laboratorio ".$laboratorio;
-      if($tipo_accion == "REENVIO A LAB"){
-        //Inserted lenti
-        $accion = "Reenvio a Laboratorio ".$laboratorio;
-      }
 
       $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
       $sql7 = $conectar->prepare($sql7);
@@ -602,6 +613,15 @@ public function get_ordenes_barcode_lab_id($dui_paciente){
       $sql->execute();
       return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+  }
+
+  public function get_ordenes_lab_rectificaciones($dui_paciente){
+    $conectar = parent::conexion();
+    $sql= "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where orden_lab.dui = ? and orden_lab.estado > 2";
+    $sql=$conectar->prepare($sql);
+    $sql->bindValue(1, $dui_paciente);
+    $sql->execute();
+    return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
 }

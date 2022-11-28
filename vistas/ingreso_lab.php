@@ -58,12 +58,12 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
         
         <div class="col-sm-2" style="text-align: right;display: flex;align-items: right">          
           <select id="estado_proceso" class="form-control" style="margin-top: 1px">
-            <option value="" selected disabled>Selec. estado</option>
-            <option value="0">Digitadas</option>
-            <option value="1">Enviada a Laboratorio</option>
-            <option value="2">En proceso</option>
-            <option value="3">Finalizada</option>
-            <option value="4">Despachada Laboratorio</option>
+            <option value="" selected>Selec. estado</option>
+            <option value="0">Pendientes (Digitadas)</option>
+            <option value="1">Despacho de óptica</option>
+            <option value="2">Recibidas (Procesando)</option>
+            <option value="3">Finalizadas</option>
+            <option value="4">Enviadas a óptica</option>
             <option value="5">Recibida en optica</option>
             <option value="6">Entregada</option>
           </select>
@@ -113,7 +113,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
         <!-- Modal body -->
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label-title" id="form-label-title">Código envio</label>
+            <label class="form-label-title" id="form-label-title">Código de envio</label>
             <input type="text" autofocus class="form-control" id="n_despacho" onchange="getDespachoLab(this.id)" placeholder="Buscar por código de envio">
 
             <input type="text" autofocus class="form-control" id="dui_despacho" onchange="buscar_dui_table(this.id)" placeholder="Buscar por Escaner">

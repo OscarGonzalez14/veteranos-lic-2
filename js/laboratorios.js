@@ -1,5 +1,4 @@
 var old_despachos_lab = []
-var items_barcode = []
 function init() {
   listar_ordenes_procesando_lab();
   get_ordenes_procesando();
@@ -66,16 +65,16 @@ function listar_ordenes_pend_lab(buscar = "no",estado_ordenes="") {
   let estado_proceso = estado_ordenes;
   
  if(buscar === "si" && estado_ordenes != ""){
-  if ((inicio_fecha == undefined || inicio_fecha == null || inicio_fecha == "") || (hasta_fecha == undefined || hasta_fecha == null || hasta_fecha == "")) {
+   if(inicio_fecha === "" && hasta_fecha !== "" || inicio_fecha !== "" && hasta_fecha === ""){
     Swal.fire({
       position: 'top-center',
       icon: 'error',
-      title: 'Especificar todos los filtros',
+      title: 'Especificar el rango de fechas',
       showConfirmButton: true,
       timer: 2500
     });
     return false
-  }
+   }
  }
 
   tabla_ordenes = $('#ordenes_pendientes_lab').DataTable({
@@ -508,7 +507,6 @@ function getCorrelativoAccionVet() {
 }
 
 function getOrdenBarcode() {
-
   let paciente_dui = $("#reg_ingresos_barcode").val();
   paciente_dui = paciente_dui.replace("'","-");
   paciente_dui = document.getElementById('reg_ingresos_barcode').value = paciente_dui
@@ -521,12 +519,41 @@ function getOrdenBarcode() {
     cache: false,
     dataType: "json",
     success: function (data) {
-      //console.log(data)
-      let resultados = typeof data;
-      $("#reg_ingresos_barcode").focus()
-      if (resultados == 'object') {
-        getDataOrdenes(resultados, data);
+      console.log(data)
+      if(data.estado == "rectificacion"){
+        Swal.fire({
+          title:"¿Se trata de una rectificación?",
+          text: 'El trabajo ya ha sido ingresado anteriormente',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Aceptar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              '¡Expediente actualizado!',
+              'satisfactoriamente'
+            )
+            let resultados = typeof data;
+            $("#reg_ingresos_barcode").focus()
+            if (resultados == 'object') {
+              getDataOrdenes(resultados, data);
+            }
+          }else{
+            $("#reg_ingresos_barcode").val('')
+            $("#reg_ingresos_barcode").focus()
+          }
+        })
+      }else{
+        let resultados = typeof data;
+        $("#reg_ingresos_barcode").focus()
+        if (resultados == 'object') {
+          getDataOrdenes(resultados, data);
+        }
       }
+      
 
     }//Fin success
   });//Fin Ajax 
@@ -630,6 +657,8 @@ function registrarBarcodeOrdenes() {
   let usuario = $("#usuario").val();
   let correlativo_accion = $("#correlativo_acc_vet").val();
   let n_ordenes = items_barcode.length;
+    //Disabled button enviar
+    $("#btn_proceso_fin_env").attr('disabled',true);
   if (n_ordenes == 0) {
     Swal.fire({
       position: 'top-center',
@@ -653,6 +682,8 @@ function registrarBarcodeOrdenes() {
         msj = ' ordenes en proceso exitosamente';
         $("#reg_ingresos_barcode").focus();
         $("#items-ordenes-barcode").html('');
+          //Disabled button enviar
+          $("#btn_proceso_fin_env").attr('disabled',false);
 
       } else if (tipo_accion == 'recibir_veteranos') {
         msj = ' ordenes recibidas exitosamente';
@@ -668,6 +699,8 @@ function registrarBarcodeOrdenes() {
         $("#items-ordenes-barcode").html('')
         imprimir_detalle_ordenes_envio();
         $("#ordenes_finalizadas_lab").DataTable().ajax.reload();
+        //Disabled button enviar
+        $("#btn_proceso_fin_env").attr('disabled',false);
 
       }
 
@@ -984,6 +1017,7 @@ function ingreso_laboratorio() {
   $("#totalOrdenLab").html("")
   old_despachos_lab = []
   items_barcode = []
+  $("#form-label-title").text("Código de envio")
   $("#totalOrdenLab").html(items_barcode.length)
 
   document.getElementById('n_despacho').value = ""
@@ -1139,6 +1173,7 @@ $("#showModalEnviarLab").click(() => {
   $("#modal_laboratorio").modal('show')
   $("#tipo_acciones").val('')
   $("#laboratorio_ingreso").val('')
+  
 })
 
 $("#showModalIngresosLab").click(()=>{
@@ -1165,6 +1200,7 @@ function ingreso_lab() {
   let laboratorio = $("#laboratorio_ingreso").val()
   //Desabilitamos el bton de enviar
   $("#btn_enviar_ingreso_lab").attr('disabled',true);
+  $("#btn_enviar_ingreso_lab").html('Ingresando...');
   if (tipo_acciones === null || laboratorio === null) {
     Swal.fire({
       position: 'top-center',
@@ -1209,6 +1245,7 @@ function ingreso_lab() {
         });
         //Habilitamos boton de enviar
         $("#btn_enviar_ingreso_lab").attr('disabled',false);
+        $("#btn_enviar_ingreso_lab").html('<i class=" fas fa-file-export" style="color: #0275d8"></i> Ingresar');
         $("#modal_laboratorio").modal('hide')
         $("#tipo_acciones").val('')
         $("#laboratorio_ingreso").val('')
