@@ -343,20 +343,30 @@ require_once("../config/conexion.php");
 
 }
 
-public function get_ordenes_barcode_lab($dui_paciente){
+public function get_ordenes_barcode_lab($dui_paciente,$search_id){
 
   $conectar = parent::conexion();
-  $sql= "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where orden_lab.dui = ? and orden_lab.estado=3";
+  $sql= "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where ";
+  if($search_id != ""){
+    $sql .="orden_lab.id_orden = ? and orden_lab.estado=3";
+  }else{
+    $sql .= "orden_lab.dui = ? and orden_lab.estado=3";
+  }
   $sql=$conectar->prepare($sql);
   $sql->bindValue(1, $dui_paciente);
   $sql->execute();
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 
 }
-public function get_ordenes_despacho($dui_paciente){
+public function get_ordenes_despacho($dui_paciente,$search_id){
 
   $conectar = parent::conexion();
-  $sql= "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where orden_lab.dui = ? and orden_lab.estado=1 and det_despacho_lab.estado = 0";
+  $sql= "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where ";
+  if($search_id != ""){
+    $sql .= "orden_lab.id_orden = ? and orden_lab.estado=1 and det_despacho_lab.estado = 0";
+  }else{
+    $sql .= "orden_lab.dui = ? and orden_lab.estado=1 and det_despacho_lab.estado = 0";
+  }
   $sql=$conectar->prepare($sql);
   $sql->bindValue(1, $dui_paciente);
   $sql->execute();
@@ -364,10 +374,15 @@ public function get_ordenes_despacho($dui_paciente){
 
 }
 
-public function get_ordenes_barcode_lab_id($dui_paciente){  
+public function get_ordenes_barcode_lab_id($dui_paciente,$search_id){  
 
     $conectar = parent::conexion();
-    $sql2 = "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where orden_lab.dui = ? and orden_lab.estado=2";
+    $sql2 = "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where ";
+    if($search_id != ""){
+      $sql2 .= "orden_lab.id_orden = ? and orden_lab.estado=2";
+    }else{
+      $sql2 .= "orden_lab.dui = ? and orden_lab.estado=2";
+    }
     $sql2=$conectar->prepare($sql2);
     $sql2->bindValue(1,$dui_paciente);
     $sql2->execute();
@@ -615,9 +630,14 @@ public function get_ordenes_barcode_lab_id($dui_paciente){
     }
   }
 
-  public function get_ordenes_lab_rectificaciones($dui_paciente){
+  public function get_ordenes_lab_rectificaciones($dui_paciente,$search_id){
     $conectar = parent::conexion();
-    $sql= "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where orden_lab.dui = ? and orden_lab.estado > 2";
+    $sql = "select orden_lab.id_orden,det_despacho_lab.id_det,det_despacho_lab.estado,det_despacho_lab.n_despacho,orden_lab.codigo,orden_lab.dui,orden_lab.paciente,orden_lab.fecha,orden_lab.sucursal from `det_despacho_lab` inner join orden_lab on det_despacho_lab.dui = orden_lab.dui where ";
+    if($search_id != ""){
+      $sql .= "orden_lab.id_orden = ? and orden_lab.estado > 2";
+    }else{
+      $sql .= "orden_lab.dui = ? and orden_lab.estado > 2";
+    }
     $sql=$conectar->prepare($sql);
     $sql->bindValue(1, $dui_paciente);
     $sql->execute();

@@ -120,6 +120,15 @@
           </li>
           <?php endif ?>
 
+          <?php if(in_array("ver_laboratorio",$_SESSION['names_permisos']) OR $cat_usuario=="Admin"):?>
+          <li class="nav-item">
+            <a href='ingreso_lab.php' class="nav-link" style="color: white">
+              <i class="nav-icon fas fa-file"></i>
+              <p>Facturas</p>
+            </a>
+          </li>
+          <?php endif ?>
+
           <?php if($cat_usuario==1 or $cat_usuario==4){ ?>
           <li class="nav-item">
             <a href='stock_term.php' class="nav-link" style="color: white">

@@ -171,17 +171,17 @@ case 'get_ordenes_pendientes_lab':
 
   case 'get_data_orden_barcode':
     if($_POST["tipo_accion"] == "ingreso_lab"){
-      $datos = $ordenes->get_ordenes_lab_rectificaciones($_POST["paciente_dui"]);
+      $datos = $ordenes->get_ordenes_lab_rectificaciones($_POST["paciente_dui"],$_POST['search_id']);
       if(count($datos) > 0){
         $estado = true;
       }else{
-        $datos = $ordenes->get_ordenes_despacho($_POST["paciente_dui"]);
+        $datos = $ordenes->get_ordenes_despacho($_POST["paciente_dui"],$_POST['search_id']);
       }
 
     }else if($_POST["tipo_accion"]=="en_proceso_lab") {
-      $datos = $ordenes->get_ordenes_barcode_lab_id($_POST["paciente_dui"]);
+      $datos = $ordenes->get_ordenes_barcode_lab_id($_POST["paciente_dui"],$_POST['search_id']);
     }else if($_POST["tipo_accion"] == "finalizar_lab"){
-      $datos = $ordenes->get_ordenes_barcode_lab($_POST["paciente_dui"]);
+      $datos = $ordenes->get_ordenes_barcode_lab($_POST["paciente_dui"],$_POST['search_id']);
     }
 
   if(is_array($datos)==true and count($datos)>0){

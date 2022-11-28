@@ -120,6 +120,10 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
         </div>        
         <!-- Modal body -->
         <div class="modal-body">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="check_ingreso_id">
+            <label class="form-check-label" for="check_ingreso_id">Ingreso por ID</label>
+          </div>
           <input type="text" class="form-control" id="reg_ingresos_barcode" onchange="getOrdenBarcode()">
 
           <button type="button" class="btn btn-default float-right btn-sm " onClick="registrarBarcodeOrdenes()" style='margin: 3px'><i class=" fas fa-file-export" style="color: #0275d8"></i> Registrar</button>
@@ -151,8 +155,8 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
 <?php 
 require_once("links_js.php");
 ?>
-<script type="text/javascript" src="../js/laboratorios.js"></script>
-<script type="text/javascript" src="../js/ordenes.js"></script>
+<script type="text/javascript" src="../js/laboratorios.js?v=<?php echo rand() ?>"></script>
+<script type="text/javascript" src="../js/ordenes.js?v=<?php echo rand() ?>"></script>
 
 </body>
 </html>

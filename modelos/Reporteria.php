@@ -4,7 +4,6 @@ require_once("../config/conexion.php");
 class Reporteria extends Conectar{
 
 public function print_orden($codigo){
-
     $conectar= parent::conexion();
     parent::set_names(); 
 
@@ -25,6 +24,16 @@ public function get_ordenes_recibir_lab($codigo){
   return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function getItemsReporteOrdenes($correlativo){
+  $conectar= parent::conexion();
+  parent::set_names();
+  $sql = "select o.telefono,o.paciente,o.dui,o.fecha as fecha_o,o.tipo_lente,o.codigo,d.codigo_orden,a.fecha,a.hora,a.usuario,a.ubicacion,o.tipo_lente,d.id_detalle_accion from orden_lab as o inner join detalle_acciones_veteranos as d on o.codigo=d.codigo_orden INNER join acciones_ordenes_veteranos as a on a.correlativo_accion=d.correlativo_accion where d.correlativo_accion=? order by o.fecha ASC;";
+  $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$correlativo);
+  $sql->execute();
+  return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
 public function getItemsSelect(){
 $conectar= parent::conexion();
   parent::set_names();
@@ -39,7 +48,7 @@ $conectar= parent::conexion();
 public function get_pacientes_citados($fecha,$sucursal){
   $conectar= parent::conexion();
   parent::set_names();
-  $sql = "select*from citas where fecha = ? and sucursal=? order by id_cita;";
+  $sql = "select*from citas where fecha = ? and sucursal=? order by hora DESC;";
   $sql=$conectar->prepare($sql);
   $sql->bindValue(1,$fecha);
   $sql->bindValue(2,$sucursal);
@@ -91,7 +100,7 @@ public function getDataOrdenDui($dui){
     $conectar= parent::conexion();
     parent::set_names(); 
 
-    $sql = "select o.id_orden,o.fecha,o.paciente,o.dui,o.edad,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.pupilar_od,o.pupilar_oi,o.lente_od,o.lente_oi,o.pupilar_od,o.pupilar_oi,o.lente_od,o.lente_oi,o.avsc,o.avfinal,o.tipo_lente,o.codigo,o.codigo_lenti,o.sucursal from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo where o.dui=?;";
+    $sql = "select o.id_orden,o.fecha,o.paciente,o.dui,o.edad,o.color,rx.od_esferas,rx.od_cilindros,rx.od_eje,rx.od_adicion,rx.oi_esferas,rx.oi_cilindros,rx.oi_eje,rx.oi_adicion,o.pupilar_od,o.pupilar_oi,o.lente_od,o.lente_oi,o.pupilar_od,o.pupilar_oi,o.lente_od,o.lente_oi,o.avsc,o.avfinal,o.tipo_lente,o.codigo,o.codigo_lenti,o.sucursal from orden_lab as o inner join rx_orden_lab as rx on o.codigo=rx.codigo where o.dui=?;";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1,$dui);
     $sql->execute();
@@ -101,11 +110,22 @@ public function getDataOrdenDui($dui){
 public function get_detalle_ordenes_envio($cod_despacho){
     $conectar= parent::conexion();
     parent::set_names(); 
-    $sql = "SELECT det_o.id_ordenes_envio,det_o.cod_despacho,o.codigo,o.dui,o.paciente,o.fecha,o.telefono,o.tipo_lente FROM `detalle_ordenes_envio` as det_o INNER JOIN orden_lab as o ON det_o.cod_orden_lab=o.codigo WHERE det_o.cod_despacho=?";
+    $sql = "SELECT det_o.id_ordenes_envio,det_o.cod_despacho,o.codigo,o.dui,o.paciente,o.fecha,o.telefono,o.sucursal,o.tipo_lente FROM `detalle_ordenes_envio` as det_o INNER JOIN orden_lab as o ON det_o.cod_orden_lab=o.codigo WHERE det_o.cod_despacho=?";
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1,$cod_despacho);
     $sql->execute();
     return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function get_detalle_ordenes_envio_sucursal($cod_despacho,$sucursal){
+  $conectar= parent::conexion();
+  parent::set_names(); 
+  $sql = "SELECT det_o.id_ordenes_envio,det_o.cod_despacho,o.codigo,o.dui,o.paciente,o.fecha,o.telefono,o.sucursal,o.tipo_lente FROM `detalle_ordenes_envio` as det_o INNER JOIN orden_lab as o ON det_o.cod_orden_lab=o.codigo WHERE det_o.cod_despacho=? AND o.sucursal=?";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1,$cod_despacho);
+  $sql->bindValue(2,$sucursal);
+  $sql->execute();
+  return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
 }///FIN DE LA CLASE

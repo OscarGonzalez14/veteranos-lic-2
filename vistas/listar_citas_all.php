@@ -85,7 +85,6 @@ for ($i = 0 ;$i < $tam_array; $i++) {
   $data = $citas->get_pacientes_citados($fecha_cita,$sucursal);
   $tam_data = count($data);
   if($tam_data>0){
-
   ?>
 <table style="width: 100%;margin-top:2px" width="100%">
 <td width="15%" style="width:15%;margin:0px">
@@ -225,8 +224,6 @@ $dompdf->render();
 // Output the generated PDF to Browser
 $dompdf->stream('document', array('Attachment'=>'0'));
 ?>
-  
 
 </body>
 </html>
-

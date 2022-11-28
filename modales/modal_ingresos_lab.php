@@ -9,11 +9,15 @@
         </div>        
         <!-- Modal body -->
         <div class="modal-body">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="check_ingreso_id">
+            <label class="form-check-label" for="check_ingreso_id">Ingreso por ID</label>
+          </div>
           <input type="text" class="form-control" id="reg_ingresos_barcode" onchange="getOrdenBarcode()">
 
-          <button type="button" id="btn_proceso_fin_env" class="btn btn-default float-right btn-sm " onClick="registrarBarcodeOrdenes()" style='margin: 3px'><i class=" fas fa-file-export" style="color: #0275d8"></i> Registrar</button>
+          <button type="button" id="btn_proceso_fin_env" class="btn btn-default my-2 float-right btn-sm " onClick="registrarBarcodeOrdenes()" style='margin: 3px'><i class=" fas fa-file-export" style="color: #0275d8"></i> Registrar</button>
 
-          <button type="button" class="btn btn-default float-right btn-sm " id="showModalIngresosLab" style='margin: 3px'><i class=" fas fa-file-export" style="color: #0275d8"></i> Ingresar</button>
+          <button type="button" class="btn btn-default my-2 float-right btn-sm " id="showModalIngresosLab" style='margin: 3px'><i class="fas fa-file-export" style="color: #0275d8"></i> Ingresar</button>
 
           <table class="table-hover table-bordered" style="font-family: Helvetica, Arial, sans-serif;max-width: 100%;text-align: left;margin-top: 5px !important" width="100%" id="tabla_acciones_veterans">
 

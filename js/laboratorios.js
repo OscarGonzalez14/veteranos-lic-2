@@ -511,15 +511,18 @@ function getOrdenBarcode() {
   paciente_dui = paciente_dui.replace("'","-");
   paciente_dui = document.getElementById('reg_ingresos_barcode').value = paciente_dui
   let tipo_accion = $("#cat_data_barcode").val();
+  let search_id = ""
+  if(document.getElementById('check_ingreso_id').checked){
+    search_id = "search_id"
+  }
 
   $.ajax({
     url: "../ajax/laboratorios.php?op=get_data_orden_barcode",
     method: "POST",
-    data: { paciente_dui: paciente_dui, tipo_accion: tipo_accion },
+    data: { paciente_dui: paciente_dui, tipo_accion: tipo_accion,search_id:search_id },
     cache: false,
     dataType: "json",
     success: function (data) {
-      console.log(data)
       if(data.estado == "rectificacion"){
         Swal.fire({
           title:"¿Se trata de una rectificación?",
@@ -533,8 +536,7 @@ function getOrdenBarcode() {
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire(
-              '¡Expediente actualizado!',
-              'satisfactoriamente'
+              '¡El expediente se actualizará!',
             )
             let resultados = typeof data;
             $("#reg_ingresos_barcode").focus()
@@ -1348,6 +1350,7 @@ function listar_ingreso_lab() {
 
 function verOrdenLaboratorio(dui) {
   $("#nueva_orden_lab").modal('show');
+  $(".collapse").collapse('hide'); //DataTables De acciones
   $.ajax({
     url: "../ajax/laboratorios.php?op=get_data_orden",
     method: "POST",
