@@ -76,7 +76,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
          </div>
 
          <div class="col-sm-2 float-right" style="margin-bottom: 5px !important">         
-          <button class="btn btn-success" class="btn btn-info barcode_actions" data-toggle="modal" data-target="#barcode_ingresos_lab" onClick='input_focus_clearb()'><i class="fas fa-clipboard-check"></i> ING MANUAL</button>
+          <button class="btn btn-success" class="btn btn-info barcode_actions" data-toggle="modal" data-target="#barcode_ingresos_lab" id="btn_ingr_manual"><i class="fas fa-clipboard-check"></i> ING MANUAL</button>
          </div>
       </div>
       
@@ -95,7 +95,6 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
          </thead>
          <tbody class="style_th"></tbody>
        </table>
-
     </section>
     <!-- /.content -->
   </div>

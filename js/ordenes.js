@@ -352,6 +352,7 @@ function guardar_orden(parametro = 'saveEdit') {
   //explode();
 }
 
+
 //////////ELIMINAR CLASE IS INVALID
 $(document).on('keyup', '.is-invalid', function () {
   let id = $(this).attr("id");
@@ -2159,7 +2160,7 @@ function get_table_acciones(){
           "<td>" + data[i].id_accion + "</td>" +
           "<td>" + data[i].nombres + "</td>" +
           "<td>" + data[i].tipo_accion + "</td>" +
-          "<td>" + data[i].observaciones + " en " +  data[i].sucursal + "</td>" +
+          "<td>" + data[i].observaciones + "</td>" +
           "<td>" + data[i].fecha + "</td>" +
           "</tr>";
       }

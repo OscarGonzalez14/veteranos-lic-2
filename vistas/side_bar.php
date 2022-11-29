@@ -122,11 +122,25 @@
 
           <?php if(in_array("ver_laboratorio",$_SESSION['names_permisos']) OR $cat_usuario=="Admin"):?>
           <li class="nav-item">
-            <a href='ingreso_lab.php' class="nav-link" style="color: white">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Facturas</p>
+            <a href=''class="nav-link" style="color: white">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+              <p >Facturas</p><i class="fas fa-angle-left right"></i>
             </a>
-          </li>
+            <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="factura_manual.php" class="nav-link">
+              <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Factura manual</p>
+                </a>
+            </li>
+            <li class="nav-item">
+              <a href="credito_fiscal.php" class="nav-link">
+                <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Crédito fiscal</p>
+                </a>
+            </li>
+            </ul>  
+            </li>
           <?php endif ?>
 
           <?php if($cat_usuario==1 or $cat_usuario==4){ ?>

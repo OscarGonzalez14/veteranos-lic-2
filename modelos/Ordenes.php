@@ -163,6 +163,7 @@ require_once("../config/conexion.php");
           $sql7->bindValue(4, $accion);
           $sql7->bindValue(5, $accion);
           $sql7->bindValue(6, $sucursal);
+          $sql7->execute();
         }else{
           return false;
         }
@@ -1314,6 +1315,22 @@ public function getHistorialOrden($codigo){
   $sql->bindValue(1,$codigo);
   $sql->execute();
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function buscaOrdenLicitacion1($dui){
+  $conectar = parent::conexion_inabve1();
+  parent::set_names();
+  $sql = "select*from orden_lab where dui=?";
+  $sql = $conectar->prepare($sql);
+  $sql->bindValue(1,$dui);
+  $sql->execute();
+  $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+  if(count($resultado)>0){
+    $msj = ["resp"=>"error","id_orden"=>$resultado[0]["id_orden"],"fecha"=>date("d-m-Y",strtotime($resultado[0]["fecha"]))];
+  }else{
+    $msj =["resp"=>"ok"];
+  }
+  echo json_encode($msj);
 }
 
 }//Fin de la Clase

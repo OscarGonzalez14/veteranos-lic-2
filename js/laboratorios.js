@@ -609,13 +609,6 @@ function getDataOrdenes(resultados, data) {
     input_focus_clearb();
   }
 }
-
-function input_focus_clearb() {
-  $("#reg_ingresos_barcode").val("");
-
-  $('#reg_ingresos_barcode').focus();
-}
-
 function show_items_barcode_lab() {
 
   $("#items-ordenes-barcode").html('');
@@ -809,6 +802,7 @@ function listar_ordenes_entregas_vet() {
 function input_focus_clearb() {
   $("#reg_ingresos_barcode").val("");
   $("#reg_ingresos_barcode").focus()
+  //vaciar items array
   //Verify proceso
   let tipo_accion = $("#cat_data_barcode").val()
   document.getElementById('btn_proceso_fin_env').style.display = "block"
@@ -1547,3 +1541,15 @@ function imprimir_detalle_ordenes_envio() {
   document.body.removeChild(form);
 
 }
+
+document.getElementById('btn_ingr_manual').addEventListener('click', ()=>{
+  $("#items-ordenes-barcode").html('')
+  items_barcode = []
+  let tipo_accion = $("#cat_data_barcode").val()
+  document.getElementById('btn_proceso_fin_env').style.display = "block"
+  document.getElementById('showModalIngresosLab').style.display = "none"
+  if(tipo_accion == "ingreso_lab"){
+    document.getElementById('btn_proceso_fin_env').style.display = "none"
+    document.getElementById('showModalIngresosLab').style.display = "block"
+  }
+})
