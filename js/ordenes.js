@@ -272,6 +272,16 @@ function guardar_orden(parametro = 'saveEdit') {
   }else{
     document.getElementById('edad_pac').classList.add('is-valid')
   }
+  if(paciente == "" || dui == "" || depto == "" || municipio == "" || instit == ""){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'error',
+      title: 'Por favor, rellenar el formulario completo!',
+      showConfirmButton: true,
+      timer: 2500
+    });
+    return false;
+  }
 
   $.ajax({
     url: "../ajax/ordenes.php?op=registrar_orden",
@@ -313,6 +323,24 @@ function guardar_orden(parametro = 'saveEdit') {
           position: 'top-center',
           icon: 'info',
           title: 'Orden editada exitosamente',
+          showConfirmButton: true,
+          timer: 2500
+        });
+        $("#data_ordenes_sin_procesar").DataTable().ajax.reload(null, false);
+      }else if(data == "datos_incorrectos"){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'Por favor, rellenar el formulario completo!',
+          showConfirmButton: true,
+          timer: 2500
+        });
+        $("#data_ordenes_sin_procesar").DataTable().ajax.reload(null, false);
+      }else{
+        Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: 'Upps, ha ocurrido un error, intente nuevamente!',
           showConfirmButton: true,
           timer: 2500
         });

@@ -48,8 +48,9 @@ require_once("../config/conexion.php");
     $hoy = date("d-m-Y H:i:s");
     $fecha_creacion = date("Y-m-d");
     $estado = 0;
+    //Estado para validacion de insertado
+    $inserted = false;
     //Insertar aro si id es vacio
-
     if($id_aro == ""){
       $sql_aro = "insert into aros_manuales values(null,?,?,?,?,?);";
       $sql_aro = $conectar->prepare($sql_aro);
@@ -58,7 +59,11 @@ require_once("../config/conexion.php");
       $sql_aro->bindValue(3, $modelo_aro_orden);
       $sql_aro->bindValue(4, $color_aro_orden);
       $sql_aro->bindValue(5, $material_aro_orden);
-      $sql_aro->execute();
+      if($sql_aro->execute()){
+        $inserted = true;
+      }else{
+        $inserted = false;
+      }
       //default id
       $id_aro = 0;
     }else{
@@ -76,85 +81,98 @@ require_once("../config/conexion.php");
         $sql_update_stock->bindParam(':id_aro',$id_aro);
         $sql_update_stock->bindParam(':bodega',$sucursal);
         $sql_update_stock->bindParam(':stock',$stock);
-        $sql_update_stock->execute();
+        if($sql_update_stock->execute()){
+          $inserted = true;
+        }else{
+          $inserted = false;
+        }
+
       }
     }
-
-    $sql = "insert into orden_lab values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,null,?,?,?,?,?);";
-    $sql = $conectar->prepare($sql);
-    $sql->bindValue(1, $correlativo_op);
-    $sql->bindValue(2, $paciente);
-    $sql->bindValue(3, $fecha_creacion);
-    $sql->bindValue(4, $od_pupilar);
-    $sql->bindValue(5, $oipupilar);
-    $sql->bindValue(6, $odlente);
-    $sql->bindValue(7, $oilente);
-    $sql->bindValue(8, $id_aro);
-    $sql->bindValue(9, $id_usuario);
-    $sql->bindValue(10, $observaciones_orden);
-    $sql->bindValue(11, $dui);
-    $sql->bindValue(12, $estado);
-    $sql->bindValue(13, $hoy);
-    $sql->bindValue(14, $tipo_lente);
-    $sql->bindValue(15, $laboratorio);
-    $sql->bindValue(16, $categoria_lente);
-    $sql->bindValue(17, $edad);
-    $sql->bindValue(18, $usuario_lente);
-    $sql->bindValue(19, $ocupacion);
-    $sql->bindValue(20, $avsc);
-    $sql->bindValue(21, $avfinal);
-    $sql->bindValue(22, $avsc_oi);
-    $sql->bindValue(23, $avfinal_oi);
-    $sql->bindValue(24, $telefono);
-    $sql->bindValue(25, $genero);
-    $sql->bindValue(26, $depto);
-    $sql->bindValue(27, $municipio);
-    $sql->bindValue(28, $instit);
-    $sql->bindValue(29, $color);
-    $sql->bindValue(30, $indice);
-    $sql->bindValue(31, $patologias);
-    $sql->bindValue(32, $id_cita);
-    $sql->bindValue(33, $sucursal);
-    //Si se inserta se crea lo demas
-    if($sql->execute()){
-      $id_orden_lab = $conectar->lastInsertId();
-      $sql2 = "insert into rx_orden_lab value(null,?,?,?,?,?,?,?,?,?);";
-      $sql2 = $conectar->prepare($sql2);
-      $sql2->bindValue(1, $correlativo_op);
-      $sql2->bindValue(2, $od_esferas);
-      $sql2->bindValue(3, $od_cilindros);
-      $sql2->bindValue(4, $od_eje);
-      $sql2->bindValue(5, $od_adicion);
-      $sql2->bindValue(6, $oi_esferas);
-      $sql2->bindValue(7, $oi_cilindros);
-      $sql2->bindValue(8, $oi_eje);
-      $sql2->bindValue(9, $oi_adicion);
-      $sql2->execute();
-
-      $accion = "Digitación orden";
-
-      $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
-      $sql7 = $conectar->prepare($sql7);
-      $sql7->bindValue(1, $hoy);
-      $sql7->bindValue(2, $user);
-      $sql7->bindValue(3, $correlativo_op);
-      $sql7->bindValue(4, $accion);
-      $sql7->bindValue(5, $accion);
-      $sql7->bindValue(6, $sucursal);
-      $sql7->execute();
-      //Insertar titular
-      if($instit=="CONYUGE"){
-          $sql8 = "insert into titulares values(null,?,?,?);";
-          $sql8 = $conectar->prepare($sql8);
-          $sql8->bindValue(1, $titular);
-          $sql8->bindValue(2, $dui_titular);
-          $sql8->bindValue(3, $correlativo_op);
-          $sql8->execute();
-      }
-      return $id_orden_lab;
+    //Validacion si se inserto
+    if($inserted){
+      $sql = "insert into orden_lab values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,null,?,?,?,?,?);";
+      $sql = $conectar->prepare($sql);
+      $sql->bindValue(1, $correlativo_op);
+      $sql->bindValue(2, $paciente);
+      $sql->bindValue(3, $fecha_creacion);
+      $sql->bindValue(4, $od_pupilar);
+      $sql->bindValue(5, $oipupilar);
+      $sql->bindValue(6, $odlente);
+      $sql->bindValue(7, $oilente);
+      $sql->bindValue(8, $id_aro);
+      $sql->bindValue(9, $id_usuario);
+      $sql->bindValue(10, $observaciones_orden);
+      $sql->bindValue(11, $dui);
+      $sql->bindValue(12, $estado);
+      $sql->bindValue(13, $hoy);
+      $sql->bindValue(14, $tipo_lente);
+      $sql->bindValue(15, $laboratorio);
+      $sql->bindValue(16, $categoria_lente);
+      $sql->bindValue(17, $edad);
+      $sql->bindValue(18, $usuario_lente);
+      $sql->bindValue(19, $ocupacion);
+      $sql->bindValue(20, $avsc);
+      $sql->bindValue(21, $avfinal);
+      $sql->bindValue(22, $avsc_oi);
+      $sql->bindValue(23, $avfinal_oi);
+      $sql->bindValue(24, $telefono);
+      $sql->bindValue(25, $genero);
+      $sql->bindValue(26, $depto);
+      $sql->bindValue(27, $municipio);
+      $sql->bindValue(28, $instit);
+      $sql->bindValue(29, $color);
+      $sql->bindValue(30, $indice);
+      $sql->bindValue(31, $patologias);
+      $sql->bindValue(32, $id_cita);
+      $sql->bindValue(33, $sucursal);
+      //Si se inserta se crea lo demas
+      if($sql->execute()){
+        $id_orden_lab = $conectar->lastInsertId();
+        $sql2 = "insert into rx_orden_lab value(null,?,?,?,?,?,?,?,?,?);";
+        $sql2 = $conectar->prepare($sql2);
+        $sql2->bindValue(1, $correlativo_op);
+        $sql2->bindValue(2, $od_esferas);
+        $sql2->bindValue(3, $od_cilindros);
+        $sql2->bindValue(4, $od_eje);
+        $sql2->bindValue(5, $od_adicion);
+        $sql2->bindValue(6, $oi_esferas);
+        $sql2->bindValue(7, $oi_cilindros);
+        $sql2->bindValue(8, $oi_eje);
+        $sql2->bindValue(9, $oi_adicion);
+        if($sql2->execute()){
+          //Insertar titular
+          if($instit=="CONYUGE"){
+            $sql8 = "insert into titulares values(null,?,?,?);";
+            $sql8 = $conectar->prepare($sql8);
+            $sql8->bindValue(1, $titular);
+            $sql8->bindValue(2, $dui_titular);
+            $sql8->bindValue(3, $correlativo_op);
+            if($sql8->execute()){
+              $inserted = true;
+            }else{
+            return false;
+          }
+          }
+          $accion = "Digitación orden";
+          $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
+          $sql7 = $conectar->prepare($sql7);
+          $sql7->bindValue(1, $hoy);
+          $sql7->bindValue(2, $user);
+          $sql7->bindValue(3, $correlativo_op);
+          $sql7->bindValue(4, $accion);
+          $sql7->bindValue(5, $accion);
+          $sql7->bindValue(6, $sucursal);
+        }else{
+          return false;
+        }
+        return $id_orden_lab;
+      }else{
+        return false;
+      };
+    }else{
+      return $inserted;
     }
-    return false;
-    
   }
    ////////////////////LISTAR ORDENES///////////////
    public function editar_orden($correlativo_op,$paciente,$od_pupilar,$oipupilar,$odlente,$oilente,$id_aro,$id_usuario,$observaciones_orden,$dui,$od_esferas,$od_cilindros,$od_eje,$od_adicion,$oi_esferas,$oi_cilindros,$oi_eje,$oi_adicion,$tipo_lente,$edad,$ocupacion,$avsc,$avfinal,$avsc_oi,$avfinal_oi,$telefono,$genero,$user,$depto,$municipio,$instit,$patologias,$color,$indice,$id_cita,$sucursal,$categoria_lente,$laboratorio,$titular,$dui_titular,$id_titular,$modelo_aro_orden,$marca_aro_orden,$material_aro_orden,$color_aro_orden,$usuario_lente){
