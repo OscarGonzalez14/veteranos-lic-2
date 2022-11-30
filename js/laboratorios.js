@@ -13,8 +13,6 @@ init();
 
 /*========RECIBIR E IMPRIMIR=======*/
 
-
-
 $(".modal-header").on("mousedown", function (mousedownEvt) {
   let $draggable = $(this);
   let x = mousedownEvt.pageX - $draggable.offset().left,

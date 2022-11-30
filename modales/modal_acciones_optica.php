@@ -12,26 +12,26 @@
         <div class="row">
 
         <div class="col-sm-4">
-           <label>Codigo orden</label>
-          <input type="text" class="form-control" id="reg_ingresos_barcode" onchange="getOrdenBarcode()">
+        <label>Codigo orden*</label>
+          <input type="text" class="form-control" id="get_data_orden" onchange="getOrdenAct()">
         </div>
 
       </div>
-      <button type="button" class="btn btn-tool float-right" onClick="downloadExcelRecibidosVet('Recibidos de laboratorio','<?php echo $hoy;?>')" style='margin: 3px'><i class="fas fa-file-excel fa-2x" style="color: green"></i></button>
+    
       <table class="table-hover table-bordered" style="font-family: Helvetica, Arial, sans-serif;max-width: 100%;text-align: left;margin-top: 5px !important" width="100%" id="recibidas_ordenes_lab">
         <thead style="font-family: Helvetica, Arial, sans-serif;width: 100%;text-align: center;font-size: 12px;" class="bg-dark">
           <th>#</th>
           <th>#Orden</th>
           <th>Fecha</th>
           <th>Paciente</th>
+          <th>Sucursal</th>
           <th>Eliminar</th>
         </thead>
-        <tbody id="items-ordenes-barcode" style="font-size: 12px"></tbody>
+        <tbody id="items-ordenes-registrar" style="font-size: 12px"></tbody>
       </table>
       </div> 
       
-      <audio id="success_sound"><source src="../Beep.mp3" type="audio/mp3"></audio>
-      <audio id="error_sound"><source src="../error-beep.wav" type="audio/wav"></audio> 
+      <input type="hidden" id="acc-optica"> 
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-primary btn-block" onClick="registrarBarcodeOrdenes();">Registar ingreso </button>

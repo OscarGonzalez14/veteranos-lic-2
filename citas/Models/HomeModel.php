@@ -44,7 +44,7 @@ class HomeModel extends Query{
         }elseif(count($valida_hora)>0){
             $res = 'errorhora';
         }
-        elseif((int)$sum_cupos >= (int)$cupos_suc){
+        elseif((int)$sum_cupos >= (int)$cupos_suc){ 
             $res = "not";
         }elseif(((int)$sum_cupos < (int)$cupos_suc) and count($resp_dui)==0 and count($valida_hora)==0){
 
