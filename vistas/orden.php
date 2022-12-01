@@ -98,6 +98,7 @@ $categoria_usuario = $_SESSION["categoria"];
     </div>
   </div>
   <input type="hidden" id="fecha_act" value="<?php echo $hoy;?>">
+  <input type="hidden" id="dui_paciente">
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>2021 Lenti || <b>Version</b> 1.0</strong>

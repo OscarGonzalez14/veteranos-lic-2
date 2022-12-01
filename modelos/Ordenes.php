@@ -1307,12 +1307,13 @@ public function comprobar_exit_DUI_pac($dui_pac){
  * 
  * GET ACCIONES ORDENES
 */
-public function getHistorialOrden($codigo){
+public function getHistorialOrden($codigo,$dui_paciente){
   $conectar = parent::conexion();
   parent::set_names();
-  $sql = "select a.sucursal,a.id_accion,u.nombres,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=?";
+  $sql = "select a.sucursal,a.id_accion,u.nombres,a.codigo,a.fecha,a.tipo_accion,a.observaciones from usuarios as u inner join acciones_orden as a on u.usuario=a.usuario where a.codigo=? or a.codigo=?";
   $sql = $conectar->prepare($sql);
   $sql->bindValue(1,$codigo);
+  $sql->bindValue(2,$dui_paciente);
   $sql->execute();
   return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 }

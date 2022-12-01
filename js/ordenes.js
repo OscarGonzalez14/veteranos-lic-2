@@ -525,7 +525,8 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
       }else{
         document.getElementById('titular_form').style.display = "none"
       }
-      
+      //Carga el DUI del paciente
+      $("#dui_paciente").val(data.dui)
 
       let tipo_lente = data.tipo_lente;
       const acentos = { 'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U' };
@@ -2144,15 +2145,15 @@ function comprobarExistenciaDUI(id){
 function get_table_acciones(){
   //$("#btnDisplayAcciones").html('<i class="fas fa-minus"></i>')
   let codigo = $("#codigo_correlativo").val()
-  
+  let dui_paciente = $("#dui_paciente").val();
   $.ajax({
     url: "../ajax/ordenes.php?op=ver_historial_orden",
     method: "POST",
-    data: { codigo:codigo},
+    data: { codigo:codigo,dui_paciente:dui_paciente},
     cache: false,
     dataType:"json",
     success: function (data) {
-      //console.log(data)
+      console.log(data)
       $("#datatable_acciones_orden").html("");
       let filas = '';
       for (var i = 0; i < data.length; i++) {

@@ -68,7 +68,7 @@ $categoria_usuario = $_SESSION["categoria"];
     </section>
     <!-- /..content -->
   </div>
-
+  <input type="hidden" id="id_factura" class="clear_input">
   <input type="hidden" value="<?php echo $categoria_usuario;?>" id="cat_users">
   <input type="hidden" id="fecha_act" value="<?php echo $hoy;?>">
   <!-- /.content-wrapper -->

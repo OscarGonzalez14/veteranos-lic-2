@@ -89,8 +89,8 @@ $total = $sumas - $retencion;
 
 <tr>
   <td colspan="60" class="stilot1" style="font-size:8px">LLENAR SI LA OPERACIÓN IGUAL O MAYOR A $200.00</td>
-  <td colspan="20" class="stilot1" style="border:solid black 1px; font-size:8px">IVA</td>
-  <td colspan="10" class="" style=''></td>
+  <td colspan="20" class="stilot1" style="border:solid black 1px; font-size:8px"></td>
+  <td colspan="10" class=""></td>
 <td colspan="10" class="stilot1" style='height:4px;font-size:10px'></td>
 </tr>
 

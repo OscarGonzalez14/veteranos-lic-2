@@ -1,4 +1,4 @@
-<div class="modal" id="modal_factura_manual" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="modal_CCF_manual" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" style="max-width: 90%;">
     <div class="modal-content">
 
@@ -12,6 +12,12 @@
       <!-- Modal body -->
       <div class="modal-body">
 
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="contribuyente">
+              <label class="form-check-label" for="contribuyente">
+                Gran contribuyente
+            </label>
+          </div>
         <div class="form-row">
 
             <div class="form-group col-md-4">
@@ -19,7 +25,7 @@
                 <input type="search" onkeyup="mayus(this)"  class="form-control clear_input oblig" name=""  id="cliente">
             </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <label for="ex3">Dirección</label>
                 <input type="search" onkeyup="mayus(this)" class="form-control clear_input oblig" name=""  id="dir">
             </div>
@@ -28,15 +34,29 @@
                 <label for="ex3">Tel.</label>
                 <input type="search"  class="form-control clear_input oblig" name=""  id="tel">
             </div>
-
+            
             <div class="form-group col-md-2">
                 <label for="ex3">Fecha.</label>
                 <input type="date"  class="form-control clear_input oblig" name=""  id="fecha_fac">
             </div>
-            <div class="form-group col-md-1">
+
+            <div class="form-group col-md-4">
+                <label for="ex3">Giro</label>
+                <input type="text" onkeyup="mayus(this)" class="form-control clear_input oblig" name=""  id="giro">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="ex3">NIT</label>
+                <input type="text" onkeyup="mayus(this)" class="form-control clear_input oblig" name=""  id="nit">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="ex3">Registro No.</label>
+                <input type="search" onkeyup="mayus(this)" class="form-control clear_input oblig" name=""  id="num_registro">
+            </div>
+            <div class="form-group col-md-2">
                 <label for="ex3">No. Factura</label>
                 <input type="text"  class="form-control clear_input oblig" name=""  id="num_factura">
             </div>
+            
         </div>
         
         <div class="form-row">
@@ -56,8 +76,6 @@
                 <input type="number" class="form-control clear_input" name="" placeholder="Precio Unitario." required="" id="p_unit_fact">
             </div>            
         </div>
-
-
         <table class="table-striped" width="100%">
         <tr class="bg-primary" style="text-align:center">
             <th colspan="15">Cantidad</th>
@@ -86,7 +104,7 @@
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-block btn-secondary" onClick="sendDataFact()">IMPRIMIR</button>
+        <button type="button" class="btn btn-block btn-secondary" onClick="send_CCF_manual()">IMPRIMIR</button>
       </div>
 
     </div>

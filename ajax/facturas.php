@@ -7,12 +7,20 @@ $factura = new Facturas();
 
 switch ($_GET["op"]){
     case 'guardar_factura_manual':
-        $factura->guardar_factura_manual($_POST['dataCliente']['cod_factura'],$_POST['dataCliente']['cliente'],$_POST['dataCliente']['direccion'],$_POST['dataCliente']['telefono'],$_POST['dataCliente']['retencion'],$_POST['dataCliente']['fecha'],$_POST['dataCliente']['subtotal'],$_POST['info']);
-
-        if($factura){
-            echo json_encode("exito");
+        if($_POST['dataCliente']['id_factura'] == ""){
+            $result = $factura->guardar_factura_manual($_POST['dataCliente']['cod_factura'],$_POST['dataCliente']['cliente'],$_POST['dataCliente']['direccion'],$_POST['dataCliente']['telefono'],$_POST['dataCliente']['retencion'],$_POST['dataCliente']['fecha'],$_POST['dataCliente']['subtotal'],$_POST['info']);
+            if($result){
+                echo json_encode("exito");
+            }else{
+                echo json_encode("error");
+            }
         }else{
-            echo json_encode("error");
+            $result = $factura->update_factura_manual($_POST['dataCliente']['id_factura'],$_POST['dataCliente']['cod_factura'],$_POST['dataCliente']['cliente'],$_POST['dataCliente']['direccion'],$_POST['dataCliente']['telefono'],$_POST['dataCliente']['retencion'],$_POST['dataCliente']['fecha'],$_POST['dataCliente']['subtotal'],$_POST['info']);
+            if($result){
+                echo json_encode("edit");
+            }else{
+                echo json_encode("error");
+            }
         }
     break;
     case 'listar_facturas_manuales':
@@ -29,7 +37,8 @@ switch ($_GET["op"]){
         $sub_array[] = $row["direccion"];  
         $sub_array[] = $row["telefono"];     
         $sub_array[] = date("d-m-Y",strtotime($row["fecha"]));
-        $sub_array[] = '<button disabled type="button"  class="btn btn-sm bg-light" onClick="verOrdenLaboratorio(\''.$row["id_factura"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>';
+        $sub_array[] = '<button type="button"  class="btn btn-sm bg-light" onClick="show_factura(\''.$row["id_factura"].'\')"><i class="fa fa-eye" aria-hidden="true" style="color:blue"></i></button>
+        <button type="button"  class="btn btn-sm bg-light" onClick="delete_factura(\''.$row["id_factura"].'\')"><i style="color: red;" class="fas fa-trash-alt"></i></button>';
 
         $i++;                                             
         $data[] = $sub_array;
@@ -42,6 +51,21 @@ switch ($_GET["op"]){
         "aaData"=>$data);
         echo json_encode($results);
 
+    break;
+    case 'show_factura':
+
+        $data = $factura->show_factura($_POST);
+        echo json_encode($data);
+    break;
+
+    case 'delete_factura':
+        $result = $factura->delete_factura($_POST['id_factura']);
+        if($result){
+            $message = "eliminado";
+        }else{
+            $message = "error";
+        }
+        echo json_encode($message);
     break;
 }
 

@@ -596,7 +596,7 @@ switch ($_GET["op"]) {
 
       //******************* GET HISTORIAL DE ORDEN ******************//
     case 'ver_historial_orden':
-      $data = $ordenes->getHistorialOrden($_POST['codigo']);
+      $data = $ordenes->getHistorialOrden($_POST['codigo'],$_POST['dui_paciente']);
       echo json_encode($data);
       break;
 

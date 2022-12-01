@@ -120,11 +120,11 @@
           </li>
           <?php endif ?>
 
-          <?php if(in_array("ver_laboratorio",$_SESSION['names_permisos']) OR $cat_usuario=="Admin"):?>
+          <?php if(in_array("facturacion",$_SESSION['names_permisos']) OR $cat_usuario=="Admin"):?>
           <li class="nav-item">
             <a href=''class="nav-link" style="color: white">
             <i class="nav-icon fas fa-file-invoice-dollar"></i>
-              <p >Facturas</p><i class="fas fa-angle-left right"></i>
+              <p >Facturación</p><i class="fas fa-angle-left right"></i>
             </a>
             <ul class="nav nav-treeview">
             <li class="nav-item">
@@ -134,9 +134,9 @@
                 </a>
             </li>
             <li class="nav-item">
-              <a href="credito_fiscal.php" class="nav-link">
+              <a href="CCF_manual.php" class="nav-link">
                 <i class="far fa-circle nav-icon text-success"></i>
-                  <p>Crédito fiscal</p>
+                  <p>CCF Manual</p>
                 </a>
             </li>
             </ul>  

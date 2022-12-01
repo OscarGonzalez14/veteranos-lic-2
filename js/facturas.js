@@ -7,6 +7,10 @@ var total_manual = 0;
 
 function ingreso_factura_manual() {
   $("#modal_factura_manual").modal('show');
+  clear_input();
+  items_factura = [];
+  $("#det_manual").html('')
+  $("#txt_num_factura").html("")
 }
 
 
@@ -28,7 +32,7 @@ function EnterEvent(event) {
       document.getElementById("desc_fact").value = "";
       document.getElementById("p_unit_fact").value = "";
       $('#cantfac').focus();
-      listar_items_man();
+      listar_items_man(items_factura);
     } else {
       Swal.fire({
         position: 'top-center',
@@ -43,7 +47,7 @@ function EnterEvent(event) {
 
 }//Fin enter event
 
-function listar_items_man() {
+function listar_items_man(items_factura = []) {
   $('#det_manual').html('');
   let filas = "";
   var totales = 0;
@@ -62,7 +66,7 @@ function listar_items_man() {
   }
   $('#det_manual').html(filas);
   total_manual = items_factura.reduce((sum, value) => (sum + parseFloat(value.subt)), 0);
-  console.log(total_manual)
+  //console.log(total_manual)
   $('#totales_man').html("$" + total_manual);
 }
 
@@ -74,7 +78,7 @@ function eliminarFila(index) {
 function drop_index(position_element) {
   items_factura.splice(position_element, 1);
   //recalcular(position_element);
-  listar_items_man();
+  listar_items_man(items_factura);
 
 }
 
@@ -96,6 +100,17 @@ function sendDataFact() {
   let retencion = $("#retencion").val();
   let fecha = $("#fecha_fac").val()
   let num_factura = $("#num_factura").val()
+  let id_factura = $("#id_factura").val()
+  if(validacion_input()){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'warning',
+      title: 'Existen campos vacios!!',
+      showConfirmButton: true,
+      timer: 9500
+    });
+    return false;
+  }
   if (retencion == "" || fecha == "") {
     Swal.fire({
       position: 'top-center',
@@ -118,9 +133,9 @@ function sendDataFact() {
     retencion: retencion,
     fecha: fecha,
     subtotal: total_manual,
-    cod_factura: num_factura
+    cod_factura: num_factura,
+    id_factura: id_factura
   }
-  console.log(objData)
   $.ajax({
     url: "../ajax/facturas.php?op=guardar_factura_manual",
     method: "POST",
@@ -132,28 +147,41 @@ function sendDataFact() {
         Swal.fire({
           position: 'top-center',
           icon: 'success',
-          title: 'Factura ingresada. No. ' + cod_factura,
+          title: '¡Factura ingresada!',
+          showConfirmButton: true,
+          timer: 2500
+        });
+        clear_input();
+        $('#det_manual').html('');
+        items_factura = [] // clear array
+      }else if(data == "edit"){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: '¡Factura modificada!',
           showConfirmButton: true,
           timer: 2500
         });
       }
-      console.log(data)
+      $("#datatable_factura_manual").DataTable().ajax.reload(null, false);
+      
     }
   });
-  imprimir_factura_manual(objData) //Genera reporte
-  clear_input();
-  $('#det_manual').html('');
-  items_factura = [] // clear array
+  imprimir_factura_manual(objData) //Genera report
 }
 
 window.onkeydown = EnterEvent;
 ///// FUNCTION GENERAR FACTURA MANUAL //////
-function imprimir_factura_manual(objData) {
+function imprimir_factura_manual(objData,type_factura = "") {
 
   var form = document.createElement("form");
   form.target = "blank";
   form.method = "POST";
-  form.action = "imprimir_factura_manual.php";
+  if(type_factura == "CCF_manual"){
+    form.action = "imprimir_CCF_manual.php";
+  }else{
+    form.action = "imprimir_factura_manual.php";
+  }
 
   var input = document.createElement("input");
   input.type = "hidden";
@@ -170,7 +198,6 @@ function clear_input(){
   let elements = document.getElementsByClassName("clear_input");
 
   $("#totales_man").html('')
-
   for (i = 0; i < elements.length; i++) {
     let id_element = elements[i].id;
     document.getElementById(id_element).value = "";
@@ -231,4 +258,212 @@ function listar_facturas_manuales(){
     }, //cerrando language
     //"scrollX": true
   });
+}
+
+function show_factura(id_factura){
+  items_factura = []
+  clear_input();
+  $("#modal_factura_manual").modal('show');
+  $.ajax({
+    url: "../ajax/facturas.php?op=show_factura",
+    method: "POST",
+    data: { id_factura:id_factura },
+    cache: false,
+    dataType: "json",
+    success: function (data) {
+      $("#cliente").val(data.factura.cliente)
+      $("#dir").val(data.factura.direccion)
+      $("#tel").val(data.factura.telefono)
+      $("#fecha_fac").val(data.factura.fecha)
+      $("#num_factura").val(data.factura.num_factura)
+      $("#txt_num_factura").html("No. Factura: " + data.factura.num_factura)
+      $("#id_factura").val(data.factura.id_factura)
+      $("#retencion").val(data.factura.retencion)
+      for(let i = 0; i < data.det_factura_manual.length; i++){
+        let item = {
+          cantidad: data.det_factura_manual[i].cantidad,
+          desc: data.det_factura_manual[i].descripcion,
+          punit: data.det_factura_manual[i].p_unitario,
+          subt: 0
+        }
+
+        items_factura.push(item)
+
+      }
+      listar_items_man(items_factura);
+    }
+  });
+}
+
+function delete_factura(id_factura){
+  Swal.fire({
+    title: '¿Estas seguro de eliminar esta factura?',
+    showCancelButton: true,
+    confirmButtonText: 'Si',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "../ajax/facturas.php?op=delete_factura",
+        method: "POST",
+        data: { id_factura:id_factura },
+        cache: false,
+        dataType: "json",
+        success: function (data) {
+          if(data === "eliminado"){
+            Swal.fire({
+              position: 'top-center',
+              icon: 'success',
+              title: '¡Factura eliminada!',
+              showConfirmButton: true,
+              timer: 2500
+            });
+          }else{
+            Swal.fire({
+              position: 'top-center',
+              icon: 'error',
+              title: '¡Upps, ha ocurrido un error!',
+              showConfirmButton: true,
+              timer: 2500
+            });
+          }
+          $("#datatable_factura_manual").DataTable().ajax.reload(null, false);
+        }
+      });
+    }
+  })
+}
+
+//Funcion para Validacion de input
+
+function validacion_input(){
+  let items_input = document.getElementsByClassName('oblig')
+
+  for (let i = 0; i < items_input.length; i++){
+    let input = document.getElementById(items_input[i].id).value
+    if(input == ""){
+      return true;
+    }
+  }
+}
+
+/**
+ * 
+ *  FUNCIONES PARA COMPROBANTE DE CREDITO FISCAL
+ *  AUTOR: DEVJOSE99
+ * 
+*/
+
+function CFF_manual(){
+  $("#modal_CCF_manual").modal('show');
+  clear_input();
+  items_factura = [];
+  $("#det_manual").html('')
+  $("#txt_num_factura").html("")
+}
+
+function send_CCF_manual(){
+  let cliente = $("#cliente").val()
+  let dir = $("#dir").val()
+  let tel = $("#tel").val()
+  let fecha_fac = $("#fecha_fac").val()
+  let giro = $("#giro").val()
+  let nit = $("#nit").val()
+  let num_registro = $("#num_registro").val()
+  let num_factura = $("#num_factura").val()
+  let retencion = $("#retencion").val();
+  let contribuyente = document.getElementById('contribuyente')
+  let id_factura = $("#id_factura").val()
+  if(contribuyente.checked){
+    contribuyente = "SI"
+  }else{
+    contribuyente = "NO"
+  }
+  //Validacion
+  let tam_array = items_factura.length;
+  if (tam_array < 1) {
+    Swal.fire({
+      position: 'top-center',
+      icon: 'warning',
+      title: 'Por favor, rellenar el formulario!',
+      showConfirmButton: true,
+      timer: 9500
+    });
+    return false;
+  }
+  if(validacion_input()){
+    Swal.fire({
+      position: 'top-center',
+      icon: 'warning',
+      title: 'Existen campos vacios!!',
+      showConfirmButton: true,
+      timer: 9500
+    });
+    return false;
+  }
+  if (retencion == "" || fecha_fac == "") {
+    Swal.fire({
+      position: 'top-center',
+      icon: 'error',
+      title: 'Monto retencion es obligatorio',
+      showConfirmButton: true,
+      timer: 9500
+    });
+    return false;
+  }
+
+  let paciente = document.getElementById("cliente").value;
+  data = Object.values(items_factura);
+  //[window.location = ('imp_factura_manual.php?info='+ JSON.stringify(data));
+  let objData = {
+    info: data,
+    cliente: cliente,
+    direccion: dir,
+    telefono: tel,
+    retencion: retencion,
+    fecha: fecha_fac,
+    subtotal: total_manual,
+    giro: giro,
+    nit: nit,
+    num_registro: num_registro,
+    cod_factura: num_factura,
+    id_factura: id_factura,
+    contribuyente: contribuyente
+  }
+  imprimir_factura_manual(objData,"CCF_manual") //Genera report
+  return 0;
+  $.ajax({
+    url: "../ajax/facturas.php?op=guardar_factura_manual",
+    method: "POST",
+    data: { dataCliente: objData,info: JSON.parse(objData.info) },
+    cache: false,
+    dataType: "json",
+    success: function (data) {
+      if(data == "exito"){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: '¡Factura ingresada!',
+          showConfirmButton: true,
+          timer: 2500
+        });
+        clear_input();
+        $('#det_manual').html('');
+        items_factura = [] // clear array
+      }else if(data == "edit"){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: '¡Factura modificada!',
+          showConfirmButton: true,
+          timer: 2500
+        });
+      }
+      $("#datatable_factura_manual").DataTable().ajax.reload(null, false);
+      
+    }
+  });
+  imprimir_factura_manual(objData) //Genera report
+
 }

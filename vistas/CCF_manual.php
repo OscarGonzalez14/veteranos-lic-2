@@ -1,6 +1,6 @@
 <?php 
 require_once("../config/conexion.php");
-if(isset($_SESSION["--"])){
+if(isset($_SESSION["user"])){
 $categoria_usuario = $_SESSION["categoria"];
 ?>
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ $categoria_usuario = $_SESSION["categoria"];
  //require_once('../modelos/Ordenes.php');
  //$ordenes = new Ordenes();
 
- require_once('../modales/nueva_factura_manual.php');
+ require_once('../modales/modal_CCF_manual.php');
 
  date_default_timezone_set('America/El_Salvador');
  $hoy = date("Y-m-d");
@@ -45,7 +45,7 @@ $categoria_usuario = $_SESSION["categoria"];
       <div style="border-top: 0px">      
       </div>
       <br>
-      <button class="btn btn-outline-success btn-sm btn-flat rounded" style="text-align:center;font-size: 16px; display:flex; align-items:center; justify-content:space-between;" onClick='ingreso_factura_manual();' id="btn_factura_manual"><i class="nav-icon fas fa-file-invoice-dollar" style="margin-right: 5px;"></i></i> Nueva factura</button>
+      <button class="btn btn-outline-success btn-sm btn-flat rounded" style="text-align:center;font-size: 16px; display:flex; align-items:center; justify-content:space-between;" onClick='CFF_manual();' id="btn_factura_manual"><i class="nav-icon fas fa-file-invoice-dollar" style="margin-right: 5px;"></i></i> Nuevo CCF</button>
 
 
       <div class="card card-dark card-outline" style="margin: 2px;">
@@ -71,6 +71,7 @@ $categoria_usuario = $_SESSION["categoria"];
 
   <input type="hidden" value="<?php echo $categoria_usuario;?>" id="cat_users">
   <input type="hidden" id="fecha_act" value="<?php echo $hoy;?>">
+  <input type="hidden" id="id_factura">
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>2021 Lenti || <b>Version</b> 1.0</strong>
