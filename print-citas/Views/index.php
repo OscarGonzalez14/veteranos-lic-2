@@ -65,9 +65,10 @@ require_once("modales/listarCitasPrint.php");
 
         <thead style="color:white;" class='bg-dark'>
             <tr>
-                <th style="width:40%">Paciente</th>
-                <th style="width:20%">DUI</th>
-                <th style="width:20%">Sector</th>
+                <th style="width:35%">Paciente</th>
+                <th style="width:15%">DUI</th>
+                <th style="width:15%">Tipo Paciente</th>
+                <th style="width:15%">Sector</th>
                 <th style="width:10%">Editar</th>
                 <th style="width:10%">Eliminar</th>
             </tr>

@@ -34,7 +34,7 @@
       <input type="hidden" id="acc-optica"> 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-block" onClick="registrarBarcodeOrdenes();">Registar ingreso </button>
+        <button type="button" class="btn btn-primary btn-block" onClick="registrarIngresoOrdenOpt();" id="btn-acc-opt">Registar ingreso </button>
       </div>
       
     </div>

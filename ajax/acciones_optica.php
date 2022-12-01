@@ -10,4 +10,8 @@ switch ($_GET["op"]){
     case 'get_data_orden_barcode':
         $acciones->get_dataOrden($_POST["paciente_dui"],$_POST["tipo_accion"]);
         break;
+
+    case 'registrar_accion':
+        $acciones->registrarAccion();
+        break;
 }

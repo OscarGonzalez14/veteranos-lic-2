@@ -1,6 +1,13 @@
+
 document.querySelectorAll(".acc-acciones-opt").forEach(i => i.addEventListener("click", e => {
     let accion = i.dataset.acciones;
-    $("#acc-optica").val(accion)
+    $("#acc-optica").val(accion);
+    if(accion=='ingreso_orden_optica'){
+        $('#modal_acciones_veteranos').on('shown.bs.modal', function() {
+            $("#get_data_orden").val("");
+            $('#get_data_orden').focus();
+        });
+    }
 }));
 
 /* function alerts(){
@@ -41,13 +48,19 @@ function getOrdenAct() {
                 accion: tipo_accion
              }
             ordenes_ingresar.push(obj);
-            listar_ordenes_registrar()
+            $("#get_data_orden").val("");
+            $('#get_data_orden').focus();
+            listar_ordenes_registrar();
          }else{
-            Swal.fire('Orden existe en la lista!!','Advertencia','warning')
+            Swal.fire('Orden existe en la lista!!','Advertencia','warning');
+            $("#get_data_orden").val("");
+            $('#get_data_orden').focus();
          }
          
         }else if(data.msj=="vacio"){
-            Swal.fire('Codigo invalido!!','Advertencia','error')
+            Swal.fire('Codigo invalido!!','Advertencia','error');
+            $("#get_data_orden").val("");
+            $('#get_data_orden').focus();
         }else if(data.msj=="error"){
             
             Swal.fire({
@@ -72,7 +85,9 @@ function getOrdenAct() {
                         fecha: data.datos.fecha,
                         accion: 'ingreso_rectificacion'
                      }
-                    ordenes_ingresar.push(obj); 
+                    ordenes_ingresar.push(obj);
+                    $("#get_data_orden").val("");
+                    $('#get_data_orden').focus(); 
                     listar_ordenes_registrar()
                    }else{
                     Swal.fire('Orden existe en la lista!!','Advertencia','warning')
@@ -103,10 +118,36 @@ function getOrdenAct() {
         "<td>" + ordenes_ingresar[i].fecha + "</td>" +
         "<td>" + ordenes_ingresar[i].paciente + "</td>" +
         "<td>" + ordenes_ingresar[i].sucursal + "</td>" +
-        "<td>" + "<button type='button'  class='btn btn-sm bg-light' onClick='eliminarItemBarcodeLab(" + i + ")'><i class='fa fa-times-circle' aria-hidden='true' style='color:red'></i></button>" + "</td>" +
+        "<td>" + "<button type='button'  class='btn btn-sm bg-light' onClick='eliminarItemBarcodeOpt(" + i + ")'><i class='fa fa-times-circle' aria-hidden='true' style='color:red'></i></button>" + "</td>" +
         "</tr>";
     }
   
     $("#items-ordenes-registrar").html(filas);
   
   }
+
+  function eliminarItemBarcodeOpt(index) {
+    $("#item_t" + index).remove();
+    ordenes_ingresar.splice(index, 1);
+    $('#reg_ingresos_barcode').focus();
+    listar_ordenes_registrar()    
+  }
+
+function registrarIngresoOrdenOpt(){
+    $("#btn-acc-opt").attr('disabled',true);
+    let tam_array = ordenes_ingresar.length;
+    if(tam_array==0){Swal.fire('Lista vacia!!','Agregar ordenes de ingreso','warning'); return false}
+
+    
+  $.ajax({
+    url: "../ajax/acciones_optica.php?op=registrar_accion",
+    method: "POST",
+    data: { 'arrayOrdenesAccOpt': JSON.stringify(ordenes_ingresar)},
+    cache: false,
+    dataType: "json",
+    success: function (data) {
+        console.log(data)
+    }//Fin success
+  });
+
+}

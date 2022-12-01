@@ -88,10 +88,11 @@ option.suc-tooltip:hover::after {
         <table class="table-bordered table-hover" width="100%" id="data-gest-citas" style="font-family: Helvetica, Arial, sans-serif;font-size: 12px;text-align: center">
 
         <thead style="color:white;" class='bg-dark'>
-            <tr>
-                <th style="width:40%">Paciente</th>
-                <th style="width:20%">DUI</th>
-                <th style="width:20%">Sector</th>
+            <tr>?v=<?php echo(rand()); ?>
+                <th style="width:35%">Paciente</th>
+                <th style="width:10%">DUI</th>
+                <th style="width:15%">Tipo Paciente</th>
+                <th style="width:10%">Sector</th>
                 <th style="width:10%">fecha</th>
                 <th style="width:10%">Sucursal</th>
                 <th style="width:10%">Editar</th>
@@ -269,9 +270,9 @@ require_once("../vistas/links_js.php");
         const base_url = '<?php echo base_url; ?>';
     </script>
    
-    <script src="<?php echo base_url; ?>Assets/js/app.js"></script>
-    <script src='../js/cleave.js'></script>
-    <script src='../js/citados.js'></script>
+    <script src="<?php echo base_url; ?>Assets/js/app.js?v=<?php echo(rand()); ?>"></script>
+    <script src='../js/cleave.js?v=<?php echo(rand()); ?>'></script>
+    <script src='../js/citados.js?v=<?php echo(rand()); ?>'></script>
 
  
     <script>

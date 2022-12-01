@@ -34,5 +34,32 @@
         echo json_encode(["msj"=>"vacio"]);
     }
    }
+
+   public function registrarAccion(){
+    $conectar= parent::conexion();
+    parent::set_names();
+    date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y");$hora = date("H:i:s");
+    $detalle_ordenes = array();
+    $detalle_ordenes = json_decode($_POST["arrayOrdenesAccOpt"]);
+
+    foreach($detalle_ordenes as $k=>$v){
+        $dui = $v->dui;
+        $sucursal = $v->sucursal;
+        $accion = $v->accion;
+
+        $sql = "insert into acciones_optica values(null,?,?,?,?,?,?);";
+        $sql=$conectar->prepare($sql);
+        $sql->bindValue(1, $dui);
+        $sql->bindValue(2, $hoy);
+        $sql->bindValue(3, $hora);
+        $sql->bindValue(4, $sucursal);
+        $sql->bindValue(5, $_SESSION["user"]);
+        $sql->bindValue(6, $accion);
+        $sql->execute();
+        /////////////Agregarlo en acciones orden *** y los desp tmbn :)
+    }
+   
+
+   }
     
-}
+}//Fin clase

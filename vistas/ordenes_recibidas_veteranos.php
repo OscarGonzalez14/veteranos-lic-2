@@ -45,7 +45,7 @@ date_default_timezone_set('America/El_Salvador'); $hoy = date("d-m-Y H-i-s");
 
       <?php include 'ordenes/header_status_veteranos.php'; ?>
 
-        <button class="btn btn-info barcode_actions_vets float-right acc-acciones-opt" data-acciones="ing_ordenes" data-toggle="modal" data-target="#modal_acciones_veteranos" style="border: solid 1px #1f2e50"><i class="fas fa-download"></i> RECIBIR</button>
+        <button class="btn btn-info barcode_actions_vets float-right acc-acciones-opt" data-acciones="ingreso_orden_optica" data-toggle="modal" data-target="#modal_acciones_veteranos" style="border: solid 1px #1f2e50"><i class="fas fa-download"></i> RECIBIR</button>
         <h5 style="font-size: 16px; text-align: center;font-weight: bold;color: blue">ORDENES RECIBIDAS</h5>
         <table width="100%" class="table-hover table-bordered" id="ordenes_recibidas_veteranos_data"  data-order='[[ 0, "desc" ]]'> 
               

@@ -12,6 +12,7 @@
             <thead style="text-align:center;font-size:12" class="style_th bg-dark">
                 <th>Paciente</th>
                 <th>DUI</th>
+                <th>Tipo paciente</th>
                 <th>Sector</th>
                 <th>Dia</th>
                 <th>Sucursal</th>

@@ -38,6 +38,7 @@ switch ($_GET["op"]){
                 $sub_array = array();
                 $sub_array[] = $c["paciente"]; 
                 $sub_array[] = $c["dui"]; 
+                $sub_array[] = $c["tipo_paciente"]; 
                 $sub_array[] = $c["sector"];
                 $sub_array[] = $c["fecha"]." ".$c["hora"];
                 $sub_array[] = $c["sucursal"];
@@ -77,6 +78,7 @@ switch ($_GET["op"]){
                 $sub_array = array();
                 $sub_array[] = $c["paciente"]; 
                 $sub_array[] = $c["dui"]; 
+                $sub_array[] = $c["tipo_paciente"];
                 $sub_array[] = $c["sector"];
                 $sub_array[] = date("d-m-Y",strtotime($c["fecha"]));
                 $sub_array[] = $c["sucursal"];
