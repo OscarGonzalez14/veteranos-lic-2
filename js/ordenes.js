@@ -114,7 +114,7 @@ function create_barcode() {
       setTimeout("guardar_orden();", 1500);
     },
     success: function (data) {
-      console.log(data)
+      //console.log(data)
     }
   });///fin ajax
 }
@@ -210,7 +210,7 @@ function guardar_orden(parametro = 'saveEdit') {
     for (let i = 0; i < campos_orden.length; i++) {
       if (campos_orden[i].value == "") {
         let id = campos_orden[i].id;
-        console.log(id);
+        //console.log(id);
         $('#' + id).addClass(' is-invalid');
         Swal.fire({
           position: 'top-center',
@@ -289,7 +289,6 @@ function guardar_orden(parametro = 'saveEdit') {
     data: { codigo:codigo, paciente: paciente, fecha_creacion: fecha_creacion, od_pupilar: od_pupilar, oipupilar: oipupilar, odlente: odlente, oilente: oilente, id_aro: id_aro, id_usuario: id_usuario, observaciones_orden: observaciones_orden, dui: dui, od_esferas: od_esferas, od_cilindros: od_cilindros, od_eje: od_eje, od_adicion: od_adicion, oi_esferas: oi_esferas, oi_cilindros: oi_cilindros, oi_eje: oi_eje, oi_adicion: oi_adicion, tipo_lente: tipo_lente, validate: validate, categoria_lente: categoria_lente, edad: edad, ocupacion: ocupacion, avsc: avsc, avfinal: avfinal, avsc_oi: avsc_oi, avfinal_oi: avfinal_oi, telefono: telefono, genero: genero, user: user, depto: depto, municipio: municipio, instit: instit, patologias: patologias, color: color, indice: indice, id_cita: id_cita, sucursal: sucursal,laboratorio:laboratorio,titular:titular,dui_titular:dui_titular,id_titular:id_titular,modelo_aro_orden:modelo_aro_orden,marca_aro_orden:marca_aro_orden,material_aro_orden:material_aro_orden,color_aro_orden:color_aro_orden,usuario_lente:usuario_lente},
     cache: false,
     dataType:"json",
-
     success: function (data) {
       if (data.mensaje == "exito") {
         order_new_clear_form() //Limpia el html y input
@@ -336,6 +335,16 @@ function guardar_orden(parametro = 'saveEdit') {
           timer: 2500
         });
         $("#data_ordenes_sin_procesar").DataTable().ajax.reload(null, false);
+      }else if(data == "en_proceso"){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'warning',
+          title: 'La orden ya esta en proceso!',
+          showConfirmButton: true,
+          timer: 2500
+        });
+        $("#data_ordenes_sin_procesar").DataTable().ajax.reload(null, false);
+        $("#nueva_orden_lab").modal('show')
       }else{
         Swal.fire({
           position: 'top-center',
@@ -405,7 +414,12 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
     data: { codigo: codigo, paciente: paciente,id_aro:id_aro,institucion:institucion,id_cita:id_cita },
     dataType: "json",
     success: function (data) {
-      //console.log(data)
+      //Validacion de estado para editar
+      if(data.id_cita != 0){
+        $("#order_create_edit").attr('disabled',true)
+      }else{
+        $("#order_create_edit").attr('disabled',false)
+      }
       //$("#fecha_creacion").val(data.fecha);
       $("#odesferasf").val(data.od_esferas);
       $("#odcilindrosf").val(data.od_cilindros);
@@ -525,9 +539,9 @@ function verEditar(codigo, paciente,id_aro,institucion,id_cita) {
       }else{
         document.getElementById('titular_form').style.display = "none"
       }
-      //Carga el DUI del paciente
+      
+        //Carga el DUI del paciente
       $("#dui_paciente").val(data.dui)
-
       let tipo_lente = data.tipo_lente;
       const acentos = { 'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U' };
       let lente = tipo_lente.split('').map(letra => acentos[letra] || letra).join('').toString();
@@ -727,7 +741,7 @@ function listar_ordenes_digitadas(filter) {
   let listado_general = names_permisos.includes('listado_general_citas');
   let sucursal = $("#sucursal").val();
   let permiso_listar = ''; listado_general ? permiso_listar = 'Ok' : permiso_listar = 'Not';
-  console.log(names_permisos)
+  //console.log(names_permisos)
   tabla_ordenes = $('#datatable_ordenes').DataTable({
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -1247,7 +1261,7 @@ function registrarEnvioVet() {
     dataType: "json",
 
     success: function (data) {
-      console.log(data)
+      //console.log(data)
       Swal.fire({
         position: 'top-center',
         icon: 'success',
@@ -1325,7 +1339,7 @@ function sendEdit() {
     data: { codigo: codigo, destino: destino, usuario: usuario },
     dataType: "json",
     success: function (data) {
-      console.log(data);
+      //console.log(data);
       Swal.fire({
         position: 'top-center',
         icon: 'success',
@@ -1341,7 +1355,7 @@ function sendEdit() {
 
 $(document).on('click', '#labs_envio', function () {
   let laboratorio = $(this).attr("value");
-  console.log(laboratorio);
+  //console.log(laboratorio);
 });
 
 function editaLaboratorio(paciente, categoria, laboratorio, codigo) {
@@ -1366,7 +1380,6 @@ function CambiarLab() {
     data: { codigo: codigo, dest: dest, cat: cat, paciente: paciente },
     dataType: "json",
     success: function (data) {
-      console.log(data);
       Swal.fire({
         position: 'top-center',
         icon: 'success',
@@ -2153,7 +2166,6 @@ function get_table_acciones(){
     cache: false,
     dataType:"json",
     success: function (data) {
-      console.log(data)
       $("#datatable_acciones_orden").html("");
       let filas = '';
       for (var i = 0; i < data.length; i++) {

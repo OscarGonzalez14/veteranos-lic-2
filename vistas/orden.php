@@ -63,7 +63,9 @@ $categoria_usuario = $_SESSION["categoria"];
            <th>Telefono</th>
            <th>Tipo lente</th>
            <th>Sucursal</th>
-           <th>Ver y Editar</th>
+           <?php if(in_array('ediccion_orden',$_SESSION['names_permisos'])): ?>
+            <th>Ver y Editar</th>
+           <?php endif ?>
            <th>Eliminar</th>
          </thead>
          <tbody class="style_th"></tbody>

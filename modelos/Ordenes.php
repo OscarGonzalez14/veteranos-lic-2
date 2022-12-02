@@ -1333,6 +1333,20 @@ public function buscaOrdenLicitacion1($dui){
   }
   echo json_encode($msj);
 }
-
+  /**
+   * VALIDACION PARA ESTADO DE LA ORDEN EN EDITAR
+   * 
+   */
+  public function get_data_orden_estado($codigo_orden){
+    $conectar = parent::conexion();
+    parent::set_names();
+    $sql = "select estado from orden_lab where codigo=?";
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1,$codigo_orden);
+    $sql->execute();
+    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    return $result[0]['estado'];
+  }
+  
 }//Fin de la Clase
 
