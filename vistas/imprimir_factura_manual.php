@@ -8,7 +8,7 @@ require_once '../helpers/convert_text_number.php';
 //Convertir numero a letras
 $txt_a_number = new NumeroALetras(); //Instancia de libreria convertir
 $data= json_decode($_POST['data']);
-$data_items = json_decode($data->info);
+$data_items = $data->info;
 
 $retencion = $data->retencion;
 ?>

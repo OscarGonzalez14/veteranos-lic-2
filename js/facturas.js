@@ -127,7 +127,7 @@ function sendDataFact() {
   data = Object.values(items_factura);
   //[window.location = ('imp_factura_manual.php?info='+ JSON.stringify(data));
   let objData = {
-    info: JSON.stringify(data),
+    info: data,
     cliente: paciente,
     direccion: direccion,
     telefono: telefono,
@@ -137,15 +137,13 @@ function sendDataFact() {
     cod_factura: num_factura,
     id_factura: id_factura
   }
-  console.log(data)
   $.ajax({
     url: "../ajax/facturas.php?op=guardar_factura_manual",
     method: "POST",
-    data: { dataCliente: objData,info: JSON.parse(objData.info) },
+    data: objData,
     cache: false,
     dataType: "json",
     success: function (data) {
-      console.log(data)
       if(data == "exito"){
         Swal.fire({
           position: 'top-center',
@@ -328,6 +326,11 @@ function show_factura_CCF_manual(id_factura){
       $("#giro").val(data.factura.giro)
       $("#nit").val(data.factura.nit)
       $("#num_registro").val(data.factura.no_registro)
+      if(data.factura.gran_contribuyente == "SI"){
+        $("#contribuyente").attr('checked',true)
+      }else{
+        $("#contribuyente").attr('checked',false)
+      }
       for(let i = 0; i < data.det_factura_manual.length; i++){
         let item = {
           cantidad: data.det_factura_manual[i].cantidad,
@@ -510,8 +513,8 @@ function send_CCF_manual(){
         });
       }
       
+      $("#datatable_factura_ccf_manual").DataTable().ajax.reload(null, false);
     }
   });
-  $("#datatable_factura_ccf_manual").DataTable().ajax.reload(null, false);
   imprimir_factura_manual(objData,"CCF_manual") //Genera report
 }

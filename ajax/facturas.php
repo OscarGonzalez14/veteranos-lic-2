@@ -7,15 +7,15 @@ $factura = new Facturas();
 
 switch ($_GET["op"]){
     case 'guardar_factura_manual':
-        if($_POST['dataCliente']['id_factura'] == ""){
-            $result = $factura->guardar_factura_manual($_POST['dataCliente']['cod_factura'],$_POST['dataCliente']['cliente'],$_POST['dataCliente']['direccion'],$_POST['dataCliente']['telefono'],$_POST['dataCliente']['retencion'],$_POST['dataCliente']['fecha'],$_POST['dataCliente']['subtotal'],$_POST['info']);
+        if($_POST['id_factura'] == ""){
+            $result = $factura->guardar_factura_manual($_POST);
             if($result){
                 echo json_encode("exito");
             }else{
                 echo json_encode("error");
             }
         }else{
-            $result = $factura->update_factura_manual($_POST['dataCliente']['id_factura'],$_POST['dataCliente']['cod_factura'],$_POST['dataCliente']['cliente'],$_POST['dataCliente']['direccion'],$_POST['dataCliente']['telefono'],$_POST['dataCliente']['retencion'],$_POST['dataCliente']['fecha'],$_POST['dataCliente']['subtotal'],$_POST['info']);
+            $result = $factura->update_factura_manual($_POST);
             if($result){
                 echo json_encode("edit");
             }else{

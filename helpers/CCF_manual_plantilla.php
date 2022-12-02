@@ -91,7 +91,7 @@ $total_t = 21020;
   <td colspan="10" class="stilot1" style="font-size:8px">SUMAS</td>
   <td colspan="10" class="stilot1"></td>
   <td colspan="10" class="stilot1"></td>
-  <td colspan="10" class="stilot1" style="font-size:10px;;text-align: right;"><?php echo "$".number_format($sumas,2,".",","); ?></td>
+  <td colspan="10" class="stilot1" style="font-size:10px;;text-align: right;"><?php echo "$".number_format($subtotal_ccf,2,".",","); ?></td>
 </tr>
 <tr>
   <td colspan="20" class="stilot1" style="font-size:8px">VENTA EXENTA</td>

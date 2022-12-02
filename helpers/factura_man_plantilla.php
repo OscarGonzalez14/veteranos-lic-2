@@ -84,7 +84,7 @@ $total = $sumas - $retencion;
   <td colspan="10" class="stilot1" style="font-size:8px">SUMAS</td>
   <td colspan="10" class="stilot1"></td>
   <td colspan="10" class="stilot1"></td>
-  <td colspan="10" class="stilot1" style="font-size:10px"><?php echo "$".number_format($suma,2,".",","); ?></td>
+  <td colspan="10" class="stilot1" style="font-size:10px"><?php echo "$".number_format($sumas,2,".",","); ?></td>
 </tr>
 
 <tr>

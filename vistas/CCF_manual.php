@@ -70,7 +70,7 @@ $categoria_usuario = $_SESSION["categoria"];
 
   <input type="hidden" value="<?php echo $categoria_usuario;?>" id="cat_users">
   <input type="hidden" id="fecha_act" value="<?php echo $hoy;?>">
-  <input type="hidden" id="id_factura">
+  <input type="hidden" id="id_factura" class="clear_input">
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>2021 Lenti || <b>Version</b> 1.0</strong>
