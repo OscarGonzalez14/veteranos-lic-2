@@ -9,7 +9,7 @@ class Facturas extends Conectar{
         date_default_timezone_set('America/El_Salvador');
         $fecha_hora = date("d-m-Y H:i:s");
         $date = date('Y-m-d');
-        $sql1 = "insert into facturas values(null,?,?,?,?,?,?,?)";
+        $sql1 = "insert into facturas(id_factura,num_factura,cliente,telefono,direccion,retencion,fecha,fecha_creacion) values(null,?,?,?,?,?,?,?)";
         $sql1 = $conectar->prepare($sql1);
         $sql1->bindValue(1,$cod_factura);
         $sql1->bindValue(2,$cliente);
@@ -35,10 +35,47 @@ class Facturas extends Conectar{
         }
 
     }
+    public function save_factura_CCF_manual($data){
+        $conectar= parent::conexion();
+        date_default_timezone_set('America/El_Salvador');
+        $fecha_hora = date("d-m-Y H:i:s");
+        $date = date('Y-m-d');
+        $sql1 = "insert into facturas(id_factura,num_factura,no_registro,cliente,telefono,direccion,nit,giro,retencion,fecha,fecha_creacion) values(null,?,?,?,?,?,?,?,?,?,?)";
+        $sql1 = $conectar->prepare($sql1);
+        $sql1->bindValue(1,$data['cod_factura']);
+        $sql1->bindValue(2,$data['num_registro']);
+        $sql1->bindValue(3,$data['cliente']);
+        $sql1->bindValue(4,$data['telefono']);
+        $sql1->bindValue(5,$data['direccion']);
+        $sql1->bindValue(6,$data['nit']);
+        $sql1->bindValue(7,$data['giro']);
+        $sql1->bindValue(8,$data['retencion']);
+        $sql1->bindValue(9,$data['fecha']);
+        $sql1->bindValue(10,$fecha_hora);
+        if($sql1->execute()){
+            $id_factura = $conectar->lastInsertId();
+            foreach($data['info'] as $row){
+                $sql2 = "insert into det_facturas values(null,?,?,?,?)";
+                $sql2 = $conectar->prepare($sql2);
+                $sql2->bindValue(1,$row['cantidad']);
+                $sql2->bindValue(2,$row['desc']);
+                $sql2->bindValue(3,$row['punit']);
+                $sql2->bindValue(4,$id_factura);
+                $sql2->execute();
+            }
+            return true;
+        }else{
+            return false;
+        }
+    }
 
-    public function listar_facturas_manuales(){
+    public function listar_facturas_manuales($fact_ccf_manual = false){
         $conectar = parent::conexion();
-        $sql = "select * from facturas order by id_factura";
+        if($fact_ccf_manual){
+            $sql = "select * from facturas where no_registro !='' order by id_factura";
+        }else{
+            $sql = "select * from facturas where no_registro = '' or no_registro is null order by id_factura";
+        }
         $sql = $conectar->prepare($sql);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -102,6 +139,44 @@ class Facturas extends Conectar{
             return false;
         }
 
+    }
+    public function update_factura_CCF_manual($data){
+        $conectar= parent::conexion();
+        date_default_timezone_set('America/El_Salvador');
+        $fecha_hora = date("d-m-Y H:i:s");
+        $date = date('Y-m-d');
+        $sql1 = "update facturas set num_factura=?,no_registro=?,cliente=?,telefono=?,direccion=?,nit=?,giro=?,retencion=?,fecha=? where id_factura=?";
+        $sql1 = $conectar->prepare($sql1);
+        $sql1->bindValue(1,$data['cod_factura']);
+        $sql1->bindValue(2,$data['num_registro']);
+        $sql1->bindValue(3,$data['cliente']);
+        $sql1->bindValue(4,$data['telefono']);
+        $sql1->bindValue(5,$data['direccion']);
+        $sql1->bindValue(6,$data['nit']);
+        $sql1->bindValue(7,$data['giro']);
+        $sql1->bindValue(8,$data['retencion']);
+        $sql1->bindValue(9,$data['fecha']);
+        $sql1->bindValue(10,$data['id_factura']);
+        if($sql1->execute()){
+            //Eliminación
+            $sql_del_fact = "delete from det_facturas where factura_id=?";
+            $sql_del_fact = $conectar->prepare($sql_del_fact);
+            $sql_del_fact->bindValue(1,$data['id_factura']);
+            $sql_del_fact->execute();
+
+            foreach($data['info'] as $row){
+                $sql2 = "insert into det_facturas values(null,?,?,?,?)";
+                $sql2 = $conectar->prepare($sql2);
+                $sql2->bindValue(1,$row['cantidad']);
+                $sql2->bindValue(2,$row['desc']);
+                $sql2->bindValue(3,$row['punit']);
+                $sql2->bindValue(4,$data['id_factura']);
+                $sql2->execute();
+            }
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function delete_factura($id_factura){

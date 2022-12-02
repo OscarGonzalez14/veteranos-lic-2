@@ -3,7 +3,7 @@
 
     <td colspan="40" style="color:black;font-size:11px;border: 1px solid white;font-family: Helvetica, Arial, sans-serif;width: 40%"><strong>CLIENTE:</strong> <?php echo $data->cliente;?></td>
     <td colspan="40" style="color:black;font-size:11px;border: 1px solid white;font-family: Helvetica, Arial, sans-serif;width: 40%"><strong>DIRECCION:</strong> <?php echo $data->direccion;?></td>    
-    <td colspan="20" style="color:black;font-size:11px;border: 1px solid white;font-family: Helvetica, Arial, sans-serif;width: 40%"><strong>FECHA:</strong> <?php echo $data->fecha;?></td>
+    <td colspan="20" style="color:black;font-size:11px;border: 1px solid white;font-family: Helvetica, Arial, sans-serif;width: 40%"><strong>FECHA:</strong> <?php echo date("d-m-Y",strtotime($data->fecha));?></td>
 
 
 </tr>
@@ -27,7 +27,7 @@
 
 <tr style="height:50px;">
   <td colspan="10" style="border: 1px solid black;font-family: Helvetica, Arial, sans-serif;font-size: 10px;text-align: center;margin:20px;height: 95px">
- <?php 
+    <?php 
     for ($i=0; $i < count($data_items); $i++) {
      echo $data_items[$i]->cantidad?><br>
      <?php } ?>     

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded',()=>{
   listar_facturas_manuales();
+  listar_facturas_ccf_manual();
 })
 var items_factura = [];
 var total_manual = 0;
@@ -136,6 +137,7 @@ function sendDataFact() {
     cod_factura: num_factura,
     id_factura: id_factura
   }
+  console.log(data)
   $.ajax({
     url: "../ajax/facturas.php?op=guardar_factura_manual",
     method: "POST",
@@ -143,6 +145,7 @@ function sendDataFact() {
     cache: false,
     dataType: "json",
     success: function (data) {
+      console.log(data)
       if(data == "exito"){
         Swal.fire({
           position: 'top-center',
@@ -207,9 +210,8 @@ function clear_input(){
 function mayus(e) {
   e.value = e.value.toUpperCase();
 }
-
-function listar_facturas_manuales(){
-  $('#datatable_factura_manual').DataTable({
+function template_dt(id_dt,url,data = {}){
+  $('#' + id_dt).DataTable({
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
     dom: 'Bfrtip',//Definimos los elementos del control de tabla
@@ -218,8 +220,9 @@ function listar_facturas_manuales(){
     ],
 
     "ajax": {
-      url: "../ajax/facturas.php?op=listar_facturas_manuales",
+      url: url,
       type: "POST",
+      data: data,
       dataType: "json",
       error: function (e) {
         console.log(e.responseText);
@@ -259,6 +262,12 @@ function listar_facturas_manuales(){
     //"scrollX": true
   });
 }
+function listar_facturas_manuales(){
+  template_dt('datatable_factura_manual','../ajax/facturas.php?op=listar_facturas_manuales',{})
+}
+function listar_facturas_ccf_manual(){
+  template_dt('datatable_factura_ccf_manual','../ajax/facturas.php?op=listar_facturas_ccf_manual',{});
+}
 
 function show_factura(id_factura){
   items_factura = []
@@ -279,6 +288,46 @@ function show_factura(id_factura){
       $("#txt_num_factura").html("No. Factura: " + data.factura.num_factura)
       $("#id_factura").val(data.factura.id_factura)
       $("#retencion").val(data.factura.retencion)
+      for(let i = 0; i < data.det_factura_manual.length; i++){
+        let item = {
+          cantidad: data.det_factura_manual[i].cantidad,
+          desc: data.det_factura_manual[i].descripcion,
+          punit: data.det_factura_manual[i].p_unitario,
+          subt: 0
+        }
+
+        items_factura.push(item)
+
+      }
+      listar_items_man(items_factura);
+    }
+  });
+}
+
+function show_factura_CCF_manual(id_factura){
+  items_factura = []
+  clear_input();
+  $("#modal_CCF_manual").modal('show');
+  //datatable_factura_ccf_manual
+  $.ajax({
+    url: "../ajax/facturas.php?op=show_factura",
+    method: "POST",
+    data: { id_factura:id_factura },
+    cache: false,
+    dataType: "json",
+    success: function (data) {
+      console.log(data)
+      $("#cliente").val(data.factura.cliente)
+      $("#dir").val(data.factura.direccion)
+      $("#tel").val(data.factura.telefono)
+      $("#fecha_fac").val(data.factura.fecha)
+      $("#num_factura").val(data.factura.num_factura)
+      $("#txt_num_factura").html("No. Factura: " + data.factura.num_factura)
+      $("#id_factura").val(data.factura.id_factura)
+      $("#retencion").val(data.factura.retencion)
+      $("#giro").val(data.factura.giro)
+      $("#nit").val(data.factura.nit)
+      $("#num_registro").val(data.factura.no_registro)
       for(let i = 0; i < data.det_factura_manual.length; i++){
         let item = {
           cantidad: data.det_factura_manual[i].cantidad,
@@ -329,6 +378,7 @@ function delete_factura(id_factura){
             });
           }
           $("#datatable_factura_manual").DataTable().ajax.reload(null, false);
+          $("#datatable_factura_ccf_manual").DataTable().ajax.reload(null, false);
         }
       });
     }
@@ -431,12 +481,11 @@ function send_CCF_manual(){
     id_factura: id_factura,
     contribuyente: contribuyente
   }
-  imprimir_factura_manual(objData,"CCF_manual") //Genera report
-  return 0;
+  
   $.ajax({
-    url: "../ajax/facturas.php?op=guardar_factura_manual",
+    url: "../ajax/facturas.php?op=procesar_CCF_manual",
     method: "POST",
-    data: { dataCliente: objData,info: JSON.parse(objData.info) },
+    data: objData,
     cache: false,
     dataType: "json",
     success: function (data) {
@@ -460,10 +509,9 @@ function send_CCF_manual(){
           timer: 2500
         });
       }
-      $("#datatable_factura_manual").DataTable().ajax.reload(null, false);
       
     }
   });
-  imprimir_factura_manual(objData) //Genera report
-
+  $("#datatable_factura_ccf_manual").DataTable().ajax.reload(null, false);
+  imprimir_factura_manual(objData,"CCF_manual") //Genera report
 }

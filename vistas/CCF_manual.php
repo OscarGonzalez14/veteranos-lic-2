@@ -10,8 +10,6 @@ $categoria_usuario = $_SESSION["categoria"];
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Home</title>
 <?php require_once("links_plugin.php"); 
- //require_once('../modelos/Ordenes.php');
- //$ordenes = new Ordenes();
 
  require_once('../modales/modal_CCF_manual.php');
 
@@ -49,15 +47,16 @@ $categoria_usuario = $_SESSION["categoria"];
 
 
       <div class="card card-dark card-outline" style="margin: 2px;">
-       <table width="100%" class="table-hover table-bordered" id="datatable_factura_manual"  data-order='[[ 0, "desc" ]]'>    
+       <table width="100%" class="table-hover table-bordered" id="datatable_factura_ccf_manual"  data-order='[[ 0, "desc" ]]'>    
          <thead class="style_th bg-dark" style="color: white">
            <th>Correlativo</th>
            <th>ID</th>
             <th>No. Factura</th>
+            <th>No. Registro</th>
+            <th>Fecha</th>
             <th>Cliente</th>
             <th>Dirección</th>
             <th>Telefono</th>
-            <th>Fecha</th>
            <th>Acciones</th>
          </thead>
          <tbody class="style_th"></tbody>
@@ -95,6 +94,11 @@ require_once("links_js.php");
   var telefono = new Cleave('#tel', {
   delimiter: '-',
   blocks: [4,4],
+  uppercase : true
+  });
+  var telefono = new Cleave('#nit', {
+  delimiter: '-',
+  blocks: [4,6,3,1],
   uppercase : true
   });
 </script>

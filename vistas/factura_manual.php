@@ -10,8 +10,6 @@ $categoria_usuario = $_SESSION["categoria"];
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Home</title>
 <?php require_once("links_plugin.php"); 
- //require_once('../modelos/Ordenes.php');
- //$ordenes = new Ordenes();
 
  require_once('../modales/nueva_factura_manual.php');
 
@@ -54,10 +52,10 @@ $categoria_usuario = $_SESSION["categoria"];
            <th>Correlativo</th>
            <th>ID</th>
             <th>No. Factura</th>
+            <th>Fecha</th>
             <th>Cliente</th>
             <th>Dirección</th>
             <th>Telefono</th>
-            <th>Fecha</th>
            <th>Acciones</th>
          </thead>
          <tbody class="style_th"></tbody>
