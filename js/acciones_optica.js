@@ -139,15 +139,18 @@ function registrarIngresoOrdenOpt(){
     if(tam_array==0){Swal.fire('Lista vacia!!','Agregar ordenes de ingreso','warning'); return false}
 
     
-  $.ajax({
-    url: "../ajax/acciones_optica.php?op=registrar_accion",
-    method: "POST",
-    data: { 'arrayOrdenesAccOpt': JSON.stringify(ordenes_ingresar)},
-    cache: false,
-    dataType: "json",
-    success: function (data) {
+    $.ajax({
+      url: "../ajax/acciones_optica.php?op=registrar_accion",
+      method: "POST",
+      data: { 'arrayOrdenesAccOpt': JSON.stringify(ordenes_ingresar)},
+      cache: false,
+      dataType: "json",
+      success: function (data) {
         console.log(data)
-    }//Fin success
-  });
+        if(data.msj=="success-act"){
+          $("#btn-acc-opt").attr('disabled',false);
+        }
+      }//Fin success
+    });
 
 }

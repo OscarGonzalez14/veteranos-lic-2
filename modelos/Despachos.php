@@ -64,13 +64,14 @@ class Despachos extends Conectar{
 
             $accion = "Envio a laboratorio desde ".$sucursal;
 
-            $sql7 = "insert into acciones_orden values(null,?,?,?,?,?);";
+            $sql7 = "insert into acciones_orden values(null,?,?,?,?,?,?);";
             $sql7 = $conectar->prepare($sql7);
             $sql7->bindValue(1, $hoy);
             $sql7->bindValue(2, $_POST["usuario"]);
             $sql7->bindValue(3, $v->dui);
             $sql7->bindValue(4, "Despacho a Lab. No. Envio ".$correlativo);
             $sql7->bindValue(5, $accion);
+            $sql7->bindValue(6, $sucursal);
             $sql7->execute();
 
             $sql3 = "update orden_lab set estado='1' where dui=?";
